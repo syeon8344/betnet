@@ -1,13 +1,22 @@
 /* 1. 공통 CSS */
 *{  
+    padding: 0;
+    margin: 0 auto;
     list-style-type: none;  /* 글머리 제거 */
     box-sizing : border-box;    /* 구역 사이즈 기준 */
     color :black;
     font-size : 13px;
     font-family: "Paperlogy-8ExtraBold";
 }
+body{
+    width: 1080px;
+    margin: 0 auto;
+}
+ul,ol,li{
+    list-style: none;
+}
 a{ 
-    text-decoration: non;
+    text-decoration: none;
     color: black;
 }
 @font-face {
@@ -18,5 +27,5 @@ a{
 }
 #main{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }

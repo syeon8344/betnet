@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- xml 주석 -->
+<mapper namespace="web.model.dao.PointDao" >  <!-- mapper start -->
+    <!-- namespace=" 매핑할 인터페이스 경로(위치) " -->
+    <!-- id="매핑할 추상메소드명"  resultType="반환할 타입"  -->
+    <!-- parameterType="매개변수타입" sql 매개변수표현 : #{변수명}-->
+
+    <!-- 잔액 포인트 출력 -->
+    <select id="getMyPoint" parameterType="int" resultType="web.model.dto.MemberDto">
+        select * from members where memberid = #{memberid}
+    </select>
+
+
+</mapper> <!-- mapper end -->
