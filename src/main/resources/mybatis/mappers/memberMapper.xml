@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 1. 매핑할 인터페이스명 정의 # namespace=경로(java폴더 아래부터) -->
+<mapper namespace="web.model.dao.MemberDao">
+
+    <!-- 2. DML INSERT # id  #parameterType=매개변수타입경로 -->
+    <insert id="signUp" parameterType="web.model.dto.MemberDto">
+        insert into members( userName , password , name , contact , email , gender , age , teamCode , account  )
+        values( #{ userName } , #{ password }  , #{ name } , #{ contact } , #{ email } , #{ gender } , #{ age } , #{ teamCode } , #{ account } )
+    </insert>
+
+<!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
+<!--    <select id="read" resultType="example.task1.AccountDto">-->
+<!--        select * from account-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 2. DML UPDATE  &ndash;&gt;-->
+<!--    <update id="update" parameterType="example.task1.AccountDto">-->
+<!--        update account set content = #{ content } , price = #{ price } ,-->
+<!--        date = #{date}  where id = #{ id }-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 2. DML DELETE  &ndash;&gt;-->
+<!--    <delete id="delete" parameterType="int">-->
+<!--        delete from account where id = #{ id }-->
+<!--    </delete>-->
+
+</mapper>

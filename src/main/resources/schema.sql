@@ -31,7 +31,7 @@ create table members (
     on update cascade
     on delete cascade
 );
-
+select * from members;
 drop table if exists teamboard;
 create table teamboard (
     postid int auto_increment primary key,
