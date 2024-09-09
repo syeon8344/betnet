@@ -6,6 +6,27 @@
 <mapper namespace="web.model.dao.BoardDao" >  <!-- mapper start -->
     <!-- namespace=" 매핑할 인터페이스 경로(위치) " -->
     <insert id="bWrite" parameterType="web.model.dto.BoardDto">
-        INSERT INTO teamboard (title, teamcode) VALUES (#{title}, #{teamcode} )
+        insert into teamboard (
+        memberid,
+        teamcode,
+        content,
+        title,
+        views,
+        likes
+        ) values (
+        #{memberid},
+        #{teamcode},
+        #{content},
+        #{title},
+        #{views},
+        #{likes}
+        )
     </insert>
+
+    <select id="bRead" resultType="web.model.dto.BoardDto">
+        select * from teamboard
+    </select>
+
+
+
 </mapper> <!-- mapper end -->

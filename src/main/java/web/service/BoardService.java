@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import web.model.dao.BoardDao;
 import web.model.dto.BoardDto;
 
+import java.util.List;
+
 @Service
 public class BoardService {
 
@@ -15,4 +17,7 @@ public class BoardService {
         return boardDao.bWrite(boardDto);
     }
 
+    public List<BoardDto> bRead(){
+        return boardDao.bRead();
+    }
 }
