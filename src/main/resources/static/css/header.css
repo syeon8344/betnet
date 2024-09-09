@@ -1,0 +1,22 @@
+/* 1. 공통 CSS */
+*{  
+    list-style-type: none;  /* 글머리 제거 */
+    box-sizing : border-box;    /* 구역 사이즈 기준 */
+    color :black;
+    font-size : 13px;
+    font-family: "Paperlogy-8ExtraBold";
+}
+a{ 
+    text-decoration: non;
+    color: black;
+}
+@font-face {
+    font-family: 'Paperlogy-8ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-8ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+}
+#main{
+    display: flex;
+    justify-content: space-around;
+}
