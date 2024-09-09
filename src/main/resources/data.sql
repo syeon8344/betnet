@@ -11,6 +11,7 @@ insert into Teams(TeamName , LogoImage) values('SSG' , 'https://i.namu.wiki/i/Mt
 insert into Teams(TeamName , LogoImage) values('롯데' , 'https://i.namu.wiki/i/xcGvyRzaU5yYvCV1KIm5bmzk4PXjlAQxHaxgJhq-3jxXB75JMwZjaK_q28Bng1rspvrFaj0IR3CGabj_dy4u93FzG2o5vlaZjB8Inw8sap68m4OLYWWaOIDNJY1TQWvxxBRcyOgPB-jtvCpD3yIlmg.svg');
 insert into Teams(TeamName , LogoImage) values('NC' , 'https://i.namu.wiki/i/ItRFxzQIgfFsy6kQwk2CA4xZYfOkkta1c6vxtQ-BvX1rpobietq4_pHLnUh0uIFU9EpBd4Bj01OX8SMUjzf30JhZ25NmPSqsD-F_5ynLPzmyZAYwIvmB7RYF0oyzahEFBxhXRfbLoZqOJNblC-17pA.svg');
 insert into Teams(TeamName , LogoImage) values('키움' , 'https://i.namu.wiki/i/KbcMek3zCSyK8ATT3t1Qm8rBXhK0tjxmSt96rl2vF5FApWR9QKj3Jp1MB48_vblvt-rt6rx_UnEsURtV_z89Jr32rBsOsKdeE9Flk5ocOGiie5N5fdbn9-R_c7Yt-A-j5UwqOmIc8ePGZC17Hgmuzw.svg');
+insert into Teams(TeamName ) values('자유');
 
 -- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
