@@ -12,159 +12,182 @@
 <body>
 <div class="container">
 
-    <h1>KBO 팀 추천 설문조사</h1></br>
+    <h1>KBO 팀 추천 설문조사</h1>
 
-    <div class="question">
-        <h4>1. 가장 좋아하는 KBO 팀은 어디인가요?</h4>
-        <input type="radio" id="team1" name="favorite_team" value="1">
-        <label for="team1">1) 두산 베어스</label><br>
-        <input type="radio" id="team2" name="favorite_team" value="2">
-        <label for="team2">2) 삼성 라이온즈</label><br>
-        <input type="radio" id="team3" name="favorite_team" value="3">
-        <label for="team3">3) LG 트윈스</label><br>
-        <input type="radio" id="team4" name="favorite_team" value="4">
-        <label for="team4">4) 롯데 자이언츠</label><br>
-        <input type="radio" id="team5" name="favorite_team" value="5">
-        <label for="team5">5) 키움 히어로즈</label><br>
-        <input type="radio" id="team6" name="favorite_team" value="6">
-        <label for="team6">6) KIA 타이거즈</label><br>
-        <input type="radio" id="team7" name="favorite_team" value="7">
-        <label for="team7">7) NC 다이노스</label><br>
-        <input type="radio" id="team8" name="favorite_team" value="8">
-        <label for="team8">8) SSG 랜더스</label><br>
-        <input type="radio" id="team9" name="favorite_team" value="9">
-        <label for="team9">9) 한화 이글스</label><br>
-        <input type="radio" id="team10" name="favorite_team" value="10">
-        <label for="team10">10) KT 위즈</label>
-    </div></br>
+    <form action="submitSurvey" >
+        <!-- 질문 1 -->
+        <div class="question">
+            <h4>1. 가장 좋아하는 KBO 팀은 어디인가요?</h4>
+            <input type="radio" id="team1" name="question1" value="1">
+            <label for="team1">1) 두산 베어스</label><br>
+            <input type="radio" id="team2" name="question1" value="2">
+            <label for="team2">2) 삼성 라이온즈</label><br>
+            <input type="radio" id="team3" name="question1" value="3">
+            <label for="team3">3) LG 트윈스</label><br>
+            <input type="radio" id="team4" name="question1" value="4">
+            <label for="team4">4) 롯데 자이언츠</label><br>
+            <input type="radio" id="team5" name="question1" value="5">
+            <label for="team5">5) 키움 히어로즈</label><br>
+            <input type="radio" id="team6" name="question1" value="6">
+            <label for="team6">6) KIA 타이거즈</label><br>
+            <input type="radio" id="team7" name="question1" value="7">
+            <label for="team7">7) NC 다이노스</label><br>
+            <input type="radio" id="team8" name="question1" value="8">
+            <label for="team8">8) SSG 랜더스</label><br>
+            <input type="radio" id="team9" name="question1" value="9">
+            <label for="team9">9) 한화 이글스</label><br>
+            <input type="radio" id="team10" name="question1" value="10">
+            <label for="team10">10) KT 위즈</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>2. KBO 리그의 경기 중 가장 흥미로운 요소는 무엇인가요?</h4>
-        <input type="radio" id="element1" name="exciting_element" value="1">
-        <label for="element1">1) 투수와 타자의 대결</label><br>
-        <input type="radio" id="element2" name="exciting_element" value="2">
-        <label for="element2">2) 홈런과 장타</label><br>
-        <input type="radio" id="element3" name="exciting_element" value="3">
-        <label for="element3">3) 클러치 플레이와 결정적인 순간</label><br>
-        <input type="radio" id="element4" name="exciting_element" value="4">
-        <label for="element4">4) 수비와 선수의 기술적인 플레이</label><br>
-        <input type="radio" id="element5" name="exciting_element" value="5">
-        <label for="element5">5) 팀의 전략과 전술</label>
-    </div></br>
+        <!-- 질문 2 -->
+        <div class="question">
+            <h4>2. KBO 리그의 경기 중 가장 흥미로운 요소는 무엇인가요?</h4>
+            <input type="radio" id="element1" name="question2" value="1">
+            <label for="element1">1) 투수와 타자의 대결</label><br>
+            <input type="radio" id="element2" name="question2" value="2">
+            <label for="element2">2) 홈런과 장타</label><br>
+            <input type="radio" id="element3" name="question2" value="3">
+            <label for="element3">3) 클러치 플레이와 결정적인 순간</label><br>
+            <input type="radio" id="element4" name="question2" value="4">
+            <label for="element4">4) 수비와 선수의 기술적인 플레이</label><br>
+            <input type="radio" id="element5" name="question2" value="5">
+            <label for="element5">5) 팀의 전략과 전술</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>3. 새로운 팀을 추천할 때 가장 중요하게 생각하는 요소는 무엇인가요?</h4>
-        <input type="radio" id="factor1" name="important_factor" value="1">
-        <label for="factor1">1) 팀의 역사와 전통</label><br>
-        <input type="radio" id="factor2" name="important_factor" value="2">
-        <label for="factor2">2) 선수들의 기량과 스타성</label><br>
-        <input type="radio" id="factor3" name="important_factor" value="3">
-        <label for="factor3">3) 팀의 성적 및 경기 결과</label><br>
-        <input type="radio" id="factor4" name="important_factor" value="4">
-        <label for="factor4">4) 팬 서비스와 커뮤니티 활동</label><br>
-        <input type="radio" id="factor5" name="important_factor" value="5">
-        <label for="factor5">5) 경기장 위치 및 시설</label>
-    </div></br>
+        <!-- 질문 3 -->
+        <div class="question">
+            <h4>3. 새로운 팀을 추천할 때 가장 중요하게 생각하는 요소는 무엇인가요?</h4>
+            <input type="radio" id="factor1" name="question3" value="1">
+            <label for="factor1">1) 팀의 역사와 전통</label><br>
+            <input type="radio" id="factor2" name="question3" value="2">
+            <label for="factor2">2) 선수들의 기량과 스타성</label><br>
+            <input type="radio" id="factor3" name="question3" value="3">
+            <label for="factor3">3) 팀의 성적 및 경기 결과</label><br>
+            <input type="radio" id="factor4" name="question3" value="4">
+            <label for="factor4">4) 팬 서비스와 커뮤니티 활동</label><br>
+            <input type="radio" id="factor5" name="question3" value="5">
+            <label for="factor5">5) 경기장 위치 및 시설</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>4. 추천받고 싶은 팀의 특정 특징이나 장점은 무엇인가요?</h4>
-        <input type="radio" id="feature1" name="team_feature" value="1">
-        <label for="feature1">1) 강력한 투수진</label><br>
-        <input type="radio" id="feature2" name="team_feature" value="2">
-        <label for="feature2">2) 뛰어난 타선</label><br>
-        <input type="radio" id="feature3" name="team_feature" value="3">
-        <label for="feature3">3) 안정된 수비</label><br>
-        <input type="radio" id="feature4" name="team_feature" value="4">
-        <label for="feature4">4) 뛰어난 감독 및 코칭 스태프</label><br>
-        <input type="radio" id="feature5" name="team_feature" value="5">
-        <label for="feature5">5) 젊은 신인 선수들</label>
-    </div></br>
+        <!-- 질문 4 -->
+        <div class="question">
+            <h4>4. 추천받고 싶은 팀의 특정 특징이나 장점은 무엇인가요?</h4>
+            <input type="radio" id="feature1" name="question4" value="1">
+            <label for="feature1">1) 강력한 투수진</label><br>
+            <input type="radio" id="feature2" name="question4" value="2">
+            <label for="feature2">2) 뛰어난 타선</label><br>
+            <input type="radio" id="feature3" name="question4" value="3">
+            <label for="feature3">3) 안정된 수비</label><br>
+            <input type="radio" id="feature4" name="question4" value="4">
+            <label for="feature4">4) 뛰어난 감독 및 코칭 스태프</label><br>
+            <input type="radio" id="feature5" name="question4" value="5">
+            <label for="feature5">5) 젊은 신인 선수들</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>5. 선호하는 팀의 경기 관람 경험을 위해 어떤 요소가 가장 중요하다고 생각하나요?</h4>
-        <input type="radio" id="experience1" name="game_experience" value="1">
-        <label for="experience1">1) 경기장 시설의 품질</label><br>
-        <input type="radio" id="experience2" name="game_experience" value="2">
-        <label for="experience2">2) 팬 서비스 및 이벤트</label><br>
-        <input type="radio" id="experience3" name="game_experience" value="3">
-        <label for="experience3">3) 경기 중계와 방송의 품질</label><br>
-        <input type="radio" id="experience4" name="game_experience" value="4">
-        <label for="experience4">4) 음식과 음료의 선택</label><br>
-        <input type="radio" id="experience5" name="game_experience" value="5">
-        <label for="experience5">5) 교통 편의성</label>
-    </div></br>
+        <!-- 질문 5 -->
+        <div class="question">
+            <h4>5. 선호하는 팀의 경기 관람 경험을 위해 어떤 요소가 가장 중요하다고 생각하나요?</h4>
+            <input type="radio" id="experience1" name="question5" value="1">
+            <label for="experience1">1) 경기장 시설의 품질</label><br>
+            <input type="radio" id="experience2" name="question5" value="2">
+            <label for="experience2">2) 팬 서비스 및 이벤트</label><br>
+            <input type="radio" id="experience3" name="question5" value="3">
+            <label for="experience3">3) 경기 중계와 방송의 품질</label><br>
+            <input type="radio" id="experience4" name="question5" value="4">
+            <label for="experience4">4) 음식과 음료의 선택</label><br>
+            <input type="radio" id="experience5" name="question5" value="5">
+            <label for="experience5">5) 교통 편의성</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>6. 다음 시즌에 새로 시작할 팀의 트렌드나 변화로 기대하는 것은 무엇인가요?</h4>
-        <input type="radio" id="trend1" name="team_trend" value="1">
-        <label for="trend1">1) 새로운 선수 영입</label><br>
-        <input type="radio" id="trend2" name="team_trend" value="2">
-        <label for="trend2">2) 전략적 변화</label><br>
-        <input type="radio" id="trend3" name="team_trend" value="3">
-        <label for="trend3">3) 새로운 유니폼 디자인</label><br>
-        <input type="radio" id="trend4" name="team_trend" value="4">
-        <label for="trend4">4) 경기장 내 새로운 시설</label><br>
-        <input type="radio" id="trend5" name="team_trend" value="5">
-        <label for="trend5">5) 더 많은 팬 참여 프로그램</label>
-    </div></br>
+        <!-- 질문 6 -->
+        <div class="question">
+            <h4>6. 다음 시즌에 새로 시작할 팀의 트렌드나 변화로 기대하는 것은 무엇인가요?</h4>
+            <input type="radio" id="trend1" name="question6" value="1">
+            <label for="trend1">1) 새로운 선수 영입</label><br>
+            <input type="radio" id="trend2" name="question6" value="2">
+            <label for="trend2">2) 전략적 변화</label><br>
+            <input type="radio" id="trend3" name="question6" value="3">
+            <label for="trend3">3) 새로운 유니폼 디자인</label><br>
+            <input type="radio" id="trend4" name="question6" value="4">
+            <label for="trend4">4) 경기장 내 새로운 시설</label><br>
+            <input type="radio" id="trend5" name="question6" value="5">
+            <label for="trend5">5) 더 많은 팬 참여 프로그램</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>7. 선수의 개인 성과는 어떤 것이 가장 중요하나요?</h4>
-        <input type="radio" id="performance1" name="player_performance" value="1">
-        <label for="performance1">1) 홈런이나 타율 같은 타격 성적</label><br>
-        <input type="radio" id="performance2" name="player_performance" value="2">
-        <label for="performance2">2) 승리 투수, 방어율 같은 투구 성적</label><br>
-        <input type="radio" id="performance3" name="player_performance" value="3">
-        <label for="performance3">3) 수비에서의 중요한 플레이</label><br>
-        <input type="radio" id="performance4" name="player_performance" value="4">
-        <label for="performance4">4) 선수의 리더십과 팀 내 역할</label><br>
-        <input type="radio" id="performance5" name="player_performance" value="5">
-        <label for="performance5">5) 신인 선수의 잠재력</label>
-    </div></br>
+        <!-- 질문 7 -->
+        <div class="question">
+            <h4>7. 선수의 개인 성과는 어떤 것이 가장 중요하나요?</h4>
+            <input type="radio" id="performance1" name="question7" value="1">
+            <label for="performance1">1) 홈런이나 타율 같은 타격 성적</label><br>
+            <input type="radio" id="performance2" name="question7" value="2">
+            <label for="performance2">2) 승리 투수, 방어율 같은 투구 성적</label><br>
+            <input type="radio" id="performance3" name="question7" value="3">
+            <label for="performance3">3) 수비와 베이스러닝</label><br>
+            <input type="radio" id="performance4" name="question7" value="4">
+            <label for="performance4">4) 경기 중 리더십과 경기력</label><br>
+            <input type="radio" id="performance5" name="question7" value="5">
+            <label for="performance5">5) 부상 및 체력 관리</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>8. 추천받고 싶은 팀의 팬층이나 팬 문화에 대해 어떻게 생각하나요?</h4>
-        <input type="radio" id="fan_culture1" name="fan_culture" value="1">
-        <label for="fan_culture1">1) 매우 열정적이고 친근하다</label><br>
-        <input type="radio" id="fan_culture2" name="fan_culture" value="2">
-        <label for="fan_culture2">2) 팬 활동이 활발하고 다양한 이벤트가 많다</label><br>
-        <input type="radio" id="fan_culture3" name="fan_culture" value="3">
-        <label for="fan_culture3">3) 팀의 문화가 독특하고 개성 있다</label><br>
-        <input type="radio" id="fan_culture4" name="fan_culture" value="4">
-        <label for="fan_culture4">4) 팬들이 팀을 지지하는 방식이 좋다</label><br>
-        <input type="radio" id="fan_culture5" name="fan_culture" value="5">
-        <label for="fan_culture5">5) 팬층이 다양하고 포용적이다</label>
-    </div></br>
+        <!-- 질문 8 -->
+        <div class="question">
+            <h4>8. 팀의 팬 문화나 응원 방식에서 가장 중요한 점은 무엇인가요?</h4>
+            <input type="radio" id="culture1" name="question8" value="1">
+            <label for="culture1">1) 열정적인 응원</label><br>
+            <input type="radio" id="culture2" name="question8" value="2">
+            <label for="culture2">2) 팬들과의 소통</label><br>
+            <input type="radio" id="culture3" name="question8" value="3">
+            <label for="culture3">3) 팬 이벤트와 모임</label><br>
+            <input type="radio" id="culture4" name="question8" value="4">
+            <label for="culture4">4) 팀과의 유대감</label><br>
+            <input type="radio" id="culture5" name="question8" value="5">
+            <label for="culture5">5) 응원 도구와 디자인</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>9. 추천받을 팀의 경기 스타일에 대해 어떤 스타일을 선호하시나요?</h4>
-        <input type="radio" id="style1" name="game_style" value="1">
-        <label for="style1">1) 공격적인 타격 스타일</label><br>
-        <input type="radio" id="style2" name="game_style" value="2">
-        <label for="style2">2) 안정된 수비와 전략적인 경기 운영</label><br>
-        <input type="radio" id="style3" name="game_style" value="3">
-        <label for="style3">3) 빠른 주루와 기동력</label><br>
-        <input type="radio" id="style4" name="game_style" value="4">
-        <label for="style4">4) 강력한 투수진과 방어적인 경기</label><br>
-        <input type="radio" id="style5" name="game_style" value="5">
-        <label for="style5">5) 전반적으로 균형 잡힌 경기 운영</label>
-    </div></br>
+        <!-- 질문 9 -->
+        <div class="question">
+            <h4>9. 경기장 내 팬 서비스를 개선하기 위해 필요한 것은 무엇인가요?</h4>
+            <input type="radio" id="service1" name="question9" value="1">
+            <label for="service1">1) 더 나은 좌석과 관람 환경</label><br>
+            <input type="radio" id="service2" name="question9" value="2">
+            <label for="service2">2) 다양한 음식과 음료 선택</label><br>
+            <input type="radio" id="service3" name="question9" value="3">
+            <label for="service3">3) 빠르고 효율적인 입장/퇴장 시스템</label><br>
+            <input type="radio" id="service4" name="question9" value="4">
+            <label for="service4">4) 친절한 직원</label><br>
+            <input type="radio" id="service5" name="question9" value="5">
+            <label for="service5">5) 더 많은 팬 참여 프로그램</label>
+        </div>
+        <br>
 
-    <div class="question">
-        <h4>10. KBO 리그의 팀 중 가장 매력적인 팬 문화는 어떤 것인가요?</h4>
-        <input type="radio" id="fan_culture_a" name="fan_culture" value="1">
-        <label for="fan_culture_a">1) 열정적인 응원과 팬의 참여</label><br>
-        <input type="radio" id="fan_culture_b" name="fan_culture" value="2">
-        <label for="fan_culture_b">2) 경기 중 다양한 팬 이벤트와 활동</label><br>
-        <input type="radio" id="fan_culture_c" name="fan_culture" value="3">
-        <label for="fan_culture_c">3) 팀과 팬 간의 소통이 잘 이루어지는 문화</label><br>
-        <input type="radio" id="fan_culture_d" name="fan_culture" value="4">
-        <label for="fan_culture_d">4) 팬들이 자주 방문하는 팬 카페나 커뮤니티</label><br>
-        <input type="radio" id="fan_culture_e" name="fan_culture" value="5">
-        <label for="fan_culture_e">5) 경기장 내 특별한 응원 아이템과 퍼포먼스</label>
-    </div></br>
+        <!-- 질문 10 -->
+        <div class="question">
+            <h4>10. KBO 리그의 전반적인 인기나 성과 향상을 위해 필요한 것은 무엇인가요?</h4>
+            <input type="radio" id="improvement1" name="question10" value="1">
+            <label for="improvement1">1) 더 많은 국제 대회 참여</label><br>
+            <input type="radio" id="improvement2" name="question10" value="2">
+            <label for="improvement2">2) 글로벌 마케팅 강화</label><br>
+            <input type="radio" id="improvement3" name="question10" value="3">
+            <label for="improvement3">3) 유소년 및 아마추어 리그 지원</label><br>
+            <input type="radio" id="improvement4" name="question10" value="4">
+            <label for="improvement4">4) 경기의 질 향상</label><br>
+            <input type="radio" id="improvement5" name="question10" value="5">
+            <label for="improvement5">5) 팬과의 소통 강화</label>
+        </div>
+        <br>
 
-    <button type="submit">설문 제출</button>
+        <!-- 제출 버튼 -->
+        <button onclick="survey()" type="button" >설문참여하기</button>
+    </form>
 
     <!-- 공통 JS -->
     <!-- 1. JQUERY , AJAX -->

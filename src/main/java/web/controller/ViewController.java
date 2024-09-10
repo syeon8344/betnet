@@ -17,4 +17,10 @@ public class ViewController {
         return "/point/point.html";   // templates 폴더내 반환할 경로와 파일명
     }
 
+    // 설문 페이지
+    @GetMapping("/poll")
+    public String seve(){
+        return "/survey/survey.html";
+    }
+
 }
