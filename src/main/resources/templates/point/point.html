@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>포인트충전</title>
+    <title>포인트</title>
+    <link href="/css/point/point.css" rel="stylesheet">
 </head>
 <body>
     <div th:replace="~{/header.html:: header}"></div>
-    <div>
-        포인트충전페이지
-        예치금 잔액 : <span> </span>
+    <div class="wrap">
+        <div>
+            <h3> 포인트 </h3>
+            <div class="pointInfo">
+                <p> My Point </p>
+                <div class="myPointBox"> </div>
+                <button type="button"> 포인트 출금 </button>
+                <button type="button" class="payment"> 포인트 충전 </button>
+            </div>
+        </div>
     </div>
     <div th:replace="~{/footer.html:: footer}"></div>
+    <!-- iamport.payment.js -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script src="/js/point/point.js"></script>
+
 </body>
 </html>

@@ -22,4 +22,7 @@ public class PointController {
         return pointService.getMyPoint(memberid);
     }   // getMyPoint() end
 
+    // 포인트 충전
+
+
 }
