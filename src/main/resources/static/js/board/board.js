@@ -15,6 +15,7 @@ function raadAll(){
                        <th>${게시판.postid}</th>
                        <th>${게시판.title}</th>
                        <th>${게시판.content}</th>
+                       <th>${게시판.memberid}</th>
                        <th>${게시판.createdat}</th>
                        <th>${게시판.views}</th>
                        <th>${게시판.likes}</th>
