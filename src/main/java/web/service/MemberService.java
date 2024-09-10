@@ -27,6 +27,7 @@ public class MemberService {
         if(result>=1){
             MemberDto loginDto=MemberDto.builder()
                     .memberid(result)
+                    .userName(memberDto.getUserName())
                     .build();
             HttpSession session = request.getSession();
             session.setAttribute("loginDto",loginDto);
@@ -36,11 +37,12 @@ public class MemberService {
         return false;
     }
 
-//    public MemberDto loginCheck( ){
-//        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
-//        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
-//        Object object = session.getAttribute( "loginDto" );
-//        if( object !=null ){   return (MemberDto)object;  }
-//        return null;
-//    }
+    //09.10 로그인체크(세션객체에서 memberid,userName 추출가능)
+    public MemberDto loginCheck( ){
+        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
+        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
+        Object object = session.getAttribute( "loginDto" );
+        if( object !=null ){   return (MemberDto)object;  }
+        return null;
+    }
 }
