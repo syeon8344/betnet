@@ -12,6 +12,13 @@
         values( #{ userName } , #{ password }  , #{ name } , #{ contact } , #{ email } , #{ gender } , #{ age } , #{ teamCode } , #{ account } )
     </insert>
 
+    <select id="login" parameterType="web.model.dto.MemberDto">
+        SELECT memberid
+        FROM members
+        WHERE username = #{userName}
+        AND password = #{password}
+    </select>
+
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
 <!--    <select id="read" resultType="example.task1.AccountDto">-->
 <!--        select * from account-->

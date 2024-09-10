@@ -29,4 +29,11 @@ public class ViewController {
     public String boardWrite(){return "/board/write.html";  }
 
     //==========================게시판(board)끝==================================
+
+    //===============멤버
+    // 로그인 페이지
+    @GetMapping("/member/login")
+    public String login(){return "/member/login.html";}
+
+    //===============멤버
 }
