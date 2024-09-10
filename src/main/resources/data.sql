@@ -1,5 +1,5 @@
--- insert sample data
-
+---- insert sample data
+--
 -- 팀
 insert into Teams(TeamName , LogoImage) values('KIA' , 'https://ko.wikipedia.org/wiki/KIA_%ED%83%80%EC%9D%B4%EA%B1%B0%EC%A6%88#/media/%ED%8C%8C%EC%9D%BC:Kia_Tigers_emblem_(2021).jpg');
 insert into Teams(TeamName , LogoImage) values('삼성' , 'https://rogorogo.tistory.com/m/504?pidx=0');
@@ -13,7 +13,7 @@ insert into Teams(TeamName , LogoImage) values('NC' , 'https://i.namu.wiki/i/ItR
 insert into Teams(TeamName , LogoImage) values('키움' , 'https://i.namu.wiki/i/KbcMek3zCSyK8ATT3t1Qm8rBXhK0tjxmSt96rl2vF5FApWR9QKj3Jp1MB48_vblvt-rt6rx_UnEsURtV_z89Jr32rBsOsKdeE9Flk5ocOGiie5N5fdbn9-R_c7Yt-A-j5UwqOmIc8ePGZC17Hgmuzw.svg');
 insert into Teams(TeamName ) values('자유');
 
--- 멤버
+---- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
 ('user001', 'password123', 'John Doe', '010-555-0001', 'john.doe@example.com', 'M', 28, 1, 1000, 5, 100, '123-456-789'),
 ('user002', 'password456', 'Jane Smith', '010-555-0002', 'jane.smith@example.com', 'F', 34, 2, 1500, 3, 200, '987-654-321'),
