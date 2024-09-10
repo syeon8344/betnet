@@ -36,4 +36,10 @@ public class ViewController {
     public String login(){return "/member/login.html";}
 
     //===============멤버
+    // 설문 페이지
+    @GetMapping("/poll")
+    public String seve(){
+        return "/survey/survey.html";
+    }
+
 }

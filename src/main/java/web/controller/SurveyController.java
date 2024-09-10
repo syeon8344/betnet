@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import web.model.dto.SurveyDto;
 import web.service.SurveyService;
 
 @RestController
@@ -12,8 +13,10 @@ public class SurveyController {
     @Autowired SurveyService surveyService;
 
     @PostMapping("/save")
-    public int save(){
-        return surveyService.save();
+    public int save(SurveyDto surveyDto){
+        System.out.println("surveyDto = " + surveyDto);
+        return surveyService.save(surveyDto);
+
     }
 
 
