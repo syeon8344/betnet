@@ -6,6 +6,20 @@
 <mapper namespace="web.model.dao.BoardDao" >  <!-- mapper start -->
     <!-- namespace=" 매핑할 인터페이스 경로(위치) " -->
     <insert id="bWrite" parameterType="web.model.dto.BoardDto">
-        INSERT INTO teamboard (title, teamcode) VALUES (#{title}, #{teamcode} )
+        INSERT INTO TeamBoard (MemberID, TeamCode, Content, Title, Views, Likes) VALUES ( #{memberid},#{teamcode},#{content},#{title},#{views},#{likes})
     </insert>
+
+    <select id="bRead" resultType="web.model.dto.BoardDto">
+        select * from TeamBoard
+    </select>
+
+    <update id="bUpdate" parameterType="web.model.dto.BoardDto">
+        update teamboard set Title = #{title}, Content = #{content} where memberid = #{memberid} and postid = #{postid}
+    </update>
+
+    <delete id="bDelete" parameterType="web.model.dto.BoardDto">
+        delete from TeamBoard where memberid = #{memberid} and postid = #{postid}
+    </delete>
+
+
 </mapper> <!-- mapper end -->

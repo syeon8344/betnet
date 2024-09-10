@@ -7,4 +7,7 @@ import web.model.dto.MemberDto;
 public interface MemberDao {
     //09.09 회원가입
     boolean signUp(MemberDto memberDto);
+
+    //09.10 로그인
+    int login(MemberDto memberDto);
 }

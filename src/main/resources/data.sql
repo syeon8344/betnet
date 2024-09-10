@@ -1,5 +1,5 @@
--- insert sample data
-
+---- insert sample data
+--
 -- 팀
 insert into Teams(TeamName , LogoImage) values('KIA' , 'https://ko.wikipedia.org/wiki/KIA_%ED%83%80%EC%9D%B4%EA%B1%B0%EC%A6%88#/media/%ED%8C%8C%EC%9D%BC:Kia_Tigers_emblem_(2021).jpg');
 insert into Teams(TeamName , LogoImage) values('삼성' , 'https://rogorogo.tistory.com/m/504?pidx=0');
@@ -12,8 +12,9 @@ insert into Teams(TeamName , LogoImage) values('롯데' , 'https://i.namu.wiki/i
 insert into Teams(TeamName , LogoImage) values('NC' , 'https://i.namu.wiki/i/ItRFxzQIgfFsy6kQwk2CA4xZYfOkkta1c6vxtQ-BvX1rpobietq4_pHLnUh0uIFU9EpBd4Bj01OX8SMUjzf30JhZ25NmPSqsD-F_5ynLPzmyZAYwIvmB7RYF0oyzahEFBxhXRfbLoZqOJNblC-17pA.svg');
 insert into Teams(TeamName , LogoImage) values('키움' , 'https://i.namu.wiki/i/KbcMek3zCSyK8ATT3t1Qm8rBXhK0tjxmSt96rl2vF5FApWR9QKj3Jp1MB48_vblvt-rt6rx_UnEsURtV_z89Jr32rBsOsKdeE9Flk5ocOGiie5N5fdbn9-R_c7Yt-A-j5UwqOmIc8ePGZC17Hgmuzw.svg');
 insert into Teams(TeamName ) values('자유');
+insert into Teams(TeamName) values('없음');
 
--- 멤버
+---- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
 ('user001', 'password123', 'John Doe', '010-555-0001', 'john.doe@example.com', 'M', 28, 1, 1000, 5, 100, '123-456-789'),
 ('user002', 'password456', 'Jane Smith', '010-555-0002', 'jane.smith@example.com', 'F', 34, 2, 1500, 3, 200, '987-654-321'),
@@ -67,7 +68,7 @@ INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, Team
 ('user050', 'password1231231', 'Luna Young', '010-555-0050', 'luna.young@example.com', 'F', 28, 10, 4700, 3, 550, '852-963-741');
 select * FROM MEMBERS;
 
-INSERT INTO TeamBoard (MemberID, TeamCode, Content, Title, Views, Likes) VALUES
+INSERT INTO TeamBoard (memberid, teamcode, content, title, views, likes) VALUES
 (1, 1, '이것은 Team1의 첫 번째 게시물 내용입니다.', 'Team1 첫 번째 게시물', 10, 5),
 (2, 2, 'Team2의 두 번째 게시물 내용을 보여줍니다.', 'Team2 두 번째 게시물', 15, 10),
 (3, 3, 'Team3의 세 번째 게시물에 대한 자세한 내용입니다.', 'Team3 세 번째 게시물', 5, 2),
