@@ -28,7 +28,7 @@ public class MemberController {
         return memberService.login(memberDto);
     }
 
-    //09.10 로그인체크(세션객체에서 memberid,userName 추출가능)
+    //09.10 로그인체크
     @GetMapping("/logincheck")
     public MemberDto loginCheck(){
         return memberService.loginCheck();
