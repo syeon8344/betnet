@@ -20,8 +20,10 @@ public class BoardController {
     }
 
     @GetMapping("/readAll")
-    public List<BoardDto> bRead(){
-        return boardService.bRead();
+    public List<BoardDto> bRead( @RequestParam("teamcode") int teamcode){
+        System.out.println("BoardController.bRead");
+        System.out.println("teamcode = " + teamcode);
+        return boardService.bRead(teamcode);
     }
 
 

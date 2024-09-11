@@ -10,8 +10,13 @@
     </insert>
 
     <select id="bRead" resultType="web.model.dto.BoardDto">
-        select * from TeamBoard
+        select * from teamboard;
     </select>
+
+    <select id="caRead" resultType="web.model.dto.BoardDto">
+        select * from teamboard where teamcode = #{teamcode};
+    </select>
+
 
     <update id="bUpdate" parameterType="web.model.dto.BoardDto">
         update teamboard set Title = #{title}, Content = #{content} where memberid = #{memberid} and postid = #{postid}

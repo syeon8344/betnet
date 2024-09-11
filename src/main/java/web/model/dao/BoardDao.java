@@ -14,6 +14,9 @@ public interface BoardDao {
     // 게시물 전체출력 함수
     List<BoardDto> bRead();
 
+    // 게시물 카테고리 조회 함수
+    List<BoardDto> caRead(int teamcode);
+
     // 게시물 수정 함수
     boolean bUpdate(BoardDto boardDto );
 
