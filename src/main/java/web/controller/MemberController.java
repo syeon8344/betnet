@@ -34,4 +34,11 @@ public class MemberController {
         return memberService.loginCheck();
     }
 
+    //09.11 id 중복검사
+    @GetMapping("/idcheck")
+    public boolean idCheck(String userName){
+        System.out.println("MemberController.idCheck");
+        System.out.println("userName = " + userName);
+        return memberService.idCheck(userName);
+    }
 }

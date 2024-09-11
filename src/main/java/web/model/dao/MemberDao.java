@@ -10,4 +10,7 @@ public interface MemberDao {
 
     //09.10 로그인
     int login(MemberDto memberDto);
+
+    //09.11 id중복검사
+     boolean idCheck(String userName);
 }

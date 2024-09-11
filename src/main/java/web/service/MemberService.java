@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
 
@@ -44,5 +45,12 @@ public class MemberService {
         Object object = session.getAttribute( "loginDto" );
         if( object !=null ){   return (MemberDto)object;  }
         return null;
+    }
+
+    //09.11 id 중복검사
+    public boolean idCheck(String userName){
+        System.out.println("MemberService.idCheck");
+        System.out.println("userName = " + userName);
+        return memberDao.idCheck(userName);
     }
 }

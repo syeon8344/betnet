@@ -35,6 +35,10 @@ public class ViewController {
     @GetMapping("/member/login")
     public String login(){return "/member/login.html";}
 
+    // 회원가입 페이지
+    @GetMapping("/member/signup")
+    public String signup(){return "/member/signup.html";}
+
     //===============멤버
     // 설문 페이지
     @GetMapping("/poll")
