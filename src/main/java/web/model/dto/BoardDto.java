@@ -15,4 +15,7 @@ public class BoardDto {
     private int views;
     private int likes;
 
+    // 팀코드 이름 변환 변수 생성
+    private String teamname;
+
 }
