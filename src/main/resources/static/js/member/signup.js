@@ -15,19 +15,19 @@ function checkUsername(){ console.log('checkUsername()')
         $.ajax({
             async : false,              // 비동기true vs 동기false
             method : "get",             // HTTP method
-            url : "/member/idcheck",    // HTTP url
+            url : "/member/idchecking",    // HTTP url
             data : { userName : userName } ,        // HTTP 전송할 DATA
             success : (result)=>{   console.log(result);
                 // HTTP 응답받을 DATA
-                if( !result ){
-                    modalBody.textContent = '사용 가능한 아이디입니다.';
-                    modalBody.classList.remove('text-danger');
-                    modalBody.classList.add('text-success');
-                    checkArray[0]=false;
-                }else{
+                if( result ){
                     modalBody.textContent = '이미 사용 중인 아이디입니다.';
                     modalBody.classList.remove('text-success');
                     modalBody.classList.add('text-danger');
+                    checkArray[0]=false;
+                }else{
+                    modalBody.textContent = '사용 가능한 아이디입니다.';
+                    modalBody.classList.remove('text-danger');
+                    modalBody.classList.add('text-success');
                     checkArray[0]=true;
                 }
             } // success method end

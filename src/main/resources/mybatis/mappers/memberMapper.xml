@@ -19,11 +19,10 @@
         AND password = #{password}
     </select>
 
-    <select id="idCheck" parameterType="web.model.dto.MemberDto">
-        SELECT *
-        FROM members
-        WHERE username = #{userName}
+    <select id="idChecking" parameterType="web.model.dto.MemberDto">
+        select COUNT(*) > 0 from members where userName=#{userName}
     </select>
+
 
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
 <!--    <select id="read" resultType="example.task1.AccountDto">-->

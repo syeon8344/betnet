@@ -48,9 +48,7 @@ public class MemberService {
     }
 
     //09.11 id 중복검사
-    public boolean idCheck(String userName){
-        System.out.println("MemberService.idCheck");
-        System.out.println("userName = " + userName);
-        return memberDao.idCheck(userName);
+    public boolean idChecking(String userName){
+        return memberDao.idChecking(userName);
     }
 }

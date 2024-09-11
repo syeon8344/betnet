@@ -35,10 +35,8 @@ public class MemberController {
     }
 
     //09.11 id 중복검사
-    @GetMapping("/idcheck")
-    public boolean idCheck(String userName){
-        System.out.println("MemberController.idCheck");
-        System.out.println("userName = " + userName);
-        return memberService.idCheck(userName);
+    @GetMapping("/idchecking")
+    public boolean idChecking(String userName){
+        return memberService.idChecking(userName);
     }
 }
