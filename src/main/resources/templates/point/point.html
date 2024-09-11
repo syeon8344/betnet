@@ -14,14 +14,33 @@
             </div>
             <h3> 포인트 </h3>
             <div class="pointInfo">
-                <div>
+                <div class="myPointInfo">
                     <p> My Point </p>
+                    <div>
+                        <img src="/img/mypage_point_30x30.png" />
+                    </div>
                     <div class="myPointBox"> </div>
+                    <div>
+                        <button type="button"> 포인트 출금 </button>
+                    </div>
                 </div>
-                <div>
-                    충전할금액 <input type="text" class="pointChange"/>
-                    <button type="button" class="payment"> 포인트 충전 </button>
+                <div class="addPointInfo">
+                    <p class="addP"> 충전할금액 </p>
+                    <input type="text" class="pointChange"/>
+                    <button type="button" class="payment" onclick="payment()"> 포인트 충전 </button>
                 </div>
+            </div>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th> 번호 </th> <th> 거래일시 </th> <th> 내역 </th> <th> 포인트 </th>
+                        </tr>
+                    </thead>
+                    <tbody class="pointLogBox">
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

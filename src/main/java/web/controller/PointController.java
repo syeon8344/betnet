@@ -1,11 +1,12 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
+import web.model.dto.PointLogDto;
 import web.service.PointService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/point")
@@ -21,7 +22,21 @@ public class PointController {
         return pointService.getMyPoint();
     }   // getMyPoint() end
 
-    // 포인트 충전
+    // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
+    @PutMapping("/addpoint")
+    public int addPoint(int memberid , int pointChange){
+        return pointService.addPoint(memberid , pointChange);
+    }   // addPoint() end
 
+    // 포인트로그 포인트 충전 내역 저장
+    @PostMapping("/insertpointlog")
+    public int insertPointLog(PointLogDto pointLogDto){
+        return pointService.insertPointLog(pointLogDto);
+    }   // insertPointLog() end
 
+    // 포인트내역 출력
+    @GetMapping("/mypointlog")
+    public List<PointLogDto> mypointlog(int memberid){
+        return pointService.mypointlog(memberid);
+    }   // mypointlog() end
 }

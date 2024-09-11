@@ -1,5 +1,5 @@
 .wrap2{
-    width: 100%;
+    width: 80%;
 }
 .pointInfo{
     display: flex;
@@ -10,4 +10,17 @@
 .info{
     display: flex;
     justify-content: left;
+}
+.myPointInfo , .addPointInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.myPointInfo > P , .myPointInfo img , .myPointBox{
+    font-size: 16px;
+    margin: 20px;
+}
+.addP , .addPointInfo input , .addPointInfo button{
+    font-size: 16px;
+    margin: 10px;
 }
