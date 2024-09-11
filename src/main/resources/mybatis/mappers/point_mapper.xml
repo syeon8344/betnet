@@ -13,5 +13,18 @@
         select * from members where memberid = #{memberid}
     </select>
 
+    <!-- member db 포인트 충전 -->
+    <update id="addPoint" parameterType="int">
+        update members set points = points+#{pointChange} where memberid = #{memberid};
+    </update>
 
+    <!-- 포인트 로그 저장 -->
+    <insert id="insertPointLog" parameterType="web.model.dto.PointLogDto">
+        insert into pointlogs(memberid , pointChange , description) values(#{memberid} , #{pointChange} , #{description})
+    </insert>
+
+    <!-- 포인트내역 출력 -->
+    <select id="mypointlog" parameterType="int" resultType="web.model.dto.PointLogDto">
+        select * from pointlogs where memberid = #{memberid}
+    </select>
 </mapper> <!-- mapper end -->
