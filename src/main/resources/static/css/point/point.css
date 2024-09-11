@@ -1,5 +1,13 @@
+.wrap2{
+    width: 100%;
+}
 .pointInfo{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border: 1px solid #eeeeee;
+}
+.info{
+    display: flex;
+    justify-content: left;
 }

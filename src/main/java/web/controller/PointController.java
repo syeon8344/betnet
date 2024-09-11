@@ -15,11 +15,10 @@ public class PointController {
 
     // 잔액 포인트 출력
     @GetMapping("/mypoint")
-    public MemberDto getMyPoint(int memberid){
+    public MemberDto getMyPoint(){
         // 테스트 이후 멤버 아이디는 서비스에서 세션에서 가지고 오기
         System.out.println("PointController.getMyPoint");
-        System.out.println("memberid = " + memberid);
-        return pointService.getMyPoint(memberid);
+        return pointService.getMyPoint();
     }   // getMyPoint() end
 
     // 포인트 충전
