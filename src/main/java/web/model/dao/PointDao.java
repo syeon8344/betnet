@@ -3,6 +3,7 @@ package web.model.dao;
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 
 import java.util.List;
 
@@ -18,6 +19,6 @@ public interface PointDao {
     int insertPointLog(PointLogDto pointLogDto); // insertPointLog() end
 
     // 포인트내역 출력
-    List<PointLogDto> mypointlog(int memberid);// mypointlog() end
+    List<PointLogDto> mypointlog(SearchDto searchDto);// mypointlog() end
 
 }

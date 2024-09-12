@@ -329,54 +329,205 @@ insert into gamepurchasedetails (listid, matchid, amount) values
 (50, '20240905-10-1600', 875);
 
 -- 포인트
-INSERT INTO PointLogs (MemberID, LogDate, PointChange, Description) VALUES
-(1, '2024-09-01', 1000, 1),   -- 1: 포인트 증가
-(2, '2024-09-01', -500, 0),    -- 0: 포인트 감소
-(3, '2024-09-02', 1500, 1),    -- 1: 포인트 증가
-(4, '2024-09-02', -300, 0),    -- 0: 포인트 감소
-(5, '2024-09-03', 2000, 1),    -- 1: 포인트 증가
-(6, '2024-09-03', -1000, 0),   -- 0: 포인트 감소
-(7, '2024-09-04', 500, 1),     -- 1: 포인트 증가
-(8, '2024-09-04', -200, 0),    -- 0: 포인트 감소
-(9, '2024-09-05', 2500, 1),    -- 1: 포인트 증가
-(10, '2024-09-05', -1500, 0),  -- 0: 포인트 감소
-(11, '2024-09-06', 3000, 1),   -- 1: 포인트 증가
-(12, '2024-09-06', -500, 0),   -- 0: 포인트 감소
-(13, '2024-09-07', 1000, 1),   -- 1: 포인트 증가
-(14, '2024-09-07', -2000, 0),  -- 0: 포인트 감소
-(15, '2024-09-08', 500, 1),    -- 1: 포인트 증가
-(16, '2024-09-08', -300, 0),   -- 0: 포인트 감소
-(17, '2024-09-09', 1500, 1),   -- 1: 포인트 증가
-(18, '2024-09-09', -1000, 0),  -- 0: 포인트 감소
-(19, '2024-09-10', 2000, 1),   -- 1: 포인트 증가
-(20, '2024-09-10', -500, 0),   -- 0: 포인트 감소
-(21, '2024-09-11', 2500, 1),   -- 1: 포인트 증가
-(22, '2024-09-11', -1500, 0),  -- 0: 포인트 감소
-(23, '2024-09-12', 3000, 1),   -- 1: 포인트 증가
-(24, '2024-09-12', -700, 0),   -- 0: 포인트 감소
-(25, '2024-09-13', 1000, 1),   -- 1: 포인트 증가
-(26, '2024-09-13', -2000, 0),  -- 0: 포인트 감소
-(27, '2024-09-14', 500, 1),    -- 1: 포인트 증가
-(28, '2024-09-14', -300, 0),   -- 0: 포인트 감소
-(29, '2024-09-15', 1500, 1),   -- 1: 포인트 증가
-(30, '2024-09-15', -1000, 0),  -- 0: 포인트 감소
-(31, '2024-09-16', 2000, 1),   -- 1: 포인트 증가
-(32, '2024-09-16', -500, 0),   -- 0: 포인트 감소
-(33, '2024-09-17', 2500, 1),   -- 1: 포인트 증가
-(34, '2024-09-17', -1500, 0),  -- 0: 포인트 감소
-(35, '2024-09-18', 3000, 1),   -- 1: 포인트 증가
-(36, '2024-09-18', -700, 0),   -- 0: 포인트 감소
-(37, '2024-09-19', 1000, 1),   -- 1: 포인트 증가
-(38, '2024-09-19', -2000, 0),  -- 0: 포인트 감소
-(39, '2024-09-20', 500, 1),    -- 1: 포인트 증가
-(40, '2024-09-20', -300, 0),   -- 0: 포인트 감소
-(41, '2024-09-21', 1500, 1),   -- 1: 포인트 증가
-(42, '2024-09-21', -1000, 0),  -- 0: 포인트 감소
-(43, '2024-09-22', 2000, 1),   -- 1: 포인트 증가
-(44, '2024-09-22', -500, 0),   -- 0: 포인트 감소
-(45, '2024-09-23', 2500, 1),   -- 1: 포인트 증가
-(46, '2024-09-23', -1500, 0),  -- 0: 포인트 감소
-(47, '2024-09-24', 3000, 1),   -- 1: 포인트 증가
-(48, '2024-09-24', -700, 0),   -- 0: 포인트 감소
-(49, '2024-09-25', 1000, 1),   -- 1: 포인트 증가
-(50, '2024-09-25', -2000, 0);  -- 0: 포인트 감소
+INSERT INTO PointLogs (MemberID, PointChange, Description)
+VALUES
+(1, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(2, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(3, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(4, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(5, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(6, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(7, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(8, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(9, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(10, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(11, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(12, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(13, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(14, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(15, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(16, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(17, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(18, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(19, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(20, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(21, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(22, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(23, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(24, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(25, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(26, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(27, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(28, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(29, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(30, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(31, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(32, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(33, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(34, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(35, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(36, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(37, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(38, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(39, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(40, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(41, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(42, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(43, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(44, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(45, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(46, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(47, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(48, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(49, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(50, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(1, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(2, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(3, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(4, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(5, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(6, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(7, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(8, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(9, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(10, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(11, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(12, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(13, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(14, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(15, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(16, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(17, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(18, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(19, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(20, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(21, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(22, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(23, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(24, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(25, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(26, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(27, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(28, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(29, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(30, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(31, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(32, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(33, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(34, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(35, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(36, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(37, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(38, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(39, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(40, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(41, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(42, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(43, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(44, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(45, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(46, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(47, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(48, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(49, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(50, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(1, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(2, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(3, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(4, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(5, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(6, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(7, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(8, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(9, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(10, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(11, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(12, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(13, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(14, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(15, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(16, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(17, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(18, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(19, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(20, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(21, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(22, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(23, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(24, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(25, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(26, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(27, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(28, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(29, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(30, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(31, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(32, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(33, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(34, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(35, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(36, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(37, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(38, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(39, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(40, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(41, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(42, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(43, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(44, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(45, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(46, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(47, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(48, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(49, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(50, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(1, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(2, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(3, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(4, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(5, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(6, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(7, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(8, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(9, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(10, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(11, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(12, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(13, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(14, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(15, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(16, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(17, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(18, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(19, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(20, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(21, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(22, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(23, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(24, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(25, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(26, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(27, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(28, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(29, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(30, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(31, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(32, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(33, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(34, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(35, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(36, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(37, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(38, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(39, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(40, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(41, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(42, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(43, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(44, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(45, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(46, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(47, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(48, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(49, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1),
+(50, FLOOR(RAND() * 10000), FLOOR(RAND() * 4) + 1);

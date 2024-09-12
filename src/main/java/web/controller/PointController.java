@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 import web.service.PointService;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class PointController {
 
     // 포인트내역 출력
     @GetMapping("/mypointlog")
-    public List<PointLogDto> mypointlog(int memberid){
-        return pointService.mypointlog(memberid);
+    public List<PointLogDto> mypointlog(SearchDto searchDto){
+        return pointService.mypointlog(searchDto);
     }   // mypointlog() end
 }
