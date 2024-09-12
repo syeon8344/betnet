@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.model.dto.MemberDto;
+import web.model.dto.TeamsDto;
 import web.service.MemberService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/member")
@@ -38,5 +41,31 @@ public class MemberController {
     @GetMapping("/idchecking")
     public boolean idChecking(String userName){
         return memberService.idChecking(userName);
+    }
+
+    //09.12 전화번호 중복검사
+    @GetMapping("/phonecheck")
+    public boolean phoneCheck(String contact){
+        System.out.println("MemberController.phoneCheck");
+        System.out.println("contact = " + contact);
+        return memberService.phoneCheck(contact);
+    }
+
+    //09.12 팀정보 가져오기
+    @GetMapping("/teams")
+    public List<TeamsDto> teams(){
+        return memberService.teams();
+    }
+
+    //09.12 이메일 중복검사
+    @GetMapping("/emailcheck")
+    public boolean emailCheck(String email){
+        return memberService.emailCheck(email);
+    }
+
+    //09.12 로그아웃
+    @GetMapping("/logout")
+    public void logout(){
+        memberService.logout();
     }
 }

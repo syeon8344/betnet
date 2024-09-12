@@ -16,7 +16,6 @@ function doLogIn(){console.log('doLogIn()');
                 alert('로그인 실패')
                 document.querySelector('#id').value='';
                 document.querySelector('#pw').value=''
-                
             }
         }
     })
