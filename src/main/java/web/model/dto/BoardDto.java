@@ -6,8 +6,8 @@ import lombok.*;
 @Getter @Setter @ToString @Builder
 public class BoardDto {
 
-    private int postid;
-    private int memberid;
+    private int postid; // bno
+    private int memberid; // no
     private int teamcode;
     private String content;
     private String title;

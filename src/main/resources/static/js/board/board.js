@@ -5,6 +5,7 @@ console.log("board.js")
 raadAll()
 function raadAll(){
 
+
     let teamcode = document.querySelector("#teamcode").value;
 
     console.log( 'teamcode' )
@@ -21,7 +22,7 @@ function raadAll(){
                html += `<tr>
                        <th>${게시판.postid}</th>
                        <th>${게시판.teamname}</th>
-                       <th>${게시판.title}</th>
+                       <th><a href="/board/view?bno=${게시판.postid}">${게시판.title}</th>
                        <th>${게시판.content}</th>
                        <th>${게시판.memberid}</th>
                        <th>${게시판.createdat}</th>

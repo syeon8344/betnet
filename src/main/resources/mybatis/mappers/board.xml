@@ -17,14 +17,20 @@
         select * from teamboard where teamcode = #{teamcode};
     </select>
 
+    <select id="bFindBno" resultType="web.model.dto.BoardDto">
+        SELECT * FROM teamboard tb JOIN teams t ON tb.teamcode = t.teamcode WHERE tb.postid = #{postid};
+    </select>
+
 
     <update id="bUpdate" parameterType="web.model.dto.BoardDto">
         update teamboard set Title = #{title}, Content = #{content} where memberid = #{memberid} and postid = #{postid}
     </update>
 
     <delete id="bDelete" parameterType="web.model.dto.BoardDto">
-        delete from TeamBoard where memberid = #{memberid} and postid = #{postid}
+        delete from teamboard where postid = #{postid} and memberid = #{memberid};
     </delete>
+
+
 
 
 </mapper> <!-- mapper end -->

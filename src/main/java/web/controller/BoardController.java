@@ -26,6 +26,13 @@ public class BoardController {
         return boardService.bRead(teamcode);
     }
 
+    //게시판 개별조회
+    @GetMapping("/find/bno")
+    public BoardDto bFindBno( int bno ){
+        return boardService.bFindBno(bno);
+    }
+
+
 
     @PutMapping("/update")
     public boolean bUpdate(BoardDto boardDto ){
@@ -35,6 +42,8 @@ public class BoardController {
 
     @DeleteMapping("/delete")
     public boolean bDelete(BoardDto boardDto ){
+        System.out.println("BoardController.bDelete");
+        System.out.println("boardDto = " + boardDto);
         return boardService.bDelete(boardDto);
     }
 

@@ -11,6 +11,7 @@ $(document).ready(function() {
 
 function doBoardWrite(){
     console.log('doBoardWrite()');
+
     let title = document.querySelector('.btitle').value;
     let content = document.querySelector('.bcontent').value;
     let memberid = 1;
@@ -19,11 +20,20 @@ function doBoardWrite(){
             memberid:memberid, teamcode: teamcode}
     console.log(data);
 
+    let formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('memberid', memberid);
+    formData.append('teamcode', teamcode);
+
+
+    // 3. AJAX 통신
     $.ajax({
             async : false,
             method: "post",
             url : "/board/write",
-            data : data ,
+            data : formData ,
+            contentType : false , processData : false ,
             success : (r)=>{ console.log(r);
                 if( r ){ // 4. 통신 결과에 실행문
                     alert('글쓰기성공');
