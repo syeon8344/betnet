@@ -13,4 +13,6 @@ public class SearchDto {
     private String startDate;
     private String endDate;
     private int memberid;
+    private int startPoint;
+    private int endPoint;
 }

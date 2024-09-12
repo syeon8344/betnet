@@ -20,7 +20,7 @@ public class PointService {
     MemberService memberService;
 
     // 잔액 포인트 출력
-    public MemberDto getMyPoint(SearchDto searchDto){
+    public MemberDto getMyPoint(){
         // 테스트 이후 멤버 아이디는 서비스에서 세션에서 가지고 오기
         System.out.println("PointService.getMyPoint");
         // 1. 로그인 세션에서 값 호출
@@ -28,9 +28,7 @@ public class PointService {
         if (loginDto == null) return null;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();
-        searchDto.setMemberid(memberid);
-        System.out.println("searchDto = " + searchDto);
-        return pointDao.getMyPoint(searchDto);
+        return pointDao.getMyPoint(memberid);
     }   // getMyPoint() end
 
     // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
@@ -44,15 +42,16 @@ public class PointService {
     }   // insertPointLog() end
 
     // 포인트내역 출력
-    public List<PointLogDto> mypointlog(int memberid){
-        List<PointLogDto> pointLogDtos = pointDao.mypointlog(memberid);
+    public List<PointLogDto> mypointlog(SearchDto searchDto){
+        // System.out.println("searchDto = " + searchDto);
+        List<PointLogDto> pointLogDtos = pointDao.mypointlog(searchDto);
         pointLogDtos.forEach(dto ->{
             // 숫자로 나오는 코드 미리 정한 이름으로 변환해서 dto에 저장하기
             // db에서 받은 숫자 코드 매개변수로 넘겨주기
             String descriptionStr = descriptionString(dto.getDescription());
             dto.setDescriptionStr(descriptionStr);
         });
-        System.out.println(pointLogDtos);
+        // System.out.println(pointLogDtos);
         return pointLogDtos;
     }   // mypointlog() end
 

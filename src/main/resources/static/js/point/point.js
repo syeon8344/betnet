@@ -1,3 +1,27 @@
+let info = {}   // 결제에 필요한 member정보 저장하는 전역변수
+
+getMyPoint();
+function getMyPoint(){
+    console.log('getMyPoint');
+    $.ajax({
+        async : false , 
+        method : "get" , 
+        url : "/point/mypoint" , 
+        success : (r) => {
+            console.log(r);
+            info = r;
+            console.log(info);
+            if(r == ""){
+                alert('로그인 후 이용 가능합니다')
+                location.href="/member/login"
+            }
+            let myPointBox = document.querySelector(".myPointBox");
+            let html = info.points;
+            myPointBox.innerHTML = html;
+        }
+    })  // ajax end
+}   // getMyPoint() end
+
 let date = new Date();
 console.log(date);
 let currentYear = date.getFullYear();
@@ -33,7 +57,9 @@ let searchInfo = {
     description : 0 , 
     startDate : '' , 
     endDate : '' , 
-    memberid : 0
+    memberid : info.memberid , 
+    startPoint : 0 , 
+    endPoint : 0
 }
 // 검색버튼 눌렀을 때
 function onSearch(){
@@ -41,38 +67,23 @@ function onSearch(){
     let description = document.querySelector('.descriptionBox').value;
     let startDate = document.querySelector('.startDate').value;
     let endDate = document.querySelector('.endDate').value;
+    let startPoint = document.querySelector('.startPoint').value;
+    let endPoint = document.querySelector('.endPoint').value;
+    if (startPoint == ""){
+        startPoint = 0
+    }
+    if (endPoint == ""){
+        endPoint = 0
+    }
     searchInfo.description = description;
     searchInfo.startDate = startDate;
     searchInfo.endDate = endDate;
+    searchInfo.startPoint = startPoint;
+    searchInfo.endPoint = endPoint;
     console.log(searchInfo);
     // 새로고침
-    getMyPoint();
+    mypointlog();
 }
-
-let info = {}   // 결제에 필요한 member정보 저장하는 전역변수
-
-getMyPoint();
-function getMyPoint(){
-    console.log('getMyPoint');
-    $.ajax({
-        async : false , 
-        method : "get" , 
-        url : "/point/mypoint" , 
-        data : searchInfo , // 전역변수 보내기
-        success : (r) => {
-            console.log(r);
-            info = r;
-            console.log(info);
-            if(r == ""){
-                alert('로그인 후 이용 가능합니다')
-                location.href="/member/login"
-            }
-            let myPointBox = document.querySelector(".myPointBox");
-            let html = info.points;
-            myPointBox.innerHTML = html;
-        }
-    })  // ajax end
-}   // getMyPoint() end
 
 // 아임포트
 // $(".payment").click(function() {
@@ -140,7 +151,7 @@ function mypointlog(){
         async : false , 
         method : 'get' , 
         url : "/point/mypointlog" , 
-        data : {memberid : info.memberid} , 
+        data : searchInfo , // 전역변수 보내기
         success : (r) => {
             console.log(r);
             let pointLogBox = document.querySelector(".pointLogBox");
