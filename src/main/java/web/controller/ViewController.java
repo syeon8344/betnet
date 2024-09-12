@@ -28,6 +28,12 @@ public class ViewController {
     @GetMapping("/board/write") // http 페이지 주소
     public String boardWrite(){return "/board/write.html";  }
 
+    @GetMapping("/board/view") // http 페이지 주소
+    public String boardView(){return "/board/view.html";  }
+
+
+
+
     //==========================게시판(board)끝==================================
 
     //===============멤버

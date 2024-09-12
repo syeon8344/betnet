@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.BoardDao;
 import web.model.dto.BoardDto;
+import web.model.dto.MemberDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class BoardService {
 
     @Autowired private BoardDao boardDao;
+    @Autowired private MemberService memberService;
 
     public boolean bWrite(BoardDto boardDto) {
         System.out.println("BoardService.bWrite");
@@ -71,16 +73,32 @@ public class BoardService {
         if(teamcode==10){
             cateName = "키움";
         }
+        if(teamcode==11){
+            cateName = "자유";
+        }
         return cateName;
     }   // nameChange() end
+
+
+    //  게시물 개별 조회 처리
+    public BoardDto bFindBno( int bno ){
+        List<BoardDto> boardList;
+        return boardDao.bFindBno( bno );
+    }
 
 
     public boolean bUpdate(BoardDto boardDto ){
         return boardDao.bUpdate(boardDto);
     }
 
-
+    // 게시물 삭제 메서드
     public boolean bDelete(BoardDto boardDto ){
+        MemberDto loginDto = memberService.loginCheck();
+        System.out.println("loginDto = " + loginDto);
+        if (loginDto == null) return false;
+        int no = loginDto.getMemberid();
+        boardDto.setMemberid(no);
+        System.out.println("boardDto = " + boardDto);
         return boardDao.bDelete(boardDto);
     }
 }
