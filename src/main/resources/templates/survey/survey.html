@@ -111,9 +111,9 @@
         <div class="question">
             <h4>9. 타점이 많은 팀을 선호하십니까?</h4>
             <input type="radio" id="rbi1" name="question9" value="yes">
-            <label for="rbi1">1) 타점이 높은 팀을 선호한다.</label><br>
+            <label for="rbi1">1) 예: 타점이 높은 팀을 선호한다.</label><br>
             <input type="radio" id="rbi2" name="question9" value="no">
-            <label for="rbi2">2) 타점보다는 타율이나 장타율을 더 중요하게 생각한다.</label>
+            <label for="rbi2">2) 아니요: 타점보다는 타율이나 장타율을 더 중요하게 생각한다.</label>
         </div>
         <br>
 
@@ -129,6 +129,24 @@
         <!-- 제출 버튼 -->
         <button onclick="survey()" type="button" >설문참여하기</button>
     </form>
+
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">설문조사 결과 추천 팀</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 공통 JS -->
     <!-- 1. JQUERY , AJAX -->

@@ -18,10 +18,12 @@ function survey(){
     });
 
     if( check ) {
+
+    console.log(result)
         $.ajax({
             async : false,
-            method : "post",
-            url : "/survey/save",
+            method : "get",
+            url : "http://127.0.0.1:5000/survey/save",
             data : result,
             success :(result2 =>{ console.log(result2)
             }) // successs
