@@ -24,7 +24,8 @@
     </insert>
 
     <!-- 포인트내역 출력 -->
-    <select id="mypointlog" parameterType="int" resultType="web.model.dto.PointLogDto">
-        select * from pointlogs where memberid = #{memberid}
+    <select id="mypointlog" parameterType="web.model.dto.SearchDto" resultType="web.model.dto.PointLogDto">
+        select * from pointlogs where memberid = #{memberid}<if test="description != 0">and description = #{description}</if>
+
     </select>
 </mapper> <!-- mapper end -->

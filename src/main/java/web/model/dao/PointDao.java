@@ -3,13 +3,14 @@ package web.model.dao;
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 
 import java.util.List;
 
 @Mapper
 public interface PointDao {
     // 잔액 포인트 출력
-    MemberDto getMyPoint(int memberid);// getMyPoint() end
+    MemberDto getMyPoint(SearchDto searchDto);// getMyPoint() end
 
     // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
     int addPoint(int memberid , int pointChange); // addPoint() end

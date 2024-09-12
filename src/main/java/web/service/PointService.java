@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.PointDao;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PointService {
     MemberService memberService;
 
     // 잔액 포인트 출력
-    public MemberDto getMyPoint( ){
+    public MemberDto getMyPoint(SearchDto searchDto){
         // 테스트 이후 멤버 아이디는 서비스에서 세션에서 가지고 오기
         System.out.println("PointService.getMyPoint");
         // 1. 로그인 세션에서 값 호출
@@ -27,7 +28,9 @@ public class PointService {
         if (loginDto == null) return null;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();
-        return pointDao.getMyPoint(memberid);
+        searchDto.setMemberid(memberid);
+        System.out.println("searchDto = " + searchDto);
+        return pointDao.getMyPoint(searchDto);
     }   // getMyPoint() end
 
     // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
@@ -59,8 +62,14 @@ public class PointService {
         if(description == 1){
             descriptionStr = "포인트충전";
         }
-        if(description == 0){
+        if(description == 2){
+            descriptionStr = "배당금지급";
+        }
+        if(description == 3){
             descriptionStr = "게임구매";
+        }
+        if(description == 4){
+            descriptionStr = "포인트출금";
         }
         return descriptionStr;
     }

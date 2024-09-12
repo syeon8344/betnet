@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 import web.service.PointService;
 
 import java.util.List;
@@ -16,10 +17,10 @@ public class PointController {
 
     // 잔액 포인트 출력
     @GetMapping("/mypoint")
-    public MemberDto getMyPoint(){
+    public MemberDto getMyPoint(SearchDto searchDto){
         // 테스트 이후 멤버 아이디는 서비스에서 세션에서 가지고 오기
         System.out.println("PointController.getMyPoint");
-        return pointService.getMyPoint();
+        return pointService.getMyPoint(searchDto);
     }   // getMyPoint() end
 
     // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
