@@ -32,7 +32,7 @@ function boardView( bno ){
 
     document.querySelector('.btnBox').innerHTML =
             `
-            <button type="button" class="btn btn-primary" >수정</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='/board/update?bno=${bno}'">수정</button>
             <button type="button" class="btn btn-primary" onclick="bDelete(${bno})" >삭제</button>
             `;
 }

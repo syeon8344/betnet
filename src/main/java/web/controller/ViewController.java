@@ -31,7 +31,8 @@ public class ViewController {
     @GetMapping("/board/view") // http 페이지 주소
     public String boardView(){return "/board/view.html";  }
 
-
+    @GetMapping("/board/update") // http 페이지 주소
+    public String boardUpdate(){return "/board/update.html";  }
 
 
     //==========================게시판(board)끝==================================
