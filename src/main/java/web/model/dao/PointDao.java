@@ -10,10 +10,7 @@ import java.util.List;
 @Mapper
 public interface PointDao {
     // 잔액 포인트 출력
-    MemberDto getMyPoint(int memberid);// getMyPoint() end
-
-    // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
-    int addPoint(int memberid , int pointChange); // addPoint() end
+    PointLogDto getMyPoint(int memberid);// getMyPoint() end
 
     // 포인트로그 포인트 충전 내역 저장
     int insertPointLog(PointLogDto pointLogDto); // insertPointLog() end
