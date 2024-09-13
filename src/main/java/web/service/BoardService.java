@@ -15,11 +15,20 @@ public class BoardService {
     @Autowired private BoardDao boardDao;
     @Autowired private MemberService memberService;
 
+
     public boolean bWrite(BoardDto boardDto) {
+
         System.out.println("BoardService.bWrite");
+        MemberDto loginDto = memberService.loginCheck();
+        System.out.println("loginDto = " + loginDto);
+        if (loginDto == null) return false;
+        int no = loginDto.getMemberid();
+        boardDto.setMemberid(no);
         System.out.println("boardDto = " + boardDto);
+
         return boardDao.bWrite(boardDto);
     }
+
 
     public List<BoardDto> bRead(int teamcode) {
         System.out.println("BoardService.bRead");
@@ -88,8 +97,16 @@ public class BoardService {
 
 
     public boolean bUpdate(BoardDto boardDto ){
+        System.out.println("BoardService.bUpdate");
+        MemberDto loginDto = memberService.loginCheck();
+        if (loginDto == null) return false;
+        int no = loginDto.getMemberid();
+        boardDto.setMemberid(no);
+        System.out.println("boardDto = " + boardDto);
+
         return boardDao.bUpdate(boardDto);
     }
+
 
     // 게시물 삭제 메서드
     public boolean bDelete(BoardDto boardDto ){
@@ -101,4 +118,6 @@ public class BoardService {
         System.out.println("boardDto = " + boardDto);
         return boardDao.bDelete(boardDto);
     }
+
+
 }

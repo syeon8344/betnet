@@ -1,3 +1,6 @@
+
+loginCheck();
+
 // 3. 썸머노트 실행
 $(document).ready(function() {
     // - 썸머노트 옵션
@@ -9,40 +12,52 @@ $(document).ready(function() {
 });
 
 
-function doBoardWrite(){
-    console.log('doBoardWrite()');
+// 2. 게시물 쓰기 (첨부파일 전송하는 대용량 form 타입의 통신)
+function doBoardWrite() {
 
-    let title = document.querySelector('.btitle').value;
-    let content = document.querySelector('.bcontent').value;
-    let memberid = 1;
-    let teamcode = 1;
-    let data = { title : title, content : content,
-            memberid:memberid, teamcode: teamcode}
-    console.log(data);
+    // 1. form 가져오기, form 안에 있는 HTML 모두 한 번에 가져오기
+    let boardWriteForm = document.querySelector('.boardWriteForm');
+    console.log(boardWriteForm);
 
-    let formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('memberid', memberid);
-    formData.append('teamcode', teamcode);
+    // 2. form HTML 을 바이트로 변환해주는 객체 = new FormData
+    let boardWriteFormData = new FormData(boardWriteForm);
+    console.log(boardWriteFormData);
 
-
-    // 3. AJAX 통신
     $.ajax({
-            async : false,
-            method: "post",
-            url : "/board/write",
-            data : formData ,
-            contentType : false , processData : false ,
-            success : (r)=>{ console.log(r);
-                if( r ){ // 4. 통신 결과에 실행문
-                    alert('글쓰기성공');
-                    location.href="/board";
-
-                }else{ alert('글쓰기실패'); }
-            } ,
-            error : (e)=>{ console.log(e); }
+        method : "post",
+        url : "/board/write",
+        data : boardWriteFormData,
+        contentType : false,    // ((true : 일반 폼(생략 가능), false : 대용량 폼)
+        processData : false,
+        success : (r) => {  console.log(r);
+            // 4. 통신 결과에 따른 실행문
+            if (r) {
+                alert('글쓰기성공');
+                location.href="/board";
+            } else {
+                alert('글쓰기실패');
+            }
+        },
+        error : (e) => {
+            console.log(e);
+        }
     })
-
-
 }
+
+// 4. 로그인 체크
+function loginCheck() {
+    $.ajax ({
+        async : false,
+        method : "get",
+        url : "/member/logincheck",
+        success : r => {    console.log(r);
+            if ('' == r) {
+                alert('글쓰기는 로그인 후 가능합니다');
+                location.href = '/member/login';
+            }
+        }
+
+    })
+}
+
+

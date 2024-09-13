@@ -37,7 +37,7 @@ create table teamboard (
     postid int auto_increment primary key,
     memberid int not null,
     teamcode int not null,
-    content text not null,
+    content longtext not null,
     title varchar(255) not null,
     createdat date not null default (current_date),
     views int default 0,

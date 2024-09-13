@@ -7,7 +7,6 @@
     <!-- 해당 페이지에서만 사용할 CSS  -->
     <!-- 1. 썸머노트 CSS , 부트스트랩 버전과 썸머노트 버전  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/lang/summernote-ko-KR.min.js" ></script>
 
 
 </head>
@@ -17,13 +16,29 @@
 <div class="container">
     <h3> 게시물 쓰기 페이지 </h3>
     <form class="boardWriteForm">
-        <input type="text" name="btitle" class="btitle form-control"  placeholder="제목"/>
-        <div><textarea id="summernote" name="bcontent" class="bcontent"></textarea></div>
-        <button type="button" onclick="doBoardWrite()">글쓰기</button>
+        <div>
+            <select name="teamcode" id="teamcode">
+                <option value="0">전체게시판</option>
+                <option value="1">기아</option>
+                <option value="2">삼성</option>
+                <option value="3">LG</option>
+                <option value="4">두산</option>
+                <option value="5">KT</option>
+                <option value="6">한화</option>
+                <option value="7">SSG</option>
+                <option value="8">롯데</option>
+                <option value="9">NC</option>
+                <option value="10">키움</option>
+                <option value="11">자유게시판</option>
+            </select>
+        </div>
+        <div>
+            <div> 제목 : <input type="text" name="title" class="title" /> </div>
+            <div> 내용 : <textarea id="summernote" class="content" name="content"> </textarea> </div>
+            <button type="button" onclick="doBoardWrite()">글쓰기</button>
+        </div>
     </form>
 </div>
-
-
 
 <div th:replace="~{/footer.html:: footer}"></div>
 
