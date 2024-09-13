@@ -1,5 +1,21 @@
 let info = {}   // 결제에 필요한 member정보 저장하는 전역변수
 
+doLoginCheck();
+function doLoginCheck(){
+    $.ajax({
+        async:false,
+        method:'get',
+        url:"/member/logincheck",
+        success:(result)=>{console.log(result);
+            if(result == ""){
+                alert("로그인 후 이용가능합니다.")
+                location.href = "/member/login"
+            }
+            info = result
+        }
+    })
+}
+
 getMyPoint();
 function getMyPoint(){
     console.log('getMyPoint');
@@ -9,15 +25,12 @@ function getMyPoint(){
         url : "/point/mypoint" , 
         success : (r) => {
             console.log(r);
-            info = r;
-            console.log(info);
-            if(r == ""){
-                alert('로그인 후 이용 가능합니다')
-                location.href="/member/login"
-            }
             let myPointBox = document.querySelector(".myPointBox");
-            let html = info.points;
+            let html = r.sum;
             myPointBox.innerHTML = html;
+        } , 
+        error : (e) => {
+            console.log(e)
         }
     })  // ajax end
 }   // getMyPoint() end
@@ -107,23 +120,6 @@ function payment(){
                 if ( rsp.success ) {
               } else {
                     var msg = '결제가 완료되었습니다.';
-                    // member DB에 저장
-                    $.ajax({
-                        async : false , 
-                        method : 'put' , 
-                        url : "/point/addpoint" , 
-                        data : {memberid : info.memberid , pointChange : pointChange} , 
-                        success : (r) => {
-                            console.log(r);
-                            if(r == 1){
-                                document.querySelector(".pointChange").value = ""
-                                getMyPoint();
-                            }
-                        } , 
-                        error : (e) => {
-                            console.log(e);
-                        }
-                    })  // ajax end
                     // 포인트 로그에 저장
                     $.ajax({
                         async : false , 
@@ -133,6 +129,8 @@ function payment(){
                         success : (r) => {
                             console.log(r);
                             mypointlog();
+                            getMyPoint();
+                            document.querySelector(".pointChange").value = ""
                         } , 
                         error : (e) => {
                             console.log(e);
@@ -158,18 +156,43 @@ function mypointlog(){
             let html = ``
             r.forEach(log => {
                 html += `<tr>
-                            <td> ${log.logDate} </td> <td> ${log.descriptionStr} </td> `;
-                if (log.description == 3 || log.description == 4){
-                    html += `       
-                            <td> - ${log.pointChange} </td>
-                        </tr>`;
-                }else{
-                    html += `       
+                            <td> ${log.logDate} </td> <td> ${log.descriptionStr} </td>    
                             <td> ${log.pointChange} </td>
                         </tr>`;
-                }
             });
             pointLogBox.innerHTML = html;
+        } , 
+        error : (e) => {
+            console.log(e);
+        }
+    })  // ajax end
+} // mypointlog end
+
+getMyAccount();
+// 내 계좌 정보 출력
+function getMyAccount(){
+    document.querySelector(".myAccountBox").innerHTML = info.account;
+}
+// 포인트 출금
+function withdraw(){
+    let withdrawPoint = document.querySelector(".withdrawPoint").value;
+    let myPoint = document.querySelector(".myPointBox").value;
+    if(withdrawPoint > myPoint){
+        alert("출금할 포인트가 포인트 잔액보다 큽니다.");
+        return
+    }
+    withdrawPoint = -withdrawPoint;
+    console.log(typeof(withdrawPoint))
+    // 포인트 로그 DB 처리
+    $.ajax({
+        async : false , 
+        method : 'post' , 
+        url : "/point/insertpointlog" , 
+        data : {memberid : info.memberid , pointChange : withdrawPoint , description : 4} , // description은 출금이니까 4로 지정
+        success : (r) => {
+            console.log(r);
+            mypointlog();
+            getMyPoint();
         } , 
         error : (e) => {
             console.log(e);

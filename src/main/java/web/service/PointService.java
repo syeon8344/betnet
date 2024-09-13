@@ -20,7 +20,7 @@ public class PointService {
     MemberService memberService;
 
     // 잔액 포인트 출력
-    public MemberDto getMyPoint(){
+    public PointLogDto getMyPoint(){
         // 테스트 이후 멤버 아이디는 서비스에서 세션에서 가지고 오기
         System.out.println("PointService.getMyPoint");
         // 1. 로그인 세션에서 값 호출
@@ -30,11 +30,6 @@ public class PointService {
         int memberid = loginDto.getMemberid();
         return pointDao.getMyPoint(memberid);
     }   // getMyPoint() end
-
-    // 포인트 충전 아임포트에서 결제 완료 시 member DB 업데이트
-    public int addPoint(int memberid , int pointChange){
-        return pointDao.addPoint(memberid , pointChange);
-    }   // addPoint() end
 
     // 포인트로그 포인트 충전 내역 저장
     public int insertPointLog(PointLogDto pointLogDto){
@@ -72,4 +67,5 @@ public class PointService {
         }
         return descriptionStr;
     }
+
 }

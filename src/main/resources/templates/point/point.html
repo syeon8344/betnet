@@ -21,7 +21,7 @@
                     </div>
                     <div class="myPointBox"> </div>
                     <div>
-                        <button type="button"> 포인트 출금 </button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" > 포인트 출금 </button>
                     </div>
                 </div>
                 <div class="addPointInfo">
@@ -89,7 +89,33 @@
                     </tbody>
                 </table>
             </div> <!-- 포인트 내역 출력 end -->
-        </div>
+
+            <!-- 포인트 출금 Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">|포인트 출금</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <p> 출금할 포인트 금액 </p>
+                                <input type="text" class="withdrawPoint"/>
+                            </div>
+                            <div>
+                                <p> 내 계좌 정보 </p>
+                                <div class="myAccountBox"> </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="withdraw()">출금하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- Modal end -->
+        </div>  <!-- wrap2 end -->
     </div>
     <div th:replace="~{/footer.html:: footer}"></div>
     <!-- iamport.payment.js -->
