@@ -45,7 +45,7 @@ ul,ol,li{
     justify-content: right;
 }
 #topMenu a{
-    padding: 10px 20px;
+    padding-left: 20px;
 }
 
 .menu {
@@ -84,4 +84,10 @@ ul,ol,li{
 .menu > li:hover .submenu {
     height: 250px; /*서브메뉴 li한개의 높이 50*5*/
     transition-duration: 1s;
+}
+
+#top{
+    display: flex;
+    justify-content: right;
+    padding: 10px 20px;
 }

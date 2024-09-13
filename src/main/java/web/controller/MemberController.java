@@ -68,4 +68,10 @@ public class MemberController {
     public void logout(){
         memberService.logout();
     }
+
+    //09.13 로그인체크(모든 회원정보까지)
+    @GetMapping("/logcheck")
+    public MemberDto logCheck(){
+       return memberService.logCheck();
+    }
 }

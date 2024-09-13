@@ -35,7 +35,9 @@
         select COUNT(*) > 0 from members where email=#{email}
     </select>
 
-
+    <select id="logCheck" parameterType="web.model.dto.MemberDto">
+        select * from members where memberid=#{memberid}
+    </select>
 
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
 <!--    <select id="read" resultType="example.task1.AccountDto">-->

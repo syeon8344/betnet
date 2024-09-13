@@ -45,6 +45,10 @@ public class ViewController {
     @GetMapping("/member/signup")
     public String signup(){return "/member/signup.html";}
 
+    // 마이페이지
+    @GetMapping("/member/mypage")
+    public String myPage(){return "/member/mypage.html";}
+
     //===============멤버
     // 설문 페이지
     @GetMapping("/poll")

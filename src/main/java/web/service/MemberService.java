@@ -56,6 +56,7 @@ public class MemberService {
         Object object = session.getAttribute( "loginDto" );
         MemberDto memberDto=(MemberDto)object;
         int memberid=memberDto.getMemberid();
+        System.out.println(memberDao.logCheck(memberid));
         if( object !=null ){   return memberDao.logCheck(memberid);  }
         return null;
     }

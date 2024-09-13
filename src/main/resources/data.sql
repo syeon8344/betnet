@@ -13,7 +13,7 @@ insert into Teams(TeamName , LogoImage) values('NC' , 'https://i.namu.wiki/i/ItR
 insert into Teams(TeamName , LogoImage) values('키움' , 'https://i.namu.wiki/i/KbcMek3zCSyK8ATT3t1Qm8rBXhK0tjxmSt96rl2vF5FApWR9QKj3Jp1MB48_vblvt-rt6rx_UnEsURtV_z89Jr32rBsOsKdeE9Flk5ocOGiie5N5fdbn9-R_c7Yt-A-j5UwqOmIc8ePGZC17Hgmuzw.svg');
 insert into Teams(TeamName ) values('자유');
 insert into Teams(TeamName) values('없음');
-select * from teams;
+
 ---- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
 ('user001', 'password123', 'John Doe', '010-555-0001', 'johndoe@example.com', 'M', 28, 1, 1000, 5, 100, '123-456-789'),
