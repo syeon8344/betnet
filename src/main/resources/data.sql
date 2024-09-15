@@ -1,5 +1,5 @@
--- insert sample data
-
+---- insert sample data
+--
 -- 팀
 insert into Teams(TeamName , LogoImage) values('KIA' , 'https://ko.wikipedia.org/wiki/KIA_%ED%83%80%EC%9D%B4%EA%B1%B0%EC%A6%88#/media/%ED%8C%8C%EC%9D%BC:Kia_Tigers_emblem_(2021).jpg');
 insert into Teams(TeamName , LogoImage) values('삼성' , 'https://rogorogo.tistory.com/m/504?pidx=0');
@@ -12,62 +12,63 @@ insert into Teams(TeamName , LogoImage) values('롯데' , 'https://i.namu.wiki/i
 insert into Teams(TeamName , LogoImage) values('NC' , 'https://i.namu.wiki/i/ItRFxzQIgfFsy6kQwk2CA4xZYfOkkta1c6vxtQ-BvX1rpobietq4_pHLnUh0uIFU9EpBd4Bj01OX8SMUjzf30JhZ25NmPSqsD-F_5ynLPzmyZAYwIvmB7RYF0oyzahEFBxhXRfbLoZqOJNblC-17pA.svg');
 insert into Teams(TeamName , LogoImage) values('키움' , 'https://i.namu.wiki/i/KbcMek3zCSyK8ATT3t1Qm8rBXhK0tjxmSt96rl2vF5FApWR9QKj3Jp1MB48_vblvt-rt6rx_UnEsURtV_z89Jr32rBsOsKdeE9Flk5ocOGiie5N5fdbn9-R_c7Yt-A-j5UwqOmIc8ePGZC17Hgmuzw.svg');
 insert into Teams(TeamName ) values('자유');
+insert into Teams(TeamName) values('없음');
 
--- 멤버
+---- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
-('user001', 'password123', 'John Doe', '010-555-0001', 'john.doe@example.com', 'M', 28, 1, 1000, 5, 100, '123-456-789'),
-('user002', 'password456', 'Jane Smith', '010-555-0002', 'jane.smith@example.com', 'F', 34, 2, 1500, 3, 200, '987-654-321'),
-('user003', 'password789', 'Michael Johnson', '010-555-0003', 'michael.johnson@example.com', 'M', 22, 3, 2000, 2, 150, '456-789-123'),
-('user004', 'password14561', 'Emily Davis', '010-555-0004', 'emily.davis@example.com', 'F', 29, 4, 1200, 4, 250, '321-654-987'),
-('user005', 'password15612', 'Robert Brown', '010-555-0005', 'robert.brown@example.com', 'M', 31, 5, 1700, 6, 300, '654-321-987'),
-('user006', 'password14515', 'Sarah Wilson', '010-555-0006', 'sarah.wilson@example.com', 'F', 27, 6, 1100, 7, 110, '852-741-963'),
-('user007', 'password1233215', 'James Lee', '010-555-0007', 'jams.lee@example.com', 'M', 35, 7, 1400, 5, 120, '951-753-486'),
-('user008', 'password1556', 'Laura White', '010-555-0008', 'laura.white@example.com', 'F', 40, 8, 1300, 8, 130, '357-468-951'),
-('user009', 'password1561', 'David Harris', '010-555-0009', 'david.harris@example.com', 'M', 23, 9, 1600, 4, 140, '468-951-357'),
-('user010', 'password35412', 'Anna Martin', '010-555-0010', 'anna.martin@example.com', 'F', 30, 10, 1500, 6, 150, '741-852-963'),
-('user011', 'password11256', 'Daniel Robinson', '010-555-0011', 'daniel.robinson@example.com', 'M', 29, 1, 1800, 3, 160, '852-963-741'),
-('user012', 'password15451', 'Olivia Clark', '010-555-0012', 'olivia.clark@example.com', 'F', 24, 2, 1900, 7, 170, '963-741-852'),
-('user013', 'password1234456', 'Matthew Lewis', '010-555-0013', 'matthew.lewis@example.com', 'M', 32, 3, 2000, 5, 180, '741-963-852'),
-('user014', 'password11565', 'Sophia Allen', '010-555-0014', 'sophia.allen@example.com', 'F', 27, 4, 1100, 8, 190, '852-741-963'),
-('user015', 'password123215', 'Liam Young', '010-555-0015', 'liam.young@example.com', 'M', 36, 5, 1200, 2, 200, '963-852-741'),
-('user016', 'password122151', 'Ava King', '010-555-0016', 'ava.king@example.com', 'F', 33, 6, 1300, 4, 210, '741-852-963'),
-('user017', 'password5345', 'Ethan Wright', '010-555-0017', 'ethan.wright@example.com', 'M', 26, 7, 1400, 6, 220, '852-963-741'),
-('user018', 'password11321', 'Mia Scott', '010-555-0018', 'mia.scott@example.com', 'F', 28, 8, 1500, 3, 230, '963-741-852'),
-('user019', 'password125613', 'Alexander Hill', '010-555-0019', 'alexander.hill@example.com', 'M', 31, 9, 1600, 5, 240, '741-963-852'),
-('user020', 'password115136', 'Isabella Adams', '010-555-0020', 'isabella.adams@example.com', 'F', 25, 10, 1700, 7, 250, '852-741-963'),
-('user021', 'password125451', 'Benjamin Baker', '010-555-0021', 'benjamin.baker@example.com', 'M', 30, 1, 1800, 2, 260, '963-852-741'),
-('user022', 'password1513', 'Charlotte Nelson', '010-555-0022', 'charlotte.nelson@example.com', 'F', 29, 2, 1900, 4, 270, '741-963-852'),
-('user023', 'password123133', 'William Carter', '010-555-0023', 'william.carter@example.com', 'M', 34, 3, 2000, 6, 280, '852-963-741'),
-('user024', 'password122133', 'Amelia Mitchell', '010-555-0024', 'amelia.mitchell@example.com', 'F', 31, 4, 2100, 3, 290, '963-741-852'),
-('user025', 'password123321', 'James Thompson', '010-555-0025', 'james.thompson@example.com', 'M', 26, 5, 2200, 5, 300, '741-852-963'),
-('user026', 'password123215', 'Harper Turner', '010-555-0026', 'harper.turner@example.com', 'F', 32, 6, 2300, 7, 310, '852-963-741'),
-('user027', 'password123878', 'Lucas Harris', '010-555-0027', 'lucas.harris@example.com', 'M', 25, 7, 2400, 2, 320, '963-741-852'),
-('user028', 'password122156', 'Ella Morris', '010-555-0028', 'ella.morris@example.com', 'F', 28, 8, 2500, 4, 330, '741-852-963'),
-('user029', 'password124523', 'Noah Wilson', '010-555-0029', 'noah.wilson@example.com', 'M', 27, 9, 2600, 6, 340, '852-963-741'),
-('user030', 'password1235456', 'Lily Davis', '010-555-0030', 'lily.davis@example.com', 'F', 34, 10, 2700, 3, 350, '963-741-852'),
-('user031', 'password125458', 'Elijah Thompson', '010-555-0031', 'elijah.thompson@example.com', 'M', 22, 1, 2800, 5, 360, '741-852-963'),
-('user032', 'password125454', 'Sofia Young', '010-555-0032', 'sofia.young@example.com', 'F', 30, 2, 2900, 7, 370, '852-963-741'),
-('user033', 'password125464', 'Mason Martinez', '010-555-0033', 'mason.martinez@example.com', 'M', 31, 3, 3000, 4, 380, '963-741-852'),
-('user034', 'password12448', 'Mia Walker', '010-555-0034', 'mia.walker@example.com', 'F', 26, 4, 3100, 6, 390, '741-852-963'),
-('user035', 'password123548', 'Logan Hall', '010-555-0035', 'logan.hall@example.com', 'M', 29, 5, 3200, 2, 400, '852-963-741'),
-('user036', 'password124451', 'Avery Allen', '010-555-0036', 'avery.allen@example.com', 'F', 27, 6, 3300, 5, 410, '963-741-852'),
-('user037', 'password12451', 'Oliver King', '010-555-0037', 'oliver.king@example.com', 'M', 34, 7, 3400, 8, 420, '741-852-963'),
-('user038', 'password12354', 'Ella Green', '010-555-0038', 'ella.green@example.com', 'F', 22, 8, 3500, 3, 430, '852-963-741'),
-('user039', 'password123545', 'James Lee', '010-555-0039', 'james.lee@example.com', 'M', 28, 9, 3600, 4, 440, '963-741-852'),
-('user040', 'password12556', 'Grace Robinson', '010-555-0040', 'grace.robinson@example.com', 'F', 32, 10, 3700, 5, 450, '741-852-963'),
-('user041', 'password12215', 'Henry Davis', '010-555-0041', 'henry.davis@example.com', 'M', 25, 1, 3800, 7, 460, '852-963-741'),
-('user042', 'password123818', 'Natalie Carter', '010-555-0042', 'natalie.carter@example.com', 'F', 31, 2, 3900, 2, 470, '963-741-852'),
-('user043', 'password1232516', 'Samuel Evans', '010-555-0043', 'samuel.evans@example.com', 'M', 28, 3, 4000, 5, 480, '741-852-963'),
-('user044', 'password12358', 'Madison Phillips', '010-555-0044', 'madison.phillips@example.com', 'F', 30, 4, 4100, 6, 490, '852-963-741'),
-('user045', 'password123546', 'Jacob Wilson', '010-555-0045', 'jacob.wilson@example.com', 'M', 29, 5, 4200, 3, 500, '963-741-852'),
-('user046', 'password12185', 'Chloe Mitchell', '010-555-0046', 'chloe.mitchell@example.com', 'F', 25, 6, 4300, 4, 510, '741-852-963'),
-('user047', 'password12548', 'Isaac Moore', '010-555-0047', 'isaac.moore@example.com', 'M', 27, 7, 4400, 5, 520, '852-963-741'),
-('user048', 'password12365', 'Zoe White', '010-555-0048', 'zoe.white@example.com', 'F', 30, 8, 4500, 2, 530, '963-741-852'),
-('user049', 'password123348', 'Jack Harris', '010-555-0049', 'jack.harris@example.com', 'M', 34, 9, 4600, 6, 540, '741-852-963'),
-('user050', 'password1231231', 'Luna Young', '010-555-0050', 'luna.young@example.com', 'F', 28, 10, 4700, 3, 550, '852-963-741');
+('user001', 'password123', 'John Doe', '010-555-0001', 'johndoe@example.com', 'M', 28, 1, 1000, 5, 100, '123-456-789'),
+('user002', 'password456', 'Jane Smith', '010-555-0002', 'janesmith@example.com', 'F', 34, 2, 1500, 3, 200, '987-654-321'),
+('user003', 'password789', 'Michael Johnson', '010-555-0003', 'michaeljohnson@example.com', 'M', 22, 3, 2000, 2, 150, '456-789-123'),
+('user004', 'password14561', 'Emily Davis', '010-555-0004', 'emilydavis@example.com', 'F', 29, 4, 1200, 4, 250, '321-654-987'),
+('user005', 'password15612', 'Robert Brown', '010-555-0005', 'robertbrown@example.com', 'M', 31, 5, 1700, 6, 300, '654-321-987'),
+('user006', 'password14515', 'Sarah Wilson', '010-555-0006', 'sarahwilson@example.com', 'F', 27, 6, 1100, 7, 110, '852-741-963'),
+('user007', 'password1233215', 'James Lee', '010-555-0007', 'jamslee@example.com', 'M', 35, 7, 1400, 5, 120, '951-753-486'),
+('user008', 'password1556', 'Laura White', '010-555-0008', 'laurawhite@example.com', 'F', 40, 8, 1300, 8, 130, '357-468-951'),
+('user009', 'password1561', 'David Harris', '010-555-0009', 'davidharris@example.com', 'M', 23, 9, 1600, 4, 140, '468-951-357'),
+('user010', 'password35412', 'Anna Martin', '010-555-0010', 'annamartin@example.com', 'F', 30, 10, 1500, 6, 150, '741-852-963'),
+('user011', 'password11256', 'Daniel Robinson', '010-555-0011', 'danielrobinson@example.com', 'M', 29, 1, 1800, 3, 160, '852-963-741'),
+('user012', 'password15451', 'Olivia Clark', '010-555-0012', 'oliviaclark@example.com', 'F', 24, 2, 1900, 7, 170, '963-741-852'),
+('user013', 'password1234456', 'Matthew Lewis', '010-555-0013', 'matthewlewis@example.com', 'M', 32, 3, 2000, 5, 180, '741-963-852'),
+('user014', 'password11565', 'Sophia Allen', '010-555-0014', 'sophiaallen@example.com', 'F', 27, 4, 1100, 8, 190, '852-741-963'),
+('user015', 'password123215', 'Liam Young', '010-555-0015', 'liamyoung@example.com', 'M', 36, 5, 1200, 2, 200, '963-852-741'),
+('user016', 'password122151', 'Ava King', '010-555-0016', 'avaking@example.com', 'F', 33, 6, 1300, 4, 210, '741-852-963'),
+('user017', 'password5345', 'Ethan Wright', '010-555-0017', 'ethanwright@example.com', 'M', 26, 7, 1400, 6, 220, '852-963-741'),
+('user018', 'password11321', 'Mia Scott', '010-555-0018', 'miascott@example.com', 'F', 28, 8, 1500, 3, 230, '963-741-852'),
+('user019', 'password125613', 'Alexander Hill', '010-555-0019', 'alexanderhill@example.com', 'M', 31, 9, 1600, 5, 240, '741-963-852'),
+('user020', 'password115136', 'Isabella Adams', '010-555-0020', 'isabellaadams@example.com', 'F', 25, 10, 1700, 7, 250, '852-741-963'),
+('user021', 'password125451', 'Benjamin Baker', '010-555-0021', 'benjaminbaker@example.com', 'M', 30, 1, 1800, 2, 260, '963-852-741'),
+('user022', 'password1513', 'Charlotte Nelson', '010-555-0022', 'charlottenelson@example.com', 'F', 29, 2, 1900, 4, 270, '741-963-852'),
+('user023', 'password123133', 'William Carter', '010-555-0023', 'williamcarter@example.com', 'M', 34, 3, 2000, 6, 280, '852-963-741'),
+('user024', 'password122133', 'Amelia Mitchell', '010-555-0024', 'ameliamitchell@example.com', 'F', 31, 4, 2100, 3, 290, '963-741-852'),
+('user025', 'password123321', 'James Thompson', '010-555-0025', 'jamesthompson@example.com', 'M', 26, 5, 2200, 5, 300, '741-852-963'),
+('user026', 'password123215', 'Harper Turner', '010-555-0026', 'harperturner@example.com', 'F', 32, 6, 2300, 7, 310, '852-963-741'),
+('user027', 'password123878', 'Lucas Harris', '010-555-0027', 'lucasharris@example.com', 'M', 25, 7, 2400, 2, 320, '963-741-852'),
+('user028', 'password122156', 'Ella Morris', '010-555-0028', 'ellamorris@example.com', 'F', 28, 8, 2500, 4, 330, '741-852-963'),
+('user029', 'password124523', 'Noah Wilson', '010-555-0029', 'noahwilson@example.com', 'M', 27, 9, 2600, 6, 340, '852-963-741'),
+('user030', 'password1235456', 'Lily Davis', '010-555-0030', 'lilydavis@example.com', 'F', 34, 10, 2700, 3, 350, '963-741-852'),
+('user031', 'password125458', 'Elijah Thompson', '010-555-0031', 'elijahthompson@example.com', 'M', 22, 1, 2800, 5, 360, '741-852-963'),
+('user032', 'password125454', 'Sofia Young', '010-555-0032', 'sofiayoung@example.com', 'F', 30, 2, 2900, 7, 370, '852-963-741'),
+('user033', 'password125464', 'Mason Martinez', '010-555-0033', 'masonmartinez@example.com', 'M', 31, 3, 3000, 4, 380, '963-741-852'),
+('user034', 'password12448', 'Mia Walker', '010-555-0034', 'miawalker@example.com', 'F', 26, 4, 3100, 6, 390, '741-852-963'),
+('user035', 'password123548', 'Logan Hall', '010-555-0035', 'loganhall@example.com', 'M', 29, 5, 3200, 2, 400, '852-963-741'),
+('user036', 'password124451', 'Avery Allen', '010-555-0036', 'averyallen@example.com', 'F', 27, 6, 3300, 5, 410, '963-741-852'),
+('user037', 'password12451', 'Oliver King', '010-555-0037', 'oliverking@example.com', 'M', 34, 7, 3400, 8, 420, '741-852-963'),
+('user038', 'password12354', 'Ella Green', '010-555-0038', 'ellagreen@example.com', 'F', 22, 8, 3500, 3, 430, '852-963-741'),
+('user039', 'password123545', 'James Lee', '010-555-0039', 'jameslee@example.com', 'M', 28, 9, 3600, 4, 440, '963-741-852'),
+('user040', 'password12556', 'Grace Robinson', '010-555-0040', 'gracerobinson@example.com', 'F', 32, 10, 3700, 5, 450, '741-852-963'),
+('user041', 'password12215', 'Henry Davis', '010-555-0041', 'henrydavis@example.com', 'M', 25, 1, 3800, 7, 460, '852-963-741'),
+('user042', 'password123818', 'Natalie Carter', '010-555-0042', 'nataliecarter@example.com', 'F', 31, 2, 3900, 2, 470, '963-741-852'),
+('user043', 'password1232516', 'Samuel Evans', '010-555-0043', 'samuelevans@example.com', 'M', 28, 3, 4000, 5, 480, '741-852-963'),
+('user044', 'password12358', 'Madison Phillips', '010-555-0044', 'madisonphillips@example.com', 'F', 30, 4, 4100, 6, 490, '852-963-741'),
+('user045', 'password123546', 'Jacob Wilson', '010-555-0045', 'jacobwilson@example.com', 'M', 29, 5, 4200, 3, 500, '963-741-852'),
+('user046', 'password12185', 'Chloe Mitchell', '010-555-0046', 'chloemitchell@example.com', 'F', 25, 6, 4300, 4, 510, '741-852-963'),
+('user047', 'password12548', 'Isaac Moore', '010-555-0047', 'isaacmoore@example.com', 'M', 27, 7, 4400, 5, 520, '852-963-741'),
+('user048', 'password12365', 'Zoe White', '010-555-0048', 'zoewhite@example.com', 'F', 30, 8, 4500, 2, 530, '963-741-852'),
+('user049', 'password123348', 'Jack Harris', '010-555-0049', 'jackharris@example.com', 'M', 34, 9, 4600, 6, 540, '741-852-963'),
+('user050', 'password1231231', 'Luna Young', '010-555-0050', 'lunayoung@example.com', 'F', 28, 10, 4700, 3, 550, '852-963-741');
 select * FROM MEMBERS;
 
-INSERT INTO TeamBoard (MemberID, TeamCode, Content, Title, Views, Likes) VALUES
+INSERT INTO TeamBoard (memberid, teamcode, content, title, views, likes) VALUES
 (1, 1, '이것은 Team1의 첫 번째 게시물 내용입니다.', 'Team1 첫 번째 게시물', 10, 5),
 (2, 2, 'Team2의 두 번째 게시물 내용을 보여줍니다.', 'Team2 두 번째 게시물', 15, 10),
 (3, 3, 'Team3의 세 번째 게시물에 대한 자세한 내용입니다.', 'Team3 세 번째 게시물', 5, 2),
@@ -328,54 +329,211 @@ insert into gamepurchasedetails (listid, matchid, amount) values
 (50, '20240905-10-1600', 875);
 
 -- 포인트
-INSERT INTO PointLogs (MemberID, LogDate, PointChange, Description) VALUES
-(1, '2024-09-01', 1000, 1),   -- 1: 포인트 증가
-(2, '2024-09-01', -500, 0),    -- 0: 포인트 감소
-(3, '2024-09-02', 1500, 1),    -- 1: 포인트 증가
-(4, '2024-09-02', -300, 0),    -- 0: 포인트 감소
-(5, '2024-09-03', 2000, 1),    -- 1: 포인트 증가
-(6, '2024-09-03', -1000, 0),   -- 0: 포인트 감소
-(7, '2024-09-04', 500, 1),     -- 1: 포인트 증가
-(8, '2024-09-04', -200, 0),    -- 0: 포인트 감소
-(9, '2024-09-05', 2500, 1),    -- 1: 포인트 증가
-(10, '2024-09-05', -1500, 0),  -- 0: 포인트 감소
-(11, '2024-09-06', 3000, 1),   -- 1: 포인트 증가
-(12, '2024-09-06', -500, 0),   -- 0: 포인트 감소
-(13, '2024-09-07', 1000, 1),   -- 1: 포인트 증가
-(14, '2024-09-07', -2000, 0),  -- 0: 포인트 감소
-(15, '2024-09-08', 500, 1),    -- 1: 포인트 증가
-(16, '2024-09-08', -300, 0),   -- 0: 포인트 감소
-(17, '2024-09-09', 1500, 1),   -- 1: 포인트 증가
-(18, '2024-09-09', -1000, 0),  -- 0: 포인트 감소
-(19, '2024-09-10', 2000, 1),   -- 1: 포인트 증가
-(20, '2024-09-10', -500, 0),   -- 0: 포인트 감소
-(21, '2024-09-11', 2500, 1),   -- 1: 포인트 증가
-(22, '2024-09-11', -1500, 0),  -- 0: 포인트 감소
-(23, '2024-09-12', 3000, 1),   -- 1: 포인트 증가
-(24, '2024-09-12', -700, 0),   -- 0: 포인트 감소
-(25, '2024-09-13', 1000, 1),   -- 1: 포인트 증가
-(26, '2024-09-13', -2000, 0),  -- 0: 포인트 감소
-(27, '2024-09-14', 500, 1),    -- 1: 포인트 증가
-(28, '2024-09-14', -300, 0),   -- 0: 포인트 감소
-(29, '2024-09-15', 1500, 1),   -- 1: 포인트 증가
-(30, '2024-09-15', -1000, 0),  -- 0: 포인트 감소
-(31, '2024-09-16', 2000, 1),   -- 1: 포인트 증가
-(32, '2024-09-16', -500, 0),   -- 0: 포인트 감소
-(33, '2024-09-17', 2500, 1),   -- 1: 포인트 증가
-(34, '2024-09-17', -1500, 0),  -- 0: 포인트 감소
-(35, '2024-09-18', 3000, 1),   -- 1: 포인트 증가
-(36, '2024-09-18', -700, 0),   -- 0: 포인트 감소
-(37, '2024-09-19', 1000, 1),   -- 1: 포인트 증가
-(38, '2024-09-19', -2000, 0),  -- 0: 포인트 감소
-(39, '2024-09-20', 500, 1),    -- 1: 포인트 증가
-(40, '2024-09-20', -300, 0),   -- 0: 포인트 감소
-(41, '2024-09-21', 1500, 1),   -- 1: 포인트 증가
-(42, '2024-09-21', -1000, 0),  -- 0: 포인트 감소
-(43, '2024-09-22', 2000, 1),   -- 1: 포인트 증가
-(44, '2024-09-22', -500, 0),   -- 0: 포인트 감소
-(45, '2024-09-23', 2500, 1),   -- 1: 포인트 증가
-(46, '2024-09-23', -1500, 0),  -- 0: 포인트 감소
-(47, '2024-09-24', 3000, 1),   -- 1: 포인트 증가
-(48, '2024-09-24', -700, 0),   -- 0: 포인트 감소
-(49, '2024-09-25', 1000, 1),   -- 1: 포인트 증가
-(50, '2024-09-25', -2000, 0);  -- 0: 포인트 감소
+-- 샘플 데이터 삽입 스크립트
+INSERT INTO PointLogs (MemberID, PointChange, Description)
+VALUES
+-- 양수 포인트 변경 (Description = 1)
+(1, 100, 1),
+(2, 150, 1),
+(3, 120, 1),
+(4, 180, 1),
+(5, 110, 1),
+(6, 200, 1),
+(7, 130, 1),
+(8, 140, 1),
+(9, 160, 1),
+(10, 170, 1),
+(11, 110, 1),
+(12, 150, 1),
+(13, 140, 1),
+(14, 190, 1),
+(15, 160, 1),
+(16, 120, 1),
+(17, 180, 1),
+(18, 200, 1),
+(19, 130, 1),
+(20, 150, 1),
+(21, 140, 1),
+(22, 170, 1),
+(23, 190, 1),
+(24, 110, 1),
+(25, 160, 1),
+(26, 130, 1),
+(27, 200, 1),
+(28, 150, 1),
+(29, 120, 1),
+(30, 180, 1),
+(31, 190, 1),
+(32, 140, 1),
+(33, 170, 1),
+(34, 110, 1),
+(35, 200, 1),
+(36, 130, 1),
+(37, 150, 1),
+(38, 160, 1),
+(39, 180, 1),
+(40, 120, 1),
+(41, 190, 1),
+(42, 150, 1),
+(43, 140, 1),
+(44, 170, 1),
+(45, 200, 1),
+(46, 130, 1),
+(47, 180, 1),
+(48, 160, 1),
+(49, 110, 1),
+(50, 150, 1),
+-- 배당금 지급 (Description = 2)
+(1, 200, 2),
+(2, 180, 2),
+(3, 150, 2),
+(4, 170, 2),
+(5, 160, 2),
+(6, 190, 2),
+(7, 120, 2),
+(8, 130, 2),
+(9, 200, 2),
+(10, 150, 2),
+(11, 180, 2),
+(12, 170, 2),
+(13, 160, 2),
+(14, 200, 2),
+(15, 130, 2),
+(16, 190, 2),
+(17, 120, 2),
+(18, 150, 2),
+(19, 200, 2),
+(20, 170, 2),
+(21, 160, 2),
+(22, 180, 2),
+(23, 130, 2),
+(24, 200, 2),
+(25, 190, 2),
+(26, 150, 2),
+(27, 170, 2),
+(28, 120, 2),
+(29, 160, 2),
+(30, 200, 2),
+(31, 180, 2),
+(32, 130, 2),
+(33, 190, 2),
+(34, 160, 2),
+(35, 150, 2),
+(36, 200, 2),
+(37, 170, 2),
+(38, 120, 2),
+(39, 180, 2),
+(40, 130, 2),
+(41, 190, 2),
+(42, 160, 2),
+(43, 200, 2),
+(44, 150, 2),
+(45, 170, 2),
+(46, 120, 2),
+(47, 200, 2),
+(48, 190, 2),
+(49, 160, 2),
+(50, 130, 2),
+-- 게임 구매 (Description = 3)
+(1, -100, 3),
+(2, -150, 3),
+(3, -120, 3),
+(4, -180, 3),
+(5, -110, 3),
+(6, -200, 3),
+(7, -130, 3),
+(8, -140, 3),
+(9, -160, 3),
+(10, -170, 3),
+(11, -110, 3),
+(12, -150, 3),
+(13, -140, 3),
+(14, -190, 3),
+(15, -160, 3),
+(16, -120, 3),
+(17, -180, 3),
+(18, -200, 3),
+(19, -130, 3),
+(20, -150, 3),
+(21, -140, 3),
+(22, -170, 3),
+(23, -190, 3),
+(24, -110, 3),
+(25, -160, 3),
+(26, -130, 3),
+(27, -200, 3),
+(28, -150, 3),
+(29, -120, 3),
+(30, -180, 3),
+(31, -190, 3),
+(32, -140, 3),
+(33, -170, 3),
+(34, -110, 3),
+(35, -200, 3),
+(36, -130, 3),
+(37, -150, 3),
+(38, -160, 3),
+(39, -180, 3),
+(40, -120, 3),
+(41, -190, 3),
+(42, -150, 3),
+(43, -140, 3),
+(44, -170, 3),
+(45, -200, 3),
+(46, -130, 3),
+(47, -180, 3),
+(48, -160, 3),
+(49, -110, 3),
+(50, -150, 3),
+-- 포인트 출금 (Description = 4)
+(1, -200, 4),
+(2, -180, 4),
+(3, -150, 4),
+(4, -170, 4),
+(5, -160, 4),
+(6, -190, 4),
+(7, -120, 4),
+(8, -130, 4),
+(9, -200, 4),
+(10, -150, 4),
+(11, -180, 4),
+(12, -170, 4),
+(13, -160, 4),
+(14, -200, 4),
+(15, -130, 4),
+(16, -190, 4),
+(17, -120, 4),
+(18, -150, 4),
+(19, -200, 4),
+(20, -170, 4),
+(21, -160, 4),
+(22, -180, 4),
+(23, -130, 4),
+(24, -200, 4),
+(25, -190, 4),
+(26, -150, 4),
+(27, -170, 4),
+(28, -120, 4),
+(29, -160, 4),
+(30, -200, 4),
+(31, -180, 4),
+(32, -130, 4),
+(33, -190, 4),
+(34, -160, 4),
+(35, -150, 4),
+(36, -200, 4),
+(37, -170, 4),
+(38, -120, 4),
+(39, -180, 4),
+(40, -130, 4),
+(41, -190, 4),
+(42, -160, 4),
+(43, -200, 4),
+(44, -150, 4),
+(45, -170, 4),
+(46, -120, 4),
+(47, -200, 4),
+(48, -190, 4),
+(49, -160, 4),
+(50, -130, 4);
+;

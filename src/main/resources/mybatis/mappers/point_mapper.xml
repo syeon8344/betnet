@@ -9,9 +9,21 @@
     <!-- parameterType="매개변수타입" sql 매개변수표현 : #{변수명}-->
 
     <!-- 잔액 포인트 출력 -->
-    <select id="getMyPoint" parameterType="int" resultType="web.model.dto.MemberDto">
-        select * from members where memberid = #{memberid}
+    <select id="getMyPoint" parameterType="int" resultType="web.model.dto.PointLogDto">
+        select sum(pointChange) as sum from pointlogs where memberid = #{memberid};
     </select>
 
+    <!-- 포인트 로그 저장 -->
+    <insert id="insertPointLog" parameterType="web.model.dto.PointLogDto">
+        insert into pointlogs(memberid , pointChange , description) values(#{memberid} , #{pointChange} , #{description})
+    </insert>
+
+    <!-- 포인트내역 출력 -->
+    <select id="mypointlog" parameterType="web.model.dto.SearchDto" resultType="web.model.dto.PointLogDto">
+        select * from pointlogs where memberid = #{memberid}
+        <if test="description != 0">and description = #{description}</if>
+        <if test="startDate != ''">and logDate between #{startDate} and #{endDate}</if>
+        <if test="startPoint != 0">and pointChange between #{startPoint} and #{endPoint}</if>
+    </select>
 
 </mapper> <!-- mapper end -->

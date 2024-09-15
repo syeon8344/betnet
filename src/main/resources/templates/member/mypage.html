@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link href="/css/member/mypage.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{/header.html:: header}"></div>
+<div class="wrap">
+    <div class="wrap2">
+        <div class="info">
+            홈 > 마이페이지
+        </div>
+        <h3> 마이페이지 </h3>
+        <div class="pointInfo">
+            <div class="myPointInfo">
+                <p> My Point </p>
+                <div>
+                    <img src="/img/mypage_point_30x30.png" />
+                </div>
+                <div class="myPointBox"> </div>
+            </div>
+        </div>
+
+        <!-- 소제목: 일주일간 구매내역 -->
+        <h4 class="left-aligned">일주일간 구매내역</h4>
+        <div class="purchaseInfo box">
+            <p>구매 금액: <a href="#">0원</a></p>
+            <hr />
+            <p>적중 금액: <a href="#">0원</a></p>
+        </div>
+
+        <!-- 개인정보 확인 -->
+        <h4 class="left-aligned">개인정보 확인</h4>
+        <div class="personalInfo box">
+            <div class="infoRow">
+                <span>이름:</span> <input type="text" value="홍길동" readonly>
+            </div>
+            <hr />
+            <div class="infoRow">
+                <span>아이디:</span> <input type="text" value="hong123" readonly>
+            </div>
+            <hr />
+            <div class="infoRow">
+                <span>연락처:</span> <input type="text" value="010-1234-5678" readonly>
+            </div>
+            <hr />
+            <div class="infoRow">
+                <span>이메일:</span> <input type="email" value="hong123@example.com" readonly>
+            </div>
+            <hr />
+            <div class="infoRow">
+                <span>선호하는 팀:</span> <input type="text" value="FC Seoul" readonly>
+            </div>
+            <hr />
+            <div class="infoRow">
+                <span>계좌:</span> <input type="text" value="123-4567-8901" readonly>
+            </div>
+        </div>
+
+        <!-- 개인정보 수정 버튼 -->
+        <div class="personalInfoEdit">
+            <button type="button">개인정보 수정</button>
+        </div>
+    </div>
+</div>
+<div th:replace="~{/footer.html:: footer}"></div>
+<!-- iamport.payment.js -->
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+<script src="/js/point/point.js"></script>
+
+</body>
+</html>

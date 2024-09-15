@@ -12,6 +12,33 @@
         values( #{ userName } , #{ password }  , #{ name } , #{ contact } , #{ email } , #{ gender } , #{ age } , #{ teamCode } , #{ account } )
     </insert>
 
+    <select id="login" parameterType="web.model.dto.MemberDto">
+        SELECT memberid
+        FROM members
+        WHERE username = #{userName}
+        AND password = #{password}
+    </select>
+
+    <select id="idChecking" parameterType="web.model.dto.MemberDto">
+        select COUNT(*) > 0 from members where userName=#{userName}
+    </select>
+
+    <select id="phoneCheck" parameterType="web.model.dto.MemberDto">
+        select COUNT(*) > 0 from members where contact=#{contact}
+    </select>
+
+    <select id="teams" parameterType="web.model.dto.TeamsDto">
+        select * from teams where teamcode !=11
+    </select>
+
+    <select id="emailCheck" parameterType="web.model.dto.MemberDto">
+        select COUNT(*) > 0 from members where email=#{email}
+    </select>
+
+    <select id="logCheck" parameterType="web.model.dto.MemberDto">
+        select * from members where memberid=#{memberid}
+    </select>
+
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
 <!--    <select id="read" resultType="example.task1.AccountDto">-->
 <!--        select * from account-->

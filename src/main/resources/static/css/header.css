@@ -1,21 +1,25 @@
 /* 1. 공통 CSS */
-*{  
+* {
     padding: 0;
-    margin: 0 auto;
-    list-style-type: none;  /* 글머리 제거 */
-    box-sizing : border-box;    /* 구역 사이즈 기준 */
-    color :black;
-    font-size : 13px;
+    margin: 0;
+    list-style-type: none; /* 글머리 제거 */
+    box-sizing: border-box; /* 구역 사이즈 기준 */
+    color: black;
+    font-size: 13px;
     font-family: "Paperlogy-8ExtraBold";
 }
-body{
+.wrap {
     width: 1080px;
-    margin: 0 auto;
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;     /* 수직 가운데 정렬 */
+    text-align: center;      /* 텍스트 가운데 정렬 */
+    margin: 0 auto;         /* 가로 중앙 정렬 (여백 중앙) */
 }
 ul,ol,li{
     list-style: none;
 }
-a{ 
+.wrap a{ 
     text-decoration: none;
     color: black;
 }
@@ -25,7 +29,65 @@ a{
     font-weight: 800;
     font-style: normal;
 }
-#main{
+
+/* 바디 */
+#menu{
+    width: 100%;
+}
+#bottomMenu{
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+#topMenu{
+    display: flex;
+    justify-content: right;
+}
+#topMenu a{
+    padding-left: 20px;
+}
+
+.menu {
+    width: 100%;
+    overflow: hidden;
+    margin: 20px auto;
+  }
+  
+.menu > li {
+    width: 20%; /*20*5=100%*/
+    float: left;
+    text-align: center;
+    line-height: 40px;
+}
+  
+.menu a {
+    font-size: 18px;
+    color: black;
+}
+  
+.submenu > li {
+  line-height: 50px;
+}
+  
+.submenu {
+  height: 0; /*ul의 높이를 안보이게 처리*/
+  overflow: hidden;
+}
+.submenu a{
+    font-size: 14px;
+}
+.menu > li:hover {
+    transition-duration: 0.5s;
+}
+  
+.menu > li:hover .submenu {
+    height: 250px; /*서브메뉴 li한개의 높이 50*5*/
+    transition-duration: 1s;
+}
+
+#top{
+    display: flex;
+    justify-content: right;
+    padding: 10px 20px;
 }

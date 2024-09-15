@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 public class MemberDto {
     //09.09 회원Dto
-    private int id;
+    private int memberid;
     private String userName;
     private String password;
     private String name;
