@@ -4,8 +4,6 @@ console.log("board.js")
 // 전체 조회 함수
 raadAll()
 function raadAll(){
-
-
     let teamcode = document.querySelector("#teamcode").value;
 
     console.log( 'teamcode' )

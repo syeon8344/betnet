@@ -28,6 +28,12 @@
     <delete id="bDelete" parameterType="web.model.dto.BoardDto">
         delete from teamboard where postid = #{postid} and memberid = #{memberid};
     </delete>
+    <!-- 조회수 증가 처리 -->
+    <update id="bViewIncrease" parameterType="web.model.dto.BoardDto">
+        update teamboard set views = views + 1 where postid = #{postid};
+    </update>
+
+
 
     <!-- ///////////////////////댓글 부븐////////////////////////////// -->
     <select id="rpRead" resultType="web.model.dto.ReplyDto">

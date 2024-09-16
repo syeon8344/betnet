@@ -96,6 +96,10 @@ public class BoardService {
         List<BoardDto> boardList;
         System.out.println("BoardService.bFindBno");
         System.out.println("bno = " + bno);
+
+        // 조회수 증가 처리
+        boardDao.bViewIncrease(bno);
+
         return boardDao.bFindBno( bno );
     }
 
