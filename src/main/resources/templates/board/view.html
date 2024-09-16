@@ -19,6 +19,26 @@
     <div class="btnBox">
     </div>
 
+    <h5> 댓글 </h5>
+    <div class="mb-4">
+        <textarea class="brcontent"></textarea>
+        <button type="button" onclick="onReplyWrite()"> 댓글등록 </button>
+    </div>
+
+    <div class="mb-4" style="border: 1px solid #eeeeee;">
+        <table>
+            <thead>
+            <tr>
+                <th> 작성자 </th> <th> 내용 </th> <th> 작성일 </th>
+            </tr>
+            </thead>
+            <tbody class="replyBox">
+
+            </tbody>
+        </table>
+    </div>
+
+
 </div>
 
 <div th:replace="~{/footer.html:: footer}"></div>

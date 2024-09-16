@@ -21,7 +21,6 @@
         SELECT * FROM teamboard tb JOIN teams t ON tb.teamcode = t.teamcode WHERE tb.postid = #{postid};
     </select>
 
-
     <update id="bUpdate" parameterType="web.model.dto.BoardDto">
         update teamboard set Title = #{title}, Content = #{content} where memberid = #{memberid} and postid = #{postid}
     </update>
@@ -30,7 +29,13 @@
         delete from teamboard where postid = #{postid} and memberid = #{memberid};
     </delete>
 
+    <!-- ///////////////////////댓글 부븐////////////////////////////// -->
+    <select id="rpRead" resultType="web.model.dto.ReplyDto">
+        select * from comments where postid = #{postid};
+    </select>
 
-
+    <insert id="reWrite" parameterType="web.model.dto.ReplyDto">
+        insert into comments (memberid, postid, commentindex, content) values ( #{memberid},#{postid},#{commentindex},#{content})
+    </insert>
 
 </mapper> <!-- mapper end -->

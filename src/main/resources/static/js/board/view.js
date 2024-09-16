@@ -12,15 +12,17 @@
 let bno = new URL( location.href ).searchParams.get('bno'); // 현재 URL 경로상의 bno 값 호출
 console.log( bno );
 
-
-boardView( bno )
-function boardView( bno ){
+//게시물 개별 출력하기
+boardView()
+function boardView(){
     let board = {}
     $.ajax({ // AJAX
         async : false , method : "get" ,
         url :"/board/find/bno", data : { bno : bno } ,
         success : r => { console.log(r); board = r}
     }) // AJAX END
+
+    //logincheck 에서 로그인 정보 불러와서 일치 하면 수정 삭제 추가하기
     document.querySelector('.teamname').innerHTML = `${ board.teamname }`;
     document.querySelector('.etcBox').innerHTML = `<span> 작성자 ${ board.memberid } </span>
                                                     <span> 조회수 ${ board.views } </span>
@@ -37,9 +39,10 @@ function boardView( bno ){
             `;
 }
 
+// 게시물 삭제하기
 function bDelete( bno ){
-    console.log(bno);
-    console.log('bDelete()');
+//    console.log(bno);
+//    console.log('bDelete()');
     $.ajax({
             async : false,
             method : 'delete',
@@ -59,3 +62,85 @@ function bDelete( bno ){
             }
     })
 }
+
+
+//댓글 동록하기
+
+// 3. 댓글쓰기
+function onReplyWrite(){
+    console.log('onReplyWrite()');
+    // 1. 입력받은 값 가져오기
+    let content = document.querySelector(".brcontent").value;
+    // 2. 객체화
+    let info = {
+        commentindex : 0 ,  // 0: 댓글분류 , 0이면 상위댓글
+        content : content ,
+        postid : bno   // 현재 보고 있는 게시물 번호(js 상단에 선언된 변수)
+    };
+//    console.log(info);
+    $.ajax({
+        async : false ,
+        method : 'post' ,
+        url : "/board/reply/write" ,
+        data : JSON.stringify(info) , // 객체를 JSON 문자열로 변환
+        contentType : "application/json" ,
+            // - contentType : "application/x-www-form-urlencoded" --> ajax 기본값(생략시)
+            // - contentType : false --> multipart/form-data 첨부파일(바이너리)
+            // - contentType : "application/json"
+        success : (r) => {
+//            console.log(r);
+            if(r == true){
+                alert("댓글쓰기 성공");
+                document.querySelector(".brcontent").value = '';
+                bReplyRead();
+            }else{
+                alert("댓글쓰기 실패 : 로그인 후 쓰기가 가능합니다.");
+                location.href = "/member/login";
+            }
+        } , // success end
+        error : (e) => {
+            console.log(e);
+        }   // error end
+    })  // ajax end
+}   // onReplyWrite() end
+
+
+
+
+bReplyRead();
+// 4. 댓글 출력
+function bReplyRead(){
+//    console.log('bReplyRead()');
+//    console.log(bno);
+    let reply = {};
+    $.ajax({
+        async : false ,
+        method : 'get' ,
+        url : "/board/reply/read" ,
+        data : {bno : bno} ,
+        success : (r) =>{
+//            console.log(r);
+            reply = r;
+//            console.log(reply);
+        } ,
+        error : (e) => {
+            console.log(e);
+        }
+    }); // ajax end
+    // 어디에
+    let replyBox = document.querySelector(".replyBox");
+    // 무엇을
+    let html = ``;
+    reply.forEach(rp => {
+        html += `<tr>
+                    <td> ${rp.memberid} </td>
+                    <td> ${rp.content} </td>
+                    <td> ${rp.createdat} </td>
+                </tr>
+        `;
+    });
+    // 출력
+    replyBox.innerHTML = html;
+}   // bReplyRead() end
+
+

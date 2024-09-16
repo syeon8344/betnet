@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import web.model.dao.BoardDao;
 import web.model.dto.BoardDto;
 import web.model.dto.MemberDto;
+import web.model.dto.ReplyDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -92,6 +94,8 @@ public class BoardService {
     //  게시물 개별 조회 처리
     public BoardDto bFindBno( int bno ){
         List<BoardDto> boardList;
+        System.out.println("BoardService.bFindBno");
+        System.out.println("bno = " + bno);
         return boardDao.bFindBno( bno );
     }
 
@@ -117,6 +121,24 @@ public class BoardService {
         boardDto.setMemberid(no);
         System.out.println("boardDto = " + boardDto);
         return boardDao.bDelete(boardDto);
+    }
+
+    /////////////////////////댓글 메섣/////////////
+    public List<ReplyDto> rpRead(int bno){
+        System.out.println("BoardService.bReplyRead");
+        System.out.println("bno = " + bno);
+        return boardDao.rpRead(bno);
+    }
+
+    public boolean reWrite(ReplyDto replyDto){
+        System.out.println("BoardService.reWrite");
+        MemberDto loginDto = memberService.loginCheck();
+        System.out.println("loginDto = " + loginDto);
+        if (loginDto == null) return false;
+        int no = loginDto.getMemberid();
+        replyDto.setMemberid(no);
+        System.out.println("replyDto = " + replyDto);
+        return boardDao.reWrite(replyDto);
     }
 
 
