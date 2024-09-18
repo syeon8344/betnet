@@ -2,8 +2,10 @@ package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.BoardDto;
+import web.model.dto.ReplyDto;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardDao {
@@ -27,4 +29,12 @@ public interface BoardDao {
     // 게시물 삭제 함수
     boolean bDelete(BoardDto boardDto);
 
+    //댓글 조회 함수
+    List<ReplyDto> rpRead(int bno);
+
+    //댓글 등록 함수
+    boolean reWrite(ReplyDto replyDto);
+
+    // 게시판 조회수 증가 함수
+    boolean bViewIncrease(int bno);
 }
