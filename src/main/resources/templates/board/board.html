@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>게시판 페이지</title>
+
 </head>
 <body>
   <div th:replace="~{/header.html:: header}"></div>
-  <a href="/board/write">글쓰기</a>
+
+  <h1>팀 선택</h1>
+
 
   <div>
     <h6> 상세검색</h6>
@@ -26,7 +29,7 @@
     </select>
     <button type="button" onclick="raadAll()"> 검색</button>
   </div> <!-- searchBox end -->
-
+  <a href="/board/write">글쓰기</a>
 
   <table border="1">
     <thead>

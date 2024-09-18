@@ -1,6 +1,7 @@
 
 loginCheck();
 
+
 // 3. 썸머노트 실행
 $(document).ready(function() {
     // - 썸머노트 옵션

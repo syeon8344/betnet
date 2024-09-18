@@ -16,27 +16,42 @@ console.log( bno );
 boardView()
 function boardView(){
     let board = {}
+    let currentUserId = ''; //현재 아이디 저장할 변수
     $.ajax({ // AJAX
         async : false , method : "get" ,
         url :"/board/find/bno", data : { bno : bno } ,
         success : r => { console.log(r); board = r}
     }) // AJAX END
 
-    //logincheck 에서 로그인 정보 불러와서 일치 하면 수정 삭제 추가하기
     document.querySelector('.teamname').innerHTML = `${ board.teamname }`;
     document.querySelector('.etcBox').innerHTML = `<span> 작성자 ${ board.memberid } </span>
                                                     <span> 조회수 ${ board.views } </span>
                                                     <span> 작성일 ${ board.createdat } </span>`;
-
     document.querySelector('.title').innerHTML = `${ board.title }`;
     document.querySelector('.content').innerHTML = `${ board.content }`;
 
-
-    document.querySelector('.btnBox').innerHTML =
-            `
-            <button type="button" class="btn btn-primary" onclick="location.href='/board/update?bno=${bno}'">수정</button>
-            <button type="button" class="btn btn-primary" onclick="bDelete(${bno})" >삭제</button>
-            `;
+// 글작성자만 수정 버튼이 보이게
+// 로그인 체크함수 연동
+$.ajax({
+        async:false,
+        method:'get',
+        url:"/member/logcheck", //멤버함수의 로그인 체크 함수
+        success:(result)=>{console.log(result);
+            currentUserId = result.memberid // success로 가져온 현재 로그인된 아이디를 currentUserId에 대입
+            if(currentUserId==board.memberid){ //현재 접속한 아이디와 글작성자 아이디가 같으면
+                // 수정 삭제 버튼 넣기
+                document.querySelector('.btnBox').innerHTML =
+                    `
+                    <button type="button" class="btn btn-primary" onclick="location.href='/board/update?bno=${bno}'">수정</button>
+                    <button type="button" class="btn btn-primary" onclick="bDelete(${bno})" >삭제</button>
+                    `;
+            }
+            else{ // 아이디가 일치하지 않으면 공백 넣기
+                document.querySelector('.btnBox').innerHTML = '';
+            }
+        } //success end
+    })
+    raadAll() // 조회수가 올라가면 전체 출력도 자동으로 올라가게 해주기
 }
 
 // 게시물 삭제하기
@@ -64,8 +79,7 @@ function bDelete( bno ){
 }
 
 
-//댓글 동록하기
-
+////////////////////////////////댓글/////////////////////////////////////
 // 3. 댓글쓰기
 function onReplyWrite(){
     console.log('onReplyWrite()');
@@ -73,9 +87,9 @@ function onReplyWrite(){
     let content = document.querySelector(".brcontent").value;
     // 2. 객체화
     let info = {
-        commentindex : 0 ,  // 0: 댓글분류 , 0이면 상위댓글
+        commentindex : 0 ,  // 이건 왜 0으로 넣는거지
         content : content ,
-        postid : bno   // 현재 보고 있는 게시물 번호(js 상단에 선언된 변수)
+        postid : bno   // 현재 보고 있는 게시물 번호 //보고있는 게시물에 댓글을 추가해야 하니까
     };
 //    console.log(info);
     $.ajax({
@@ -112,6 +126,7 @@ bReplyRead();
 function bReplyRead(){
 //    console.log('bReplyRead()');
 //    console.log(bno);
+    let currentUserId = ''; //현재 아이디 저장할 변수
     let reply = {};
     $.ajax({
         async : false ,
@@ -123,21 +138,45 @@ function bReplyRead(){
             reply = r;
 //            console.log(reply);
         } ,
-        error : (e) => {
-            console.log(e);
-        }
+        error : (e) => {console.log(e);}
     }); // ajax end
+
+    // 로그인 체크 ajax
+    $.ajax({
+            async:false,
+            method:'get',
+            url:"/member/logcheck", //멤버함수의 로그인 체크 함수
+            success:(result)=>{console.log(result);
+                currentUserId = result.memberid // success로 가져온 현재 로그인된 아이디를 currentUserId에 대입
+            } //success end
+    })
+    console.log(currentUserId)
+
     // 어디에
     let replyBox = document.querySelector(".replyBox");
     // 무엇을
     let html = ``;
-    reply.forEach(rp => {
-        html += `<tr>
-                    <td> ${rp.memberid} </td>
-                    <td> ${rp.content} </td>
-                    <td> ${rp.createdat} </td>
-                </tr>
-        `;
+    reply.forEach(rp => { // bno에 맞는 목록들 전체 출력
+        if(currentUserId==rp.memberid){ //그 목록중 현재접속된 아이디와 댓글 작성자가 일치하면
+            // 수정 삭제 버튼까지 출력하기
+            html += `<tr>
+                                <td> ${rp.memberid} </td>
+                                <td> ${rp.content} </td>
+                                <td> ${rp.createdat} </td>
+                                <td> 수정버튼 </td>
+                                <td> 삭제버튼 </td>
+                            </tr>
+                    `;
+        }
+        //일치하지 않는다면 나머지 부분만 출력하기
+        else{
+            html += `<tr>
+                        <td> ${rp.memberid} </td>
+                        <td> ${rp.content} </td>
+                        <td> ${rp.createdat} </td>
+                    </tr>
+            `;
+        }
     });
     // 출력
     replyBox.innerHTML = html;
