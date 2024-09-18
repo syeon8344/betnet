@@ -1,0 +1,16 @@
+.indexMain{
+    width: 1080px;
+    display: flex;
+    justify-content: space-between;
+}
+.gameScheduleBox{
+    width: 70%;
+}
+.purchaseBox{
+    width: 30%;
+    border: 1px solid #eeeeee;
+    position: fixed;
+    right: 20px;
+    top : 10px
+    background-color: white;
+}

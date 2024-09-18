@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- xml 주석 -->
+<mapper namespace="web.model.dao.GameDao" >  <!-- mapper start -->
+    <!-- namespace=" 매핑할 인터페이스 경로(위치) " -->
+    <!-- id="매핑할 추상메소드명"  resultType="반환할 타입"  -->
+    <!-- parameterType="매개변수타입" sql 매개변수표현 : #{변수명}-->
+    <!-- 포인트로그등록 -->
+    <insert id="insertPointLog" parameterType="web.model.dto.GameDto" useGeneratedKeys="true" keyProperty="pointlogid">
+        insert into pointlogs(memberid , pointChange , description) values(#{memberid} , #{pointChange} , 3)
+    </insert>
+
+    <!-- 포인트로그가져오기 -->
+    <select id="getPointId" resultType="int">
+        select pointlogid from pointlogs order by pointlogid desc limit 1;
+    </select>
+
+    <!-- 게임구매목록 등록 -->
+    <insert id="insertGameList" parameterType="web.model.dto.GameDto" useGeneratedKeys="true" keyProperty="listid">
+        insert into GamePurchaseList(pointlogid) values(#{pointlogid})
+    </insert>
+
+    <!-- 리스트아이디가져오기 -->
+    <select id="getListtId" resultType="int">
+        select listid from GamePurchaseList order by listid desc limit 1;
+    </select>
+
+    <!-- 게임구매하기 -->
+    <insert id="gamePurchase" parameterType="web.model.dto.GameDto">
+        insert into GamePurchaseDetails(listid , matchid , winandloss) values(#{listid} , #{matchid} , #{winandloss})
+    </insert>
+
+</mapper> <!-- mapper end -->

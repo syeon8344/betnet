@@ -1,5 +1,4 @@
 console.log('header.js')
-console.log('head');
 
 doLoginCheck();
 function doLoginCheck(){

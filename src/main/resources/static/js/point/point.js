@@ -1,4 +1,4 @@
-let info = {}   // 결제에 필요한 member정보 저장하는 전역변수
+let memberInfo = {}   // 결제에 필요한 member정보 저장하는 전역변수
 
 doLoginCheck();
 function doLoginCheck(){
@@ -11,7 +11,7 @@ function doLoginCheck(){
                 alert("로그인 후 이용가능합니다.")
                 location.href = "/member/login"
             }
-            info = result
+            memberInfo = result
         }
     })
 }
@@ -70,7 +70,7 @@ let searchInfo = {
     description : 0 , 
     startDate : '' , 
     endDate : '' , 
-    memberid : info.memberid , 
+    memberid : memberInfo.memberid , 
     startPoint : 0 , 
     endPoint : 0
 }
@@ -102,7 +102,7 @@ function onSearch(){
 // $(".payment").click(function() {
 function payment(){
     let pointChange = document.querySelector(".pointChange").value; // 충전할 금액
-    console.log(info);
+    console.log(memberInfo);
     IMP.init('imp78254332');
     //결제시 전달되는 정보
     IMP.request_pay({
@@ -111,9 +111,9 @@ function payment(){
               merchant_uid : `payment-${crypto.randomUUID()}`,
               name : '포인트충전'/*상품명*/,
               amount : pointChange /*상품 가격*/, 
-              buyer_email : info.email /*구매자 이메일*/,
-              buyer_name : info.name ,
-              buyer_tel : info.cotact /*구매자 연락처*/,
+              buyer_email : memberInfo.email /*구매자 이메일*/,
+              buyer_name : memberInfo.name ,
+              buyer_tel : memberInfo.cotact /*구매자 연락처*/,
           }, function(rsp) {
                 // 결제 성공시 결제 금액과 discription(name) 필요
                 console.log(rsp);
@@ -125,7 +125,7 @@ function payment(){
                         async : false , 
                         method : 'post' , 
                         url : "/point/insertpointlog" , 
-                        data : {memberid : info.memberid , pointChange : pointChange , description : 1} , // description은 충전이니까 1로 지정
+                        data : {memberid : memberInfo.memberid , pointChange : pointChange , description : 1} , // description은 충전이니까 1로 지정
                         success : (r) => {
                             console.log(r);
                             mypointlog();
@@ -171,7 +171,7 @@ function mypointlog(){
 getMyAccount();
 // 내 계좌 정보 출력
 function getMyAccount(){
-    document.querySelector(".myAccountBox").innerHTML = info.account;
+    document.querySelector(".myAccountBox").innerHTML = memberInfo.account;
 }
 // 포인트 출금
 function withdraw(){
@@ -188,7 +188,7 @@ function withdraw(){
         async : false , 
         method : 'post' , 
         url : "/point/insertpointlog" , 
-        data : {memberid : info.memberid , pointChange : withdrawPoint , description : 4} , // description은 출금이니까 4로 지정
+        data : {memberid : memberInfo.memberid , pointChange : withdrawPoint , description : 4} , // description은 출금이니까 4로 지정
         success : (r) => {
             console.log(r);
             mypointlog();
