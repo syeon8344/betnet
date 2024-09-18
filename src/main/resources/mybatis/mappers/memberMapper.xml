@@ -13,7 +13,7 @@
     </insert>
 
     <select id="login" parameterType="web.model.dto.MemberDto">
-        SELECT memberid
+        SELECT *
         FROM members
         WHERE username = #{userName}
         AND password = #{password}
@@ -36,7 +36,7 @@
     </select>
 
     <select id="logCheck" parameterType="web.model.dto.MemberDto">
-        select * from members where memberid=#{memberid}
+        select * from members m inner join teams t on m.teamcode = t.teamcode where memberid=#{memberid}
     </select>
 
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->

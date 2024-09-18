@@ -24,4 +24,5 @@ public class MemberDto {
     private int purchaseLimitCount;
     private int points;
     private String account;
+    private String teamName;
 }

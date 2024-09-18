@@ -10,7 +10,6 @@ function doLoginCheck(){
             let=html='';
         if(result!=''){console.log('로그인')
             html+=`<li class="nav-item">${result.name} 님</li>
-                    <li class="nav-item"><a class="nav-link" href="/point">${result.points}포인트</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>
                     <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>`
         }
@@ -22,6 +21,28 @@ function doLoginCheck(){
         }
     })
 }
+
+getMyPoint();
+function getMyPoint(){
+    console.log('getMyPoint');
+    $.ajax({
+        async : false ,
+        method : "get" ,
+        url : "/point/mypoint" ,
+        success : (r) => {
+            console.log(r);
+            let=html='';
+        if(r!=''){console.log('로그인')
+            html+=`<a class="nav-link" href="/point">${r.sum}포인트</a>`
+        }
+        document.querySelector('#topMenu2').innerHTML=html;
+        } ,
+        error : (e) => {
+            console.log(e)
+        }
+    })  // ajax end
+}   // getMyPoint() end
+
 
 function doLogout(){console.log('doLogout()')
     $.ajax({

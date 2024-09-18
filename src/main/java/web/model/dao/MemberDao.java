@@ -13,7 +13,7 @@ public interface MemberDao {
     boolean signUp(MemberDto memberDto);
 
     //09.10 로그인
-    int login(MemberDto memberDto);
+    MemberDto login(MemberDto memberDto);
 
     //09.11 id중복검사
     boolean idChecking(String userName);

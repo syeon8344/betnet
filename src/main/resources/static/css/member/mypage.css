@@ -5,6 +5,25 @@
     margin-bottom: 20px;
 }
 
+.pointInfo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.info{
+    display: flex;
+    justify-content: left;
+}
+.myPointInfo , .addPointInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.myPointInfo > P , .myPointInfo img , .myPointBox{
+    font-size: 16px;
+    margin: 20px;
+}
+
 /* 왼쪽 정렬 */
 .left-aligned {
     text-align: left;
@@ -93,6 +112,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin-left: 20px;
 }
 
 .personalInfoEdit button:hover {

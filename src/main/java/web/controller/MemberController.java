@@ -69,7 +69,7 @@ public class MemberController {
         memberService.logout();
     }
 
-    //09.13 로그인체크(모든 회원정보까지)
+    //09.13 로그인상태에서 모든정보 가져오기
     @GetMapping("/logcheck")
     public MemberDto logCheck(){
        return memberService.logCheck();

@@ -27,11 +27,12 @@ public class MemberService {
     public boolean login(MemberDto memberDto){
         System.out.println("MemberService.login");
         System.out.println("memberDto = " + memberDto);
-        int result=memberDao.login(memberDto);
-        if(result>=1){
+        MemberDto result =memberDao.login(memberDto);
+        System.out.println("result = " + result);
+        if(result!=null){
             MemberDto loginDto=MemberDto.builder()
-                    .memberid(result)
-                    .userName(memberDto.getUserName())
+                    .memberid(result.getMemberid())
+                    .userName(result.getUserName())
                     .build();
             HttpSession session = request.getSession();
             session.setAttribute("loginDto",loginDto);
@@ -54,11 +55,12 @@ public class MemberService {
         HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
         // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
         Object object = session.getAttribute( "loginDto" );
+        if(object==null){return null;}
         MemberDto memberDto=(MemberDto)object;
         int memberid=memberDto.getMemberid();
         System.out.println(memberDao.logCheck(memberid));
-        if( object !=null ){   return memberDao.logCheck(memberid);  }
-        return null;
+        return memberDao.logCheck(memberid);
+
     }
 
     //09.11 id 중복검사

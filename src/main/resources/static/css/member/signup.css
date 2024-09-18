@@ -1,0 +1,10 @@
+#wrap2 {
+    width: 1080px;
+    border: 1px solid #eeeeee;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#wrap2 *{
+    margin:5px 10px;
+}

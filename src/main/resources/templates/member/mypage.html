@@ -42,27 +42,27 @@
         <h4 class="left-aligned">개인정보 확인</h4>
         <div class="personalInfo box">
             <div class="infoRow">
-                <span>이름:</span> <input type="text" value="홍길동" readonly>
+                <span>이름:</span> <input id="name" type="text" value="홍길동" readonly>
             </div>
             <hr />
             <div class="infoRow">
-                <span>아이디:</span> <input type="text" value="hong123" readonly>
+                <span>아이디:</span> <input id="userName" type="text" value="hong123" readonly>
             </div>
             <hr />
             <div class="infoRow">
-                <span>연락처:</span> <input type="text" value="010-1234-5678" readonly>
+                <span>연락처:</span> <input id="contact" type="text" value="010-1234-5678" readonly>
             </div>
             <hr />
             <div class="infoRow">
-                <span>이메일:</span> <input type="email" value="hong123@example.com" readonly>
+                <span>이메일:</span> <input id="email" type="email" value="hong123@example.com" readonly>
             </div>
             <hr />
             <div class="infoRow">
-                <span>선호하는 팀:</span> <input type="text" value="FC Seoul" readonly>
+                <span>선호하는 팀:</span> <input id="teamCode" type="text" value="FC Seoul" readonly>
             </div>
             <hr />
             <div class="infoRow">
-                <span>계좌:</span> <input type="text" value="123-4567-8901" readonly>
+                <span>계좌:</span> <input id="account" type="text" value="123-4567-8901" readonly>
             </div>
         </div>
 
@@ -75,7 +75,7 @@
 <div th:replace="~{/footer.html:: footer}"></div>
 <!-- iamport.payment.js -->
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-<script src="/js/point/point.js"></script>
+<script src="/js/member/mypage.js"></script>
 
 </body>
 </html>
