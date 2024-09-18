@@ -22,7 +22,9 @@
     <select id="mypointlog" parameterType="web.model.dto.SearchDto" resultType="web.model.dto.PointLogDto">
         select * from pointlogs where memberid = #{memberid}
         <if test="description != 0">and description = #{description}</if>
-        <if test="startDate != ''">and logDate between #{startDate} and #{endDate}</if>
+        <if test="startDate != ''">
+            AND logDate BETWEEN #{startDate} AND DATE_ADD(#{endDate}, INTERVAL 1 DAY) - INTERVAL 1 SECOND
+        </if> <!-- endDate의 다음 날의 시작 시점(00:00:00)에서 1초를 빼서 endDate의 마지막 순간(23:59:59)을 포함하도록 설정 -->
         <if test="startPoint != 0">and pointChange between #{startPoint} and #{endPoint}</if>
     </select>
 

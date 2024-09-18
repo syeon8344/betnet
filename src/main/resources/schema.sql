@@ -83,7 +83,7 @@ drop table if exists PointLogs;
 CREATE TABLE PointLogs (
     PointLogID INT AUTO_INCREMENT PRIMARY KEY,  -- 포인트 로그 고유 번호 (기본 키, 자동 증가)
     MemberID INT NOT NULL,                     -- 포인트가 증감된 회원의 번호 (외래 키)
-    LogDate DATE NOT NULL DEFAULT (CURRENT_DATE), -- 포인트 증감 발생 날짜
+    LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
     PointChange INT NOT NULL,                  -- 포인트 증감량 (증가일 경우 양수, 감소일 경우 음수)
     Description int NOT NULL,         -- 포인트 증감 내역 (예: "구매", "적립", "사용")
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)

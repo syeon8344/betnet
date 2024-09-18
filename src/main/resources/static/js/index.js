@@ -21,6 +21,9 @@ let oddses = []   // 각 게임에 맞는 배당률
 
 // 승패 고를때마다 실행되는 함수
 function choiceWinandLoss(number , matchid , winandloss , oods){
+    // 매개변수 winandloss는 회원이 승을 누르는지 패를 누르는지 판단하기 위함
+    // 1 -> 승 0 -> 패
+    // 매개변수로 더 가져와야 할 것들 승률 , 경기 인덱스...?
     console.log('choiceWinorLoss()');
     // 경기 고를때마다 출력
     let purchaseCartBox = document.querySelector(".purchaseCartBox");
@@ -34,11 +37,7 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
     html += ` <tr> <th> ${number} </th> <th> ${matchid} </th> <th> ${winandlossStr} / ${oods} </th> <th> <button onclick="removeMatch(this)">x</button></th></tr>`;
     purchaseCartBox.innerHTML += html;
 
-
-    // 매개변수 winandloss는 회원이 승을 누르는지 패를 누르는지 판단하기 위함
-    // 1 -> 승 0 -> 패
-    // 매개변수로 더 가져와야 할 것들 승률 , 경기 인덱스
-    matchids.push(matchid); // 경기 인덱스 샘플 테스트 후 넘겨지는 값으로 가져와야함
+    matchids.push(matchid); // 경기 인덱스 배열저장
     winandlosses.push(winandloss);    // 회원이 결정한 승패 배열 저장
     oddses.push(oods)
     console.log(matchids);
@@ -80,19 +79,38 @@ function activateButton(button) {
 // 선택한 경기를 제거하는 함수
 function removeMatch(button) {
     const row = button.closest('tr');
+    console.log(row)
     const matchid = row.children[1].innerText; // matchid를 가져옴
+    console.log(matchid)
 
     // matchid, winandloss, odds 배열에서 해당 정보를 제거
     const index = matchids.indexOf(matchid);
+    console.log(index)
     if (index > -1) {
         matchids.splice(index, 1);
         winandlosses.splice(index, 1);
         oddses.splice(index, 1);
     }
 
-
     row.remove(); // 테이블에서 행 제거
+
+    console.log(matchids);
+    console.log(winandlosses);
+    console.log(oddses);
+    
     updateTotalOdds(); // 정보 업데이트
+    activateButtons(matchid);  // 버튼활성화
+}
+
+// 같은 matchid의 버튼만 활성화
+function activateButtons(matchid) {
+    const buttons = document.querySelectorAll('.gameScheduleBox tbody button');
+    buttons.forEach(button => {
+        const buttonMatchid = button.onclick.toString().match(/'([^']+)'/)[1]; // onclick에서 matchid 추출
+        if (buttonMatchid === matchid) {
+            button.disabled = false; // 해당 경기 버튼만 활성화
+        }
+    });
 }
 
 function gamePurchase(){
@@ -113,9 +131,10 @@ function gamePurchase(){
     }
     console.log(matchids);
     console.log(winandlosses);
-    console.log(oddses);
+    console.log(oddses);ㄴ
     let memberid = memberInfo.memberid;
     let pointChange = document.querySelector(".pointChange").value;
+    // 금액 제한
     if(pointChange > 50000){
         alert("구매가능 포인트는 50000포인트까지 가능합니다.")
         return;
