@@ -35,6 +35,10 @@ function doLoginCheck(){
                 document.querySelector("#email").value=result.email
                 document.querySelector("#account").value=result.account
                 document.querySelector("#teamCode").value=result.teamName
+                document.querySelector("#age").value=result.age
+                document.querySelector("#joinDate").value=result.joinDate
+                if(result.gender=='M'){document.querySelector("#gender").value='남성'}
+                else{document.querySelector("#gender").value='여성'}
             }
         }
     })

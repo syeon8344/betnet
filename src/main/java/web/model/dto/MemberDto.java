@@ -10,19 +10,19 @@ import lombok.*;
 @AllArgsConstructor
 public class MemberDto {
     //09.09 회원Dto
-    private int memberid;
-    private String userName;
-    private String password;
-    private String name;
-    private String contact;
-    private String email;
-    private String gender;
-    private int age;
-    private String joinDate;
-    private int teamCode;
-    private int purchaseLimitAmount;
-    private int purchaseLimitCount;
+    private int memberid; //회원번호
+    private String userName; //아이디
+    private String password; //비번
+    private String name;    //이름
+    private String contact; //연락처
+    private String email;   //이메일
+    private String gender;  //성별
+    private int age;        //나이
+    private String joinDate;//가입일
+    private int teamCode;   // 선호팀코드
+    private int purchaseLimitAmount; //구매제한금액
+    private int purchaseLimitCount;  //구매제한횟수
     private int points;
-    private String account;
-    private String teamName;
+    private String account; //계좌
+    private String teamName; //선호팀이름
 }
