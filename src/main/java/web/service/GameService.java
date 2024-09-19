@@ -53,7 +53,7 @@ public class GameService {
 
             // winandlosses와 같은 인덱스일 경우에 dao전달
             if (i < winandlosses.size()) {
-                int winandloss = winandlosses.get(i); // i번째 winandloss 사용
+                int winandloss = winandlosses.get(i); // i번째 winandloss 사용  // matchids , winandlosses 의 배열 순서가 같은 경우
                 System.out.println("winandloss = " + winandloss);
                 gameDto.setWinandloss(winandloss);
                 result = gameDao.gamePurchase(gameDto);

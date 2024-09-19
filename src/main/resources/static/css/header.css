@@ -34,64 +34,67 @@ ul,ol,li{
 #menu{
     width: 100%;
 }
-#bottomMenu{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 #topMenu{
-    display: flex;
-    justify-content: right;
-}
-#topMenu a{
-    padding-left: 20px;
-}
-
-.menu {
-    width: 100%;
-    overflow: hidden;
-    margin: 20px auto;
-  }
-  
-.menu > li {
-    width: 20%; /*20*5=100%*/
-    float: left;
-    text-align: center;
-    line-height: 40px;
-}
-  
-.menu a {
-    font-size: 18px;
-    color: black;
-}
-  
-.submenu > li {
-  line-height: 50px;
-}
-  
-.submenu {
-  height: 0; /*ul의 높이를 안보이게 처리*/
-  overflow: hidden;
-}
-.submenu a{
-    font-size: 14px;
-}
-.menu > li:hover {
-    transition-duration: 0.5s;
-}
-  
-.menu > li:hover .submenu {
-    height: 250px; /*서브메뉴 li한개의 높이 50*5*/
-    transition-duration: 1s;
-}
-
-#top{
     display: flex;
     justify-content: right;
     padding: 10px 20px;
 }
-
-#topMenu2{
-    margin-right: 20px;
+#topMenu a{
+    padding-left: 20px;
 }
+#bottomMenu{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu {
+    list-style-type: none;
+    padding: 0;
+}
+.menu > li {
+    display: inline-block;
+    position: relative;
+    margin: 0px 70px;
+}
+.menu > li > a {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    color: #333;
+    font-size: 20px;
+}
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%; /* 부모 메뉴의 중앙에 위치시키기 위해 50% */
+    transform: translateX(-50%); /* 왼쪽으로 50% 이동하여 중앙 정렬 */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    padding: 0px;
+}
+.submenu li {
+    width: 150px; /* 서브메뉴 너비 조정 */
+}
+.submenu li a {
+    padding: 10px 0; /* 수직 패딩만 설정하여 좌우 패딩 제거 */
+    margin: 0px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    width: 100%; /* 전체 너비 사용 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+.menu > li:hover .submenu {
+    display: block;
+}
+  
+
+
+
+
