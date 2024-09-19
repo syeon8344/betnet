@@ -24,21 +24,22 @@ public class MemberService {
         return memberDao.signUp(memberDto);}
 
     //09.10 로그인
-    public boolean login(MemberDto memberDto){
+    public MemberDto login(MemberDto memberDto){
         System.out.println("MemberService.login");
         System.out.println("memberDto = " + memberDto);
-        int result=memberDao.login(memberDto);
-        if(result>=1){
+        MemberDto result =memberDao.login(memberDto);
+        System.out.println("result = " + result);
+        if(result!=null){
             MemberDto loginDto=MemberDto.builder()
-                    .memberid(result)
-                    .userName(memberDto.getUserName())
+                    .memberid(result.getMemberid())
+                    .userName(result.getUserName())
                     .build();
             HttpSession session = request.getSession();
             session.setAttribute("loginDto",loginDto);
             System.out.println("loginDto = " + loginDto);
-            return true;
+            return result;
         }
-        return false;
+        return result;
     }
 
     //09.10 로그인체크(세션객체에서 memberid,userName 추출가능)

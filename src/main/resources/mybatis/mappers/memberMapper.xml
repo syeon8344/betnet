@@ -12,8 +12,8 @@
         values( #{ userName } , #{ password }  , #{ name } , #{ contact } , #{ email } , #{ gender } , #{ age } , #{ teamCode } , #{ account } )
     </insert>
 
-    <select id="login" parameterType="web.model.dto.MemberDto">
-        SELECT memberid
+    <select id="login" parameterType="web.model.dto.MemberDto" resultType="web.model.dto.MemberDto">
+        SELECT *
         FROM members
         WHERE username = #{userName}
         AND password = #{password}

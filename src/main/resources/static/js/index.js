@@ -113,6 +113,7 @@ function activateButtons(matchid) {
     });
 }
 
+// 게임구매
 function gamePurchase(){
     // 변수가 비어져있으면 실행되는 함수 // 로그인 후 게임 구매가 가능!
     if(isEmptyObject(memberInfo)){
@@ -131,7 +132,7 @@ function gamePurchase(){
     }
     console.log(matchids);
     console.log(winandlosses);
-    console.log(oddses);ㄴ
+    console.log(oddses);
     let memberid = memberInfo.memberid;
     let pointChange = document.querySelector(".pointChange").value;
     // 금액 제한
