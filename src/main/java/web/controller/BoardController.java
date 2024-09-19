@@ -68,14 +68,24 @@ public class BoardController {
     }
 
 
-
     //댓글 출력
     @GetMapping("/reply/read")
     public List<ReplyDto> rpRead(int bno){
-        System.out.println("BoardController.read");
+        System.out.println("BoardController.RpRead");
         System.out.println("bno = " + bno);
         return boardService.rpRead(bno);
     }
+
+
+    // 댓글 삭제하기
+    @DeleteMapping("/reply/delete")
+    public boolean rpDelete(ReplyDto replyDto){
+        System.out.println("BoardController.rpDelete");
+        System.out.println("replyDto = " + replyDto);
+        return boardService.rpDelete(replyDto);
+    }
+
+
 
 
 }
