@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
 import web.model.dto.TeamsDto;
@@ -91,5 +92,10 @@ public class MemberService {
         HttpSession session = request.getSession();
         // 2. 세션객체내 모든 속성 값 초기화
         session.invalidate();
+    }
+
+    // 09.19 개인정보 수정
+    public boolean edit(MemberDto memberDto){
+        return memberDao.edit(memberDto);
     }
 }

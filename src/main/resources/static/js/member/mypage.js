@@ -1,3 +1,4 @@
+let memberInfo={} //멤버정보 저장 변수
 getMyPoint();
 function getMyPoint(){
     console.log('getMyPoint');
@@ -23,12 +24,13 @@ function doLoginCheck(){
         async:false,
         method:'get',
         url:"/member/logcheck",
-        success:(result)=>{console.log(result);
+        success:(result)=>{
             if(result == ""){
                 alert("로그인 후 이용가능합니다.")
                 location.href = "/member/login"
             }
             else{console.log(result);
+                memberInfo=result
                 document.querySelector("#name").value=result.name
                 document.querySelector("#userName").value=result.userName
                 document.querySelector("#contact").value=result.contact
@@ -42,4 +44,20 @@ function doLoginCheck(){
             }
         }
     })
+}
+
+function pwCheckModal(){
+    // 모달 창 표시
+    $('#pwCheckModal').modal('show');
+    
+}
+
+function pwCheck(){
+    let = password=document.querySelector('#pwCheck').value;
+    if(password==memberInfo.password){
+        location.href="/member/edit"
+    }
+    else{
+        alert('비밀번호가 일치하지 않습니다.')
+    }
 }

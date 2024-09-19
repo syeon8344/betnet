@@ -39,6 +39,18 @@
         select * from members m inner join teams t on m.teamcode = t.teamcode where memberid=#{memberid}
     </select>
 
+    <update id="edit" parameterType="web.model.dto.MemberDto">
+        UPDATE members
+        SET
+        password = #{password},
+        contact = #{contact},
+        email = #{email},
+        teamCode = #{teamCode},
+        account = #{account}
+        WHERE
+        memberid = #{memberid};
+    </update>
+
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
 <!--    <select id="read" resultType="example.task1.AccountDto">-->
 <!--        select * from account-->

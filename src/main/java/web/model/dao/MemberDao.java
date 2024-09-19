@@ -2,6 +2,7 @@ package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.MemberDto;
 import web.model.dto.TeamsDto;
 
@@ -28,4 +29,7 @@ public interface MemberDao {
     boolean emailCheck(String email);
 
     MemberDto logCheck(int memberid);
+
+    // 09.19 개인정보 수정
+    boolean edit(MemberDto memberDto);
 }
