@@ -67,4 +67,9 @@ public class ViewController {
         return "/game/gameList.html";
     }
 
+    // [1] 채팅 관련 템플릿 매핑
+    @GetMapping("/chat")
+    public String chat(){ return "/index.html";
+    }
+
 }

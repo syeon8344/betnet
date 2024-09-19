@@ -26,12 +26,14 @@ function survey(){
             url : "http://127.0.0.1:5000/survey/save",
             data : result,
             success :(result2 =>{ console.log(result2)
+            document.querySelector(".modal-body").innerHTML = result2
+
             }) // successs
         }) // ajax
 
     }else{
         alert(' 체크 안된 사항이 있습니다.')
     }
-
+$('.modal').modal('show');
 } // survey
 
