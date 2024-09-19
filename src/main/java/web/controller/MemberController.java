@@ -1,10 +1,7 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
 import web.model.dto.TeamsDto;
 import web.service.MemberService;
@@ -73,5 +70,11 @@ public class MemberController {
     @GetMapping("/logcheck")
     public MemberDto logCheck(){
        return memberService.logCheck();
+    }
+
+    // 09.19 개인정보 수정
+    @PutMapping("/edit")
+    public boolean edit(MemberDto memberDto){
+        return memberService.edit(memberDto);
     }
 }

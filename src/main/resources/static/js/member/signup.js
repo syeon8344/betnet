@@ -192,7 +192,7 @@ function doSignup(){ console.log( 'doSignup()' )
     console.log(checkArray);
     for(let i=0;i<checkArray.length;i++){
         if(!checkArray[i]){
-            alert('유효하지 않는 정보가 있습니다.')
+            alert('유효하지 않은 정보가 있습니다.')
             return;
         }
     }

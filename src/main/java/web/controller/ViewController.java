@@ -50,6 +50,10 @@ public class ViewController {
     @GetMapping("/member/mypage")
     public String myPage(){return "/member/mypage.html";}
 
+    // 회원수정 페이지
+    @GetMapping("/member/edit")
+    public String edit(){return "/member/edit.html";}
+
     //===============멤버
     // 설문 페이지
     @GetMapping("/poll")
