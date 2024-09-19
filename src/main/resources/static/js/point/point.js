@@ -131,6 +131,7 @@ function payment(){
                             mypointlog();
                             getMyPoint();
                             document.querySelector(".pointChange").value = ""
+                            location.href = "/point"
                         } , 
                         error : (e) => {
                             console.log(e);

@@ -25,9 +25,16 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
     // 1 -> 승 0 -> 패
     // 매개변수로 더 가져와야 할 것들 승률 , 경기 인덱스...?
     console.log('choiceWinorLoss()');
+    // 같은 경기 인덱스인데 버튼을 두번 누르면 두번 리스트에 들어가는 경우 제외
+    for(let i = 0; i < matchids.length; i++){
+        if(matchid == matchids[i]){
+            return;
+        }
+    }
     // 경기 고를때마다 출력
     let purchaseCartBox = document.querySelector(".purchaseCartBox");
     let winandlossStr = "";
+    // 승을 골랐는지 패를 골랐는지 구분해주는 문자 출력
     if(winandloss == 1){
         winandlossStr = "승";
     }else{
@@ -39,7 +46,7 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
 
     matchids.push(matchid); // 경기 인덱스 배열저장
     winandlosses.push(winandloss);    // 회원이 결정한 승패 배열 저장
-    oddses.push(oods)
+    oddses.push(oods)   // 배당률 배열 저장
     console.log(matchids);
     console.log(winandlosses);
     console.log(oddses);

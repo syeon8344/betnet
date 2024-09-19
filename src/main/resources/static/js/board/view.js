@@ -20,7 +20,7 @@ function boardView(){
     $.ajax({ // AJAX
         async : false , method : "get" ,
         url :"/board/find/bno", data : { bno : bno } ,
-        success : r => { console.log(r); board = r}
+        success : r => { console.log(r); board = r; bReplyRead();}
     }) // AJAX END
 
     document.querySelector('.teamname').innerHTML = `${ board.teamname }`;
