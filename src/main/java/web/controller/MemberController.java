@@ -25,7 +25,7 @@ public class MemberController {
 
     //09.10 로그인
     @PostMapping("/login")
-    public boolean login(MemberDto memberDto){
+    public MemberDto login(MemberDto memberDto){
         System.out.println("MemberController.login");
         System.out.println("memberDto = " + memberDto);
         return memberService.login(memberDto);

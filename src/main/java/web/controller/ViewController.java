@@ -57,4 +57,10 @@ public class ViewController {
         return "/survey/survey.html";
     }
 
+    // 게임구매내역페이지
+    @GetMapping("/game")
+    public String gameList(){
+        return "/game/gameList.html";
+    }
+
 }

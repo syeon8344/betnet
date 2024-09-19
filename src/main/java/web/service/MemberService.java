@@ -24,7 +24,7 @@ public class MemberService {
         return memberDao.signUp(memberDto);}
 
     //09.10 로그인
-    public boolean login(MemberDto memberDto){
+    public MemberDto login(MemberDto memberDto){
         System.out.println("MemberService.login");
         System.out.println("memberDto = " + memberDto);
         MemberDto result =memberDao.login(memberDto);
@@ -37,9 +37,9 @@ public class MemberService {
             HttpSession session = request.getSession();
             session.setAttribute("loginDto",loginDto);
             System.out.println("loginDto = " + loginDto);
-            return true;
+            return result;
         }
-        return false;
+        return result;
     }
 
     //09.10 로그인체크(세션객체에서 memberid,userName 추출가능)
