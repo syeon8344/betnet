@@ -32,25 +32,25 @@ function boardView(){
 
 // 글작성자만 수정 버튼이 보이게
 // 로그인 체크함수 연동
-$.ajax({
-        async:false,
-        method:'get',
-        url:"/member/logcheck", //멤버함수의 로그인 체크 함수
-        success:(result)=>{console.log(result);
-            currentUserId = result.memberid // success로 가져온 현재 로그인된 아이디를 currentUserId에 대입
-            if(currentUserId==board.memberid){ //현재 접속한 아이디와 글작성자 아이디가 같으면
-                // 수정 삭제 버튼 넣기
-                document.querySelector('.btnBox').innerHTML =
-                    `
-                    <button type="button" class="btn btn-primary" onclick="location.href='/board/update?bno=${bno}'">수정</button>
-                    <button type="button" class="btn btn-primary" onclick="bDelete(${bno})" >삭제</button>
-                    `;
-            }
-            else{ // 아이디가 일치하지 않으면 공백 넣기
-                document.querySelector('.btnBox').innerHTML = '';
-            }
-        } //success end
-    })
+    $.ajax({
+            async:false,
+            method:'get',
+            url:"/member/logcheck", //멤버함수의 로그인 체크 함수
+            success:(result)=>{console.log(result);
+                currentUserId = result.memberid // success로 가져온 현재 로그인된 아이디를 currentUserId에 대입
+                if(currentUserId==board.memberid){ //현재 접속한 아이디와 글작성자 아이디가 같으면
+                    // 수정 삭제 버튼 넣기
+                    document.querySelector('.btnBox').innerHTML =
+                        `
+                        <button type="button" class="btn btn-primary" onclick="location.href='/board/update?bno=${bno}'">수정</button>
+                        <button type="button" class="btn btn-primary" onclick="bDelete(${bno})" >삭제</button>
+                        `;
+                }
+                else{ // 아이디가 일치하지 않으면 공백 넣기
+                    document.querySelector('.btnBox').innerHTML = '';
+                }
+            } //success end
+        })
     raadAll() // 조회수가 올라가면 전체 출력도 자동으로 올라가게 해주기
 }
 
@@ -72,9 +72,7 @@ function bDelete( bno ){
                     alert('본인이 작성한 글만 삭제 가능합니다.');
                 }
             } ,
-            error : (e) => {
-                console.log(e)
-            }
+            error : (e) => {console.log(e)}
     })
 }
 
@@ -112,9 +110,7 @@ function onReplyWrite(){
                 location.href = "/member/login";
             }
         } , // success end
-        error : (e) => {
-            console.log(e);
-        }   // error end
+        error : (e) => {console.log(e);}   // error end
     })  // ajax end
 }   // onReplyWrite() end
 
@@ -163,9 +159,11 @@ function bReplyRead(){
                                 <td> ${rp.memberid} </td>
                                 <td> ${rp.content} </td>
                                 <td> ${rp.createdat} </td>
-                                <td> 수정버튼 </td>
-                                <td> 삭제버튼 </td>
+                                <td><input type="text" class="reply-content" value="${rp.content}" style="display:none;" /></td>
+                                <td> <button type="button" class="btn btn-primary" onclick="ReUpdate(${rp.commentid})">수정</button> </td>
+                                <td> <button type="button" class="btn btn-primary" onclick="ReDelete(${rp.commentid})">삭제</button> </td>
                             </tr>
+
                     `;
         }
         //일치하지 않는다면 나머지 부분만 출력하기
@@ -183,3 +181,60 @@ function bReplyRead(){
 }   // bReplyRead() end
 
 
+///////////////댓글 수정///////////////////////
+function ReUpdate(commentid){
+    console.log("ReUpdate()")
+    console.log(commentid)
+
+    reply = {}
+    $.ajax({ // AJAX
+        async : false ,
+               method : 'get' ,
+               url : "/board/reply/read" ,
+               data : {bno : bno} ,
+               success : (r) =>{
+       //            console.log(r);
+                   reply = r;
+       //            console.log(reply);
+               }
+    }) // AJAX END
+    document.querySelector('.reply-content').style.display = 'block';
+    document.querySelector('.reply-content').value = `${ reply.content }`;
+
+
+}
+
+
+
+
+
+
+
+
+////////댓글 삭제
+function ReDelete (commentid) {
+    console.log("ReDelete()")
+    console.log(commentid)
+
+    data = {
+        postid : bno,
+        commentid : commentid
+    }
+
+    $.ajax({
+                async : false,
+                method : 'delete',
+                data : data ,
+                url : "/board/reply/delete",
+                success:(r) =>{ bReplyRead(); //댓글 삭제후 최신화
+                    console.log(r);
+                    if(r){
+                        alert('삭제성공');
+                    }else{
+                        alert('본인이 작성한 글만 삭제 가능합니다.');
+                    }
+                } , //success end
+                error : (e) => {console.log(e)}
+    }) // ajax end
+
+}

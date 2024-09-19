@@ -34,7 +34,6 @@
     </update>
 
 
-
     <!-- ///////////////////////댓글 부븐////////////////////////////// -->
     <select id="rpRead" resultType="web.model.dto.ReplyDto">
         select * from comments where postid = #{postid};
@@ -43,5 +42,9 @@
     <insert id="reWrite" parameterType="web.model.dto.ReplyDto">
         insert into comments (memberid, postid, commentindex, content) values ( #{memberid},#{postid},#{commentindex},#{content})
     </insert>
+
+    <delete id="rpDelete" parameterType="web.model.dto.ReplyDto">
+        delete from comments where commentid = #{commentid} and memberid= #{memberid} and postid = #{postid} ;
+    </delete>
 
 </mapper> <!-- mapper end -->

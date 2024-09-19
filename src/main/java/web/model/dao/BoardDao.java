@@ -35,6 +35,10 @@ public interface BoardDao {
     //댓글 등록 함수
     boolean reWrite(ReplyDto replyDto);
 
+    //댓글 삭제 함수
+    boolean rpDelete(ReplyDto replyDto );
+
+
     // 게시판 조회수 증가 함수
     boolean bViewIncrease(int bno);
 }
