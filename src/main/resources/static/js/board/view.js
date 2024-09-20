@@ -24,9 +24,15 @@ function boardView(){
     }) // AJAX END
 
     document.querySelector('.teamname').innerHTML = `${ board.teamname }`;
-    document.querySelector('.etcBox').innerHTML = `<span> 작성자 ${ board.memberid } </span>
-                                                    <span> 조회수 ${ board.views } </span>
-                                                    <span> 작성일 ${ board.createdat } </span>`;
+    document.querySelector('.etcBox').innerHTML = `
+        <div class="d-flex justify-content-between bg-light p-2 rounded">
+            <div class="d-flex align-items-center">
+                <span class="text-muted mr-3">작성자: <strong>${board.memberid}</strong></span>
+                <span class="text-muted">조회수: <strong>${board.views}</strong></span>
+            </div>
+            <span class="text-muted">작성일: <strong>${board.createdat}</strong></span>
+        </div>
+    `;
     document.querySelector('.title').innerHTML = `${ board.title }`;
     document.querySelector('.content').innerHTML = `${ board.content }`;
 
@@ -51,7 +57,6 @@ function boardView(){
                 }
             } //success end
         })
-    raadAll() // 조회수가 올라가면 전체 출력도 자동으로 올라가게 해주기
 }
 
 // 게시물 삭제하기
@@ -155,12 +160,12 @@ function bReplyRead(){
     reply.forEach(rp => { // bno에 맞는 목록들 전체 출력
         if(currentUserId==rp.memberid){ //그 목록중 현재접속된 아이디와 댓글 작성자가 일치하면
             // 수정 삭제 버튼까지 출력하기
+                // '${rp.content}' => 뮨문는 문자취급
             html += `<tr>
                                 <td> ${rp.memberid} </td>
-                                <td> ${rp.content} </td>
+                                <td class="td${rp.commentid}" > <input value="${rp.content}" readonly style="border: none; outline: none;" /> </td>
                                 <td> ${rp.createdat} </td>
-                                <td><input type="text" class="reply-content" value="${rp.content}" style="display:none;" /></td>
-                                <td> <button type="button" class="btn btn-primary" onclick="ReUpdate(${rp.commentid})">수정</button> </td>
+                                <td class="updatetd${rp.commentid}"> <button type="button" class="btn btn-primary" onclick="ReUpdate( ${rp.commentid} , '${rp.content}' )">수정</button> </td>
                                 <td> <button type="button" class="btn btn-primary" onclick="ReDelete(${rp.commentid})">삭제</button> </td>
                             </tr>
 
@@ -182,28 +187,47 @@ function bReplyRead(){
 
 
 ///////////////댓글 수정///////////////////////
-function ReUpdate(commentid){
-    console.log("ReUpdate()")
-    console.log(commentid)
+    ///댓글 수정 보이게
+function ReUpdate(commentid , content ){
+    let uptd = document.querySelector(`.td${commentid}`)
+    uptd.innerHTML = `<input  value="${ content }" class="newContent"/>`
 
-    reply = {}
-    $.ajax({ // AJAX
-        async : false ,
-               method : 'get' ,
-               url : "/board/reply/read" ,
-               data : {bno : bno} ,
-               success : (r) =>{
-       //            console.log(r);
-                   reply = r;
-       //            console.log(reply);
-               }
-    }) // AJAX END
-    document.querySelector('.reply-content').style.display = 'block';
-    document.querySelector('.reply-content').value = `${ reply.content }`;
-
+    let updatetd = document.querySelector(`.updatetd${commentid}`)
+    updatetd.innerHTML = `<button type="button" class="btn btn-primary" onclick="ReUpdate2( ${commentid}  )">수정완료</button>`
 
 }
 
+function ReUpdate2(commentid){
+    console.log("ReUpdate2()")
+    console.log(commentid)
+
+    let newContent =  document.querySelector(`.newContent`).value
+
+    let info = {
+            postid : bno,
+            commentid : commentid ,
+            content : newContent
+        };
+
+        $.ajax({
+            async : false ,
+            method : 'put' ,
+            url : "/board/reply/update" ,
+            data : JSON.stringify(info) , // 객체를 JSON 문자열로 변환
+            contentType : "application/json" ,
+            success : (r) => {
+    //            console.log(r);
+                if(r == true){
+                    alert("댓글수정 성공");
+                    bReplyRead();
+                }else{
+                    alert("댓글쓰기 실패 : 로그인 후 쓰기가 가능합니다.");
+                    location.href = "/member/login";
+                }
+            } , // success end
+            error : (e) => {console.log(e);}   // error end
+        })  // ajax end
+}
 
 
 
@@ -215,12 +239,10 @@ function ReUpdate(commentid){
 function ReDelete (commentid) {
     console.log("ReDelete()")
     console.log(commentid)
-
     data = {
         postid : bno,
         commentid : commentid
     }
-
     $.ajax({
                 async : false,
                 method : 'delete',

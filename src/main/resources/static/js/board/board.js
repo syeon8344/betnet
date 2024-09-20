@@ -2,9 +2,10 @@ console.log("board.js")
 
 
 // 전체 조회 함수
-raadAll()
-function raadAll(){
-    let teamcode = document.querySelector("#teamcode").value;
+raadAll(0)
+function raadAll(value){
+
+    let teamcode = document.querySelector(".teamcode").value;
 
     console.log( 'teamcode' )
     console.log( teamcode )
@@ -12,20 +13,22 @@ function raadAll(){
     console.log("raadAll()")
     $.ajax({
        async : false, method : "get" , url : "/board/readAll" ,
-       data : { teamcode : teamcode } ,
+       data : { teamcode : value } ,
        success : r => {console.log(r);
            let tbody = document.querySelector('tbody')
            let html = '';
            r.forEach( 게시판 => {
-               html += `<tr>
-                       <th>${게시판.postid}</th>
-                       <th>${게시판.teamname}</th>
-                       <th><a href="/board/view?bno=${게시판.postid}">${게시판.title}</th>
-                       <th>${게시판.memberid}</th>
-                       <th>${게시판.createdat}</th>
-                       <th>${게시판.views}</th>
-                       <th>${게시판.likes}</th>
-                       </tr>`
+               html += `
+                   <tr>
+                       <td>${게시판.postid}</td>
+                       <td>${게시판.teamname}</td>
+                       <td><a href="/board/view?bno=${게시판.postid}" class="text-decoration-none">${게시판.title}</a></td>
+                       <td>${게시판.content}</td>
+                       <td>${게시판.memberid}</td>
+                       <td>${게시판.createdat}</td>
+                       <td>${게시판.views}</td>
+                   </tr>
+               `;
                })
            tbody.innerHTML = html
            }

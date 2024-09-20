@@ -145,6 +145,20 @@ public class BoardService {
         return boardDao.reWrite(replyDto);
     }
 
+    public boolean rpUpdate(ReplyDto replyDto){
+        System.out.println("BoardService.reUpdate");
+        MemberDto loginDto = memberService.loginCheck();
+        System.out.println("loginDto = " + loginDto);
+        if (loginDto == null) return false;
+        int no = loginDto.getMemberid();
+        replyDto.setMemberid(no);
+        System.out.println("replyDto = " + replyDto);
+        return boardDao.rpUpdate(replyDto);
+    }
+
+
+
+
     //댓글 삭제하기
     public boolean rpDelete(ReplyDto replyDto){
         MemberDto loginDto = memberService.loginCheck();
