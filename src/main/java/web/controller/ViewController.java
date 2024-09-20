@@ -78,4 +78,28 @@ public class ViewController {
     public String chat(){ return "/index.html";
     }
 
+    // ========== 연도별 팀 기록 ===============
+    // 연도별 타자 팀기록
+    @GetMapping("/history/hitter")
+    public String historyHitter(){
+        return "/history/hitter.html";
+    }
+
+    // 연도별 투수 팀기록
+    @GetMapping("/history/pitcher")
+    public String historyPitcher(){
+        return "/history/pitcher.html";
+    }
+
+    // 연도별 주루 팀기록
+    @GetMapping("/history/runner")
+    public String historyRunner(){
+        return "/history/runner.html";
+    }
+
+    // 연도별 팀 순위 기록
+    @GetMapping("/history/rank")
+    public String historyRank(){
+        return "/history/rank.html";
+    }
 }

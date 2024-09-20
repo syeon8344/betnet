@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>연도별 주루 팀기록</title>
+    <link href="/css/history/runner.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{/header.html:: header}"></div>
+    <div class="wrap">
+        <img src="/img/chat.png" class="chat" onclick="openChat()" style="width: 50px;"/>
+        <div class="Box"></div>
+        <div class="indexMain">
+            <div class="history">
+                <select class="year" onclick="getYearTable()">
+                    <option value="2015">2015</option>
+                    <option value="2016">2016</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024" selected>2024</option>
+                </select>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <tr>
+                                <th>도루성공순위</th>
+                                <th>팀명</th>
+                                <th>경기수[G]</th>
+                                <th>도루시도수[SBA]</th>
+                                <th>도루성공수[SB]</th>
+                                <th>도루실패수[CS]</th>
+                                <th>도루성공률[SB%]</th>
+                                <th>아웃오프베이스[OOB]</th>
+                                <th>포수에의한아웃[PKO]</th>
+                            </tr>
+                        </tr>
+                    </thead>
+                    <tbody class="historyTbody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{/footer.html:: footer}"></div>
+    <script src="/js/history/runner.js"></script>
+    <script src="/js/chat/chat.js"></script>
+</body>
+</html>
