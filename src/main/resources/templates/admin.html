@@ -15,7 +15,7 @@
                     <th> 번호 </th> <th> 마감시간 </th> <th> 종목 </th> <th> 게임유형 </th> <th> 홈팀 vs 원정팀 </th> <th> 게임 취소 </th> <th> 경기시간 </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="gameScheduleBody">
                 <tr> <td> 1 </td> <td> 9/18 18:00 </td> <td> KBO </td> <td> 일반 </td> <td> 롯데 vs LG </td> <td> <button type="button" onclick="cancel()"> 취소 </button> </td> <td> 9/18 17:00 </td> </tr>
                 <tr> <td> 2 </td> <td> 9/18 18:00 </td> <td> KBO </td> <td> 일반 </td> <td> NC vs 한화 </td> <td> <button type="button" onclick="cancel()"> 취소 </button> </td> <td> 9/18 17:00 </td> </tr>
                 <tr> <td> 3 </td> <td> 9/18 18:00 </td> <td> KBO </td> <td> 일반 </td> <td> KT vs 삼성 </td> <td> <button type="button" onclick="cancel()"> 취소 </button> </td> <td> 9/18 17:00 </td> </tr>
@@ -25,5 +25,6 @@
     </div>
 </div>
 <div th:replace="~{/footer.html:: footer}"></div>
+<script src="/js/admin.js"></script>
 </body>
 </html>

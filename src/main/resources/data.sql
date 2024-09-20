@@ -12,7 +12,7 @@ insert into Teams(TeamName , LogoImage) values('NC' , 'https://i.namu.wiki/i/ItR
 insert into Teams(TeamName , LogoImage) values('키움' , 'https://i.namu.wiki/i/KbcMek3zCSyK8ATT3t1Qm8rBXhK0tjxmSt96rl2vF5FApWR9QKj3Jp1MB48_vblvt-rt6rx_UnEsURtV_z89Jr32rBsOsKdeE9Flk5ocOGiie5N5fdbn9-R_c7Yt-A-j5UwqOmIc8ePGZC17Hgmuzw.svg');
 insert into Teams(TeamName ) values('자유');
 insert into Teams(TeamName) values('없음');
-
+select * from members m inner join teams t on m.teamcode=t.teamcode where memberid='1';
 -- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
 ('admin' , 'admin' , 'admin' , '010-123-4646' , 'admin@example.com' , 'M' , 20 , 1 , 1000 , 5 , 100 , '123-123-123'),
@@ -120,7 +120,7 @@ INSERT INTO TeamBoard (memberid, teamcode, content, title, views, likes) VALUES
 (48, 8, 'Team8의 마흔여덟 번째 게시물 내용입니다.', 'Team8 마흔여덟 번째 게시물', 16, 12),
 (49, 9, 'Team9의 마흔아홉 번째 게시물 내용입니다.', 'Team9 마흔아홉 번째 게시물', 19, 14),
 (50, 10, 'Team10의 오십 번째 게시물 내용입니다.', 'Team10 오십 번째 게시물', 35, 25);
-
+select * from teamboard;
 -- 댓글
 insert into comments (memberid, postid, commentindex, createdat, content) values
 (1, 1, 1, CURRENT_DATE, '이 게시물에 대한 첫 번째 댓글입니다.'),
@@ -234,7 +234,7 @@ insert into chatlogs (memberid, content, chatroomuniqueid) values
 INSERT INTO PointLogs (MemberID, PointChange, Description)
 VALUES
 -- 양수 포인트 변경 (Description = 1)
-(1, 1000000, 1),
+(1, 100, 1),
 (2, 150, 1),
 (3, 120, 1),
 (4, 180, 1),
@@ -439,63 +439,63 @@ VALUES
 (50, -130, 4);
 
 -- 게임구매목록
-insert into gamepurchaselist (pointlogid , gamestate) values
-(101 , 1),
-(102 , 1),
-(103 , 2),
-(104 , 2),
-(105 , 2),
-(106 , 3),
-(107 , 4),
-(108 , 5),
-(109 , 1),
-(110 , 2),
-(111 , 3),
-(112 , 4),
-(113 , 5),
-(114 , 1),
-(115 , 1),
-(116 , 2),
-(117 , 3),
-(118 , 4),
-(119 , 5),
-(120 , 5),
-(121 , 5),
-(122 , 1),
-(123 , 2),
-(124 , 3),
-(125 , 4),
-(126 , 5),
-(127 , 1),
-(128 , 5),
-(129 , 5),
-(130 , 1),
-(131 , 1),
-(132 , 1),
-(133 , 1),
-(134 , 1),
-(135 , 1),
-(136 , 1),
-(137 , 1),
-(138 , 1),
-(139 , 2),
-(140 , 2),
-(141 , 2),
-(142 , 2),
-(143 , 2),
-(144 , 2),
-(145 , 3),
-(146 , 3),
-(147 , 3),
-(148 , 3),
-(149 , 3),
-(150 , 3);
+insert into gamepurchaselist (pointlogid) values
+(101),
+(102),
+(103),
+(104),
+(105),
+(106),
+(107),
+(108),
+(109),
+(110),
+(111),
+(112),
+(113),
+(114),
+(115),
+(116),
+(117),
+(118),
+(119),
+(120),
+(121),
+(122),
+(123),
+(124),
+(125),
+(126),
+(127),
+(128),
+(129),
+(130),
+(131),
+(132),
+(133),
+(134),
+(135),
+(136),
+(137),
+(138),
+(139),
+(140),
+(141),
+(142),
+(143),
+(144),
+(145),
+(146),
+(147),
+(148),
+(149),
+(150);
 
 -- 게임구매상세
 insert into gamepurchasedetails (listid, matchid, winandloss , matchstate) values
 (1, '20240901-1-1400', 1 ,0),
-(2, '20240901-2-1500', 1 , 1),
-(3, '20240901-2-1500', 1 , 1),
+(2, '20240901-두산-1400', 1 , 1),
+(3, '20240901-두산-1400', 1 , 1),
 (3, '20240901-3-1600', 1 , 1),
 (4, '20240901-4-1700', 0 , 1),
 (5, '20240901-5-1800', 1 ,1),

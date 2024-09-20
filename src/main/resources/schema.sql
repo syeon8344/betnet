@@ -107,7 +107,7 @@ CREATE TABLE GamePurchaseDetails (
     ListID INT NOT NULL,                       -- 구매 목록 번호 (외래 키)
     MatchID varchar(255) , 						-- 경기목록 고유코드(csv)
 	winandloss int NOT NULL ,            -- 회원이 선택한 승패 1 : 승 0 : 패
-    matchstate int default 1, -- 경기상태 1 : 경기 정상 0 : 경기취소
+    matchstate int default 1, -- 경기상태  1 : 경기 정상  0 : 경기취소
     foreign key(ListID) references GamePurchaseList(ListID)
     on update cascade
     on delete cascade
