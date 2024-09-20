@@ -27,5 +27,9 @@
         </if> <!-- endDate의 다음 날의 시작 시점(00:00:00)에서 1초를 빼서 endDate의 마지막 순간(23:59:59)을 포함하도록 설정 -->
         <if test="startPoint != 0">and pointChange between #{startPoint} and #{endPoint}</if>
     </select>
+    <!-- 비밀번호 체크 -->
+    <select id="myPassword" parameterType="web.model.dto.PointLogDto">
+        select * from members where memberid = #{memberid} and password = #{password}
+    </select>
 
 </mapper> <!-- mapper end -->

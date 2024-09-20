@@ -5,13 +5,14 @@ function doLoginCheck(){
     $.ajax({
         async:false,
         method:'get',
-        url:"/member/logincheck",
+        url:"/member/logcheck",
         success:(result)=>{console.log(result);
             if(result == ""){
                 alert("로그인 후 이용가능합니다.")
                 location.href = "/member/login"
             }
             memberInfo = result
+            console.log(memberInfo)
         }
     })
 }
@@ -178,22 +179,38 @@ function getMyAccount(){
 function withdraw(){
     let withdrawPoint = document.querySelector(".withdrawPoint").value;
     let myPoint = document.querySelector(".myPointBox").value;
+    let passwordCheck = document.querySelector(".passwordCheck").value;
+    console.log(passwordCheck);
     if(withdrawPoint > myPoint){
         alert("출금할 포인트가 포인트 잔액보다 큽니다.");
         return
     }
     withdrawPoint = -withdrawPoint;
-    console.log(typeof(withdrawPoint))
+    // console.log(typeof(withdrawPoint))
     // 포인트 로그 DB 처리
     $.ajax({
         async : false , 
         method : 'post' , 
         url : "/point/insertpointlog" , 
-        data : {memberid : memberInfo.memberid , pointChange : withdrawPoint , description : 4} , // description은 출금이니까 4로 지정
+        data : {memberid : memberInfo.memberid , pointChange : withdrawPoint , description : 4 , password : passwordCheck} , // description은 출금이니까 4로 지정
         success : (r) => {
             console.log(r);
-            mypointlog();
-            getMyPoint();
+            if(r == 0){
+                alert("비밀번호가 맞지 않습니다.");
+                // 모달안 입력창 값 초기화
+                $('#staticBackdrop').on('hidden.bs.modal', function (e) {
+                    $(this).find('form')[0].reset();
+                });
+                return;
+            }
+            if(r == 1){
+                mypointlog();
+                getMyPoint();
+                // 비밀번호 체크..?
+                alert("출금이 완료되었습니다.")
+                location.href = "/point"
+            }
+            
         } , 
         error : (e) => {
             console.log(e);

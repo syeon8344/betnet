@@ -18,4 +18,7 @@ public interface PointDao {
     // 포인트내역 출력
     List<PointLogDto> mypointlog(SearchDto searchDto);// mypointlog() end
 
+    // 비밀번호 체크
+    PointLogDto myPassword(PointLogDto pointLogDto);
+
 }

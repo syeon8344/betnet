@@ -12,7 +12,8 @@ function doLoginCheck(){
             html+=`<li class="nav-item">${result.name} 님</li>
                     <li class="nav-item pointInfo"></li>
                     <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>`
+                    <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/game">게임구매내역</a></li>`
         }
         else{console.log('비로그인')
             html+=`<li class="nav-item"><a class="nav-link" href="/member/signup">회원가입</a></li>

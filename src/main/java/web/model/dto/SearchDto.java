@@ -15,4 +15,5 @@ public class SearchDto {
     private int memberid;
     private int startPoint;
     private int endPoint;
+    private int gamestate;
 }

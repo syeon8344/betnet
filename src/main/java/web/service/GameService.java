@@ -3,10 +3,13 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import web.model.dao.GameDao;
 import web.model.dao.PointDao;
 import web.model.dto.GameDto;
+import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,6 +20,8 @@ public class GameService {
     GameDao gameDao;
     @Autowired
     PointDao pointDao;
+    @Autowired
+    MemberService memberService;
 
     // 게임 구매
     public int gamePeurchase(GameDto gameDto){
@@ -61,5 +66,41 @@ public class GameService {
         }
         return result;
     }   // end method gamePurchase
+
+    // 게임 리스트 출력
+    public List<GameDto> getlist(SearchDto searchDto){
+        MemberDto memberDto = memberService.loginCheck();
+        int memberid = memberDto.getMemberid();
+        searchDto.setMemberid(memberid);
+        List<GameDto> list = gameDao.getlist(searchDto);
+        list.forEach(dto ->{
+            // 숫자로 나오는 코드 미리 정한 이름으로 변환해서 dto에 저장하기
+            // db에서 받은 숫자 코드 매개변수로 넘겨주기
+            String descriptionStr = gameStateStr(dto.getGamestate());
+            dto.setGamestateStr(descriptionStr);
+        });
+        return list;
+    }   // getlist() end
+
+    // 게임 상태 문자 변환
+    public String gameStateStr(int gamestate){
+        String gamestateStr = "";
+        if(gamestate == 1){
+            gamestateStr = "발매중";
+        }
+        if(gamestate == 2){
+            gamestateStr = "발매마감";
+        }
+        if(gamestate == 3){
+            gamestateStr = "적중실패";
+        }
+        if(gamestate == 4){
+            gamestateStr = "적중";
+        }
+        if(gamestate == 5){
+            gamestateStr = "배당금지급완료";
+        }
+        return gamestateStr;
+    }
 
 }   // class GameService

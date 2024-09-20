@@ -13,6 +13,8 @@ public class GameDto {
     private String matchid; // csv에서 가져오는 경기 인덱스
     private int winandloss; // 회원이 설정하는 승패 1 : 승 0 : 패
     private int matchstate; // 경기 상태 0 : 경기 취소 1 : 경기 정상
+    private int gamestate;  // 게임 상태 1 : 발매중 2: 발매마감 3: 적중실패 4: 적중 5: 배당금지급완료
+    private String gamestateStr;
 
     // GamePurchaseList // 게임구매목록
     private int pointlogid;
@@ -24,4 +26,6 @@ public class GameDto {
     private int memberid;
     private int pointChange;
     private int odds; // 배당률
+
+    private String logDate; // 포인트 거래일시
 }

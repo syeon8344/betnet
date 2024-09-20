@@ -2,7 +2,9 @@ package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.GameDto;
+import web.model.dto.SearchDto;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -22,5 +24,8 @@ public interface GameDao {
 
     // 게임구매하기
     int gamePurchase(GameDto gameDto);
+
+    // 게임 리스트 출력
+    List<GameDto> getlist(SearchDto searchDto);    // getlist() end
 
 }   // end class GameDao

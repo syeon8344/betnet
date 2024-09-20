@@ -33,7 +33,22 @@ public class PointService {
 
     // 포인트로그 포인트 충전 내역 저장
     public int insertPointLog(PointLogDto pointLogDto){
-        return pointDao.insertPointLog(pointLogDto);
+        System.out.println("PointService.insertPointLog");
+        System.out.println("pointLogDto = " + pointLogDto);
+        int result2 = 0;
+        if (pointLogDto.getPassword() != null){
+            PointLogDto result = pointDao.myPassword(pointLogDto);
+            System.out.println("result = " + result);
+            if(result == null){
+                result2 = 0;
+            }else{
+                result2 = pointDao.insertPointLog(pointLogDto);
+            }
+            return result2;
+        }
+        result2 = pointDao.insertPointLog(pointLogDto);
+        System.out.println("result2 = " + result2);
+        return result2;
     }   // insertPointLog() end
 
     // 포인트내역 출력

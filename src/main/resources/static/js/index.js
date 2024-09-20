@@ -127,7 +127,7 @@ function gamePurchase(){
         $.ajax({
             async:false,
             method:'get',
-            url:"/member/logincheck",
+            url:"/member/logcheck",
             success:(result)=>{console.log(result);
                 if(result == ""){
                     alert("로그인 후 이용가능합니다.")
@@ -158,10 +158,17 @@ function gamePurchase(){
         contentType : "application/json" , 
         success:(r)=>{
             console.log(r);
+            // db 저장 성공
+            if(r == 1){
+                alert("구매가 완료되었습니다.");
+                location.href = "/game"
+            }
+            // 포인트 부족
             if(r == 3){
                 alert("포인트 충전 후 구매 가능합니다.");
                 location.href = "/point"
             }
+
         } , 
         error : (e) =>{
             console.log(e);
