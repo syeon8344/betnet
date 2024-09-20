@@ -103,4 +103,12 @@ public class GameService {
         return gamestateStr;
     }
 
+    // 게임 상세 출력
+    public List<GameDto> getDetail(GameDto gameDto){
+        MemberDto memberDto = memberService.loginCheck();
+        int memberid = memberDto.getMemberid();
+        gameDto.setMemberid(memberid);
+        return gameDao.getDetail(gameDto);
+    }   // getDetail() end
+
 }   // class GameService

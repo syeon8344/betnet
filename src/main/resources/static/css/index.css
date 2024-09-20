@@ -2,20 +2,28 @@
     width: 1080px;
     display: flex;
     justify-content: space-between;
+    height: 100vh; /* 부모 요소의 높이 설정 */
+    overflow: auto; /* 스크롤 가능하게 설정 */
 }
 .gameScheduleBox{
     width: 70%;
+    margin-bottom: 10px;
+    display: inline-block;
+    vertical-align: top;
+    background: #f9f9f9; /* 배경색 추가 */
+    padding: 10px; /* 내부 여백 추가 */
 }
 .purchaseBox{
     width: 30%;
     border: 1px solid #eeeeee;
-    position: fixed;
-    right: 50px;
-    top : 260px;
+    position: sticky;
+    top: 10px; /* 상단에서 10px 위치 */
     background-color: white;
     padding: 10px;
+    margin: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
-
 .msgBox{
     display: block;
     height: 100px;

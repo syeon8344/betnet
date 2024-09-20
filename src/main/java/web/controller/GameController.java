@@ -29,4 +29,11 @@ public class GameController {
     public List<GameDto> getlist(SearchDto searchDto){
         return gameService.getlist(searchDto);
     }   // getlist() end
+
+    // 게임 상세 출력
+    @GetMapping("/detail")
+    public List<GameDto> getDetail(GameDto gameDto){
+        return gameService.getDetail(gameDto);
+    }   // getDetail() end
+
 }   // class GameController
