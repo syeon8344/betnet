@@ -35,6 +35,9 @@ public interface BoardDao {
     //댓글 등록 함수
     boolean reWrite(ReplyDto replyDto);
 
+    // 댓글 수정 함수
+    boolean rpUpdate(ReplyDto replyDto );
+
     //댓글 삭제 함수
     boolean rpDelete(ReplyDto replyDto );
 

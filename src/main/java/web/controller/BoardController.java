@@ -77,6 +77,16 @@ public class BoardController {
     }
 
 
+    @PutMapping("/reply/update")
+    public boolean rpUpdate(@RequestBody ReplyDto replyDto){
+        System.out.println("BoardController.rpUpdate");
+        System.out.println("replyDto = " + replyDto);
+        return boardService.rpUpdate(replyDto);
+    }
+
+
+
+
     // 댓글 삭제하기
     @DeleteMapping("/reply/delete")
     public boolean rpDelete(ReplyDto replyDto){
@@ -84,6 +94,8 @@ public class BoardController {
         System.out.println("replyDto = " + replyDto);
         return boardService.rpDelete(replyDto);
     }
+
+
 
 
 

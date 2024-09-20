@@ -43,6 +43,10 @@
         insert into comments (memberid, postid, commentindex, content) values ( #{memberid},#{postid},#{commentindex},#{content})
     </insert>
 
+    <update id="rpUpdate" parameterType="web.model.dto.ReplyDto">
+        update comments set content = #{content} where commentid = #{commentid} and memberid=#{memberid} and postid =#{postid};
+    </update>
+
     <delete id="rpDelete" parameterType="web.model.dto.ReplyDto">
         delete from comments where commentid = #{commentid} and memberid= #{memberid} and postid = #{postid} ;
     </delete>

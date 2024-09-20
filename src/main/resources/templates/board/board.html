@@ -2,46 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>게시판</title>
+  <title>게시판 페이지</title>
+  <!-- css  -->
+  <link href="/css/board/board.css" rel="stylesheet">
 
 </head>
 <body>
   <div th:replace="~{/header.html:: header}"></div>
 
-  <h1>팀 선택</h1>
 
+  <div class="container mt-4">
+    <h6 class="text-center">상세검색</h6>
+    <div class="text-center mb-4">
+      <button class="teamcode btn btn-primary mx-1" value="0" onclick="raadAll(0)">전체게시판</button>
+      <button class="teamcode btn btn-primary mx-1" value="1" onclick="raadAll(1)">기아</button>
+      <button class="teamcode btn btn-primary mx-1" value="2" onclick="raadAll(2)">삼성</button>
+      <button class="teamcode btn btn-primary mx-1" value="3" onclick="raadAll(3)">LG</button>
+      <button class="teamcode btn btn-primary mx-1" value="4" onclick="raadAll(4)">두산</button>
+      <button class="teamcode btn btn-primary mx-1" value="5" onclick="raadAll(5)">KT</button>
+      <button class="teamcode btn btn-primary mx-1" value="6" onclick="raadAll(6)">한화</button>
+      <button class="teamcode btn btn-primary mx-1" value="7" onclick="raadAll(7)">SSG</button>
+      <button class="teamcode btn btn-primary mx-1" value="8" onclick="raadAll(8)">롯데</button>
+      <button class="teamcode btn btn-primary mx-1" value="9" onclick="raadAll(9)">NC</button>
+      <button class="teamcode btn btn-primary mx-1" value="10" onclick="raadAll(10)">키움</button>
+      <button class="teamcode btn btn-primary mx-1" value="11" onclick="raadAll(11)">자유게시판</button>
+    </div>
+  </div>
 
-  <div>
-    <h6> 상세검색</h6>
-    <select name="teamcode" id="teamcode">
-      <option value="0">전체게시판</option>
-      <option value="1">기아</option>
-      <option value="2">삼성</option>
-      <option value="3">LG</option>
-      <option value="4">두산</option>
-      <option value="5">KT</option>
-      <option value="6">한화</option>
-      <option value="7">SSG</option>
-      <option value="8">롯데</option>
-      <option value="9">NC</option>
-      <option value="10">키움</option>
-      <option value="11">자유게시판</option>
-    </select>
-    <button type="button" onclick="raadAll()"> 검색</button>
-  </div> <!-- searchBox end -->
-  <a href="/board/write">글쓰기</a>
+  <div class="container mt-4">
+    <div class="text-right mb-2">
+      <a href="/board/write" class="btn btn-success">글쓰기</a>
+    </div>
 
-  <table border="1">
-    <thead>
-      <tr>
-        <th>게시물번호</th><th>선호팀</th><th>제목</th> <th>내용</th><th>작성자</th> <th>등록일</th> <th>조회수</th> <th>좋아요</th>
-      </tr>
-    </thead>
-
-    <tbody>
-    </tbody>
-
-  </table>
+    <table class="table table-hover table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">게시물번호</th>
+          <th scope="col">선호팀</th>
+          <th scope="col">제목</th>
+          <th scope="col">내용</th>
+          <th scope="col">작성자</th>
+          <th scope="col">등록일</th>
+          <th scope="col">조회수</th>
+        </tr>
+      </thead>
+      <tbody>
+      <!-- 데이터가 여기에 들어갑니다 -->
+      </tbody>
+    </table>
+  </div>
 
 
 
