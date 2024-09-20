@@ -1,4 +1,6 @@
 console.log('chat.js')
+
+
 function openChat(){
     let Box = document.querySelector('.Box');
     let html = `  <div>
@@ -14,10 +16,29 @@ function openChat(){
     // Math.random() * 끝값(미만)        :  0 ~ 끝값 사이의 난수
     // ( Math.random() * 끝값 ) + 시작값 :  시작값 ~ 끝값 사이의 난수
     // Math.floor( )                   :  소수점 제거 함수
+
 let randomNo = Math.floor( Math.random() * 1001) + 1
-let nickName = `익명${randomNo}`
+let nickName = ``
 console.log(nickName)
 
+function doLoginCheck(){
+    $.ajax({
+        async:false,
+        method:'get',
+        url:"/member/logcheck",
+        success:(result)=>{
+            if(result == ""){
+
+                nickName = `익명${randomNo}`
+                console.log(nickName)
+            }
+            else{console.log(result);
+                nickName = `${result.userName}(${result.teamName})`
+            }
+        }
+    })
+}
+doLoginCheck()
 // JS 클라이언트 웹소켓 # new WebSocket("ws://localhost:8080/ws매핑주소")
 let clientSocket = new WebSocket("ws://localhost:8080/chat/conn")
 console.log( clientSocket );
@@ -90,3 +111,37 @@ function onMsgSend(){
     //
     msgInput.value = "";
 }
+// 채팅방 생성
+function createChatRoom() {
+    let roomId = Object.keys(chatRooms).length + 1; // 새로운 방 ID
+    chatRooms[roomId] = []; // 새로운 방 초기화
+    console.log(`채팅방 ${roomId}가 생성되었습니다.`);
+    return roomId;
+}
+
+// 채팅방 목록을 표시하는 함수
+function showChatRooms() {
+    let roomList = document.querySelector('.roomList');
+    roomList.innerHTML = ''; // 기존 목록 초기화
+
+    for (let roomId in chatRooms) {
+        roomList.innerHTML += `<button onclick="openChat(${roomId})">채팅방 ${roomId}</button>`;
+    }
+}
+
+// 메시지 로드 (기본 기능, 필요에 따라 구현)
+function loadMessages(roomId) {
+    let msgBox = document.querySelector('.msgBox');
+    msgBox.innerHTML = chatRooms[roomId].map(msg => `
+        <div>${msg.from}: ${msg.message}</div>
+    `).join('');
+}
+
+
+
+// 초기 채팅방 생성
+createChatRoom("첫 번째 채팅방");
+createChatRoom("두 번째 채팅방");
+
+// 채팅방 목록 표시
+showChatRooms();

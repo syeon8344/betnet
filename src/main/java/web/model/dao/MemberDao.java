@@ -28,6 +28,7 @@ public interface MemberDao {
     //09.12 이메일중복검사
     boolean emailCheck(String email);
 
+    //09.12 로그체크
     MemberDto logCheck(int memberid);
 
     // 09.19 개인정보 수정
