@@ -1,6 +1,42 @@
 console.log('index.js')
 let memberInfo = {}   // 멤버정보 저장하는 변수 
 console.log(memberInfo);
+getSchedule()
+// 파이썬 플라스크 서버에서 크롤링된 정보
+// 우선 오늘 날짜 경기일정 + 내일 경기일정(혹시 없으면 모레 경기일정)
+// 오늘 날짜 경기가 없으면 내일과 모레(없으면 사흘)
+// X날과 X+1날 경기일정
+function getSchedule(){
+    $.ajax({
+        method: "GET",
+        url: "http://127.0.0.1:5000/getschedule",
+        success: (result) => {
+            result = JSON.parse(result);
+            console.log(result);
+            if(isEmptyObject(result)){
+                alert('경기일정이 존재하지 않습니다.');
+                return;
+            }
+            // 경기일정 표시
+            let tbody = document.querySelector('.gameScheduleBody');
+            let html = '';
+            for(let i = 0 ; i < result.length ; i++){
+                html += `<tr>
+                    <td>${i+1}</td>
+                    <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                    <td>KBO</td>
+                    <td>일반</td>
+                    <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
+                    <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , 2.14); activateButton(this);"> 승 / 2.14 </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , 1.46); activateButton(this);"> 패 / 1.46 </button> </td>
+                    <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                    </tr>`;
+            }
+            tbody.innerHTML = html;
+        }
+    })
+}
+
+
 // 객체가 비어 있는지 확인하는 함수
 function isEmptyObject(obj) {
     return Object.keys(obj).length === 0;
