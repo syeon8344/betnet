@@ -40,5 +40,11 @@
         </if> <!-- endDate의 다음 날의 시작 시점(00:00:00)에서 1초를 빼서 endDate의 마지막 순간(23:59:59)을 포함하도록 설정 -->
         <if test="gamestate != 0">and gamestate = #{gamestate}</if>
     </select>
+    <!-- 게임구매 상세 출력 -->
+    <select id="getDetail" parameterType="web.model.dto.GameDto" resultType="web.model.dto.GameDto">
+        select * from GamePurchaseDetails
+        inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.memberid = #{memberid} and GamePurchaseDetails.listid = #{listid};
+    </select>
 
 </mapper> <!-- mapper end -->

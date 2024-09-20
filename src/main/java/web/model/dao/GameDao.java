@@ -28,4 +28,7 @@ public interface GameDao {
     // 게임 리스트 출력
     List<GameDto> getlist(SearchDto searchDto);    // getlist() end
 
+    // 게임 상세 출력
+    List<GameDto> getDetail(GameDto gameDto);// getDetail() end
+
 }   // end class GameDao
