@@ -15,6 +15,7 @@ insert into Teams(TeamName) values('없음');
 
 -- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, PurchaseLimitAmount, PurchaseLimitCount, Points, Account) VALUES
+('admin' , 'admin' , 'admin' , '010-123-4646' , 'admin@example.com' , 'M' , 20 , 1 , 1000 , 5 , 100 , '123-123-123'),
 ('user001', 'password123', 'John Doe', '010-555-0001', 'johndoe@example.com', 'M', 28, 1, 1000, 5, 100, '123-456-789'),
 ('user002', 'password456', 'Jane Smith', '010-555-0002', 'janesmith@example.com', 'F', 34, 2, 1500, 3, 200, '987-654-321'),
 ('user003', 'password789', 'Michael Johnson', '010-555-0003', 'michaeljohnson@example.com', 'M', 22, 3, 2000, 2, 150, '456-789-123'),

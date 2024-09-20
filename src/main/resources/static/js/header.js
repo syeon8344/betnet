@@ -8,7 +8,12 @@ function doLoginCheck(){
         url:"/member/logcheck",
         success:(result)=>{console.log(result);
             let=html='';
-        if(result!=''){console.log('로그인')
+        if (result.userName == 'admin'){
+            html += `<li class="nav-item"><a class="nav-link" href="/admin">관리자 페이지</a></li>
+            <li class="nav-item">${result.name} 님</li>
+            <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>`
+        }
+        else if(result!=''){console.log('로그인')
             html+=`<li class="nav-item">${result.name} 님</li>
                     <li class="nav-item pointInfo"></li>
                     <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>
