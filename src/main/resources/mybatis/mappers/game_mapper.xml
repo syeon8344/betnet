@@ -47,4 +47,11 @@
         inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.memberid = #{memberid} and GamePurchaseDetails.listid = #{listid};
     </select>
 
+    <!-- 내가 구매한 이력이 있는지 -->
+    <select id="isPurchased" parameterType="web.model.dto.GameDto" resultType="web.model.dto.GameDto">
+        select * from GamePurchaseDetails
+        inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.memberid = #{memberid}
+    </select>
+
 </mapper> <!-- mapper end -->

@@ -31,4 +31,7 @@ public interface GameDao {
     // 게임 상세 출력
     List<GameDto> getDetail(GameDto gameDto);// getDetail() end
 
+    // 게임구매시 내가 구매한 이력이 있는 경기인지 판단
+    List<GameDto> isPurchased(GameDto gameDto);// isPurchased() end
+
 }   // end class GameDao

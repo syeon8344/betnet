@@ -67,6 +67,31 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
             return;
         }
     }
+    // 최대 경기 구매 수 제한
+    if(matchids.length > 9 ){
+        alert("최대 구매 가능 경기 수는 10개 입니다.");
+        return;
+    }
+    console.log(matchid);
+    // 내가 구매한 경기인지 판단!
+    // 버튼 비활성화는 해제해야함... 어떻게..?
+    let result = true;
+    $.ajax({
+        async : false , 
+        method : "get" , 
+        url : "/game/ispurchased" , 
+        data : {matchid : matchid} , 
+        success : (r) =>{
+            console.log(r);
+            if(r){
+                alert("이미 구매한 경기입니다.");
+                result = false;
+            }
+        }
+    })
+    if(result==false){
+        return;
+    }
     // 경기 고를때마다 출력
     let purchaseCartBox = document.querySelector(".purchaseCartBox");
     let winandlossStr = "";
