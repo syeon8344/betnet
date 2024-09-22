@@ -107,4 +107,4 @@ function getBet(printMyGame){
                 <td colspan="5"> 총 배팅포인트 ${Math.abs(printMyGame[0].pointChange)} </td> 
             </tr>`;
     betBox.innerHTML = html;
-}
+}   //getSchedule() end

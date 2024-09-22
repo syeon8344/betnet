@@ -111,4 +111,24 @@ public class GameService {
         return gameDao.getDetail(gameDto);
     }   // getDetail() end
 
+    // 게임구매시 내가 구매한 이력이 있는 경기인지 판단
+    public boolean isPurchased(GameDto gameDto){
+        System.out.println("GameService.isPurchased");
+        System.out.println("gameDto = " + gameDto);
+        String matchid = gameDto.getMatchid();
+        MemberDto memberDto = memberService.loginCheck();
+        int memberid = memberDto.getMemberid();
+        gameDto.setMemberid(memberid);
+        List<GameDto> gameDtos = gameDao.isPurchased(gameDto);
+        boolean result = false;
+        for (int i = 0; i < gameDtos.size(); i++){
+            String matchid2 = gameDtos.get(i).getMatchid();
+            if(matchid.equals(matchid2)){
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }   // isPurchased() end
+
 }   // class GameService

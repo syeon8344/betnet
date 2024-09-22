@@ -36,4 +36,12 @@ public class GameController {
         return gameService.getDetail(gameDto);
     }   // getDetail() end
 
+    // 게임구매시 내가 구매한 이력이 있는 경기인지 판단
+    @GetMapping("/ispurchased")
+    public boolean isPurchased(GameDto gameDto){
+        System.out.println("GameController.isPurchased");
+        System.out.println("gameDto = " + gameDto);
+        return gameService.isPurchased(gameDto);
+    }   // isPurchased() end
+
 }   // class GameController

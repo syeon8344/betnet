@@ -235,7 +235,7 @@ INSERT INTO PointLogs (MemberID, PointChange, Description)
 VALUES
 -- 양수 포인트 변경 (Description = 1)
 (1, 100, 1),
-(2, 150, 1),
+(2, 100000, 1),
 (3, 120, 1),
 (4, 180, 1),
 (5, 110, 1),
