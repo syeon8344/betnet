@@ -7,9 +7,12 @@ getSchedule()
 // 오늘 날짜 경기가 없으면 내일과 모레(없으면 사흘)
 // X날과 X+1날 경기일정
 function getSchedule(){
+    let today = new Date();
+    let formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD 형식
     $.ajax({
         method: "GET",
         url: "http://127.0.0.1:5000/getschedule",
+        data: {date: formattedDate},
         success: (result) => {
             result = JSON.parse(result);
             console.log(result);
@@ -18,6 +21,9 @@ function getSchedule(){
                 return;
             }
             // 경기일정 표시
+            // TODO: 09.22 추가 데이터
+            // 어웨이예측순위, 홈예측순위, 어웨이배당률, 홈배당률, 어웨이승률, 홈승률
+            // 7.116,             4.998,        1.59,                1.41,         0.41,       0.59
             let tbody = document.querySelector('.gameScheduleBody');
             let html = '';
             for(let i = 0 ; i < result.length ; i++){
