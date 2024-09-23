@@ -17,7 +17,7 @@ function getSchedule(){
     $.ajax({
         async : false , 
         method: "GET",
-        url: "http://127.0.0.1:5000/getschedule",
+        url: "http://127.0.0.1:5000/monthlyschedule",
         success: (result) => {
             result = JSON.parse(result);
             console.log(result);
@@ -52,8 +52,21 @@ function getSchedule(){
     console.log(printMyGame);
     let gameDetailListBox = document.querySelector(".gameDetailListBox");
     let html = ``;
+    let oddses = [];
+    let totalOdds = 1;
     for(let i = 0; i < printMyGame.length; i++){
         let winandlossStr = "";
+        let oods = 0;
+        if(printMyGame[i].winandloss == 1){
+            oddses.push(printMyGame[i].홈배당률)
+            oods = printMyGame[i].홈배당률;
+        }else{
+            oddses.push(printMyGame[i].어웨이배당률)
+            oods = printMyGame[i].어웨이배당률;
+        }
+        console.log(oddses);
+        totalOdds = oddses.reduce((acc, cur) => acc * cur, 1).toFixed(2);
+        console.log(totalOdds);
         if(printMyGame[i].winandloss == 1){
             winandlossStr = "승";
         }else{
@@ -69,17 +82,18 @@ function getSchedule(){
                     <td> ${i+1} </td> 
                     <td> ${printMyGame[i].월}/${printMyGame[i].일} ${printMyGame[i].시작시간} </td> 
                     <td> KBO </td> <td> ${printMyGame[i].경기코드} </td> 
-                    <td> ${printMyGame[i].홈팀명} vs ${printMyGame[i].어웨이팀명} </td> <td> ${winandlossStr}/배당률 </td> <td> ${printMyGame[i].월}/${printMyGame[i].일} ${printMyGame[i].시작시간} </td>
+                    <td> ${printMyGame[i].홈팀명} vs ${printMyGame[i].어웨이팀명} </td> <td> ${winandlossStr}/${oods} </td> <td> ${printMyGame[i].월}/${printMyGame[i].일} ${printMyGame[i].시작시간} </td>
                     <td> ${matchstateStr} </td>
                 </tr>`;
     }
     gameDetailListBox.innerHTML = html;
-    getBet(printMyGame);
+    getBet(printMyGame , totalOdds);
 }
 
-function getBet(printMyGame){
+function getBet(printMyGame , totalOdds){
     console.log('getBet()');
     console.log(printMyGame);
+    console.log(totalOdds)
     let betBox = document.querySelector(".betBox");
     let html = ``;
     let gamestateStr = "";
@@ -101,7 +115,7 @@ function getBet(printMyGame){
     }
 
     html = `<tr>
-                <td> ${printMyGame.length} </td> <td> 예상배당률 </td> <td> ${Math.abs(printMyGame[0].pointChange)} </td> <td> 포인트*예상배당률 </td> <td> ${gamestateStr} </td> 
+                <td> ${printMyGame.length} </td> <td> ${totalOdds} </td> <td> ${Math.abs(printMyGame[0].pointChange)} </td> <td> ${Math.abs(printMyGame[0].pointChange)*totalOdds} </td> <td> ${gamestateStr} </td> 
             </tr>
             <tr class="betPoint">
                 <td colspan="5"> 총 배팅포인트 ${Math.abs(printMyGame[0].pointChange)} </td> 

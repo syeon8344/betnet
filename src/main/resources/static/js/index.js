@@ -33,7 +33,7 @@ function getSchedule(){
                     <td>KBO</td>
                     <td>일반</td>
                     <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
-                    <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , 2.14); activateButton(this);"> 승 / 2.14 </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , 1.46); activateButton(this);"> 패 / 1.46 </button> </td>
+                    <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button> </td>
                     <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
                     </tr>`;
             }
