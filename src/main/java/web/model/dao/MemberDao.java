@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.MemberDto;
+import web.model.dto.PointLogDto;
 import web.model.dto.TeamsDto;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface MemberDao {
 
     // 09.19 개인정보 수정
     boolean edit(MemberDto memberDto);
+
+    // 09.23 개인포인트 통계
+    PointLogDto stat(String memberid);
 }

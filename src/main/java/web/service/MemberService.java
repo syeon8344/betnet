@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
+import web.model.dto.PointLogDto;
 import web.model.dto.TeamsDto;
 
 import java.util.List;
@@ -96,6 +97,12 @@ public class MemberService {
 
     // 09.19 개인정보 수정
     public boolean edit(MemberDto memberDto){
+
         return memberDao.edit(memberDto);
+    }
+
+    // 09.23 개인포인트 통계
+    public PointLogDto stat(String memberid){
+        return memberDao.stat(memberid);
     }
 }

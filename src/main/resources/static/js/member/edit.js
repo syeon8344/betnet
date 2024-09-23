@@ -174,6 +174,7 @@ function checkEmail(){console.log('checkEmail()');
 
 // 1. 수정
 function doEdit(){ console.log( 'doEdit()' )
+
     // 유효성 검사 체크
     console.log(checkArray);
     for(let i=0;i<checkArray.length;i++){
@@ -190,7 +191,7 @@ function doEdit(){ console.log( 'doEdit()' )
     let teamCode=document.querySelector('#favoriteTeam').value;
     let account=document.querySelector('#account').value;
     // 2. 객체
-    let info = {  password : password , email : email , contact : contact ,  teamCode : teamCode , account : account
+    let info = { memberid:memberid ,password : password , email : email , contact : contact ,  teamCode : teamCode , account : account
     }; console.log( info );
     // 3. ajax ( jquery 라이브러리 필요 ) , 비동기 통신
     $.ajax( {

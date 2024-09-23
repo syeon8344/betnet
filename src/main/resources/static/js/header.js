@@ -6,7 +6,7 @@ function doLoginCheck(){
         async:false,
         method:'get',
         url:"/member/logcheck",
-        success:(result)=>{console.log(result);
+        success:(result)=>{
             let=html='';
         if (result.userName == 'admin'){
             html += `<li class="nav-item"><a class="nav-link" href="/admin">관리자 페이지</a></li>

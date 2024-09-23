@@ -76,12 +76,13 @@ public class MemberController {
     // 09.19 개인정보 수정
     @PutMapping("/edit")
     public boolean edit(MemberDto memberDto){
+        System.out.println("memberDto = " + memberDto);
         return memberService.edit(memberDto);
     }
 
-//    // 09.23 개인 포인트 통계
-//    @GetMapping("/stat")
-//    public PointLogDto stat(String memberid){
-//        return probabilityService.probability(memberid);
-//    }
+    // 09.23 개인 포인트 통계
+    @GetMapping("/stat")
+    public PointLogDto stat(String memberid){
+        return memberService.stat(memberid);
+    }
 }

@@ -51,6 +51,11 @@
         memberid = #{memberid};
     </update>
 
+    <!-- 잔액 포인트 출력 -->
+    <select id="stat" parameterType="web.model.dto.PointLogDto" resultType="web.model.dto.PointLogDto">
+        select sum(pointChange) as sum from pointlogs where memberid = #{memberid} and Description = 3;
+    </select>
+
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
 <!--    <select id="read" resultType="example.task1.AccountDto">-->
 <!--        select * from account-->
