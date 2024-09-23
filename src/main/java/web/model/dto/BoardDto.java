@@ -8,7 +8,7 @@ public class BoardDto {
 
     private int postid; // bno
     private int memberid; // no
-    private int teamcode;
+    private int teamcode; // 카테고리 // 팀코드 별로 카테고리 나눔
     private String content;
     private String title;
     private String createdat;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.BoardDao;
 import web.model.dto.BoardDto;
+import web.model.dto.BoardPageDto;
 import web.model.dto.MemberDto;
 import web.model.dto.ReplyDto;
 
@@ -27,29 +28,55 @@ public class BoardService {
         int no = loginDto.getMemberid();
         boardDto.setMemberid(no);
         System.out.println("boardDto = " + boardDto);
-
         return boardDao.bWrite(boardDto);
     }
 
 
-    public List<BoardDto> bRead(int teamcode) {
+    public List<BoardDto> bRead(BoardPageDto boardPageDto) {
         System.out.println("BoardService.bRead");
         List<BoardDto> boardList;
 
-        if (teamcode == 0) {
+        System.out.println("boardPageDto = " + boardPageDto);
+
+        // - 만약에 페이지번호가 매개변수로 존재하지 않으면 1페이지로 설정
+        if( boardPageDto.getPage() == 0 ){ boardPageDto.setPage( 1 ); }
+        // 1. 하나의 페이지당 표시할 게시물 수
+            // 일단 2개만 출력
+        int pageBoardSize = 2; // - 하나의 페이지당 2개씩 표시
+        // 2. 페이지당 게시물을 출력할 시작레코드 번호
+        int startRow = ( boardPageDto.getPage() - 1) *  pageBoardSize;
+
+        if (boardPageDto.getTeamcode() == 0) {
             boardList = boardDao.bRead();
         } else {
-            boardList = boardDao.caRead(teamcode);
+            boardList = boardDao.caRead(boardPageDto);
         }
-
         // 각 BoardDto 객체의 teamcode를 teamname으로 변환
         for (BoardDto board : boardList) {
             String teamname = nameChange(board.getTeamcode());
             board.setTeamname(teamname); // 변환된 팀 이름 설정
         }
-
         return boardList;
     }
+
+    // 수정 전 코드
+//    public List<BoardDto> bRead(int teamcode) {
+//        System.out.println("BoardService.bRead");
+//        List<BoardDto> boardList;
+//
+//        if (teamcode == 0) {
+//            boardList = boardDao.bRead();
+//        } else {
+//            boardList = boardDao.caRead(teamcode);
+//        }
+//        // 각 BoardDto 객체의 teamcode를 teamname으로 변환
+//        for (BoardDto board : boardList) {
+//            String teamname = nameChange(board.getTeamcode());
+//            board.setTeamname(teamname); // 변환된 팀 이름 설정
+//        }
+//        return boardList;
+//    }
+
 
     //teamcode -> teamname 변환
     public String nameChange(int teamcode){
@@ -127,7 +154,7 @@ public class BoardService {
         return boardDao.bDelete(boardDto);
     }
 
-    /////////////////////////댓글 메섣/////////////
+    /////////////////////////댓글 메소드/////////////
     public List<ReplyDto> rpRead(int bno){
         System.out.println("BoardService.bReplyRead");
         System.out.println("bno = " + bno);
