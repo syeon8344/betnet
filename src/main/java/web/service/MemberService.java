@@ -102,7 +102,7 @@ public class MemberService {
     }
 
     // 09.23 개인포인트 통계
-    public PointLogDto stat(String memberid){
+    public PointLogDto stat(int memberid){
         return memberDao.stat(memberid);
     }
 }

@@ -82,7 +82,7 @@ public class MemberController {
 
     // 09.23 개인 포인트 통계
     @GetMapping("/stat")
-    public PointLogDto stat(String memberid){
+    public PointLogDto stat(int memberid){
         return memberService.stat(memberid);
     }
 }

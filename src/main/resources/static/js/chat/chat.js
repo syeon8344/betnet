@@ -1,22 +1,5 @@
 console.log('chat.js')
 
-
-function openChat(){
-    let Box = document.querySelector('.Box');
-    let html = `  <div>
-                    <div class="msgBox" style="display : block;">
-                    </div>
-                    <input type="text" class="msgInput" />
-                    <button onclick="onMsgSend()">메시지 전송</button>
-                </div>`
-    Box.innerHTML = html;
-}
-// --- 비회원제 , 익명 식별이름 생성
-    // Math.random()                    :  0 ~ 1 사이의 난수
-    // Math.random() * 끝값(미만)        :  0 ~ 끝값 사이의 난수
-    // ( Math.random() * 끝값 ) + 시작값 :  시작값 ~ 끝값 사이의 난수
-    // Math.floor( )                   :  소수점 제거 함수
-
 let randomNo = Math.floor( Math.random() * 1001) + 1
 let nickName = ``
 console.log(nickName)
@@ -136,12 +119,3 @@ function loadMessages(roomId) {
         <div>${msg.from}: ${msg.message}</div>
     `).join('');
 }
-
-
-
-// 초기 채팅방 생성
-createChatRoom("첫 번째 채팅방");
-createChatRoom("두 번째 채팅방");
-
-// 채팅방 목록 표시
-showChatRooms();

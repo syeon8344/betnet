@@ -18,8 +18,18 @@
             <div> <!-- 로고 -->
               <a href="/"><img src="/img/B (2).png" class="logo"/></a>
             </div>
-            <img src="/img/chat.png" class="chat" onclick="openChat()" style="width: 50px;"/>
-            <div class="Box"></div>
+            <!-- 채팅 -->
+            <div id="chating">
+                <div class="Box" >
+                    <div>
+                        <div class="msgBox" style="display : block;"></div>
+                        <div id="msgText">
+                            <input type="text" class="msgInput" />
+                            <button class="msgButton" onclick="onMsgSend()">메시지 전송</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <!-- 메인 메뉴 -->
                 <div id="bottomMenu">
                     <ul class="menu">

@@ -36,5 +36,5 @@ public interface MemberDao {
     boolean edit(MemberDto memberDto);
 
     // 09.23 개인포인트 통계
-    PointLogDto stat(String memberid);
+    PointLogDto stat(int memberid);
 }
