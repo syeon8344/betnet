@@ -94,9 +94,9 @@ public class MemberController {
         return memberService.refund(searchDto);
     }
 
-//    // 09.23 개인 포인트 통계
-//    @GetMapping("/stat")
-//    public PointLogDto stat(int memberid){
-//        return memberService.stat(memberid);
-//    }
+    // 09.23 개인 포인트 통계
+    @GetMapping("/stat")
+    public PointLogDto stat(int memberid){
+        return memberService.stat(memberid);
+    }
 }

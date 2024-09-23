@@ -108,12 +108,13 @@ public class MemberService {
     }
 
     // 09.23 개인 배당금 통계
-    public PointLogDto refund(SearchDto searchDto){
+    public PointLogDto refund(SearchDto searchDto) {
         System.out.println(memberDao.refund(searchDto));
         return memberDao.refund(searchDto);
+    }
 
-//    // 09.23 개인포인트 통계
-//    public PointLogDto stat(int memberid){
-//        return memberDao.stat(memberid);
-//    }
+    // 09.23 개인포인트 통계
+    public PointLogDto stat(int memberid){
+        return memberDao.stat(memberid);
+    }
 }
