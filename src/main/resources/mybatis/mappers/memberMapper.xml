@@ -60,7 +60,7 @@
 
     <!-- 잔액 포인트 출력 -->
     <select id="refund" parameterType="web.model.dto.SearchDto" resultType="web.model.dto.PointLogDto">
-        select sum(pointChange) as sum from pointlogs where memberid = #{memberid} and Description = 2 AND logDate BETWEEN #{startDate} AND DATE_ADD( #{startDate} , INTERVAL 1 DAY) - INTERVAL 1 SECOND
+        select * from pointlogs where memberid = 1 and Description = 2 AND logDate BETWEEN '2024-09-23 00:00:00' AND DATE_ADD( #{endDate} , INTERVAL 1 DAY) - INTERVAL 1 SECOND;
     </select>
 
 <!--    &lt;!&ndash; 2. DML SELECT  &ndash;&gt;-->
