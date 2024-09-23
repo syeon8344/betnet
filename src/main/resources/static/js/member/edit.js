@@ -22,6 +22,7 @@ function teams(){
 
 doLoginCheck();
 function doLoginCheck(){
+    teams();
     $.ajax({
         async:false,
         method:'get',

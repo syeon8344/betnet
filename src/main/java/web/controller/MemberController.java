@@ -3,6 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
+import web.model.dto.PointLogDto;
 import web.model.dto.TeamsDto;
 import web.service.MemberService;
 
@@ -77,4 +78,10 @@ public class MemberController {
     public boolean edit(MemberDto memberDto){
         return memberService.edit(memberDto);
     }
+
+//    // 09.23 개인 포인트 통계
+//    @GetMapping("/stat")
+//    public PointLogDto stat(String memberid){
+//        return probabilityService.probability(memberid);
+//    }
 }
