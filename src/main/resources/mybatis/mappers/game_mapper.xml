@@ -54,4 +54,15 @@
         inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.memberid = #{memberid}
     </select>
 
+    <!-- 배당금 지금 위한 경기 코드 비교 구매한 게임들 가져오기 -->
+    <select id="purchased" parameterType="web.model.dto.GameDto" resultType="web.model.dto.GameDto">
+        select * from GamePurchaseDetails
+        inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where GamePurchaseDetails.matchid = #{matchid}
+    </select>
+
+    <select id="yesterdayPurchased" parameterType="String" resultType="web.model.dto.GameDto">
+        select * from GamePurchaseList
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.logdate like CONCAT(#{dateString}, '%')
+    </select>
 </mapper> <!-- mapper end -->

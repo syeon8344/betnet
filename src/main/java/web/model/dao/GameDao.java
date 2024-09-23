@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.GameDto;
 import web.model.dto.SearchDto;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -34,4 +35,10 @@ public interface GameDao {
     // 게임구매시 내가 구매한 이력이 있는 경기인지 판단
     List<GameDto> isPurchased(GameDto gameDto);// isPurchased() end
 
+    // 경기코드에 맞는 게임 구매 내역 가져오기
+    List<GameDto> purchased(String matchid);
+
+    // 구매목록에서 한번에 가지고 와서 correct 비교 후 구매목록 상태 수정
+    // 어제 날짜 구매목록 가지고 오기
+    List<GameDto> yesterdayPurchased(String dateString);
 }   // end class GameDao

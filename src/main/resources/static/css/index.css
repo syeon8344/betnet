@@ -15,6 +15,7 @@
 }
 .purchaseBox{
     width: 30%;
+    height: 400px; /* 원하는 높이 설정 */
     border: 1px solid #eeeeee;
     position: sticky;
     top: 10px; /* 상단에서 10px 위치 */
