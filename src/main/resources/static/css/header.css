@@ -93,8 +93,32 @@ ul,ol,li{
 .menu > li:hover .submenu {
     display: block;
 }
-  
 
+#chating > .box{
+    position: fixed;
+    bottom: 600px;
+    left: 200px;
+}
 
-
-
+.msgBox{
+        border: 1px solid;
+        display: block;
+        height: 402px;
+        overflow-y: auto;
+        width: 268px;
+        position: fixed;
+        bottom: 367px;
+        left: 68px;
+}
+#msgText{
+    position: fixed;
+    bottom: 324px;
+    left: 68px;
+}
+#msgText > .msgInput{
+    width: 200px;
+    height: 35px;
+}
+#msgText > .msgButton{
+    height: 35px;
+}
