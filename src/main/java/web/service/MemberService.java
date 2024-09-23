@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 import web.model.dto.TeamsDto;
 
 import java.util.List;
@@ -101,8 +102,14 @@ public class MemberService {
         return memberDao.edit(memberDto);
     }
 
-    // 09.23 개인포인트 통계
-    public PointLogDto stat(String memberid){
-        return memberDao.stat(memberid);
+    // 09.23 개인 구매금액 포인트 통계
+    public PointLogDto purchase(SearchDto searchDto){
+        return memberDao.purchase(searchDto);
+    }
+
+    // 09.23 개인 배당금 통계
+    public PointLogDto refund(SearchDto searchDto){
+        System.out.println(memberDao.refund(searchDto));
+        return memberDao.refund(searchDto);
     }
 }
