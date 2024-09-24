@@ -110,4 +110,12 @@ public class ViewController {
     public String historyRank(){
         return "/history/rank.html";
     }
+
+    // ========== 로그 ===============
+    // 멤버 접속 기록 로그
+    @GetMapping("admin/mAccessLog")
+    public String accessLog(){return "/admin/mAccessLog.html";}
+
+
+
 }

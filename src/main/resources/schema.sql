@@ -113,3 +113,14 @@ CREATE TABLE GamePurchaseDetails (
     on update cascade
     on delete cascade
 );
+-- 회원접속 로그 테이블
+drop table if exists access;	
+create table access (
+	accessid int auto_increment primary key,	-- 접속 로그 번호
+    memberid int not null,						-- 멤버 아이디
+    memberdatetime datetime not null default now(),	-- 접속 날짜
+	foreign key (memberid) references members(memberid)
+    on update cascade
+    on delete cascade
+    
+);

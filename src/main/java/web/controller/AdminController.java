@@ -1,11 +1,11 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import web.model.dto.LogDto;
 import web.service.AdminService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/cadmin")
@@ -17,7 +17,13 @@ public class AdminController {
         System.out.println(matchid);
         return adminService.cAdmin(matchid);
     }
+    // 회원 접속 로그
+    @GetMapping("/accessLog")
+    public List<LogDto> accessLog(){
+        System.out.println("AdminController.accessLog");
+        return adminService.accessLog();
 
+    }
 
 
 
