@@ -53,7 +53,7 @@ public class PointService {
 
     // 포인트내역 출력
     public List<PointLogDto> mypointlog(SearchDto searchDto){
-        // System.out.println("searchDto = " + searchDto);
+        System.out.println("searchDto = " + searchDto);
         List<PointLogDto> pointLogDtos = pointDao.mypointlog(searchDto);
         pointLogDtos.forEach(dto ->{
             // 숫자로 나오는 코드 미리 정한 이름으로 변환해서 dto에 저장하기
@@ -61,7 +61,7 @@ public class PointService {
             String descriptionStr = descriptionString(dto.getDescription());
             dto.setDescriptionStr(descriptionStr);
         });
-        // System.out.println(pointLogDtos);
+        System.out.println(pointLogDtos);
         return pointLogDtos;
     }   // mypointlog() end
 

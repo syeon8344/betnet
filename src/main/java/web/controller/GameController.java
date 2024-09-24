@@ -1,6 +1,7 @@
 package web.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class GameController {
 
     @GetMapping("/work")
     @Scheduled(cron = "0 0 12 * * ?") // 매일 낮 12시에 실행
-    public boolean work() {
+    public void work() {
         StringBuilder result = new StringBuilder();
         String urlStr = "http://localhost:5000/monthlyschedule";
         boolean oodsResult = false;
@@ -88,21 +89,20 @@ public class GameController {
             }
             // url 연결 끊기
             urlConnection.disconnect();
-
             // JSON 문자열을 matchScheduleDto 리스트로 변환
             ObjectMapper objectMapper = new ObjectMapper();
+            // objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);  // list deserialization 기능 활성화 // 기본적으로 배열이 필요한 위치에 단일 값이 제공될 경우 이를 허용하도록 설정
+            // match dto 에는 리스트가 필요한 dto가 없으므로 사용 x
             List<MatchScheduleDto> scheduleList = objectMapper.readValue(result.toString(), new TypeReference<List<MatchScheduleDto>>() {});
 
             // 콘솔에 출력   // 확인 용
             // System.out.println("GameController.work");
             // System.out.println(scheduleList);
 
-            oodsResult = gameService.payout(scheduleList);
-            return oodsResult;
+            gameService.payout(scheduleList);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return oodsResult;
     }
 
 }   // class GameController
