@@ -21,7 +21,7 @@ public interface BoardDao {
     BoardDto bFindBno(int bno);
 
     // 게시물 카테고리 조회 함수
-    List<BoardDto> caRead(BoardPageDto boardPageDto);
+    List<BoardDto> caRead(int teamcode);
 
     // 게시물 수정 함수
     boolean bUpdate(BoardDto boardDto );

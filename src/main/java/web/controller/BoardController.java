@@ -27,20 +27,20 @@ public class BoardController {
     }
 
 
-    @GetMapping("/readAll")
-    public List<BoardDto> bRead(BoardPageDto boardPageDto){
-        System.out.println("BoardController.bRead");
-        System.out.println("boardPageDto = " + boardPageDto);
-        return boardService.bRead(boardPageDto);
-    }
+//    @GetMapping("/readAll")
+//    public List<BoardDto> bRead(BoardPageDto boardPageDto){
+//        System.out.println("BoardController.bRead");
+//        System.out.println("boardPageDto = " + boardPageDto);
+//        return boardService.bRead(boardPageDto);
+//    }
 
     // 수정 전 코드
-//    @GetMapping("/readAll")
-//    public List<BoardDto> bRead( @RequestParam("teamcode") int teamcode){
-//        System.out.println("BoardController.bRead");
-//        System.out.println("teamcode = " + teamcode);
-//        return boardService.bRead(teamcode);
-//    }
+    @GetMapping("/readAll")
+    public List<BoardDto> bRead( @RequestParam("teamcode") int teamcode){
+        System.out.println("BoardController.bRead");
+        System.out.println("teamcode = " + teamcode);
+        return boardService.bRead(teamcode);
+    }
 
 
 
