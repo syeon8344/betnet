@@ -215,7 +215,7 @@ function gamePurchase(){
         return;
     }
     let info = {
-        memberid : memberid , pointChange : pointChange , matchids : matchids , winandlosses : winandlosses , oddses
+        memberid : memberid , pointChange : pointChange , matchids : matchids , winandlosses : winandlosses 
     }
     $.ajax({
         async:false,
