@@ -42,6 +42,4 @@ public interface MemberDao {
     // 09.23 개인 배당금 통계
     PointLogDto refund(SearchDto searchDto);
 
-    // 09.23 개인포인트 통계
-    PointLogDto stat(int memberid);
 }
