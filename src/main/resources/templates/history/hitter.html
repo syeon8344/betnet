@@ -8,10 +8,15 @@
 <body>
     <div th:replace="~{/header.html:: header}"></div>
     <div class="wrap">
-        <img src="/img/chat.png" class="chat" onclick="openChat()" style="width: 50px;"/>
         <div class="Box"></div>
         <div class="indexMain">
             <div class="history">
+                <div onclick="baseStat()">
+                    기본기록
+                </div>
+                <div onclick="detailedStat()">
+                    상세기록
+                </div>
                 <select class="year" onclick="getYearTable()">
                     <option value="2015">2015</option>
                     <option value="2016">2016</option>
