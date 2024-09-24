@@ -83,16 +83,15 @@ public class MemberController {
 
     // 09.23 개인 구매금액 포인트 통계
     @GetMapping("/purchase")
-    public PointLogDto purchase(SearchDto searchDto){
+    public List<PointLogDto> purchase(SearchDto searchDto){
+        System.out.println("searchDto = " + searchDto);
         return memberService.purchase(searchDto);
     }
 
     // 09.23 개인 배당금 통계
     @GetMapping("/refund")
-    public PointLogDto refund(SearchDto searchDto){
+    public List<PointLogDto> refund(SearchDto searchDto){
         System.out.println("searchDto = " + searchDto);
         return memberService.refund(searchDto);
     }
-
-
 }

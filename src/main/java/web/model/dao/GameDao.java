@@ -41,4 +41,19 @@ public interface GameDao {
     // 구매목록에서 한번에 가지고 와서 correct 비교 후 구매목록 상태 수정
     // 어제 날짜 구매목록 가지고 오기
     List<GameDto> yesterdayPurchased(String dateString);
+
+    // 최소된 경기 matchstate update
+    int updateMatchstate(String matchid);
+
+    // 결과 correct 필드 업데이트
+    int updateCorrect(String matchid , int value);
+
+    // 적중 결과 update
+    int updateCorrectResult(int listid , int value);
+
+    // gamestater가 4인 애들 가지고 오기 어제 날짜의
+    List<GameDto> selectedGamestate4(String dateString);
+
+    // 배당금지급
+    int insertPointOods(int memberid , int pointChange);
 }   // end class GameDao
