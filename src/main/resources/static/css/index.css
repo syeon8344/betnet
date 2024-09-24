@@ -15,6 +15,7 @@
 }
 .purchaseBox{
     width: 30%;
+    height: 400px; /* 원하는 높이 설정 */
     border: 1px solid #eeeeee;
     position: sticky;
     top: 10px; /* 상단에서 10px 위치 */
@@ -23,10 +24,4 @@
     margin: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-}
-.msgBox{
-    display: block;
-    height: 100px;
-    overflow-y: auto;
-    width: 100px;
 }

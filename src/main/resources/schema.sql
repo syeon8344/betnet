@@ -95,7 +95,7 @@ drop table if exists GamePurchaseList;
 CREATE TABLE GamePurchaseList (
     ListID INT AUTO_INCREMENT PRIMARY KEY,     -- 게임 구매 목록 고유 번호 (기본 키, 자동 증가)
 	PointLogID int ,           -- 포인트로그 (외래키)
-	gamestate int default 1 , -- 게임상태
+	gamestate int default 1 , -- 게임상태 1 : 발매중 2: 발매마감 3: 적중실패 4: 적중 5: 배당금지급완료
     FOREIGN KEY (PointLogID) references PointLogs(PointLogID)  -- 포인트그 테이블의 외래 키
     ON update cascade
     on delete cascade
@@ -108,7 +108,19 @@ CREATE TABLE GamePurchaseDetails (
     MatchID varchar(255) , 						-- 경기목록 고유코드(csv)
 	winandloss int NOT NULL ,            -- 회원이 선택한 승패 1 : 승 0 : 패
     matchstate int default 1, -- 경기상태  1 : 경기 정상  0 : 경기취소
+    correct int default 0, -- 적중 결과 0: 진행중 1 : 적중 2: 적중실패
     foreign key(ListID) references GamePurchaseList(ListID)
     on update cascade
     on delete cascade
+);
+-- 회원접속 로그 테이블
+drop table if exists access;	
+create table access (
+	accessid int auto_increment primary key,	-- 접속 로그 번호
+    memberid int not null,						-- 멤버 아이디
+    memberdatetime datetime not null default now(),	-- 접속 날짜
+	foreign key (memberid) references members(memberid)
+    on update cascade
+    on delete cascade
+    
 );

@@ -3,6 +3,8 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
+import web.model.dto.PointLogDto;
+import web.model.dto.SearchDto;
 import web.model.dto.TeamsDto;
 import web.service.MemberService;
 
@@ -75,6 +77,21 @@ public class MemberController {
     // 09.19 개인정보 수정
     @PutMapping("/edit")
     public boolean edit(MemberDto memberDto){
+        System.out.println("memberDto = " + memberDto);
         return memberService.edit(memberDto);
+    }
+
+    // 09.23 개인 구매금액 포인트 통계
+    @GetMapping("/purchase")
+    public List<PointLogDto> purchase(SearchDto searchDto){
+        System.out.println("searchDto = " + searchDto);
+        return memberService.purchase(searchDto);
+    }
+
+    // 09.23 개인 배당금 통계
+    @GetMapping("/refund")
+    public List<PointLogDto> refund(SearchDto searchDto){
+        System.out.println("searchDto = " + searchDto);
+        return memberService.refund(searchDto);
     }
 }

@@ -33,7 +33,7 @@ function getSchedule(){
                     <td>KBO</td>
                     <td>일반</td>
                     <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
-                    <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , 2.14); activateButton(this);"> 승 / 2.14 </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , 1.46); activateButton(this);"> 패 / 1.46 </button> </td>
+                    <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button> </td>
                     <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
                     </tr>`;
             }
@@ -72,6 +72,31 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
         if(matchid == matchids[i]){
             return;
         }
+    }
+    // 최대 경기 구매 수 제한
+    if(matchids.length > 9 ){
+        alert("최대 구매 가능 경기 수는 10개 입니다.");
+        return;
+    }
+    console.log(matchid);
+    // 내가 구매한 경기인지 판단!
+    // 버튼 비활성화는 해제해야함... 어떻게..?
+    let result = true;
+    $.ajax({
+        async : false , 
+        method : "get" , 
+        url : "/game/ispurchased" , 
+        data : {matchid : matchid} , 
+        success : (r) =>{
+            console.log(r);
+            if(r){
+                alert("이미 구매한 경기입니다.");
+                result = false;
+            }
+        }
+    })
+    if(result==false){
+        return;
     }
     // 경기 고를때마다 출력
     let purchaseCartBox = document.querySelector(".purchaseCartBox");
@@ -190,7 +215,7 @@ function gamePurchase(){
         return;
     }
     let info = {
-        memberid : memberid , pointChange : pointChange , matchids : matchids , winandlosses : winandlosses , oddses
+        memberid : memberid , pointChange : pointChange , matchids : matchids , winandlosses : winandlosses 
     }
     $.ajax({
         async:false,

@@ -9,4 +9,11 @@
         update GamePurchaseDetails set matchstate = 0 where matchid = #{matchid}
     </update>
 
+    <!-- 회원 접속 기록 -->
+    <select id="accessLog" resultType="web.model.dto.LogDto">
+        select * from access inner join members on access.memberid = members.memberid order by memberdatetime desc;
+    </select>
+    
+    
 </mapper> <!-- mapper end -->
+
