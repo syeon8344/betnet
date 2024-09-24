@@ -156,7 +156,7 @@ public class GameService {
         }   // for end
         // 리스트 for 문 돌려서 경기가 승인지 패인지 계산 후 dto에 저장
         // System.out.println("compareList = " + compareList);
-        Iterator<MatchScheduleDto> iterator = compareList.iterator(); // Iterator 사용
+        Iterator<MatchScheduleDto> iterator = compareList.iterator(); // Iterator : 컬렉션의 요소를 순차적으로 탐색하고, 요소를 제거하는 데 유용
 
         while (iterator.hasNext()) {
             MatchScheduleDto match = iterator.next(); // 현재 MatchScheduleDto 객체 가져오기
@@ -229,7 +229,7 @@ public class GameService {
             System.out.println(result);
         }
         // 배당금 지급
-        // 먼저 gamestate가 4인 애들 가지고 오기 어제 날짜의
+        // 먼저 gamestate가 4인 애들 가지고 오기 어제 날짜의 // 테스트는 오늘날짜
         List<GameDto> state4List = gameDao.selectedGamestate4(dateString);
         System.out.println("state4List = " + state4List);
         // listid 별로 묶어서 리스트 객체 만들기

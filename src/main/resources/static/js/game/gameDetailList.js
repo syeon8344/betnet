@@ -19,7 +19,6 @@ function getSchedule(){
         method: "GET",
         url: "http://127.0.0.1:5000/monthlyschedule",
         success: (result) => {
-            result = JSON.parse(result);
             console.log(result);
             // 경기일정 가지고 와서 배열에 저장 // 경기코드랑 for문 돌려서 그 열 가지고 오기.
             gameSchedule = result;
