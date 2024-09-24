@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.model.dto.BoardDto;
+import web.model.dto.BoardPageDto;
 import web.model.dto.ReplyDto;
 import web.service.BoardService;
 
@@ -25,12 +26,23 @@ public class BoardController {
         return boardService.bWrite(boardDto);
     }
 
+
     @GetMapping("/readAll")
-    public List<BoardDto> bRead( @RequestParam("teamcode") int teamcode){
+    public List<BoardDto> bRead(BoardPageDto boardPageDto){
         System.out.println("BoardController.bRead");
-        System.out.println("teamcode = " + teamcode);
-        return boardService.bRead(teamcode);
+        System.out.println("boardPageDto = " + boardPageDto);
+        return boardService.bRead(boardPageDto);
     }
+
+    // 수정 전 코드
+//    @GetMapping("/readAll")
+//    public List<BoardDto> bRead( @RequestParam("teamcode") int teamcode){
+//        System.out.println("BoardController.bRead");
+//        System.out.println("teamcode = " + teamcode);
+//        return boardService.bRead(teamcode);
+//    }
+
+
 
     //게시판 개별조회
     @GetMapping("/find/bno")

@@ -2,6 +2,7 @@ package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.BoardDto;
+import web.model.dto.BoardPageDto;
 import web.model.dto.ReplyDto;
 
 import java.util.List;
@@ -19,9 +20,8 @@ public interface BoardDao {
     //게시물 개별 조회 함수
     BoardDto bFindBno(int bno);
 
-
     // 게시물 카테고리 조회 함수
-    List<BoardDto> caRead(int teamcode);
+    List<BoardDto> caRead(BoardPageDto boardPageDto);
 
     // 게시물 수정 함수
     boolean bUpdate(BoardDto boardDto );
@@ -40,7 +40,6 @@ public interface BoardDao {
 
     //댓글 삭제 함수
     boolean rpDelete(ReplyDto replyDto );
-
 
     // 게시판 조회수 증가 함수
     boolean bViewIncrease(int bno);

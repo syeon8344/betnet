@@ -23,7 +23,6 @@ function raadAll(value){
                        <td>${게시판.postid}</td>
                        <td>${게시판.teamname}</td>
                        <td><a href="/board/view?bno=${게시판.postid}" class="text-decoration-none">${게시판.title}</a></td>
-                       <td>${게시판.content}</td>
                        <td>${게시판.memberid}</td>
                        <td>${게시판.createdat}</td>
                        <td>${게시판.views}</td>
