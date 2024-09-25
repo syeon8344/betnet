@@ -16,7 +16,7 @@ function mAccessLog(){
                           <th scope="col">접속번호</th>
                           <th scope="col">회원번호</th>
                           <th scope="col">이름</th>
-                          <th scope="col">접속날짜/th>
+                          <th scope="col">접속날짜</th>
                         </tr>
                         </thead>
                         <tbody>`;
