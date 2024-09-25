@@ -2,7 +2,6 @@
 console.log('log.js')
 
 // 회원 접속 조회 함수
-mAccessLog()
 function mAccessLog(){
     $.ajax({
        async : false,
@@ -11,15 +10,27 @@ function mAccessLog(){
        success : r => {
             console.log(r);
            let html = '';
-            r.forEach(log => {
+           html += `<table class="table table-hover table-bordered">
+                        <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">접속번호</th>
+                          <th scope="col">회원번호</th>
+                          <th scope="col">이름</th>
+                          <th scope="col">접속날짜</th>
+                        </tr>
+                        </thead>
+                        <tbody>`;
+           r.forEach(log => {
                 html += `<tr>
                     <td>${log.accessid}</td>
                     <td>${log.memberid}</td>
                     <td>${log.username}</td>
                     <td>${log.memberdatetime}</td>
                     </tr>`;
-            });
-           document.querySelector('#mAccessLog').innerHTML = html
-           }
-    })
-}
+           });
+           html += `    </tbody>
+                       </table>`;
+           document.querySelector('.indexMain').innerHTML = html
+       }    // success end
+    })  // ajax end
+}   // function end
