@@ -1,4 +1,6 @@
 let memberInfo = {}   // 결제에 필요한 member정보 저장하는 전역변수
+let yearPurchase=[] // 최근 1년 구매금액
+let yearRefund=[]   // 최근 1년 적중금액
 
 doLoginCheck();
 function doLoginCheck(){
@@ -93,6 +95,7 @@ function myPurchase(){
             console.log(r);
             let purchaseAmount = document.querySelector("#purchaseAmount");
             let sum=0;
+            yearPurchase=r
             r.forEach(log => {
                 sum+=log.pointChange
             });
@@ -121,6 +124,7 @@ function myRefund(){
             console.log(r);
             let purchaseAmount = document.querySelector("#hitAmount");
             let sum=0;
+            yearRefund=r
             r.forEach(log => {
                 sum+=log.pointChange
             });
@@ -138,5 +142,115 @@ function returnRate(){
     let returnRate=Math.round( (refund/purchase)*100)
     document.querySelector("#returnRate").innerHTML=`${returnRate}%`
 }
+
+// 현재 날짜를 기준으로 1년 전까지의 월 목록 생성
+function generateLast12Months() {
+    let months = [];
+    let currentDate = new Date();
+    
+    for (let i = 0; i < 12; i++) {
+        let year = currentDate.getFullYear();
+        let month = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 +1
+        if (month < 10) month = '0' + month; // 두 자리로 맞추기
+        months.push(`${year}-${month}`);
+        currentDate.setMonth(currentDate.getMonth() - 1); // 이전 달로 이동
+    }
+    
+    return months.reverse(); // 과거부터 현재까지 나열
+}
+
+console.log(yearPurchase);
+console.log(yearRefund);
+
+// 날짜를 "YYYY-MM" 형식으로 변환하는 함수
+function getMonth(dateString) {
+    let date = new Date(dateString);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    return `${year}-${month < 10 ? '0' + month : month}`;
+}
+
+// 월별로 데이터를 그룹화하고 금액을 합산하는 함수
+function groupByMonth(data) {
+    let months = generateLast12Months(); // 최근 12개월 목록
+    let monthlyData = {};
+
+    // 기본적으로 모든 달을 0으로 설정
+    months.forEach(month => {
+        monthlyData[month] = 0;
+    });
+    
+    data.forEach(item => {
+        console.log(item);
+        
+        let month = getMonth(item.logDate);
+        console.log(month);
+        
+        console.log(monthlyData[month]);
+        
+        
+        
+        monthlyData[month] += Math.abs(item.pointChange);
+        
+       
+        
+        
+    });
+    
+    return monthlyData;
+}
+
+// 두 데이터셋을 그룹화
+let monthlyData1 = groupByMonth(yearPurchase);
+let monthlyData2 = groupByMonth(yearRefund);
+
+// 월별 라벨과 각 데이터셋의 금액 추출
+let labels = Object.keys(monthlyData1); // 월 리스트 (연도-월 형식)
+let values1 = Object.values(monthlyData1); // 첫 번째 데이터 금액
+let values2 = Object.values(monthlyData2); // 두 번째 데이터 금액
+
+// Chart.js로 차트 생성
+let ctx = document.getElementById('myChart').getContext('2d');
+let myChart = new Chart(ctx, {
+    type: 'line', // 꺾은선 그래프
+    data: {
+        labels: labels, // 월 (YYYY-MM)
+        datasets: [
+            {
+                label: '구매금액', // 첫 번째 데이터셋 라벨
+                data: values1, // 첫 번째 데이터셋 값
+                borderColor: 'rgba(75, 192, 192, 1)', // 첫 번째 선 색상
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: '적중금액', // 두 번째 데이터셋 라벨
+                data: values2, // 두 번째 데이터셋 값
+                borderColor: 'rgba(255, 99, 132, 1)', // 두 번째 선 색상
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: '최근1년간 구매금액과 적중금액의 추이'
+                }
+            },
+            y: {
+                beginAtZero: true, // Y축을 0에서 시작
+                title: {
+                    display: true,
+                    text: '포인트'
+                }
+            }
+        }
+    }
+});
+
+
 
 
