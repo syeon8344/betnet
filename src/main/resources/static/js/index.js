@@ -6,9 +6,14 @@ getSchedule()
 // 우선 오늘 날짜 경기일정 + 내일 경기일정(혹시 없으면 모레 경기일정)
 // 오늘 날짜 경기가 없으면 내일과 모레(없으면 사흘)
 // X날과 X+1날 경기일정
+
 function getSchedule(){
     let today = new Date();
+    let formattedTime = today.toTimeString().split(' ')[0]; // HH:mm:ss 형식
     let formattedDate = today.toISOString().split('T')[0]; // YYYY-MM-DD 형식
+    let fullFormattedDateTime = `${formattedDate} ${formattedTime}`; // YYYY-MM-DD HH:mm:ss 형식
+    console.log(fullFormattedDateTime); // String 타입  // 2024-09-25 16:34:25
+
     $.ajax({
         method: "GET",
         url: "http://127.0.0.1:5000/getschedule",
@@ -27,19 +32,37 @@ function getSchedule(){
             let tbody = document.querySelector('.gameScheduleBody');
             let html = '';
             for(let i = 0 ; i < result.length ; i++){
-                html += `<tr>
+                let compareDate = `${result[i].연도}-${result[i].월}-${result[i].일} ${result[i].시작시간}`;
+                console.log(compareDate);
+                console.log(fullFormattedDateTime);
+                if(fullFormattedDateTime > compareDate){
+                    html += `<tr>
                     <td>${i+1}</td>
+                    <td class="dateValue">${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                    <td>KBO</td>
+                    <td>일반</td>
+                    <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
+                    <td> 발매마감 </td>
                     <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                    </tr>`;
+                    console.log('발매마감');
+                   
+                }else{
+                    html += `<tr>
+                    <td>${i+1}</td>
+                    <td class="dateValue">${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
                     <td>KBO</td>
                     <td>일반</td>
                     <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
                     <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button> </td>
                     <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
                     </tr>`;
+                    console.log('발매중')
+                }
             }
             tbody.innerHTML = html;
         }
-    })
+    })  // ajax end
 }
 
 

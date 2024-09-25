@@ -1,7 +1,9 @@
 package web.service;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.GameDao;
 import web.model.dao.PointDao;
 import web.model.dto.*;
@@ -13,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 public class GameService {
     @Autowired
@@ -137,7 +140,7 @@ public class GameService {
         List<MatchScheduleDto> compareList = new ArrayList<>();
         // 어제 날짜 구하기 (시스템 시계, 시스템 타임존)
         LocalDate today = LocalDate.now();
-        LocalDate yesterday = today.minusDays(2);
+        LocalDate yesterday = today.minusDays(1);
         // System.out.println(yesterday);
         for(int i = 0; i < matchScheduleDto.size(); i++) {
             String month = matchScheduleDto.get(i).get월();
@@ -279,6 +282,10 @@ public class GameService {
                 System.out.println("pointChange = " + pointChange);
                 int result = gameDao.insertPointOods(memberid , pointChange);
                 System.out.println("result = " + result);
+//                if (result == 1){
+//                    log.info("{}회원배당급 지급 완료{}", memberid, today);
+//                    System.out.println("로그기록완료");
+//                }
             };   // for문 end
          // c foreach end
     }
