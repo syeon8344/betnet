@@ -10,11 +10,11 @@
     </insert>
 
     <select id="bRead" resultType="web.model.dto.BoardDto">
-        select * from teamboard;
+        select * from teamboard order by postid desc;
     </select>
 
     <select id="caRead" resultType="web.model.dto.BoardDto">
-        select * from teamboard where teamcode = #{teamcode};
+        select * from teamboard where teamcode = #{teamcode} order by postid desc;
     </select>
 
     <select id="bFindBno" resultType="web.model.dto.BoardDto">

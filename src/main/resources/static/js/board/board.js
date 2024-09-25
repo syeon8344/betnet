@@ -31,7 +31,10 @@ function raadAll(value){
             let html = ''
             for (let i = 1; i <= totalPages; i++) {
 
-                 html += ` <li class="page-item" onclick="pagination(${i},${totalPages})">${i}</li>`;
+                html += `
+                  <li class="page-item" onclick="pagination(${i},${totalPages})">
+                    <span class="page-link">${i}</span>
+                  </li>`;
 
                 } //for end
                 pagination1.innerHTML  = html
