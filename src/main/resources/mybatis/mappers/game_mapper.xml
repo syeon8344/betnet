@@ -104,4 +104,5 @@
     <insert id="insertPointOods" parameterType="int">
         INSERT INTO PointLogs (MemberID, PointChange, Description) values (#{memberid}, #{pointChange} , 2)
     </insert>
+
 </mapper> <!-- mapper end -->

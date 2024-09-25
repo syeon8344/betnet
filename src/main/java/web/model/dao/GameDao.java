@@ -1,6 +1,7 @@
 package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.GameDto;
 import web.model.dto.SearchDto;
 
@@ -56,4 +57,5 @@ public interface GameDao {
 
     // 배당금지급
     int insertPointOods(int memberid , int pointChange);
+
 }   // end class GameDao
