@@ -1,0 +1,23 @@
+/*
+    WIP: index css와 합치기?
+*/
+
+.table-container {
+    width: 1080px;
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+}
+
+table {
+    width: 200%; /* 두 배로 넓게 설정 */
+    table-layout: fixed; /* 고정 레이아웃 사용 */
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: left;
+}
+
+.pagination {
+    margin-top: 10px;
+}
