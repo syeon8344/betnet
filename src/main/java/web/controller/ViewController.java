@@ -116,5 +116,10 @@ public class ViewController {
     @GetMapping("admin/mAccessLog")
     public String accessLog(){return "/admin/mAccessLog.html";}
 
+    // === 단체예매 ===
+    @GetMapping("/tickets")
+    public String tickets(){
+        return "/tickets.html";
+    }
 
 }

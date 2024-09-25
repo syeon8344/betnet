@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>연도별 타자 팀기록</title>
+    <link href="/css/history/index.css" rel="stylesheet">
     <link href="/css/history/hitter.css" rel="stylesheet">
 </head>
 <body>
@@ -10,7 +11,22 @@
     <div class="wrap">
         <div class="Box"></div>
         <div class="indexMain">
+            <!-- GPT -->
+            <div class="table-container">
+                <table id="myTable">
+                </table>
+            </div>
+            <div class="pagination">
+                <button onclick="prevPage()">이전</button>
+                <button onclick="nextPage()">다음</button>
+            </div>
             <div class="history">
+                <div onclick="baseStat()">
+                    기본기록
+                </div>
+                <div onclick="detailedStat()">
+                    상세기록
+                </div>
                 <select class="year" onclick="getYearTable()">
                     <option value="2015">2015</option>
                     <option value="2016">2016</option>
@@ -56,8 +72,7 @@
                             </tr>
                         </tr>
                     </thead>
-                    <tbody class="historyTbody">
-
+                    <tbody class="historyTbody1">
                     </tbody>
                 </table>
             </div>
