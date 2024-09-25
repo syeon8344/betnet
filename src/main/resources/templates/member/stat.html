@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>포인트</title>
     <link href="/css/member/stat.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <div th:replace="~{/header.html:: header}"></div>
@@ -57,6 +58,10 @@
                 <span>환급률: </span><span id="returnRate">0%</span>
             </div>
         </div> <!-- resultBox end -->
+        <!-- 차트를 표시할 캔버스 요소 -->
+        <div style="width: 80%; margin: 0 auto;">
+            <canvas id="myChart"></canvas>
+        </div>
 
         <!-- 포인트 출금 Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
