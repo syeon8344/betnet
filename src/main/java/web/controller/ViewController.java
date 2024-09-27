@@ -116,10 +116,15 @@ public class ViewController {
     @GetMapping("admin/mAccessLog")
     public String accessLog(){return "/admin/mAccessLog.html";}
 
-    // === 단체예매 ===
-    @GetMapping("/tickets")
-    public String tickets(){
-        return "/tickets.html";
+    // === 굿즈거래 ===
+    @GetMapping("/market")
+    public String market(){
+        return "/market.html";
+    }
+
+    @GetMapping("/marketview")
+    public String marketView(){
+        return "/marketview.html";
     }
 
 }
