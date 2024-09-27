@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>거래글 작성</title>
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/marketadd.css" rel="stylesheet">
+    <!-- Summernote CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+    <style>
+        #imagePreview img {
+            width: 100px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{/header.html:: header}"></div>
+    <div class="wrap">
+        <div class="main">
+            <!-- 게시글 입력 -->
+            <h1>게시글 작성</h1>
+            <form id="postForm">
+                <!-- 제목 입력 칸 -->
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" class="form-control" id="title" placeholder="게시글 제목을 입력하세요." required>
+                </div>
+                <!-- Summernote 에디터 -->
+                <div class="form-group">
+                    <label for="summernote">내용</label>
+                    <div id="summernote"></div>
+                </div>
+                <!-- 이미지 파일 선택 -->
+                <div class="form-group">
+                    <label for="imageFiles">첨부 이미지</label>
+                    <input type="file" class="form-control-file" id="imageFiles" multiple accept="image/*">
+                    <div id="imagePreview" class="mt-2"></div> <!-- 미리보기 영역 -->
+                </div>
+                <!-- 제출 버튼 -->
+                <button type="button" id="submit" class="btn btn-primary">게시글 제출</button>
+            </form>
+        </div>
+    </div>
+    <div th:replace="~{/footer.html:: footer}"></div>
+    <script src="/js/marketadd.js"></script>
+    
+</body>
+</html>

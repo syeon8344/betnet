@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>굿즈 거래</title>
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/market.css" rel="stylesheet">
+</head>
+<body>
+    <div th:replace="~{/header.html:: header}"></div>
+    <div class="wrap">
+        <div class="main">
+            <!-- 검색 div -->
+            <div class="searchBox" style="display:flex">
+                <select class="teamName">팀명</select>
+                <select class="awayName">어웨이팀명</select>
+                <input type="date" id="dateInput">
+            </div>
+            <!-- 게시판 테이블 -->
+            <table class="table" id="marketTable">
+                <thead>
+                    <tr>
+                        <th> 글번호 </th> <th> 팀명 </th> <th colspan="2"> 제목 </th> <th> 작성자 </th> <th> 상태 </th> <th> 조회수 </th> <th> 날짜 </th>
+                    </tr>
+                </thead>
+                <!-- 제목 왼쪽에 사진 하나 같이 출력 -->
+                <tbody class="marketTbody">
+                    <tr> <td> 1 </td> <td> KIA </td> <td> (사진) </td> <td>  제목란(링크)  </td> <td> 작성자명 </td> <td> 거래완료 </td> <td> 0123 </td> <td> 2024-09-09 </td> <td> (구장정보, 사진 등) </td> </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:replace="~{/footer.html:: footer}"></div>
+    <script src="/js/tickets.js"></script>
+
+</body>
+</html>
