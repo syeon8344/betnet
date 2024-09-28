@@ -82,7 +82,7 @@ function getGameList(){
             r.forEach(dto => {
                 let point = Math.abs(dto.pointChange);
                 html += `<tr>
-                            <td> <a href="/game/view?listid=${dto.listid}"> ${dto.listid} </td> <td> ${dto.logDate} </td> <td> ${point} </td> <td> ${dto.gamestateStr} </td>
+                            <td> <a href="/game/view?listid=${dto.listid}"> ${dto.listid} </td> <td> ${dto.logDate} </td> <td> ${point} </td>
                         </tr>`;
             });
             gameListBox.innerHTML = html;

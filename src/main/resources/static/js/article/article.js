@@ -1,6 +1,6 @@
 console.log("article.js");
 
-getKboArticle();
+// getKboArticle();
 function getKboArticle(){
     console.log("getKboArticle()");
     $.ajax({

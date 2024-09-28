@@ -95,7 +95,6 @@ drop table if exists GamePurchaseList;
 CREATE TABLE GamePurchaseList (
     ListID INT AUTO_INCREMENT PRIMARY KEY,     -- 게임 구매 목록 고유 번호 (기본 키, 자동 증가)
 	PointLogID int ,           -- 포인트로그 (외래키)
-	gamestate int default 1 , -- 게임상태 1 : 발매중 2: 발매마감 3: 적중실패 4: 적중 5: 배당금지급완료
     FOREIGN KEY (PointLogID) references PointLogs(PointLogID)  -- 포인트그 테이블의 외래 키
     ON update cascade
     on delete cascade

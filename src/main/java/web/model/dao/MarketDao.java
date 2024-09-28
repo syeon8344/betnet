@@ -1,7 +1,9 @@
 package web.model.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.MarketDto;
 
+@Mapper
 public interface MarketDao {
     // 1. 글 불러오기
     MarketDto mkReadAll();

@@ -50,10 +50,10 @@ public interface GameDao {
     int updateCorrect(String matchid , int value);
 
     // 적중 결과 update
-    int updateCorrectResult(int listid , int value);
+    // int updateCorrectResult(int listid , int value);
 
     // gamestater가 4인 애들 가지고 오기 어제 날짜의
-    List<GameDto> selectedGamestate4(String dateString);
+    List<GameDto> selectedCorrectList(int listid , String dateString);
 
     // 배당금지급
     int insertPointOods(int memberid , int pointChange);
