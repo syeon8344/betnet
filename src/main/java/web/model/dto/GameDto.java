@@ -32,4 +32,5 @@ public class GameDto {
     private int value; // correct 값 업데이트 위한 dto
     private int listid_count;
     private int correct_count;
+    private String dateString;
 }

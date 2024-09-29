@@ -74,36 +74,8 @@ public class GameService {
         MemberDto memberDto = memberService.loginCheck();
         int memberid = memberDto.getMemberid();
         searchDto.setMemberid(memberid);
-        List<GameDto> list = gameDao.getlist(searchDto);
-        list.forEach(dto ->{
-            // 숫자로 나오는 코드 미리 정한 이름으로 변환해서 dto에 저장하기
-            // db에서 받은 숫자 코드 매개변수로 넘겨주기
-            String descriptionStr = gameStateStr(dto.getGamestate());
-            dto.setGamestateStr(descriptionStr);
-        });
-        return list;
+        return gameDao.getlist(searchDto);
     }   // getlist() end
-
-    // 게임 상태 문자 변환
-    public String gameStateStr(int gamestate){
-        String gamestateStr = "";
-        if(gamestate == 1){
-            gamestateStr = "발매중";
-        }
-        if(gamestate == 2){
-            gamestateStr = "발매마감";
-        }
-        if(gamestate == 3){
-            gamestateStr = "적중실패";
-        }
-        if(gamestate == 4){
-            gamestateStr = "적중";
-        }
-        if(gamestate == 5){
-            gamestateStr = "배당금지급완료";
-        }
-        return gamestateStr;
-    }
 
     // 게임 상세 출력
     public List<GameDto> getDetail(GameDto gameDto){
@@ -136,7 +108,6 @@ public class GameService {
     // 배당금 지급
     public void payout(List<MatchScheduleDto> matchScheduleDto){
         System.out.println("GameService.payout");
-        // System.out.println("matchScheduleDto = " + matchScheduleDto);
         List<MatchScheduleDto> compareList = new ArrayList<>();
         // 어제 날짜 구하기 (시스템 시계, 시스템 타임존)
         LocalDate today = LocalDate.now();
@@ -147,77 +118,25 @@ public class GameService {
             String day = matchScheduleDto.get(i).get일();
             // matchScheduleDto 리스트에 있는 날짜 생성
             LocalDate givenDate = LocalDate.parse("2024-" + month + "-" + day, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            // System.out.println("givenDate = " + givenDate);
-            // System.out.println("yesterday = " + yesterday);
             // 만약 원하는 날짜랑 맞으면 그 줄 compareList에 저장
             if(givenDate.isEqual(yesterday)){
                 // matchScheduleDto 객체 생성 (예시로 필드값을 임의로 설정)
                 MatchScheduleDto dto = matchScheduleDto.get(i);
                 compareList.add(dto);
-                // System.out.println("compareList = " + compareList);
             }
         }   // for end
-        // 리스트 for 문 돌려서 경기가 승인지 패인지 계산 후 dto에 저장
-        // System.out.println("compareList = " + compareList);
-        Iterator<MatchScheduleDto> iterator = compareList.iterator(); // Iterator : 컬렉션의 요소를 순차적으로 탐색하고, 요소를 제거하는 데 유용
-
-        while (iterator.hasNext()) {
-            MatchScheduleDto match = iterator.next(); // 현재 MatchScheduleDto 객체 가져오기
-
-            // 우천 취소인 경기 리스트에서 제거
-            if ("우천취소".equals(match.get비고()) || match.get비고() != null) {
-                // System.out.println("경기 취소: " + match);
-                String matchid = match.get경기코드();
-                // System.out.println("matchid = " + matchid);
-                int result = gameDao.updateMatchstate(matchid);
-                // System.out.println("result = " + result);
-                iterator.remove(); // 안전하게 리스트에서 제거
-                continue; // 다음 경기로 넘어감
-            }
-
-            // 승패 계산
-            if (match.get비고() == null) {
-                if (match.get홈점수() > match.get어웨이점수()) {
-                    match.set결과(1); // 홈 팀 승리
-                } else {
-                    match.set결과(0); // 어웨이 팀 승리
-                }
-            }
-        }   // while end
-
-        System.out.println(compareList);
-        List<GameDto> purchaseList = new ArrayList<>();
-        compareList.forEach(c ->{
-            String matchid = c.get경기코드();
-            List<GameDto> purchased = gameDao.purchased(matchid);
-            purchaseList.addAll(purchased);
-        });
+        // 승패 비교 함수
+        compareList = compareWinandloss(compareList);
+        // 회원 구매내역 변경
+        compareMemberCorrect(compareList);
         // System.out.println("purchaseList = " + purchaseList);
-        // System.out.println(purchaseList.size());
-        compareList.forEach(c -> {
-            purchaseList.forEach(p -> {
-                if (c.get경기코드().equals(p.getMatchid())) { // equals() 사용
-                    String matchid = c.get경기코드();
-                    if (c.get결과() == p.getWinandloss()) {
-                        int result = gameDao.updateCorrect(matchid , 1);
-                        System.out.println("result = " + result);
-                    } else {
-                        int result = gameDao.updateCorrect(matchid , 2);
-                        System.out.println("result = " + result);
-                    }
-                }
-            });
-        });
-        // System.out.println("purchaseList = " + purchaseList);
-        // 구매목록에서 한번에 가지고 와서 correct 비교 후 구매목록 상태 수정
-        // 어제 날짜 구매목록 가지고 오기
-        // 오늘 날짜로 테스트
+        // 구매목록에서 한번에 가지고 와서 correct 비교 후 배당급 지급
+        // 어제 날짜 구매목록 가지고 오기 // 오늘 날짜로 테스트
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateString = today.format(formatter);
-        // System.out.println("dateString = " + dateString);
         List<GameDto> yesterdayPurchaseList = gameDao.yesterdayPurchased(dateString);
         System.out.println("yesterdayPurchaseList = " + yesterdayPurchaseList);
-        List<Integer> list = new ArrayList<>();
+        List<Integer> list = new ArrayList<Integer>();
         // 구매 목록에서 리스트 아이디 카운트와 correct 카운트 수가 맞으면 적중
         yesterdayPurchaseList.forEach(dto ->{
             if(dto.getListid_count() == dto.getCorrect_count()){
@@ -226,17 +145,20 @@ public class GameService {
             }
         });
         System.out.println("list = " + list);
-        // 해당 리스트 아이디에 맞는 gamestate 바꾸고 구매 테이블 다시 가지고 와서 경기코드 가지고 오고 경기일정에서 배당률 계산해서 배당금 지급
-        for(int i=0; i< list.size(); i++){
-            int result = gameDao.updateCorrectResult(list.get(i) , 4 );
-            System.out.println(result);
-        }
         // 배당금 지급
         // 먼저 gamestate가 4인 애들 가지고 오기 어제 날짜의 // 테스트는 오늘날짜
-        List<GameDto> state4List = gameDao.selectedGamestate4(dateString);
-        System.out.println("state4List = " + state4List);
+        List<GameDto> correctList = new ArrayList<>();
+        // 리스트의 크기만큼 반복
+        for (int i = 0; i < list.size(); i++) {
+            // selectedCorrectList 메서드 호출하여 결과를 correctList에 추가
+            List<GameDto> gameDtos = gameDao.selectedCorrectList(list.get(i), dateString);
+            if (gameDtos != null) { // null 체크
+                correctList.addAll(gameDtos);
+            }
+        }
+        System.out.println(correctList);
         // listid 별로 묶어서 리스트 객체 만들기
-        Map<Integer, List<GameDto>> groupByListid = state4List.stream().collect(Collectors.groupingBy(GameDto::getListid));
+        Map<Integer, List<GameDto>> groupByListid = correctList.stream().collect(Collectors.groupingBy(GameDto::getListid));
         // System.out.println("groupByListid = " + groupByListid);
 
             for (Map.Entry<Integer, List<GameDto>> entry : groupByListid.entrySet()) {
@@ -275,9 +197,6 @@ public class GameService {
                     pointChange = -game.getPointChange();
                     memberid = game.getMemberid();
                 }   // for문 end
-                System.out.println(listid +"totaloods = " + totalOdds);
-                System.out.println(listid + "pointChange = " + pointChange);
-                System.out.println(listid + "memberid = " + memberid);
                 pointChange = multiplyBigDecimalAndInt(totalOdds, pointChange);
                 System.out.println("pointChange = " + pointChange);
                 int result = gameDao.insertPointOods(memberid , pointChange);
@@ -289,6 +208,62 @@ public class GameService {
             };   // for문 end
          // c foreach end
     }
+    // 경기 승패 비교
+    public List<MatchScheduleDto> compareWinandloss(List<MatchScheduleDto> compareList){
+        // 리스트 for 문 돌려서 경기가 승인지 패인지 계산 후 dto에 저장
+        Iterator<MatchScheduleDto> iterator = compareList.iterator(); // Iterator : 컬렉션의 요소를 순차적으로 탐색하고, 요소를 제거하는 데 유용
+
+        while (iterator.hasNext()) {
+            MatchScheduleDto match = iterator.next(); // 현재 MatchScheduleDto 객체 가져오기
+
+            // 우천 취소인 경기 리스트에서 제거
+            if ("우천취소".equals(match.get비고()) || match.get비고() != null) {
+                // System.out.println("경기 취소: " + match);
+                String matchid = match.get경기코드();
+                // 경기상태 경기취소로 변경
+                gameDao.updateMatchstate(matchid);
+                iterator.remove(); // 안전하게 리스트에서 제거
+                continue; // 다음 경기로 넘어감
+            }
+
+            // 승패 계산
+            if (match.get비고() == null) {
+                if (match.get홈점수() > match.get어웨이점수()) {
+                    match.set결과(1); // 홈 팀 승리
+                } else {
+                    match.set결과(0); // 어웨이 팀 승리
+                }
+            }
+        }   // while end
+        return compareList;
+    }   // compareWinandloss end
+    // 회원이 구매한 내역 승패 업데이트
+    public void compareMemberCorrect(List<MatchScheduleDto> compareList){
+        // 승패에 따라 회원 구매내역 correct 결과 값 변경
+        List<GameDto> purchaseList = new ArrayList<>();
+        compareList.forEach(c ->{
+            String matchid = c.get경기코드();
+            List<GameDto> purchased = gameDao.purchased(matchid);
+            purchaseList.addAll(purchased);
+        });
+        // System.out.println("purchaseList = " + purchaseList);
+        // System.out.println(purchaseList.size());
+        compareList.forEach(c -> {
+            purchaseList.forEach(p -> {
+                if (c.get경기코드().equals(p.getMatchid())) { // equals() 사용
+                    String matchid = c.get경기코드();
+                    if (c.get결과() == p.getWinandloss()) {
+                        int result = gameDao.updateCorrect(matchid , 1);
+                        System.out.println("result = " + result);
+                    } else {
+                        int result = gameDao.updateCorrect(matchid , 2);
+                        System.out.println("result = " + result);
+                    }
+                }
+            });
+        });
+    }
+
     // BigDecimal과 int를 곱한 후 int로 변환하는 메서드
     public static int multiplyBigDecimalAndInt(BigDecimal bigDecimal, int intValue) {
         // 곱셈 결과를 BigDecimal로 계산
@@ -297,5 +272,4 @@ public class GameService {
         // 결과를 int로 변환하여 반환
         return multipliedValue.intValue(); // 소수점 이하 부분은 버려짐
     }
-
 }   // class GameService

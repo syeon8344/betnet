@@ -90,14 +90,14 @@
         update GamePurchaseDetails set correct = #{value} where matchid = #{matchid}
     </update>
     <!-- 적중 결과 update -->
-    <update id="updateCorrectResult" parameterType="web.model.dto.GameDto">
+    <!-- <update id="updateCorrectResult" parameterType="web.model.dto.GameDto">
         update GamePurchaseList set gamestate = #{value} where listid = #{listid}
-    </update>
+    </update> -->
 
-    <select id="selectedGamestate4" parameterType="String" resultType="web.model.dto.GameDto">
+    <select id="selectedCorrectList" parameterType="web.model.dto.GameDto" resultType="web.model.dto.GameDto">
         select * from GamePurchaseDetails
         inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
-        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.logdate like CONCAT(#{dateString}, '%') and GamePurchaseList.gamestate = 4
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.logdate like CONCAT(#{dateString}, '%') and GamePurchaseList.listid = #{listid}
     </select>
 
     <!-- 배당금지급 -->

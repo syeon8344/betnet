@@ -81,6 +81,12 @@ public class ViewController {
         return "/game/gameDetailList.html";
     }
 
+    // 기사페이지
+    @GetMapping("/article")
+    public String article(){
+        return "/article/article.html";
+    }
+
     // [1] 채팅 관련 템플릿 매핑
     @GetMapping("/chat")
     public String chat(){ return "/index.html";
