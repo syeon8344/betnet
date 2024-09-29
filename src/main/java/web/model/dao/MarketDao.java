@@ -2,31 +2,40 @@ package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.MarketDto;
+import web.model.dto.MarketReplyDto;
+
+import java.util.List;
 
 @Mapper
 public interface MarketDao {
+
     // 1. 글 불러오기
-    MarketDto mkReadAll();
+    List<MarketDto> mkReadAll();
 
     // 2. 글 작성하기 + 파일첨부
     boolean mkWrite(MarketDto marketDto, int memberId);
 
-    // 3. 글 카테고리 불러오기
+    // 3. 글 상세 페이지
+    MarketDto mkRead(int mkNo);
 
+    // 4. 상세 페이지 들어갈 때 조회수 증가
+    boolean mkView(int mkNo);
 
-    // 4. 글 상세 페이지
-    MarketDto mkDetail(int mkNo);
+    // 5. 글 수정/삭제 권한 확인
+    boolean mkCheck(int mkNo, int memberid);
 
-    // 5. 상세 페이지 들어갈 때 조회수 증가
-    void mkView(int mkNo);
+    // 6. 글 수정하기 (거래완료 제외)
+    boolean mkEdit(MarketDto marketDto);
 
-    // 6. 글 수정/삭제 권한 확인
+    // 7. 글 삭제하기 (거래완료 제외)
+    boolean mkDelete(int mkId);
 
-    // 7. 글 수정하기 (거래완료 제외)
+    // 8. 게시물 댓글 조회
+    List<MarketReplyDto> mkReply(int mkId);
 
-    // 8. 글 삭제하기 (거래완료 제외)
+    // 9. 게시물 댓글 작성
+    boolean mkReplyWrite(MarketReplyDto marketReplyDto);
 
-    // 9. 게시물 댓글 조회
-
-    // 10. 게시물 댓글 작성
+    // 10. 게시글 제목 검색
+    List<MarketDto> mkTitleSearch(String title);
 }

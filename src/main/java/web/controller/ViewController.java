@@ -117,14 +117,20 @@ public class ViewController {
     public String accessLog(){return "/admin/mAccessLog.html";}
 
     // === 굿즈거래 ===
+    // 메인 게시판
     @GetMapping("/market")
     public String market(){
-        return "/market.html";
+        return "/market/market.html";
     }
 
+    // 상세글보기
     @GetMapping("/marketview")
     public String marketView(){
-        return "/marketview.html";
+        return "/market/marketview.html";
     }
+
+    // 글작성
+    @GetMapping("/marketadd")
+    public String marketAdd(){ return "/market/marketadd.html";}
 
 }

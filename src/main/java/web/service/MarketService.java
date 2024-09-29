@@ -2,6 +2,7 @@ package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import web.model.dao.MarketDao;
 import web.model.dto.MemberDto;
 import web.model.dto.MarketDto;
@@ -17,6 +18,9 @@ public class MarketService {
     @Autowired private FileService fileService;
 
     // 1. 글 불러오기
+    public List<MarketDto> mkReadAll() {
+        return marketDao.mkReadAll();
+    }
 
     // 2. 글 작성하기 + 파일첨부
     public boolean mkWrite(MarketDto marketDto){
@@ -29,18 +33,19 @@ public class MarketService {
             memberId=loginDto.getMemberid();
         }
         // 첨부파일 여러개 업로드하기
-        // 파일이름 리스트
+        // 파일이름 리스트 및 길이
         List<String> fileNames = new ArrayList<>();
+        int fileNum = marketDto.getUploadFiles().size();
+        ArrayList<MultipartFile> files = (ArrayList<MultipartFile>) marketDto.getUploadFiles();
         // 1. 첨부파일 개수만큼 반복문 돌리기
-        marketDto.getUploadFiles().forEach(file ->{
+        for (int i = 0; i < files.size(); i++){
             // 2. 각 첨부파일마다 업로드메서드 대입
-            String fileName = fileService.uploadFile(file);
+            String fileName = fileService.uploadImage(files.get(i), marketDto.getMkId(), i);
             if(fileName != null){
                 // 3. 업로드된 파일명을 리스트에 담기 (DB에 파일명 저장)
                 fileNames.add(fileName);
             }
-
-        });
+        };
         System.out.println("fileNames = " + fileNames);
         marketDto.setFileNames(fileNames);
         return marketDao.mkWrite(marketDto, memberId);
@@ -51,21 +56,32 @@ public class MarketService {
 //        System.out.println(mFile.isEmpty());
     }
 
-    // 3. 글 카테고리 불러오기
+    // 3. 글 상세 페이지
+    public MarketDto mkRead(int mkId){
+        return marketDao.mkRead(mkId);
+    }
+    // 4. 상세 페이지 조회수 증가
+    public boolean mkView(int mkId){
+        return marketDao.mkView(mkId);
+    }
+    // 5. 글 수정/삭제 권한 확인
+    public boolean mkCheck(int mkId){
+        // TODO: 현재 세션에서 memberId 찾기
+        int memberId = 0;
+        return marketDao.mkCheck(mkId, memberId);
+    }
 
-    // 4. 글 상세 페이지
+    // 6. 글 수정하기 (거래완료 제외)
 
-    // 5. 상세 페이지 조회수 증가
+    // 7. 글 삭제하기 (거래완료 제외)
 
-    // 6. 글 수정/삭제 권한 확인
+    // 8. 게시물 댓글 조회
 
-    // 7. 글 수정하기 (거래완료 제외)
+    // 9. 게시물 댓글 작성
 
-    // 8. 글 삭제하기 (거래완료 제외)
-
-    // 9. 게시물 댓글 조회
-
-    // 10. 게시물 댓글 작성
-
+    // 10. 게시글 제목 검색
+    public List<MarketDto> mkTitleSearch(String title){
+        return marketDao.mkTitleSearch(title);
+    }
 
 }

@@ -113,6 +113,7 @@ CREATE TABLE GamePurchaseDetails (
     on update cascade
     on delete cascade
 );
+
 -- 회원접속 로그 테이블
 drop table if exists access;	
 create table access (
@@ -123,4 +124,42 @@ create table access (
     on update cascade
     on delete cascade
     
+);
+
+-- 굿즈거래(중고거래) 테이블
+drop table if exists market;
+create table market (
+    mkid int auto_increment not null,  -- 게시글 고유코드
+    mktitle varchar(255) not null,  -- 게시글 제목
+    mkwriter int,  -- 게시글 작성자
+    mkview int not null default 0,  -- 게시글 조회수
+    mkdate datetime default now(), -- 게시글 작성날짜
+    mkcontent text not null,  -- 게시글 내용
+    mkstate boolean default false  -- 거래 상테 (false: 진행중, true: 거래종료)
+    primary key (mkid),
+    foreign key (mkwriter) references members(memberid) on delete set null
+);
+
+-- 굿즈거래 거래신청(쪽지 비슷한) 테이블
+drop table if exists marketmessage;
+create table marketmessage (
+    msgid int auto_increment not null,  -- 메시지 고유코드
+    msgmkid int not null,  -- 해당하는 게시글 번호
+    msgsender int,  -- 보낸 회원코드
+    msgreceiver int not null,  -- 받는 회원코드
+    msgstate boolean default false,  -- 거래상태(false: 진행중, true: 거래종료, 종료 게시글일시 알림 표시 X)
+    msgdate datetime default now(),  -- 작성된 날짜
+    primary key (msgid),
+    foreign key (msgsender) references members(memberid) on delete set null,
+    foreign key (msgreceiver) references members(memberid) on delete cascade
+);
+
+-- 굿즈거래 첨부파일 테이블
+drop table if exists market_files;
+create table market_files (
+    fileid int auto_increment not null,  -- 파일 고유코드
+    mkid int not null,  -- 게시글 번호
+    filename varchar(255) not null,  -- 첨부파일 이름
+    primary key (fileid),
+    foreign key (mkid) references market(mkid) on delete cascade
 );
