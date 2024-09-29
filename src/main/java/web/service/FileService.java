@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
-import java.util.UUID;
 
 @Service
 public class FileService {
@@ -39,22 +38,31 @@ public class FileService {
         }
     }
 
+    // TODO: 로직 체크
     // 이미지 파일 업로드: 파일의 바이트가 저장된 MultipartFile 인터페이스를 받아 저장후 파일명 반환
-    public String uploadFile(MultipartFile multipartFile) {
-        System.out.println(multipartFile.getContentType());
-        System.out.println(multipartFile.isEmpty());
-        System.out.println(multipartFile.getSize());
+    public String uploadImage(MultipartFile image, int mkId, int fileNum) {
+
+        System.out.println(image.getOriginalFilename());
+        System.out.println(image.getContentType());
+        System.out.println(image.getSize());
         // 이미지 파일인지 확인
-        if (multipartFile.getContentType() != null && multipartFile.getContentType().startsWith("image/")) {
-            // 1. 파일 실제 이름 추출 -> 파일명 생성
-            // 클라이언트(유저)들이 서로 다른 파일을 같은 이름으로 업로드하면 식별이 불가능하므로 UUID 생성해서 추가
-            String uuid = UUID.randomUUID().toString(); // UUID 난수 생성, UUID 규약에 따른 임의의 문자열
-            System.out.println("uuid = " + uuid);
-            String fileName = multipartFile.getOriginalFilename();
+        if (image.getContentType() != null && image.getContentType().startsWith("image/")) {
+            // TODO: 이미지 파일 확장자를 찾아 파일명에 조합
+//                int lastIndexOfDot = image.getOriginalFilename().lastIndexOf(".");
+//                String extension = image.getContentType().substring(lastIndexOfDot)
+//                // 확장자가 없는 경우
+//                if (lastIndexOfDot == -1) {
+//                    return ""; // 확장자가 없음
+//                }
+//
+//                // 확장자 반환
+//                return fileName.substring(lastIndexOfDot);
+            // 1. 파일명 생성: image_{mkid}_{1~3번째 첨부파일}
+            String fileName = String.format("image_%d_%d", mkId, fileNum);
             // 2. UUID + 파일명 합치기, UUID와 파일명 사이에 구분 문자 조합, 파일명에 구분문자가 존재하면 안된다("_" 등
             // 후에 구분 문자 기준으로 분해하면 [0]UUID, [1]순수파일명
             // .replaceAll(기존문자,새문자)
-            fileName = uuid + "_" + fileName.replaceAll("_", "-"); // 파일명에 _가 존재하면 -로 변경 -> _를 구분문자로 쓰기 위해
+            // fileName = uuid + "_" + fileName.replaceAll("_", "-"); // 파일명에 _가 존재하면 -로 변경 -> _를 구분문자로 쓰기 위해
             System.out.println("fileName = " + fileName);
             // 3. 저장할 경로와 파일명 합치기
             String filePath = uploadPath + fileName;
@@ -64,7 +72,7 @@ public class FileService {
             // 일반예외 예외처리 필요
             System.out.println("file = " + file);
             try {
-                multipartFile.transferTo(file);
+                image.transferTo(file);
                 return fileName;
             } catch (IOException e) {
                 System.out.println(e);
