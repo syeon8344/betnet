@@ -3,45 +3,69 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- xml 주석 -->
-<mapper namespace="web.model.dao.MarketDao" >  <!-- mapper start -->
+<mapper namespace="web.model.dao.MarketDao" > <!-- mapper start -->
+
+    <!-- 1. 글 불러오기 (+ 검색어, 거래상태) -->
+    <select id="mkReadAll" resultType="web.model.dto.MarketDto">
+        select * from market inner join members on market.mkwriter = members.memberid
+        <where>
+            <if test="mkstate > 0">
+                and mkstate = #{mkState}
+            </if>
+            <if test="searchKeyword != null and searchKeyword != ''">
+                and mktitle like concat('%', #{searchKeyword}, '%')
+            </if>
+        </where>
+        order by mkid desc limit #{startRow}, #{pageSize};
+    </select>
+
+    <!-- 1-1. 게시판 페이지화) 총 게시글 수 검색 -->
+    <select id="getTotalBoardSize" resultType="int">
+        select count(*) from market inner join members on market.mkwriter = members.memberid
+        <where>
+            <if test="mkstate > 0">
+                and mkstate = #{mkState}
+            </if>
+            <if test="searchKeyword != null and searchKeyword != ''">
+                and mktitle like concat('%', #{searchKeyword}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 4. 상세 페이지 조회수 증가 -->
+    <update id="mkCheck" parameterType="web.model.dto.MarketDto">
+        update market set mkview = mkview + 1 where mkid = #{mkid}
+    </update>
+
     <!-- 5. 글 수정/삭제 권한 확인 -->
     <select id="mkCheck" parameterType="web.model.dto.MarketDto">
         select mkid from market where mkid = mkId and mkwriter = memberId;
     </select>
 
-    <!-- 회원 접속 기록 -->
-    <select id="accessLog" resultType="web.model.dto.LogDto">
-        select * from access inner join members on access.memberid = members.memberid order by memberdatetime desc;
-    </select>
 
-    <!-- 배당금 지급 내역 -->
-    <select id="dividend" resultType="web.model.dto.PointLogDto">
-        select * from PointLogs inner join members on PointLogs.memberid = members.memberid where Description = 2 order by logdate desc;
-    </select>
 
-    <!-- 포인트 구매 내역 -->
+
+    <!-- 5. 글 수정/삭제 권한 확인 -->
     <select id="pointBuy" resultType="web.model.dto.PointLogDto">
         select * from PointLogs inner join members on PointLogs.memberid = members.memberid where Description = 1 order by logdate desc;
     </select>
 
-    <!-- 포인트 출금 내역 -->
-    <select id="pointWithdrawal" resultType="web.model.dto.PointLogDto">
-        select * from PointLogs inner join members on PointLogs.memberid = members.memberid where Description = 4 order by logdate desc;
-    </select>
+    <!-- 6. 글 수정하기 (거래완료 제외) -->
+    <update id="pointWithdrawal" parameterType="web.model.dto.MarketDto">
+        update market set mktitle = #{mktitle}, mkcontent = #{mkcontent}, mkstate = #{mkstate}
+        where mkid = #{mkid} and mkwriter = #{memberid};
+    </update>
 
-    <!-- 게임 구매 내역 -->
-    <select id="gameBuy" resultType="web.model.dto.GameDto">
-        select * FROM GamePurchaseDetails
-        INNER JOIN GamePurchaseList ON GamePurchaseDetails.listid = GamePurchaseList.listid
-        INNER JOIN PointLogs ON GamePurchaseList.PointLogID = PointLogs.PointLogID
-        ORDER BY PointLogs.LogDate DESC;
-    </select>
+    <!-- 7. 글 삭제하기 (거래완료 제외) -->
+    <delete id="bDelete" parameterType="map">
+        delete from market where mkwriter = #{memberId} and mkid = #{mkId};
+    </delete>
 
-    <!-- 제목으로 게시글 검색하기 -->
-    <select id="searchByTitle" parameterType="String" resultType="web.model.dto.MarketDto">
-        SELECT mkid, mktitle, mkwriter, mkview, mkdate, mkcontent, mkstate
-        FROM market
-        WHERE mktitle LIKE CONCAT('%', #{title}, '%')
-    </select>
+    <!-- 8. 게시물 댓글 작성 -->
+    <update id="pointWithdrawal" parameterType="web.model.dto.MarketDto">
+        update market set mktitle = #{mktitle}, mkcontent = #{mkcontent}, mkstate = #{mkstate}
+        where mkid = #{mkid} and mkwriter = #{memberid};
+    </update>
+
 </mapper> <!-- mapper end -->
 

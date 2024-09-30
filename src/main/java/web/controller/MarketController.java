@@ -3,20 +3,21 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MarketDto;
+import web.model.dto.MarketPageDto;
+import web.model.dto.MarketReplyDto;
 import web.service.MarketService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/market")
 public class MarketController {
+
     @Autowired
     private MarketService marketService;
 
-    // 1. 글 불러오기
+    // 1. 글 불러오기 (+ 검색어, 거래상태)
     @GetMapping("/readall")
-    public List<MarketDto> mkReadAll(){
-        return marketService.mkReadAll();
+    public MarketPageDto mkReadAll(MarketPageDto dto){
+        return marketService.mkReadAll(dto);
     }
 
     // 2. 글 작성하기 + 파일첨부
@@ -43,16 +44,21 @@ public class MarketController {
         return marketService.mkCheck(mkId);
     }
 
-    // 6. 글 수정하기 (거래완료 제외)
+    // 6. 글 수정하기 (JS에서 권한 확인 후, 거래완료 제외)
+    @PutMapping("/edit")
+    public boolean mkEdit(@RequestBody MarketDto marketDto){
+        return marketService.mkEdit(marketDto);
+    }
 
-    // 7. 글 삭제하기 (거래완료 제외)
+    // 7. 글 삭제하기 (JS에서 권한 확인 후, 거래완료 제외)
+    @DeleteMapping("/delete")
+    public boolean mkDelete(int bno){
+        return marketService.mkDelete(bno);
+    }
 
-    // 8. 게시물 댓글 조회
-
-    // 9. 게시물 댓글 작성
-
-    // 10. 게시글 제목 검색
-    public List<MarketDto> mkTitleSearch(String title){
-        return marketService.mkTitleSearch(title);
+    // 8. 게시물 댓글 작성
+    @PostMapping("/replywrite")
+    public boolean mkWriteReply(@RequestBody MarketReplyDto marketReplyDto){
+        return marketService.mkWriteReply(marketReplyDto);
     }
 }
