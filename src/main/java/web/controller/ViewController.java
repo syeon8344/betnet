@@ -62,6 +62,10 @@ public class ViewController {
     @GetMapping("/member/stat")
     public String stat(){return "/member/stat.html";}
 
+    // 예상연봉 페이지
+    @GetMapping("/member/salary")
+    public String salary(){return "/member/salary.html";}
+
     //===============멤버
     // 설문 페이지
     @GetMapping("/poll")
