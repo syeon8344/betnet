@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>예상연봉</title>
+    <link href="/css/member/salary.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{/header.html:: header}"></div>
+<div class="wrap">
+    <div class="wrap2">
+        <div class="info">
+            홈
+        </div>
+        <h3> 예상연봉 </h3>
+        <div>
+            <input type="text" class="name">
+            <button type="button" onclick="salary()">검색</button>
+        </div>
+    </div>  <!-- wrap2 end -->
+</div>
+<div th:replace="~{/footer.html:: footer}"></div>
+<!-- iamport.payment.js -->
+<script src="/js/member/salary.js"></script>
+
+</body>
+</html>
