@@ -1,0 +1,6 @@
+.indexMain{
+    width: 1080px;
+    display: block;
+    justify-content: space-between;
+    height: 100vh; /* 부모 요소의 높이 설정 */
+}
