@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- xml 주석 -->
 <mapper namespace="web.model.dao.MarketDao" >  <!-- mapper start -->
-
-    <update id="cAdmin" parameterType="String">
-        update GamePurchaseDetails set matchstate = 0 where matchid = #{matchid}
-    </update>
+    <!-- 5. 글 수정/삭제 권한 확인 -->
+    <select id="mkCheck" parameterType="web.model.dto.MarketDto">
+        select mkid from market where mkid = mkId and mkwriter = memberId;
+    </select>
 
     <!-- 회원 접속 기록 -->
     <select id="accessLog" resultType="web.model.dto.LogDto">

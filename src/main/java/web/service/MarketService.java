@@ -66,9 +66,21 @@ public class MarketService {
     }
     // 5. 글 수정/삭제 권한 확인
     public boolean mkCheck(int mkId){
-        // TODO: 현재 세션에서 memberId 찾기
+        // 현재 로그인된 회원의 회원번호와 게시글 번호를 보내 true/false
         int memberId = 0;
-        return marketDao.mkCheck(mkId, memberId);
+        MemberDto loginDto = memberService.loginCheck();
+        if (loginDto == null) {
+            return false;
+        } else {
+            memberId=loginDto.getMemberid();
+        }
+
+        MarketDto dto = MarketDto.builder()
+                .mkId(mkId)
+                .memberId(memberId)
+                .build();
+
+        return marketDao.mkCheck(dto);
     }
 
     // 6. 글 수정하기 (거래완료 제외)

@@ -18,4 +18,6 @@ public class MarketDto {
     private List<String> fileNames;
     private int mkView;         // 조회수
     private String mkDate;       // 작성일
+    // 회원
+    private int memberId;            // 작성자 검사용 회원번호
 }

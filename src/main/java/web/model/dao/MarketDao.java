@@ -22,7 +22,7 @@ public interface MarketDao {
     boolean mkView(int mkNo);
 
     // 5. 글 수정/삭제 권한 확인
-    boolean mkCheck(int mkNo, int memberid);
+    boolean mkCheck(MarketDto dto);
 
     // 6. 글 수정하기 (거래완료 제외)
     boolean mkEdit(MarketDto marketDto);

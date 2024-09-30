@@ -1,44 +1,37 @@
-/*
-요약
-HTML에서 테이블을 만들고 버튼을 추가합니다.
-CSS로 테이블의 너비를 설정하고 고정 레이아웃을 사용합니다.
-JavaScript로 페이지네이션 기능을 구현하여 테이블을 원하는 대로 나눕니다.
-이렇게 하면 사용자가 "이전"과 "다음" 버튼을 클릭할 때마다 테이블의 내용이 변경되어 상위 <div>의 크기를 넘지 않도록 할 수 있습니다. 필요에 따라 디자인이나 기능을 더 커스터마이즈할 수 있습니다.
-*/
+// <select> 태그 내용이 바뀔 때(change) 함수가 실행되도록 하는 이벤트 리스너 설정
+// DOMContentLoaded 이벤트(웹페이지 요소 전체 로드 완료)가 발생한 후 실행되도록 하기
+document.addEventListener('DOMContentLoaded', (event) => {
+    const yearSelect = document.querySelector('#year');
+    getYearTable(yearSelect.value)
+    // function(): 익명 함수, 이벤트 발생시 아래 내용이 즉시 실행
+    yearSelect.addEventListener('change', function() {
+        const yearValue = this.value;  // 선택된 값 가져오기
+        getYearTable(yearValue)
+    });
+});
 
-let sel_year = 0
-getYearTable(1)
-
-function getYearTable(num){
-    console.log("getYearTable");
-    
-    let year = document.querySelector(".year").value
-    if (year == sel_year){
-        return
-    } else {
-        sel_year = year
-    }
+// 선택한 연도에 맞춰 flask 서버에서 데이터 가져오기
+function getYearTable(yearValue){
     $.ajax({
         async: false,
         method: "GET",
-        data: {year: year},
+        data: {'year': yearValue},
         url: "http://127.0.0.1:5000/gethittertable",
         success: (resp) => {
             response = JSON.parse(resp)
-            console.log(response);
+            // console.log(response);
             let html1 = ""
             let html2 = ""
             for (let i = 0; i < response.length; i++){
-                console.log(i);
                 let keyCount = 0
                 html1 += `<tr>`
                 html2 += `<tr>`
                 for (const key in response[i]){
-                    console.log(key);
+                    let cell = `<td>${response[i][key]}</td>`
                     if (keyCount < 13){
-                        html1 += `<td>${response[i][key]}</td>`
+                        html1 += cell
                     } else {
-                        html2 += `<td>${response[i][key]}</td>`
+                        html2 += cell
                     }
                     keyCount++
                 }
@@ -47,42 +40,15 @@ function getYearTable(num){
             }
             document.querySelector(".historyTbody1").innerHTML = html1
             document.querySelector(".historyTbody2").innerHTML = html2
+        },
+        // jqXHR: jQuery의 XMLHttpRequest 객체, 응답 코드 등 데이터 포함
+        error: function(jqXHR) {
+            if (jqXHR.status === 404) {  // 응답코드 404시 실행
+                console.error('404: 테이블 정보가 없습니다.');
+                alert('해당 연도 자료가 없습니다. 다른 연도를 선택해 보세요.');
+            } else {
+                console.error('서버 통신 과정에서 오류가 발생했습니다:', jqXHR.status);
+            }
         }
     })
 }
-
-// === 반응형 테이블 GPT ===
-let currentPage = 0;
-const rowsPerPage = 5; // 페이지당 행 수
-const table = document.getElementById("myTable");
-const tbody = table.getElementsByTagName("tbody")[0];
-const rows = tbody.getElementsByTagName("tr");
-const totalRows = rows.length;
-const totalPages = Math.ceil(totalRows / rowsPerPage);
-
-function updateTable() {
-    for (let i = 0; i < rows.length; i++) {
-        rows[i].style.display = "none"; // 모든 행 숨기기
-    }
-
-    for (let i = currentPage * rowsPerPage; i < (currentPage + 1) * rowsPerPage && i < totalRows; i++) {
-        rows[i].style.display = ""; // 현재 페이지의 행만 표시
-    }
-}
-
-function nextPage() {
-    if (currentPage < totalPages - 1) {
-        currentPage++;
-        updateTable();
-    }
-}
-
-function prevPage() {
-    if (currentPage > 0) {
-        currentPage--;
-        updateTable();
-    }
-}
-
-// 초기 테이블 업데이트
-updateTable();
