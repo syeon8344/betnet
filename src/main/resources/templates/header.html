@@ -10,6 +10,9 @@
 
 </head>
 <body>
+    <marquee class="hypoBar" behavior="scroll" direction="left" style="background-color: #f0f0f0; color: #333; padding: 10px;">
+        여기에 가설 넣을 예정
+    </marquee>
     <div class="wrap">
         <div id="menu">
             <div id="topMenu"> <!-- 상단 메뉴-->
@@ -79,6 +82,31 @@
             </div>  <!-- bottomMenu end -->
         </div> <!-- menu end -->
     </div>  <!-- wrap end -->
+
+    <style>
+        .hypoBar {
+            background-color: #f0f0f0; /* 배경색 */
+            color: #333; /* 글자색 */
+            padding: 10px; /* 여백 */
+            font-size: 1.2em; /* 폰트 크기 */
+            font-family: Arial, sans-serif; /* 글꼴 */
+            white-space: nowrap; /* 줄 바꿈 방지 */
+        }
+
+        /* 애니메이션 조정 */
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* 추가 스타일 (예시) */
+        .hypoBar {
+            display: inline-block; /* 인라인 블록 */
+            overflow: hidden; /* 넘치는 내용 숨김 */
+            width: 100%; /* 전체 너비 */
+            box-sizing: border-box; /* 패딩 포함 너비 계산 */
+        }
+    </style>
 
     <!-- 공통 JS -->
     <!-- 1. JQUERY , AJAX -->
