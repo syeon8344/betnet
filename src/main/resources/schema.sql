@@ -31,7 +31,8 @@ create table members (
     on update cascade
     on delete cascade
 );
-select * from members;
+
+
 drop table if exists teamboard;
 create table teamboard (
     postid int auto_increment primary key,
@@ -134,7 +135,7 @@ create table market (
     mkview int not null default 0,  -- 게시글 조회수
     mkdate datetime default now(), -- 게시글 작성날짜
     mkcontent text not null,  -- 게시글 내용
-    mkstate boolean default false  -- 거래 상테 (false: 진행중, true: 거래종료)
+    mkstate boolean default false,  -- 거래 상테 (false: 진행중, true: 거래종료)
     primary key (mkid),
     foreign key (mkwriter) references members(memberid) on delete set null
 );

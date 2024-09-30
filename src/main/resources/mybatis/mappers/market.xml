@@ -38,7 +38,7 @@
     </select>
 
     <!-- 제목으로 게시글 검색하기 -->
-    <select id="searchByTitle" parameterType="String" resultType="com.example.dto.MarketDto">
+    <select id="searchByTitle" parameterType="String" resultType="web.model.dto.MarketDto">
         SELECT mkid, mktitle, mkwriter, mkview, mkdate, mkcontent, mkstate
         FROM market
         WHERE mktitle LIKE CONCAT('%', #{title}, '%')
