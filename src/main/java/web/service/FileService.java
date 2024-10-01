@@ -134,10 +134,22 @@ public class FileService {
         }
     }
 
-    // [3] 파일 삭제 (수정에서도 사용)
-    public void deleteFile(String oldFileName){
-        File file = new File(uploadPath + oldFileName);
-        file.delete(); //TODO
+    // [3] 파일 이름으로 파일 삭제하기 (수정 및 삭제 모두 사용)
+    public void deleteFile(String oldFileName) {
+        // 파일 경로를 생성합니다.
+        File file = new File(uploadPath, oldFileName);
+
+        // 파일이 존재하는지 확인합니다.
+        if (file.exists()) {
+            // 파일을 삭제합니다.
+            if (file.delete()) {
+                System.out.println("파일이 삭제되었습니다: " + oldFileName);
+            } else {
+                System.err.println("파일 삭제 실패: " + oldFileName);
+            }
+        } else {
+            System.err.println("파일이 존재하지 않습니다: " + oldFileName);
+        }
     }
 
 
