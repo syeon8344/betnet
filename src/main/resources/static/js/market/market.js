@@ -16,63 +16,103 @@ DB:
 
 console.log("market.js");
 
-let currentPage = 0;
-const size = 20;
-
-function loadProducts(page) {
-    $.ajax({
-        url: `/api/products?page=${page}&size=${size}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            const products = data.content;
-            const totalPages = data.totalPages;
-
-            const tbody = document.querySelector('#product-table tbody');
-            let rows = ''; // 빈 문자열로 초기화
-
-            products.forEach(product => {
-                rows += `
-                    <tr>
-                        <td>${product.id}</td>
-                        <td>${product.name}</td>
-                        <td>${product.price}</td>
-                    </tr>
-                `;
-            });
-
-            tbody.innerHTML = rows; // 전체 행을 한 번에 추가
-
-            document.getElementById('page-info').textContent = `Page: ${page + 1} of ${totalPages}`;
-            document.getElementById('prev').disabled = page === 0;
-            document.getElementById('next').disabled = page === totalPages - 1;
-        },
-        // ajax 요청 실패시 실행, jqXHR: jQuery의 XMLHttpRequest 객체, strStatus: 실패 원인 문자열, strError: 실패 응답 상세정보
-        error: function(jqXHR, strStatus, strError) {
-            // 404 Not Found
-            if (jqXHR.status === 404) {
-                alert('Products not found (404)');
-            // 500 Internal Server Error
-            } else if (jqXHR.status === 500) {
-                alert('Server error (500). Please try again later.');
-            } else {
-                alert('Unexpected error: ' + strStatus);
-            }
-            console.error('Error:', strError);
-        }
-    });
+// 페이지 정보 관리 객체
+let pageInfo ={
+    page : 1,   // 1. page : 현재페이지 기본값 : 1
+    mkState : 0,   // 2. 거래현황 카테고리, 기본값 : 0
+    searchKeyword : '',      // 4. searchKeyword : 검색필드값 기본값 : ""
 }
 
-document.getElementById('prev').addEventListener('click', function() {
-    if (currentPage > 0) {
-        currentPage--;
-        loadProducts(currentPage);
-    }
-});
+// 현재 페이지 정보를 쿼리스트링에 있으면 가져와 갱신하기
+let urlParams = new URL(location.href).searchParams;
+let pageNo = parseInt(urlParams.get("page")) // 페이지번호
+let mkState = parseInt(urlParams.get("mkstate")) // 거래현황
+let searchKeyword = urlParams.get("searchkeyword") // 검색어
+if (!isNaN(pageNo)){pageInfo.page = pageNo}
+if (!isNaN(mkState)){pageInfo.mkState = mkState}
+if (searchKeyword != null){pageInfo.searchKeyword = searchKeyword}
 
-document.getElementById('next').addEventListener('click', function() {
-    currentPage++;
-    loadProducts(currentPage);
-});
+//페이지 오픈시 자동 실행
+getall();
 
-// Initial load
+// 5. 검색 초기화
+function searchClear(){
+    // 입력창 초기화
+    document.querySelector("#searchKeyword").value = "";
+    // 전역변수 초기화
+    pageInfo.searchKeyword = '';
+    getall()
+}
+
+//검색버튼 클릭
+function search(){
+    let mkState = document.querySelector('.stateSearch').value;
+    let sKeyword = document.querySelector(".searchInput").value
+    pageInfo.mkState = mkState;  // 선택된 값 가져오기
+    pageInfo.searchKeyword = sKeyword;
+    getall()
+}
+
+//게시글 출력
+function getall(){ //getall(page, bcno)
+    console.log("getall");
+    
+    let tbody=document.querySelector('.marketTbody');
+    let html='';
+    $.ajax({
+        async : false,
+        method:'get',
+        url:"/market/readall",
+        data : {mkstate : pageInfo.mkState, page : pageInfo.page, pagesize : pageInfo.pageSize, searchKeyword : pageInfo.searchKeyword},
+        success:result =>{
+            console.log(result);
+            // 페이지화 변수
+            let totalPage = result.totalpage;
+            let startBtn = result.startbtn;
+            let endBtn = result.endbtn;
+            result.data.forEach(data =>{
+                // console.log(data);
+                
+                let imageUrl = data.filenames[0]; // 첫 번째 파일명을 이미지 URL로 사용
+                let mkStateStr = data.mkstate === 0 ? "진행중" : "거래완료"
+                html+=`<tr>
+                        <th>${data.mkid}</th>
+                        <td><img src="${imageUrl}" alt="상품 이미지" style="width: 100px; height: auto;" /></td>
+                        <td><a class="title-link" mkid=${data.mkid}>${data.mktitle}</a></td>
+                        <td>${data.username}</td>
+                        <td>${mkStateStr}</td>
+                        <td>${data.mkview}</td>
+                        <td>${data.mkdate}</td>
+                    </tr>`;
+            });
+            tbody.innerHTML=html;
+            // 제목 클릭시 현재 페이지 쿼리스트링을 포함해서 글 상세보기 페이지로 가는 이벤트 리스너
+            document.querySelectorAll('.title-link').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    // 게시글 번호
+                    const mkid = this.getAttribute('mkid');
+                    // 상세보기 페이지로 이동 (쿼리 스트링 포함)
+                    location.href = `/marketview?page=${pageInfo.page}&mkstate=${pageInfo.mkState}&searchkeyword=${pageInfo.searchKeyword}&mkid=${mkid}`;
+                });
+            });
+            let pageHtml = ``;
+            // 페이지네이션
+            // 이전 버튼
+            pageHtml += `<li class="page-item"><a class="page-link" href="/market?page=${Math.max(pageInfo.page - 1, 1)}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            </a></li>`
+            // 페이지버튼
+            // 페이지마다 시작 버튼 수
+            // 페이지마다 끝 버튼 수
+            // 최대 페이지 수
+            for (let i = startBtn; i <= endBtn; i++){
+                pageHtml += `<li class="page-item"><a class="page-link ${i == pageInfo.page ? 'active' : ''}" href="/market?page=${i}">${i}</a></li>`
+            }   
+            // 다음버튼
+            pageHtml += `<li class="page-item"><a class="page-link" href="/market?page=${Math.min(pageInfo.page + 1, totalPage)}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            </a></li>`
+            document.querySelector(".pagination").innerHTML = pageHtml;
+        }
+    })
+}

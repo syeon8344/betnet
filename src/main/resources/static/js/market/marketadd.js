@@ -12,7 +12,7 @@ $('#summernote').summernote({
     ],
 });
 
-$('#submit').click(function() {
+function mkWrite(){
     // Summernote 내용
     const content = document.querySelector('#summernote').value;
     // 첨부된 이미지 파일 가져오기
@@ -34,22 +34,20 @@ $('#submit').click(function() {
 
     // AJAX 요청으로 데이터 전송
     $.ajax({
-        url: '/api/submitPost', // 서버의 게시글 제출 엔드포인트
+        url: '/market/write', // 서버의 게시글 제출 엔드포인트
         type: 'POST',
         data: formData,
         contentType: false,
         processData: false,
         success: function(response) {
-            console.log("Post submitted successfully:", response);
-            alert("게시글이 성공적으로 제출되었습니다!");
-            // go back to previous page
+            alert("게시글 작성 완료. 게시판으로 돌아갑니다.");
+            location.href="/market"
         },
         error: function() {
-            console.error("Post submission failed.");
             alert("게시글 제출에 실패했습니다.");
         }
     });
-});
+};
 
 $('#imageFiles').change(function() {
     const files = this.files;
