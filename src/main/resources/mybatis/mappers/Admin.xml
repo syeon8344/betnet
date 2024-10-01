@@ -16,7 +16,8 @@
 
     <!-- 배당금 지급 내역 -->
     <select id="dividend" resultType="web.model.dto.PointLogDto">
-        select * from PointLogs inner join members on PointLogs.memberid = members.memberid where Description = 2 order by logdate desc;
+        select * from PointLogs inner join members on PointLogs.memberid = members.memberid
+        where Description = 2 order by logdate desc;
     </select>
 
     <!-- 포인트 구매 내역 -->
