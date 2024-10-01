@@ -32,12 +32,6 @@ public class MarketController {
         return marketService.mkRead(mkId);
     }
 
-    // 4. 상세 페이지 조회수 증가
-    @PostMapping("/view")
-    public boolean mkView(@RequestParam("mkid") int mkId){
-        return marketService.mkView(mkId);
-    }
-
     // 5. 글 수정/삭제 권한 확인
     @GetMapping("/check")
     public boolean mkCheck(@RequestParam("mkid") int mkId){
@@ -46,7 +40,7 @@ public class MarketController {
 
     // 6. 글 수정하기 (JS에서 권한 확인 후, 거래완료 제외)
     @PutMapping("/edit")
-    public boolean mkEdit(@RequestBody MarketDto marketDto){
+    public boolean mkEdit(MarketDto marketDto){
         return marketService.mkEdit(marketDto);
     }
 
@@ -58,7 +52,7 @@ public class MarketController {
 
     // 8. 게시물 댓글 작성
     @PostMapping("/replywrite")
-    public boolean mkWriteReply(@RequestBody MarketReplyDto marketReplyDto){
+    public boolean mkWriteReply(MarketReplyDto marketReplyDto){
         return marketService.mkWriteReply(marketReplyDto);
     }
 }

@@ -121,6 +121,11 @@ public class ViewController {
         return "/history/rank.html";
     }
 
+    // 연도별 KBReport 기록
+    @GetMapping("/history/kbreport")
+    public String historyKBReport(){
+        return "/history/kbreport.html";
+    }
     // ========== 로그 ===============
     // 멤버 접속 기록 로그
     @GetMapping("admin/mAccessLog")
