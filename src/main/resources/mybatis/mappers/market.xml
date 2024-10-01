@@ -33,7 +33,7 @@
     </select>
 
     <!-- 4. 상세 페이지 조회수 증가 -->
-    <update id="mkCheck" parameterType="web.model.dto.MarketDto">
+    <update id="mkView" parameterType="web.model.dto.MarketDto">
         update market set mkview = mkview + 1 where mkid = #{mkid}
     </update>
 
@@ -45,24 +45,24 @@
 
 
 
-    <!-- 5. 글 수정/삭제 권한 확인 -->
-    <select id="pointBuy" resultType="web.model.dto.PointLogDto">
-        select * from PointLogs inner join members on PointLogs.memberid = members.memberid where Description = 1 order by logdate desc;
-    </select>
+<!--    &lt;!&ndash; 5. 글 수정/삭제 권한 확인 &ndash;&gt;-->
+<!--    <select id="pointBuy" resultType="web.model.dto.PointLogDto">-->
+<!--        select * from PointLogs inner join members on PointLogs.memberid = members.memberid where Description = 1 order by logdate desc;-->
+<!--    </select>-->
 
     <!-- 6. 글 수정하기 (거래완료 제외) -->
-    <update id="pointWithdrawal" parameterType="web.model.dto.MarketDto">
+    <update id="mkEdit" parameterType="web.model.dto.MarketDto">
         update market set mktitle = #{mktitle}, mkcontent = #{mkcontent}, mkstate = #{mkstate}
         where mkid = #{mkid} and mkwriter = #{memberid};
     </update>
 
     <!-- 7. 글 삭제하기 (거래완료 제외) -->
-    <delete id="bDelete" parameterType="map">
+    <delete id="mkDelete" parameterType="map">
         delete from market where mkwriter = #{memberId} and mkid = #{mkId};
     </delete>
 
     <!-- 8. 게시물 댓글 작성 -->
-    <update id="pointWithdrawal" parameterType="web.model.dto.MarketDto">
+    <update id="mkWriteReply" parameterType="web.model.dto.MarketDto">
         update market set mktitle = #{mktitle}, mkcontent = #{mkcontent}, mkstate = #{mkstate}
         where mkid = #{mkid} and mkwriter = #{memberid};
     </update>

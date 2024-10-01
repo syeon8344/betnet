@@ -78,7 +78,11 @@ public class MarketService {
         MarketDto dto = marketDao.mkRead(mkId);
         // 댓글
         List<MarketReplyDto> replyDtoList = marketDao.mkReadReply(mkId);
+        // 이미지 파일명 목록
+        List<String> filenames = marketDao.getFilenames(mkId);
+        // DTO 포장 및 반환
         dto.setMkreplies(replyDtoList);
+        dto.setFilenames(filenames);
         return dto;
     }
 

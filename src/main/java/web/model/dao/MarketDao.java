@@ -25,6 +25,9 @@ public interface MarketDao {
     // 3-1. 상세글보기에서 댓글 불러오기
     List<MarketReplyDto> mkReadReply(int mkId);
 
+    // 3-2. 상세글보기 이미지 파일명 목록
+    List<String> getFilenames(int mkId);
+
     // 4. 상세 페이지 들어갈 때 조회수 증가
     boolean mkView(int mkId);
 
