@@ -20,7 +20,8 @@ public class MarketService {
     public MarketPageDto mkReadAll(MarketPageDto dto){
         System.out.println("MarketService.mkReadAll");
         // 페이지당 표시할 게시물 수
-        int pageSize = dto.getPagesize(); // 하나의 페이지당 10개씩 표시
+        int pageSize = 15; // 하나의 페이지당 15개씩 표시
+        dto.setPagesize(pageSize);
         System.out.println("pageSize = " + pageSize);
         // 페이지당 시작 레코드 번호
         int startRow = (dto.getPage()-1) * pageSize;
@@ -44,6 +45,10 @@ public class MarketService {
 
         // 6. 게시물 정보 조회
         List<MarketDto> data = marketDao.mkReadAll(dto);
+        for(MarketDto d : data){
+            List<String> filenames = marketDao.getFilenames(d.getMkid());
+            d.setFilenames(filenames);
+        }
         dto.setData(data);
         int btnSize = 10; // 페이지당 최대 버튼 수
         int startBtn = (((dto.getPage()-1)/btnSize)*btnSize + 1); // 페이지별 시작 버튼 번호 변수

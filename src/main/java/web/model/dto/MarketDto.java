@@ -19,8 +19,9 @@ public class MarketDto {
     private int mkstate;  // 게시글 상태: 거래완료, 미완료 등
     private int mkview;  // 조회수
     private String mkdate;  // 작성일
-    // 작성자 검사용 회원번호
+    // 작성자
     private int memberid;  // 회원코드
+    private String username; // 아이디
     // 댓글 DTO
     private List<MarketReplyDto> mkreplies; // 댓글 내용
 }

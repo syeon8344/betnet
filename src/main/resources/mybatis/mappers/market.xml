@@ -9,11 +9,11 @@
     <select id="mkReadAll" parameterType="web.model.dto.MarketPageDto" resultType="web.model.dto.MarketDto">
         select * from market inner join members on market.mkwriter = members.memberid
         <where>
-            <if test="mkstate > 0">
-                and mkstate = #{mkState}
+            <if test="mkstate != 100">
+                and mkstate = #{mkstate}
             </if>
             <if test="searchkeyword != null and searchkeyword != ''">
-                and mktitle like concat('%', #{searchKeyword}, '%')
+                and mktitle like concat('%', #{searchkeyword}, '%')
             </if>
         </where>
         order by mkid desc limit #{startrow}, #{pagesize};
