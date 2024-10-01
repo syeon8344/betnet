@@ -25,3 +25,24 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
+.article {
+    display: inline-block; /* 콘텐츠가 가운데 정렬되도록 설정 */
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.article th, td {
+    padding: 15px;
+    text-align: left; /* 셀의 텍스트 왼쪽 정렬 */
+    border: 1px solid #ccc;
+}
+.article th {
+    background-color: #f8f8f8;
+}
