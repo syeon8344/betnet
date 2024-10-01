@@ -46,9 +46,6 @@
 }
 
 /* 강사 CSS */
-.gameListBox {
-    width: 70%;
-}
 .gameListBox > div {
     display: flex;
         margin: 30px 0px;
@@ -137,5 +134,6 @@
     font-size: 17px;
     margin-right: 4px;
 }
-
-
+.leftBox{
+    width: 80%;;
+}
