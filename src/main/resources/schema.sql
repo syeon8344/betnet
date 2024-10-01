@@ -140,6 +140,19 @@ create table market (
     foreign key (mkwriter) references members(memberid) on delete set null
 );
 
+-- 굿즈거래 댓글
+drop table if exists marketreply;
+create table marketreply (
+    mkreplyid int auto_increment not null,  -- 댓글 고유번호
+    mkreplywriter int,  -- 작성자 memberid
+    mkid int not null,  -- 원 게시글 번호
+    mkreplydate datetime default now(),  -- 작성된 날짜
+    mkreplycontent text not null,  -- 댓글 내용
+    primary key (mkreplyid),
+    foreign key (mkreplywriter) references members(memberid) on delete set null,
+    foreign key (mkid) references market(mkid) on delete cascade
+);
+
 -- 굿즈거래 거래신청(쪽지 비슷한) 테이블
 drop table if exists marketmessage;
 create table marketmessage (
@@ -155,8 +168,8 @@ create table marketmessage (
 );
 
 -- 굿즈거래 첨부파일 테이블
-drop table if exists market_files;
-create table market_files (
+drop table if exists marketfiles;
+create table marketfiles (
     fileid int auto_increment not null,  -- 파일 고유코드
     mkid int not null,  -- 게시글 번호
     filename varchar(255) not null,  -- 첨부파일 이름

@@ -22,4 +22,6 @@ public class MarketPageDto {
     // 검색 필드
     private int mkstate;  // 거래상태 기준으로 검색할 경우
     private String searchkeyword; // 검색 조회시 사용되는 필드값
+    // data 조회시 사용
+    private int startrow;  // SQL LIMIT 첫번째 start row
 }

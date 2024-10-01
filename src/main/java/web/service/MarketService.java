@@ -22,26 +22,25 @@ public class MarketService {
         int pageSize = dto.getPagesize(); // 하나의 페이지당 10개씩 표시
         // 페이지당 시작 레코드 번호
         int startRow = (dto.getPage()-1) * pageSize;
+        dto.setStartrow(startRow);
         // 전체 게시물 수 (카테고리번호별, 검색조건별)
         int totalBoardSize = marketDao.getTotalBoardSize(dto.getMkstate(), dto.getSearchkeyword());
+        dto.setTotalboardsize(totalBoardSize);
         // 전체 페이지 수 : 전체게시물수 / 페이지당게시물수
         // e.g. 총 게시물 수 23개, 페이지당 5개 게시물 출력 : 4+1 5페이지
         int totalPage = totalBoardSize % pageSize == 0 ? totalBoardSize / pageSize : totalBoardSize / pageSize + 1;
+        dto.setTotalpage(totalPage);
         // 6. 게시물 정보 조회
-        List<MarketDto> data = marketDao.mkReadAll(dto.getMkstate(), startRow, pageSize, dto.getSearchkeyword());
+        List<MarketDto> data = marketDao.mkReadAll(dto);
+        dto.setData(data);
         int btnSize = 10; // 페이지당 최대 버튼 수
         int startBtn = (((dto.getPage()-1)/btnSize)*btnSize + 1); // 페이지별 시작 버튼 번호 변수
+        dto.setStartbtn(startBtn);
         int endBtn = startBtn + btnSize - 1; // 페이지의 끝버튼
         if(endBtn >= totalPage) {endBtn = totalPage;} // 끝 번호가 마지막이면
-        // 반환 객체
-        return MarketPageDto.builder()
-                .page(dto.getPage()) // 현재 페이지 번호
-                .totalboardsize(totalBoardSize) // 전체 게시물 수
-                .totalpage(totalPage) // 전체 페이지 수
-                .data(data) // 조회된 게시물 목록
-                .startbtn(startBtn) // 페이지 표시되는 시작 버튼
-                .endbtn(endBtn) // 페이지에 표시되는 끝 버튼
-                .build();
+        dto.setEndbtn(endBtn);
+
+        return dto;
     }
 
     // 2. 글 작성하기 + 파일첨부
@@ -68,8 +67,15 @@ public class MarketService {
                 fileNames.add(fileName);
             }
         };
-        marketDto.setFilenames(fileNames);
-        return marketDao.mkWrite(marketDto, memberId);
+
+        // 첨부파일명 목록을 테이블에 저장 후 나머지 저장
+        if (marketDao.mkWriteFiles(fileNames)){
+            // 작성자 회원코드
+            marketDto.setMemberid(memberId);
+            return marketDao.mkWrite(marketDto);
+        } else {
+            return false;
+        }
     }
 
     // 3. 글 상세 페이지
@@ -107,18 +113,24 @@ public class MarketService {
                 .memberid(memberId)
                 .build();
 
-        return marketDao.mkCheck(dto);
+        return marketDao.mkCheck(dto) > 0;
     }
 
-    // 6. 글 수정하기 (거래완료 제외)
+    // 6. 글 수정하기 (JS에서 권한 확인 후, 거래완료 제외)
     public boolean mkEdit(MarketDto marketDto){
-
+        //로그인 체크
+        MemberDto loginDto=memberService.loginCheck();
+        int memberId;
+        if (loginDto == null) {
+            return false;
+        } else {
+            memberId = loginDto.getMemberid();
+        }
+        marketDto.setMemberid(memberId);
         return marketDao.mkEdit(marketDto);
     }
 
-
-
-    // 7. 글 삭제하기 (거래완료 제외)
+    // 7. 글 삭제하기 (JS에서 권한 확인 후, 거래완료 제외)
     public boolean mkDelete(int mkId){
         //로그인 체크
         MemberDto loginDto=memberService.loginCheck();
@@ -128,23 +140,25 @@ public class MarketService {
         } else {
             memberId = loginDto.getMemberid();
         }
-        return marketDao.mkDelete(memberId, mkId);
+        MarketDto dto = MarketDto.builder()
+                .mkid(mkId)
+                .memberid(memberId)
+                .build();
+
+        return marketDao.mkDelete(dto);
     }
 
     // 8. 게시물 댓글 작성
     public boolean mkWriteReply(MarketReplyDto replyDto){
-        //System.out.println("map = " + map);
-        //        // no는 입력받지 않는다
-        //            // HTTP 세션에서 가져오기 (회원제 댓글이라는 가정)
-        //            // 세션 : 서버에 저장되는 임시저장소, 서버 종료나 세션 초기화시 사라지므로 매번 로그인할 때 생성되는 방식으로 적합
-        //
-        //        // 로그인 체크 및 no 얻어오기
-        //        Object object = memberService.mLoginCheck();
-        //            // 세션은 무조건 Object타입으로 저장
-        //        if (object==null){return false;}
-        //        MemberDto loginDto = (MemberDto) object;
-        //        int no = loginDto.getNo();
-        //        map.put("no", String.valueOf(no));// map 제네릭이 String : String이므로 int no를 String변환
+        //로그인 체크
+        MemberDto loginDto=memberService.loginCheck();
+        int memberId;
+        if (loginDto == null) {
+            return false;
+        } else {
+            memberId = loginDto.getMemberid();
+        }
+        replyDto.setMkreplywriter(memberId);
         return marketDao.mkWriteReply(replyDto);
     }
 }

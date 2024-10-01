@@ -52,8 +52,8 @@ public class MarketController {
 
     // 7. 글 삭제하기 (JS에서 권한 확인 후, 거래완료 제외)
     @DeleteMapping("/delete")
-    public boolean mkDelete(int bno){
-        return marketService.mkDelete(bno);
+    public boolean mkDelete(@RequestParam("mkid") int mkId){
+        return marketService.mkDelete(mkId);
     }
 
     // 8. 게시물 댓글 작성
