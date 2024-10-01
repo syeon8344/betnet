@@ -14,7 +14,7 @@ public interface MarketDao {
     List<MarketDto> mkReadAll(MarketPageDto dto);
 
     // 1-1. 게시판 페이지화) 총 게시글 수 검색
-    int getTotalBoardSize(int mkState, String searchKeyword);
+    int getTotalBoardSize(MarketPageDto tempDto);
 
     // 2. 글 작성하기 + 파일첨부
     boolean mkWrite(MarketDto marketDto);

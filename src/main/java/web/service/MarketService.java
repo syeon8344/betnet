@@ -18,18 +18,30 @@ public class MarketService {
 
     // 1. 글 불러오기
     public MarketPageDto mkReadAll(MarketPageDto dto){
+        System.out.println("MarketService.mkReadAll");
         // 페이지당 표시할 게시물 수
         int pageSize = dto.getPagesize(); // 하나의 페이지당 10개씩 표시
+        System.out.println("pageSize = " + pageSize);
         // 페이지당 시작 레코드 번호
         int startRow = (dto.getPage()-1) * pageSize;
+        System.out.println("startRow = " + startRow);
         dto.setStartrow(startRow);
         // 전체 게시물 수 (카테고리번호별, 검색조건별)
-        int totalBoardSize = marketDao.getTotalBoardSize(dto.getMkstate(), dto.getSearchkeyword());
+        MarketPageDto tempDto = MarketPageDto.builder()
+                .mkstate(dto.getMkstate())
+                .searchkeyword(dto.getSearchkeyword())
+                .build();
+        int totalBoardSize = marketDao.getTotalBoardSize(tempDto);
+        System.out.println("totalBoardSize = " + totalBoardSize);
         dto.setTotalboardsize(totalBoardSize);
         // 전체 페이지 수 : 전체게시물수 / 페이지당게시물수
         // e.g. 총 게시물 수 23개, 페이지당 5개 게시물 출력 : 4+1 5페이지
         int totalPage = totalBoardSize % pageSize == 0 ? totalBoardSize / pageSize : totalBoardSize / pageSize + 1;
         dto.setTotalpage(totalPage);
+        System.out.println("totalPage = " + totalPage);
+
+        System.out.println("dto = " + dto);
+
         // 6. 게시물 정보 조회
         List<MarketDto> data = marketDao.mkReadAll(dto);
         dto.setData(data);

@@ -10,24 +10,24 @@
         select * from market inner join members on market.mkwriter = members.memberid
         <where>
             <if test="mkstate > 0">
+                and mkstate = #{mkState}
+            </if>
+            <if test="searchkeyword != null and searchkeyword != ''">
+                and mktitle like concat('%', #{searchKeyword}, '%')
+            </if>
+        </where>
+        order by mkid desc limit #{startrow}, #{pagesize};
+    </select>
+
+    <!-- 1-1. 게시판 페이지화) 총 게시글 수 검색 -->
+    <select id="getTotalBoardSize" parameterType="web.model.dto.MarketPageDto" resultType="int">
+        select count(*) from market inner join members on market.mkwriter = members.memberid
+        <where>
+            <if test="mkstate > 0">
                 and mkstate = #{mkstate}
             </if>
             <if test="searchkeyword != null and searchkeyword != ''">
                 and mktitle like concat('%', #{searchkeyword}, '%')
-            </if>
-        </where>
-        order by mkid desc limit #{startRow}, #{pageSize};
-    </select>
-
-    <!-- 1-1. 게시판 페이지화) 총 게시글 수 검색 -->
-    <select id="getTotalBoardSize" resultType="int">
-        select count(*) from market inner join members on market.mkwriter = members.memberid
-        <where>
-            <if test="mkstate > 0">
-                and mkstate = #{mkState}
-            </if>
-            <if test="searchKeyword != null and searchKeyword != ''">
-                and mktitle like concat('%', #{searchKeyword}, '%')
             </if>
         </where>
     </select>

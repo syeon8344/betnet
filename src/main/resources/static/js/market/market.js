@@ -16,63 +16,107 @@ DB:
 
 console.log("market.js");
 
-let currentPage = 0;
-const size = 20;
+// 현재 페이지 번호를 쿼리스트링으로
+let urlParams = new URL(location.href).searchParams;
+let pageNo = parseInt(urlParams.get("page")) //페이지번호
+//let category = parseInt(urlParams.get("cat")) //카테고리
+if (isNaN(pageNo)){pageNo=1}
 
-function loadProducts(page) {
-    $.ajax({
-        url: `/api/products?page=${page}&size=${size}`,
-        type: 'GET',
-        dataType: 'json',
-        success: function(data) {
-            const products = data.content;
-            const totalPages = data.totalPages;
+// 페이지화 변수
+let totalBoardSize;
+let totalPage;
+let startBtn;
+let endBtn;
 
-            const tbody = document.querySelector('#product-table tbody');
-            let rows = ''; // 빈 문자열로 초기화
-
-            products.forEach(product => {
-                rows += `
-                    <tr>
-                        <td>${product.id}</td>
-                        <td>${product.name}</td>
-                        <td>${product.price}</td>
-                    </tr>
-                `;
-            });
-
-            tbody.innerHTML = rows; // 전체 행을 한 번에 추가
-
-            document.getElementById('page-info').textContent = `Page: ${page + 1} of ${totalPages}`;
-            document.getElementById('prev').disabled = page === 0;
-            document.getElementById('next').disabled = page === totalPages - 1;
-        },
-        // ajax 요청 실패시 실행, jqXHR: jQuery의 XMLHttpRequest 객체, strStatus: 실패 원인 문자열, strError: 실패 응답 상세정보
-        error: function(jqXHR, strStatus, strError) {
-            // 404 Not Found
-            if (jqXHR.status === 404) {
-                alert('Products not found (404)');
-            // 500 Internal Server Error
-            } else if (jqXHR.status === 500) {
-                alert('Server error (500). Please try again later.');
-            } else {
-                alert('Unexpected error: ' + strStatus);
-            }
-            console.error('Error:', strError);
-        }
-    });
+// 페이지 정보 관리 객체
+let pageInfo ={
+    page : 1,   // 1. page : 현재페이지 기본값 : 1
+    category : 0,   // 2. bcno : 카테고리번호 기본값 : 0
+    searchKeyword : ''      // 4. searchKeyword : 검색필드값 기본값 : ""
 }
 
-document.getElementById('prev').addEventListener('click', function() {
-    if (currentPage > 0) {
-        currentPage--;
-        loadProducts(currentPage);
-    }
+//페이지 오픈시 자동 실행
+getall();
+paging();
+
+// 5. 검색 초기화
+function searchClear(){
+    // 입력창 초기화
+    document.querySelector("#searchKeyword").value = "";
+    // 전역변수 초기화
+    pageInfo.searchKeyword = '';
+    getall()
+}
+
+// 한 화면에 뜨는 게시글 수
+const size = 20;
+sizeSelect.addEventListener('change', function() {
+    size = this.value;  // 선택된 값 가져오기
 });
 
-document.getElementById('next').addEventListener('click', function() {
-    currentPage++;
-    loadProducts(currentPage);
-});
+//검색버튼 클릭
+function search(){
+    let mkState = document.querySelector('#mkState');
+    let sKeyword = document.querySelector("#searchKeyword").value
+    pageInfo.searchKeyword = sKeyword;
+    getall()
+}
 
-// Initial load
+//게시글 출력
+function getall(){ //getall(page, bcno)
+    let board=document.querySelector('#list');
+    let html='';
+    getCategory()
+    $.ajax({
+        async : false,
+        method:'get',
+        url:"/board/all",
+        data : {bcno : pageInfo.category, page : pageNo, searchKey : pageInfo.searchKey, searchKeyword : pageInfo.searchKeyword},
+        success:result =>{
+            totalBoardSize = result.totalBoardSize;
+            totalPage = result.totalPage;
+            startBtn = result.startBtn;
+            endBtn = result.endBtn;
+            result.data.forEach(result =>{
+                html+=`<tr>
+                        <th>${result.bno}</th>
+                        <td>${result.bcname}</td>
+                        <td><a href="/board/getread?page=${pageNo}&bno=${result.bno}" >${result.btitle}</a></td>
+                        <td>${result.id}</td>
+                        <td>${result.bdate}</td>
+                        <td>${result.bview}</td>
+                    </tr>`;
+            });
+        }
+    })
+    board.innerHTML=html;
+    paging()
+}
+
+// 게시글 쓰기 버튼
+function boardwrite(){
+    console.log('boardwrite()');
+    location.href='/board/write';
+}
+
+// 페이지 번호 출력
+function paging(){
+    let pageHtml = ``;
+    // 이전 버튼
+    pageHtml += `<li class="page-item"><a class="page-link" href="/board/getall?page=${pageNo-1 == 0 ? 1 : pageNo-1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a></li>`
+    // 페이지버튼
+        // 페이지마다 시작 버튼 수
+        // 페이지마다 끝 버튼 수
+        // 최대 페이지 수
+    for (i=startBtn;i<=endBtn;i++){
+        pageHtml += `<li class="page-item"><a class="page-link ${i==pageNo?'active':''}" href="/board/getall?page=${i}">${i}</a></li>`
+        
+    }   
+    // 다음버튼
+    pageHtml += `<li class="page-item"><a class="page-link" href="/board/getall?page=${pageNo+1 <totalPage ? pageNo+1 : totalPage}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a></li>`
+    document.querySelector(".pagination").innerHTML = pageHtml;
+}
