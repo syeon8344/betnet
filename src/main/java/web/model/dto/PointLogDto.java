@@ -16,6 +16,7 @@ public class PointLogDto {
     private int description;    //  1이면 포인트충전 , 2이면 배당금지급 , 3이면 게임구매 , 4이면 포인트출금
     private String descriptionStr;  // description 문자처리
     private int sum;
+    private String username;
 
     private String password; //비번
 }
