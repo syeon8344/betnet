@@ -1,9 +1,3 @@
--- database, table settings
-
-drop database if exists betnet;
-create database betnet;
-use betnet;
-
 drop table if exists teams;
 create table teams (
     teamcode int auto_increment primary key,

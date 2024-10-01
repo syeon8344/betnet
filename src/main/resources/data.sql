@@ -12,7 +12,6 @@ insert into Teams(TeamName) values('NC');
 insert into Teams(TeamName) values('키움');
 insert into Teams(TeamName ) values('자유');
 insert into Teams(TeamName) values('없음');
-select * from members m inner join teams t on m.teamcode=t.teamcode where memberid='1';
 -- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, Account) VALUES
 ('admin' , 'admin' , 'admin' , '010-123-4646' , 'admin@example.com' , 'M' , 20 , 1 , '123-123-123'),
@@ -66,7 +65,6 @@ INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, Team
 ('user048', 'password12365', 'Zoe White', '010-555-0048', 'zoewhite@example.com', 'F', 30, 8, '963-741-852'),
 ('user049', 'password123348', 'Jack Harris', '010-555-0049', 'jackharris@example.com', 'M', 34, 9, '741-852-963'),
 ('user050', 'password1231231', 'Luna Young', '010-555-0050', 'lunayoung@example.com', 'F', 28, 10, '852-963-741');
-select * FROM MEMBERS;
 
 -- 게시판
 INSERT INTO TeamBoard (memberid, teamcode, content, title, views, likes) VALUES
