@@ -1,5 +1,3 @@
--- database, table settings
-
 drop database if exists betnet;
 create database betnet;
 use betnet;
@@ -7,8 +5,7 @@ use betnet;
 drop table if exists teams;
 create table teams (
     teamcode int auto_increment primary key,
-    teamname varchar(100) not null,
-    logoimage varchar(255)
+    teamname varchar(100) not null
 );
 
 drop table if exists members;
@@ -23,9 +20,6 @@ create table members (
     age int,
     joindate date not null default (current_date),
     teamcode int,
-    purchaselimitamount int ,
-    purchaselimitcount int default 0,
-    points int default 0,
     account varchar(255),
     foreign key(teamcode) references teams(teamcode)
     on update cascade
@@ -63,18 +57,6 @@ create table comments (
     on update cascade
     on delete cascade,
     foreign key (postid) references teamboard(postid)
-    on update cascade
-    on delete cascade
-);
-
-drop table if exists chatlogs;
-create table chatlogs (
-    chatlogcode int auto_increment primary key,
-    memberid int not null,
-    content text not null,
-    chatroomuniqueid varchar(50) not null,
-    chatdatetime datetime not null default now(),
-    foreign key (memberid) references members(memberid)
     on update cascade
     on delete cascade
 );
