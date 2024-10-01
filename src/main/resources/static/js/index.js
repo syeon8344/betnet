@@ -266,7 +266,46 @@ function gamePurchase(){
     })
 }   // gamePurchase end
 
+// 메인페이지 kbo 기사 5개 
+getMainArticle();
+function getMainArticle(){
+    console.log('getMainArticle()')
+    $.ajax({
+        async : false , 
+        method:"GET",
+        url:"http://127.0.0.1:5000/article/main",
+        success: (r) => {
+            console.log(r);
+            let atricleBox = document.querySelector(".atricleBox")
+            let html = ``
+            
+            Object.entries(r).forEach(([key, value]) => {   // JavaScript 객체의 키와 값을 쌍으로 포함하는 배열을 반환합니다.
+                console.log(`${key}: ${value}`);
+                Object.entries(value).forEach(([key2, value2]) => {   // JavaScript 객체의 키와 값을 쌍으로 포함하는 배열을 반환합니다.
+                    console.log(`${key2}: ${value2}`);
+                    let pubDate = value2.pubDate;
+                    // Date 객체로 변환
+                    let date = new Date(pubDate);
 
+                    // 날짜와 시간 포맷
+                    let year = date.getFullYear();
+                    let month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작
+                    let day = String(date.getDate()).padStart(2, '0');
+                    let hours = String(date.getHours()).padStart(2, '0');
+                    let minutes = String(date.getMinutes()).padStart(2, '0');
+
+                    // 최종 포맷
+                    let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+                    html += `<tr>
+                                <td><a href="${value2.org_link}">${value2.title}</a></td>
+                                <td>${formattedDate}</td>
+                            </tr>`
+                })
+            })
+            atricleBox.innerHTML = html;
+        }
+    })
+}
 
 
 
