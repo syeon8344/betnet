@@ -19,7 +19,7 @@ function salary(){ console.log('salary()');
                 <div class="player-info">
                     <p><strong>선수명:</strong> ${r.선수명}</p>
                     <p><strong>타율:</strong> ${r.타율}</p>
-                    <p><strong>타석:</strong> ${pr.타석}</p>
+                    <p><strong>타석:</strong> ${r.타석}</p>
                     <p><strong>안타:</strong> ${r.안타}</p>
                     <p><strong>홈런:</strong> ${r.홈런}</p>
                 </div>
