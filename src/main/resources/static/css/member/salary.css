@@ -9,4 +9,28 @@
     display: flex;
     justify-content: left;
 }
+.player-profile {
+            display: flex; /* Flexbox로 배치 */
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 450px; /* 최대 너비 설정 */
+        }
+        .player-image {
+            flex: 1; /* 이미지 영역을 반으로 */
+            margin-right: 20px; /* 이미지와 텍스트 사이의 간격 */
+        }
+        .player-image img {
+            width: 100%; /* 너비를 100%로 설정하여 반응형으로 조정 */
+            height: auto; /* 비율 유지 */
+            border-radius: 5px; /* 모서리 둥글게 */
+        }
+        .player-info {
+            flex: 1; /* 정보 영역을 반으로 */
+            display: flex;
+            flex-direction: column; /* 세로로 정렬 */
+        }
+        .player-info p {
+            margin: 5px 0; /* 문단 간격 */
+        }
 

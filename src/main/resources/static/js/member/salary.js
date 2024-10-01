@@ -9,16 +9,24 @@ function salary(){ console.log('salary()');
         url:"http://127.0.0.1:5000/salary",
         success: (result) => {
             console.log(result);
-            let stat=document.querySelector(".stat");
+            let stat=document.querySelector(".player-profile");
             let html=''
             result.forEach(r =>{
-                html+=`<tr>
-                            <td> ${r.선수명} </td> <td> ${r.타율} </td>    
-                            <td> ${r.타석} </td> <td> ${r.홈런} </td>
-                            <td> ${r.타점} </td> <td> ${r.도루} </td>
-                            <td> ${r.장타율} </td><td> ${r.출루율} </td>
-                            <td> ${r.예상연봉} </td>
-                        </tr>`;
+                html+=`<div class="player-image">
+                                       <img src="${r.사진}">
+                                   </div>
+                                   <div class="player-info">
+                                       <p><strong>선수명:</strong>${r.선수명}</p>
+                                       <p><strong>타율:</strong>${r.타율}</p>
+                                       <p><strong>타석:</strong>${r.타석}</p>
+                                       <p><strong>안타:</strong>${r.안타}</p>
+                                       <p><strong>홈런:</strong>${r.홈런}</p>
+                                       <p><strong>타점:</strong>${r.타점}</p>
+                                       <p><strong>도루:</strong>${r.도루}</p>
+                                       <p><strong>볼넷:</strong>${r.볼넷}</p>
+                                       <p><strong>장타율:</strong>${r.장타율}</p>
+                                       <p><strong>출루율:</strong>${r.출루율}</p>
+                                   </div>`;
             })
             stat.innerHTML=html;
         }
