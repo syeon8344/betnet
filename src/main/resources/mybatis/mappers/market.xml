@@ -33,14 +33,14 @@
     </select>
 
     <!-- 2. 글 작성하기 -->
-    <insert id="mkWrite" parameterType="web.model.dto.MarketDto">
+    <insert id="mkWrite" parameterType="web.model.dto.MarketDto" useGeneratedKeys="true" keyProperty="mkid">
         insert into market (mktitle, mkwriter, mkcontent) values (#{mktitle}, #{memberid}, #{mkcontent});
     </insert>
 
     <!-- 2-1. 첨부파일 테이블 -->
-    <insert id="mkWriteFiles" parameterType="java.util.List">
-        insert into marketfiles (mkid, msgcontent) values
-        <foreach collection="fileNames" item="filename" separator=",">
+    <insert id="mkWriteFiles" parameterType="web.model.dto.MarketDto">
+        insert into marketfiles (mkid, filename) values
+        <foreach collection="filenames" item="filename" separator=",">
             (#{mkid}, #{filename})
         </foreach>
     </insert>
@@ -52,7 +52,7 @@
 
     <!-- 3-1. 상세글보기에서 댓글 불러오기-->
     <select id="mkReadReply" parameterType="int" resultType="web.model.dto.MarketReplyDto">
-        select * from marketreply where mkid = #{mkid};
+        select * from marketreply inner join members on marketreply.mkreplywriter = members.memberid where mkid = #{mkid};
     </select>
 
     <!-- 3-2. 상세글보기 이미지 파일명 목록 -->
@@ -76,14 +76,19 @@
         where mkid = #{mkid} and mkwriter = #{memberid};
     </update>
 
+    <!-- 6-1. 거래 상태 변경 (진행중 -> 거래완료) -->
+    <update id="updateMkState" parameterType="web.model.dto.MarketDto">
+        update market set mkstate = 1 where mkid = #{mkid};
+    </update>
+
     <!-- 7. 글 삭제하기 (거래완료 제외) -->
     <delete id="mkDelete" parameterType="web.model.dto.MarketDto">
         delete from market where mkwriter = #{memberid} and mkid = #{mkid};
     </delete>
 
     <!-- 8. 게시물 댓글 작성 -->
-    <insert id="mkWriteReply" parameterType="web.model.dto.MarketDto">
-        insert into marketreply (mkreplywriter, mkid, mkreplycontent) values (#{memberid}, #{mkid}, #{mkreplycontent});
+    <insert id="mkWriteReply" parameterType="web.model.dto.MarketReplyDto">
+        insert into marketreply (mkreplywriter, mkid, mkreplycontent) values (#{mkreplywriter}, #{mkid}, #{mkreplycontent});
     </insert>
 
 </mapper> <!-- mapper end -->

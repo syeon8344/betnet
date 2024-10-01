@@ -16,11 +16,11 @@ public interface MarketDao {
     // 1-1. 게시판 페이지화) 총 게시글 수 검색
     int getTotalBoardSize(MarketPageDto tempDto);
 
-    // 2. 글 작성하기 + 파일첨부
-    boolean mkWrite(MarketDto marketDto);
+    // 2. 글 작성하기 + 파일첨부 (생성된 레코드의 mkid 반환)
+    void mkWrite(MarketDto marketDto);
 
     // 2-1. 첨부파일 목록을 테이블로
-    boolean mkWriteFiles(List<String> fileNames);
+    int mkWriteFiles(MarketDto marketDto);
 
     // 3. 글 상세 페이지
     MarketDto mkRead(int mkId);
@@ -38,10 +38,13 @@ public interface MarketDao {
     int mkCheck(MarketDto dto);
 
     // 6. 글 수정하기 (거래완료 제외)
-    boolean mkEdit(MarketDto marketDto);
+    int mkEdit(MarketDto marketDto);
+
+    // 6-1. 글 거래상태 변경 (진행중 -> 거래완료)
+    int updateMkState(MarketDto marketDto);
 
     // 7. 글 삭제하기 (거래완료 제외)
-    boolean mkDelete(MarketDto marketDto);
+    int mkDelete(MarketDto marketDto);
 
     // 8. 게시물 댓글 작성
     boolean mkWriteReply(MarketReplyDto marketReplyDto);

@@ -8,9 +8,10 @@
 </head>
 <body>
     <div th:replace="~{/header.html:: header}"></div>
-    <div class="wrap">
-        <div class="indexMain">
-            <div class="selectBox">
+    <div class="container mt-4">
+        <div class="text-center">
+            <div class="mb-3">
+                <label for="year" class="form-label">연도 선택</label>
                 <select id="year">
                     <option value="2015">2015</option>
                     <option value="2016">2016</option>
@@ -24,7 +25,8 @@
                     <option value="2024" selected>2024</option>
                 </select>
             </div>
-            <table class="table">
+            <label for="table">본 데이터의 출처는 KBO 공식 사이트입니다.</label>
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <tr>
@@ -46,7 +48,7 @@
                 <tbody class="historyTbody1">
                 </tbody>
             </table>
-            <table class="table">
+            <table class="table table-bordered mt-4">
                 <thead>
                     <tr>
                         <tr>
@@ -67,7 +69,7 @@
                 <tbody class="historyTbody2">
                 </tbody>
             </table>
-            <table class="table">
+            <table class="table table-bordered mt-4">
                 <thead>
                     <tr>
                         <tr>

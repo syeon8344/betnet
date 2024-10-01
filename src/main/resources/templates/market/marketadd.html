@@ -6,11 +6,14 @@
     <link href="/css/index.css" rel="stylesheet">
     <link href="/css/market/marketadd.css" rel="stylesheet">
     <!-- Summernote CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
     <style>
         #imagePreview img {
             width: 100px;
             margin: 5px;
+        }
+        .note-editor .note-editable {
+            text-align: left; /* 기본 정렬을 왼쪽으로 설정 */
         }
     </style>
 </head>
@@ -19,12 +22,12 @@
     <div class="wrap">
         <div class="main">
             <!-- 게시글 입력 -->
-            <h1>게시글 작성</h1>
+            <h3>게시글 작성</h3>
             <form id="marketWriteForm" class="form-control my-3">
                 <!-- 제목 입력 칸 -->
                 <div>
                     <label for="title">제목</label>
-                    <input type="text" class="form-control" id="mktitle" placeholder="제목을 입력하세요." required>
+                    <input type="text" name="mktitle" class="form-control" id="mktitle" placeholder="제목을 입력하세요." required>
                 </div>
                 <!-- Summernote -->
                 <div class="form-group">
@@ -38,7 +41,8 @@
                     <div id="imagePreview" class="mt-2"></div> <!-- 미리보기 영역 -->
                 </div>
                 <!-- 제출 버튼 -->
-                <button type="button" id="submit" class="btn btn-primary" onclick="mkWrite()">게시글 제출</button>
+                <button type="button" id="submit" class="btn btn-primary" onclick="mkWrite()">게시글 쓰기</button>
+                <button type="button" class="btn btn-primary" onclick="goBack()">돌아가기</button>
             </form>
         </div>
     </div>
