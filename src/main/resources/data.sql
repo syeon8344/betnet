@@ -507,6 +507,7 @@ insert into gamepurchasedetails (listid, matchid, winandloss) VALUES
 (48, '20240914-NC-1700', 1),
 (49, '20240914-KIA-1700', 0),
 (50, '20240915-SSG-1400', 1);
+-- insert into gamepurchasedetails (listid, matchid, winandloss) VALUES (18, '20241002-KT-1830', 1);
 
 -- 회원 접속 로그
 INSERT INTO access (memberid, memberdatetime) VALUES
