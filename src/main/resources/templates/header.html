@@ -13,14 +13,17 @@
     <marquee class="hypoBar" behavior="scroll" direction="left" style="background-color: #f0f0f0; color: #333; padding: 10px;">
         여기에 가설 넣을 예정
     </marquee>
-    <div class="wrap">
-        <div id="menu">
-            <div id="topMenu"> <!-- 상단 메뉴-->
-                <a href="/member/login"> 로그인 </a> <a href="/member/signup"> 회원가입 </a>
-            </div>
-            <div> <!-- 로고 -->
-                <a href="/"><img src="/img/B (2).png" class="logo"/></a>
-            </div>
+
+    <button class="chatBtn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+        <img src="/img/chaticon.gif" />
+    </button>
+
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasScrollingLabel"> 채팅방 </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
             <!-- 채팅 -->
             <div id="chating">
                 <div class="Box" >
@@ -28,10 +31,21 @@
                         <div class="msgBox" style="display : block;"></div>
                         <div id="msgText">
                             <input type="text" class="msgInput" />
-                            <button class="msgButton" onclick="onMsgSend()">메시지 전송</button>
+                            <button class="msgButton" onclick="onMsgSend()"> 전송 </button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="wrap">
+        <div id="menu">
+            <div id="topMenu"> <!-- 상단 메뉴-->
+                <a href="/member/login"> 로그인 </a> <a href="/member/signup"> 회원가입 </a>
+            </div>
+            <div> <!-- 로고 -->
+                <a href="/"><img src="/img/B (2).png" class="logo"/></a>
             </div>
             <!-- 메인 메뉴 -->
             <div id="bottomMenu">

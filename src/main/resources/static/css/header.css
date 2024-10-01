@@ -37,8 +37,10 @@ ul,ol,li{
 
 #topMenu{
     display: flex;
-    justify-content: right;
     padding: 10px 20px;
+    width: 1080px;
+    margin: 0 auto;
+    justify-content: flex-end;
 }
 #topMenu a{
     padding-left: 20px;
@@ -95,30 +97,76 @@ ul,ol,li{
 }
 
 #chating > .box{
-    position: fixed;
     bottom: 600px;
     left: 200px;
 }
 
 .msgBox{
-        border: 1px solid;
-        display: block;
-        height: 402px;
-        overflow-y: auto;
-        width: 268px;
-        position: fixed;
-        bottom: 367px;
-        left: 68px;
+    overflow-y: auto;
+    width: 100%;
+    height: 800px;
+    padding: 10px;
+    background-color: #bacee0;
 }
 #msgText{
-    position: fixed;
-    bottom: 324px;
-    left: 68px;
+    display: flex;
 }
 #msgText > .msgInput{
-    width: 200px;
-    height: 35px;
+    width: 80%;
+    padding: 10px;
+    height: 45px;
 }
 #msgText > .msgButton{
-    height: 35px;
+    width: 20%;
+    padding: 10px;
+    height: 45px;
+    background-color: #112c62;
+    color: white;
+}
+.msgBox > div{
+    margin: 10px 0px;
+}
+
+/* 강사 */
+.chatBtn{
+    position: fixed;
+    right: 60px;
+    bottom: 40px;
+    border: none;
+}
+.chatBtn > img{
+    width: 70px;
+}
+.msgBox > .fromMsgBox{
+    text-align: right;
+
+}
+.msgBox > .fromMsgBox > div > span:nth-child(1){
+    background-color: yellow;
+    padding: 10px;
+    border-radius: 10px;
+    /* margin: 0px 0px; */
+    display: inline-block;
+    margin : 0px 5px;
+}
+.msgBox > .toMsgBox{
+    text-align: left;
+}
+.msgBox > .toMsgBox > div > span:nth-child(1){
+    padding: 10px;
+    border-radius: 10px;
+    display: inline-block;
+    background-color: white;
+        margin : 0px 5px;
+}
+.msgBox  i {
+    font-size: 8px;
+    font-style: normal;
+    margin: 0px 5px;
+}
+
+.msgBox > .alarmMsgBox{
+    text-align: center;
+    background-color: #e8e8e8;
+    padding: 5px 0px;
 }
