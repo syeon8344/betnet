@@ -87,7 +87,7 @@
 
     <!--  결과 correct 필드 업데이트 -->
     <update id="updateCorrect" parameterType="web.model.dto.GameDto">
-        update GamePurchaseDetails set correct = #{value} where matchid = #{matchid}
+        update GamePurchaseDetails set correct = #{value} where matchid = #{matchid} and detailid = #{detailid}
     </update>
     <!-- 적중 결과 update -->
     <!-- <update id="updateCorrectResult" parameterType="web.model.dto.GameDto">
@@ -97,7 +97,7 @@
     <select id="selectedCorrectList" parameterType="web.model.dto.GameDto" resultType="web.model.dto.GameDto">
         select * from GamePurchaseDetails
         inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
-        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.logdate like CONCAT(#{dateString}, '%') and GamePurchaseList.listid = #{listid}
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where GamePurchaseList.listid = #{listid}
     </select>
 
     <!-- 배당금지급 -->

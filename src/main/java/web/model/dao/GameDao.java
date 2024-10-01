@@ -47,13 +47,13 @@ public interface GameDao {
     int updateMatchstate(String matchid);
 
     // 결과 correct 필드 업데이트
-    int updateCorrect(String matchid , int value);
+    int updateCorrect(String matchid , int value , int detailid);
 
     // 적중 결과 update
     // int updateCorrectResult(int listid , int value);
 
     // gamestater가 4인 애들 가지고 오기 어제 날짜의
-    List<GameDto> selectedCorrectList(int listid , String dateString);
+    List<GameDto> selectedCorrectList(int listid);
 
     // 배당금지급
     int insertPointOods(int memberid , int pointChange);
