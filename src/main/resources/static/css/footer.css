@@ -23,7 +23,8 @@
 .footerTop button {
     margin: 5px;
     color: white;
-    background-color: #0f2859;
+    background-color: transparent;
+    border: none;
 }
 .footerBottom{
     margin-top: 10px;

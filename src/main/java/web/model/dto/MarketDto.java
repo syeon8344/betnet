@@ -22,6 +22,9 @@ public class MarketDto {
     // 작성자
     private int memberid;  // 회원코드
     private String username; // 아이디
+    private int mkwriter; // 작성자의 회원코드
     // 댓글 DTO
     private List<MarketReplyDto> mkreplies; // 댓글 내용
+    // mkstate 수정용
+    private int changemkstate; // 기본값 0, 1일시 mkstate 수정 함수로
 }

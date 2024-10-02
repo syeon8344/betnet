@@ -3,6 +3,7 @@ package web.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.yaml.snakeyaml.error.Mark;
 import web.model.dao.MarketDao;
 import web.model.dto.*;
 
@@ -62,47 +63,62 @@ public class MarketService {
 
     // 2. 글 작성하기 + 파일첨부
     public boolean mkWrite(MarketDto marketDto){
+        System.out.println("marketDto = " + marketDto);
         //로그인 체크
         MemberDto loginDto=memberService.loginCheck();
         int memberId;
         if (loginDto == null) {
             return false;
         } else {
-            memberId=loginDto.getMemberid();
+            marketDto.setMemberid(loginDto.getMemberid());
         }
+
+        // 글 등록시 반환되는 등록된 레코드의 mkid값
+        try {
+            // mybatis useGeneratedKeys : auto_increment된 값을 keyProperty에 설정한 필드명으로 매개변수 dto 자체에 등록
+            marketDao.mkWrite(marketDto);
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+        System.out.println(marketDto);
         // 첨부파일 여러개 업로드하기
         // 파일이름 리스트 및 길이
         List<String> fileNames = new ArrayList<>();
-        int fileNum = marketDto.getUploadfiles().size();
         ArrayList<MultipartFile> files = (ArrayList<MultipartFile>) marketDto.getUploadfiles();
         // 1. 첨부파일 개수만큼 반복문 돌리기
         for (int i = 0; i < files.size(); i++){
             // 2. 각 첨부파일마다 업로드메서드 대입
-            String fileName = fileService.uploadImage(files.get(i), marketDto.getMkid(), i);
+            String fileName = fileService.uploadImage(files.get(i), marketDto.getMkid(), i + 1);
             if(fileName != null){
                 // 3. 업로드된 파일명을 리스트에 담기 (DB에 파일명 저장)
                 fileNames.add(fileName);
+                System.out.println(fileNames);
+                System.out.println(marketDto);
             }
         };
+        MarketDto tempDto = MarketDto.builder()
+                .mkid(marketDto.getMkid())
+                .filenames(fileNames)
+                .build();
 
-        // 첨부파일명 목록을 테이블에 저장 후 나머지 저장
-        if (marketDao.mkWriteFiles(fileNames)){
-            // 작성자 회원코드
-            marketDto.setMemberid(memberId);
-            return marketDao.mkWrite(marketDto);
-        } else {
-            return false;
-        }
+        return marketDao.mkWriteFiles(tempDto) > 0;
     }
 
     // 3. 글 상세 페이지
     public MarketDto mkRead(int mkId){
+        // 조회수 증가 처리
+        mkView(mkId);
+
         // 글 내용
         MarketDto dto = marketDao.mkRead(mkId);
+
         // 댓글
         List<MarketReplyDto> replyDtoList = marketDao.mkReadReply(mkId);
+
         // 이미지 파일명 목록
         List<String> filenames = marketDao.getFilenames(mkId);
+
         // DTO 포장 및 반환
         dto.setMkreplies(replyDtoList);
         dto.setFilenames(filenames);
@@ -110,8 +126,8 @@ public class MarketService {
     }
 
     // 4. 상세 페이지 조회수 증가
-    public boolean mkView(int mkId){
-        return marketDao.mkView(mkId);
+    public void mkView(int mkId){
+        marketDao.mkView(mkId);
     }
 
     // 5. 글 수정/삭제 권한 확인
@@ -135,6 +151,10 @@ public class MarketService {
 
     // 6. 글 수정하기 (JS에서 권한 확인 후, 거래완료 제외)
     public boolean mkEdit(MarketDto marketDto){
+        System.out.println("marketDto = " + marketDto);
+        if (marketDto.getChangemkstate() == 1){
+            return marketDao.updateMkState(marketDto) > 0;
+        }
         //로그인 체크
         MemberDto loginDto=memberService.loginCheck();
         int memberId;
@@ -144,7 +164,7 @@ public class MarketService {
             memberId = loginDto.getMemberid();
         }
         marketDto.setMemberid(memberId);
-        return marketDao.mkEdit(marketDto);
+        return marketDao.mkEdit(marketDto) > 0;
     }
 
     // 7. 글 삭제하기 (JS에서 권한 확인 후, 거래완료 제외)
@@ -162,7 +182,7 @@ public class MarketService {
                 .memberid(memberId)
                 .build();
 
-        return marketDao.mkDelete(dto);
+        return marketDao.mkDelete(dto) > 0;
     }
 
     // 8. 게시물 댓글 작성

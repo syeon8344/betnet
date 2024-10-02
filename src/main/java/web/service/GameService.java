@@ -111,7 +111,7 @@ public class GameService {
         List<MatchScheduleDto> compareList = new ArrayList<>();
         // 어제 날짜 구하기 (시스템 시계, 시스템 타임존)
         LocalDate today = LocalDate.now();
-        LocalDate yesterday = today.minusDays(3);
+        LocalDate yesterday = today.minusDays(1);
         // System.out.println(yesterday);
         for(int i = 0; i < matchScheduleDto.size(); i++) {
             String month = matchScheduleDto.get(i).get월();
@@ -119,8 +119,8 @@ public class GameService {
             // matchScheduleDto 리스트에 있는 날짜 생성
             LocalDate givenDate = LocalDate.parse("2024-" + month + "-" + day, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             // 만약 원하는 날짜랑 맞으면 그 줄 compareList에 저장
-            // 테스트를 위해 오늘날짜로 함
-            if(givenDate.isEqual(today)){
+            // 테스트를 위해 오늘날짜로 함 // 실제 구현 페이지는 어제 날짜 기준
+            if(givenDate.isEqual(yesterday)){
                 // matchScheduleDto 객체 생성 (예시로 필드값을 임의로 설정)
                 MatchScheduleDto dto = matchScheduleDto.get(i);
                 compareList.add(dto);
@@ -143,9 +143,9 @@ public class GameService {
             }
         }
         System.out.println(listids);
-        List<GameDto> correctList = new ArrayList<>();
 
-        // 구매목록에서 한번에 가지고 와서 correct 비교 후 배당급 지급
+        List<GameDto> correctList = new ArrayList<>();
+        // 중복 제거한 listid를 구매목록에서 한번에 가지고 와서 correct 비교 후 배당급 지급
         for(int i = 0; i < listids.size(); i++){
             int listid = listids.get(i);
             List<GameDto> gameDtos = gameDao.selectedCorrectList(listid);
@@ -239,6 +239,8 @@ public class GameService {
             System.out.println("pointChange = " + pointChange);
             int result = gameDao.insertPointOods(memberid , pointChange);
             System.out.println("result = " + result);
+            System.out.println(memberid + "번 회원 배당금 지급 완료 " + new LocalDate[]{today});
+
 //                if (result == 1){
 //                    log.info("{}회원배당급 지급 완료{}", memberid, today);
 //                    System.out.println("로그기록완료");

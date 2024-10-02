@@ -7,6 +7,42 @@
 </head>
 <body>
     <div th:replace="~{/header.html:: header}"></div>
+    <div class="wrap" style="    margin-bottom: 50px;">
+        <div style=" width: 1080px;display: flex;  justify-content: space-between;">
+            <div class="article" style="width:55%">
+                <div>
+                    <h6> KBO 헤드라인 뉴스 </h6>
+                    <table>
+                        <tbody class="atricleBox">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="width:45%">
+                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="3000">
+                            <img src="/img/top_ad1.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item" data-bs-interval="3000">
+                            <img src="/img/top_ad2.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item"  data-bs-interval="3000">
+                            <img src="/img/top_ad3.jpg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="wrap">
         <div class="indexMain">
@@ -25,7 +61,7 @@
                             경기 정보
                         </div>
                         <div>
-                            배당 선택
+                            배당률 선택 <img src="/img/aiicon.gif" width="30px" />AI
                         </div>
                     </div>
                 </div>
@@ -59,67 +95,8 @@
             </div> <!-- 오른쪽 -->
         </div>
     </div>
-    <!-- <div class="wrap">
-        <div class="indexMain">
-            <div class="gameScheduleBox">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th> 번호 </th> <th> 마감시간 </th> <th> 종목 </th> <th> 게임유형 </th> <th> 홈팀 vs 원정팀 </th> <th> 배당률선택 </th> <th> 경기시간 </th>
-                        </tr>
-                    </thead>
-                    <tbody class="gameScheduleBody">
-                        <tr> <td> 1 </td> <td> 9/18 18:00 </td> <td> KBO </td> <td> 일반 </td> <td> 롯데 vs LG </td> <td> <button type="button" onclick="choiceWinandLoss(1 , '20240901-롯데-1400' , 1 , 2.14); activateButton(this);"> 승 / 2.14 </button> <button type="button" onclick="choiceWinandLoss(1 , '20240901-롯데-1400' , 0 , 1.46); activateButton(this);"> 패 / 1.46 </button> </td> <td> 9/18 17:00 </td> </tr>
-                        <tr> <td> 2 </td> <td> 9/18 18:00 </td> <td> KBO </td> <td> 일반 </td> <td> NC vs 한화 </td> <td> <button type="button" onclick="choiceWinandLoss(2 , '20240901-NC-1400' , 1 , 1.64); activateButton(this);"> 승 / 1.64 </button> <button type="button" onclick="choiceWinandLoss(2 , '20240901-NC-1400' , 0 , 1.96); activateButton(this);"> 패 / 1.96 </button> </td> <td> 9/18 17:00 </td> </tr>
-                        <tr> <td> 3 </td> <td> 9/18 18:00 </td> <td> KBO </td> <td> 일반 </td> <td> KT vs 삼성 </td> <td> <button type="button" onclick="choiceWinandLoss(3 , '20240901-KT-1400' , 1 , 2.16); activateButton(this);"> 승 / 2.16 </button> <button type="button"onclick="choiceWinandLoss(3 , '20240901-KT-1400' , 0 , 1.44); activateButton(this);"> 패 / 1.44 </button> </td> <td> 9/18 17:00 </td> </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="purchaseBox">
-                구매카트
-                <table class="table">
-                    <tbody class="purchaseCartBox">
-                    </tbody>
-                </table>
-                <div>
-                    <table class="table">
-                        <thead class="purchaseInfoBox">
 
-                        </thead>
-                        <tbody>
-                            <tr> <th> 배팅포인트 </th> <td><input type="text" class="pointChange" onkeyup="updateTotalOdds()"/></td> </tr>
-                        </tbody>
-                    </table>
-                    <div>
-                        <p> 50000 포인트까지 구매 가능합니다.</p>
-                    </div>
-                    <div>
-                        <button type="button" onclick="gamePurchase()">구매하기</button>
-                    </div>
-                </div>
-            </div>
-        </div> indexMain end
-    </div>  wrap end -->
 
-    <div class="wrap">
-        <div class="article">
-            <div>
-                <h3>KBO 뉴스 </h3>
-
-                <table>
-                    <thead>
-                    <tr>
-                        <th>제목</th>
-                        <th>날짜</th>
-                    </tr>
-                    </thead>
-                    <tbody class="atricleBox">
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
 
     <div th:replace="~{/footer.html:: footer}"></div>
     <script src="/js/index.js"></script>
