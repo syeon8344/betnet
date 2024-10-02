@@ -296,7 +296,7 @@ VALUES
 (15, -5000, 3),
 (16, -120, 3),
 (17, -180, 3),
-(18, -200, 3),
+(18, -5000, 3),
 (19, -130, 3),
 (20, -150, 3),
 (21, -140, 3),
@@ -470,9 +470,6 @@ insert into gamepurchasedetails (listid, matchid, winandloss) VALUES
 (17, '20240928-롯데-1700', 1),
 (17, '20240928-NC-1700', 0),
 (17, '20240928-KT-1700', 1),
-(18, '20241001-두산-1400', 0),
-(18, '20241001-삼성-1400', 0),
-(18, '20241001-삼성-1700', 0),
 (19, '20241001-두산-1400', 1),
 (19, '20241001-삼성-1400', 0),
 (19, '20241001-삼성-1700', 0),
@@ -507,7 +504,10 @@ insert into gamepurchasedetails (listid, matchid, winandloss) VALUES
 (48, '20240914-NC-1700', 1),
 (49, '20240914-KIA-1700', 0),
 (50, '20240915-SSG-1400', 1);
--- insert into gamepurchasedetails (listid, matchid, winandloss) VALUES (18, '20241002-KT-1830', 1);
+insert into gamepurchasedetails (listid, matchid, winandloss , correct) VALUES
+(18, '20241001-두산-1400', 0 , 1),
+(18, '20241001-삼성-1400', 0 , 1),
+(18, '20241001-삼성-1700', 0 , 1);
 
 -- 회원 접속 로그
 INSERT INTO access (memberid, memberdatetime) VALUES

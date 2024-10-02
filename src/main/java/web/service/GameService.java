@@ -120,7 +120,7 @@ public class GameService {
             LocalDate givenDate = LocalDate.parse("2024-" + month + "-" + day, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             // 만약 원하는 날짜랑 맞으면 그 줄 compareList에 저장
             // 테스트를 위해 오늘날짜로 함 // 실제 구현 페이지는 어제 날짜 기준
-            if(givenDate.isEqual(today)){
+            if(givenDate.isEqual(yesterday)){
                 // matchScheduleDto 객체 생성 (예시로 필드값을 임의로 설정)
                 MatchScheduleDto dto = matchScheduleDto.get(i);
                 compareList.add(dto);
@@ -239,6 +239,8 @@ public class GameService {
             System.out.println("pointChange = " + pointChange);
             int result = gameDao.insertPointOods(memberid , pointChange);
             System.out.println("result = " + result);
+            System.out.println(memberid + "번 회원 배당금 지급 완료 " + new LocalDate[]{today});
+
 //                if (result == 1){
 //                    log.info("{}회원배당급 지급 완료{}", memberid, today);
 //                    System.out.println("로그기록완료");
