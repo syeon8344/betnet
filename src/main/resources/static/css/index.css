@@ -37,10 +37,12 @@
     margin-top: 20px;
 }
 .article th, td {
-    padding: 15px;
+    padding: 7px;
     text-align: left; /* 셀의 텍스트 왼쪽 정렬 */
     border: 1px solid #ccc;
+        font-size: 9px;
 }
+
 .article th {
     background-color: #f8f8f8;
 }

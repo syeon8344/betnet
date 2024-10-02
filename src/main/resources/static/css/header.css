@@ -58,7 +58,7 @@ ul,ol,li{
 .menu > li {
     display: inline-block;
     position: relative;
-    margin: 0px 70px;
+    margin: 20px 55px;
 }
 .menu > li > a {
     text-decoration: none;

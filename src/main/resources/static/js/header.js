@@ -48,7 +48,7 @@ function hypothesis() {
             // 가설 결과를 배열로 가져와서 반복
             const hypothesisResults = Object.values(result).map(hypo => hypo.가설결과);
             hypothesisResults.forEach(result => {
-                hypoBar.innerHTML += `<li style="font-size: 18px; display: inline; padding-right: 10px; margin-right: 200px; font-size: 20px;">${result}</li>`;
+                hypoBar.innerHTML += `<li style="font-size: 18px; display: inline; padding-right: 10px; margin-right: 200px; font-size: 20px; color: #ffffff;">${result}</li>`;
             });
             hypoBar.innerHTML += `</ul>`;
         } // success end
