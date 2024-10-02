@@ -36,11 +36,10 @@
     border-collapse: collapse;
     margin-top: 20px;
 }
-.article th, td {
+.article th, .article td {
     padding: 7px;
     text-align: left; /* 셀의 텍스트 왼쪽 정렬 */
-    border: 1px solid #ccc;
-        font-size: 9px;
+    font-size: 7px;
 }
 
 .article th {
