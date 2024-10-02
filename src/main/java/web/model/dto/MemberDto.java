@@ -20,9 +20,6 @@ public class MemberDto {
     private int age;        //나이
     private String joinDate;//가입일
     private int teamCode;   // 선호팀코드
-    private int purchaseLimitAmount; //구매제한금액
-    private int purchaseLimitCount;  //구매제한횟수
-    private int points;
     private String account; //계좌
     private String teamName; //선호팀이름
 }
