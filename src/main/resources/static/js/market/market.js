@@ -14,12 +14,12 @@ DB:
 게시글 테이블: 글번호 제목 작성자 구매제안수 조회수 날짜
 */
 
-console.log("market.js");
+// console.log("market.js");
 
 // 페이지 정보 관리 객체
 let pageInfo ={
     page : 1,   // 1. page : 현재페이지 기본값 : 1
-    mkState : 0,   // 2. 거래현황 카테고리, 기본값 : 0
+    mkState : 100,   // 2. 거래현황 카테고리, 기본값 : 100 (필터링이 없는 값)
     searchKeyword : '',      // 4. searchKeyword : 검색필드값 기본값 : ""
 }
 
@@ -38,16 +38,19 @@ getall();
 // 5. 검색 초기화
 function searchClear(){
     // 입력창 초기화
-    document.querySelector("#searchKeyword").value = "";
+    document.querySelector("#searchInput").value = "";
+    document.querySelector("#stateSearch").value = 100;
     // 전역변수 초기화
+    pageInfo.page = 1;
     pageInfo.searchKeyword = '';
+    pageInfo.mkState = 100;
     getall()
 }
 
 //검색버튼 클릭
 function search(){
-    let mkState = document.querySelector('.stateSearch').value;
-    let sKeyword = document.querySelector(".searchInput").value
+    let mkState = document.querySelector('#stateSearch').value;
+    let sKeyword = document.querySelector("#searchInput").value;
     pageInfo.mkState = mkState;  // 선택된 값 가져오기
     pageInfo.searchKeyword = sKeyword;
     getall()
@@ -55,7 +58,7 @@ function search(){
 
 //게시글 출력
 function getall(){ //getall(page, bcno)
-    console.log("getall");
+    // console.log("getall");
     
     let tbody=document.querySelector('.marketTbody');
     let html='';
@@ -63,9 +66,9 @@ function getall(){ //getall(page, bcno)
         async : false,
         method:'get',
         url:"/market/readall",
-        data : {mkstate : pageInfo.mkState, page : pageInfo.page, pagesize : pageInfo.pageSize, searchKeyword : pageInfo.searchKeyword},
+        data : {mkstate : pageInfo.mkState, page : pageInfo.page, pagesize : pageInfo.pageSize, searchkeyword : pageInfo.searchKeyword},
         success:result =>{
-            console.log(result);
+            // console.log(result);
             // 페이지화 변수
             let totalPage = result.totalpage;
             let startBtn = result.startbtn;
@@ -73,12 +76,12 @@ function getall(){ //getall(page, bcno)
             result.data.forEach(data =>{
                 // console.log(data);
                 
-                let imageUrl = data.filenames[0]; // 첫 번째 파일명을 이미지 URL로 사용
+                let imageUrl = "/upload/" + data.filenames[0]; // 첫 번째 파일명을 이미지 URL로 사용
                 let mkStateStr = data.mkstate === 0 ? "진행중" : "거래완료"
                 html+=`<tr>
-                        <th>${data.mkid}</th>
+                        <td>${data.mkid}</td>
                         <td><img src="${imageUrl}" alt="상품 이미지" style="width: 100px; height: auto;" /></td>
-                        <td><a class="title-link" mkid=${data.mkid}>${data.mktitle}</a></td>
+                        <td><a class="title-link"mkid=${data.mkid}>${data.mktitle}</a></td>
                         <td>${data.username}</td>
                         <td>${mkStateStr}</td>
                         <td>${data.mkview}</td>

@@ -234,7 +234,7 @@ function updateTotalOdds() {
     let infohtml = `
         <tr> <th> 선택한 경기 수 </th> <td> ${matchids.length} </td> </tr>
         <tr> <th> 예상 적중 배당률 </th> <td>${totalOdds}</td> </tr>
-        <tr> <th> 예상 적중 금액 </th> <td>${ifPoint}</td> </tr>`;
+        <tr> <th> 예상 적중 금액 </th> <td>${ifPoint.toLocaleString() }</td> </tr>`;
     
     purchaseInfoBox.innerHTML = infohtml;
 }
