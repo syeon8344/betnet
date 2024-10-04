@@ -69,12 +69,12 @@
 }
 
 /* 개인정보 확인 박스 스타일 */
-.personalInfo.box {
+.personalInfo .box {
     border-top: 1px solid #ccc; /* 위쪽 구분선 */
     border-bottom: 1px solid #ccc; /* 아래쪽 구분선 */
-    padding: 10px; /* 안쪽 여백 */
-    margin-left: 20px; /* 왼쪽으로 붙임 */
-    margin-top: 20px; /* 상단 여백 추가 */
+    /* padding: 10px; 안쪽 여백 */
+    /* margin-left: 20px; 왼쪽으로 붙임 */
+    /* margin-top: 20px; 상단 여백 추가  */
     width: fit-content; /* 내용에 맞게 박스 크기 조절 */
 }
 
