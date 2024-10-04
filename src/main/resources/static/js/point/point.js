@@ -104,6 +104,7 @@ function onSearch(){
     mypointlog();
 }
 
+const uniqueID = generateUUID();
 // 아임포트
 // $(".payment").click(function() {
 function payment(){
@@ -114,7 +115,7 @@ function payment(){
     IMP.request_pay({
               pg : "html5_inicis", 
               pay_method : 'card',
-              merchant_uid : `payment-${crypto.randomUUID()}`,
+              merchant_uid : `payment-${uniqueID}`,
               name : '포인트충전'/*상품명*/,
               amount : pointChange /*상품 가격*/, 
               buyer_email : memberInfo.email /*구매자 이메일*/,
@@ -149,6 +150,15 @@ function payment(){
               }
             );
 }   // payment() end
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const random = Math.random() * 16 | 0;
+        const value = c === 'x' ? random : (random & 0x3 | 0x8);
+        return value.toString(16);
+    });
+}
+
 
 mypointlog();
 // 포인트내역 출력
