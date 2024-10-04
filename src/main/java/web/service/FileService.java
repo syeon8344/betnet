@@ -27,7 +27,7 @@ public class FileService {
     // String uploadPath = "C:\\Users\\tj-bu-703-06\\Desktop\\TJ_2024A_Spring\\src\\main\\resources\\static\\upload\\";
     // 내장 웹서버의 upload 폴더 위치 (build->upload)
     // build 폴더는 매번 새로 빌드되는 폴더이므로 파일이 사라질 수 있다
-    static String uploadPath = "build\\main\\resources\\static\\upload\\";
+    static String uploadPath = "C:\\Users\\tj-bu-703-06\\IdeaProjects\\Betnet\\build\\resources\\main\\static\\upload\\";
     // static 블록: 클래스가 로드될 때 한번만 실행된다.
     static{
         // uploadPath 주소 폴더가 없을 때 생성하기
