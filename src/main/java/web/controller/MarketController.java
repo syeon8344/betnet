@@ -55,4 +55,6 @@ public class MarketController {
     public boolean mkWriteReply(MarketReplyDto marketReplyDto){
         return marketService.mkWriteReply(marketReplyDto);
     }
+
+    // TODO: 댓글 수정 및 삭제 기능 (버튼 추가: 상세글 보기 JS 참고)
 }

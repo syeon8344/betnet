@@ -68,7 +68,7 @@ function getall(){ //getall(page, bcno)
         url:"/market/readall",
         data : {mkstate : pageInfo.mkState, page : pageInfo.page, pagesize : pageInfo.pageSize, searchkeyword : pageInfo.searchKeyword},
         success:result =>{
-            // console.log(result);
+            console.log(result);
             // 페이지화 변수
             let totalPage = result.totalpage;
             let startBtn = result.startbtn;
