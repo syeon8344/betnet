@@ -29,7 +29,6 @@ public class MemberController {
         System.out.println("memberDto = " + memberDto);
         return memberService.login(memberDto);
     }
-
     //09.10 로그인체크
     @GetMapping("/logincheck")
     public MemberDto loginCheck(){
