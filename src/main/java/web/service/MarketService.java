@@ -57,7 +57,7 @@ public class MarketService {
         int endBtn = startBtn + btnSize - 1; // 페이지의 끝버튼
         if(endBtn >= totalPage) {endBtn = totalPage;} // 끝 번호가 마지막이면
         dto.setEndbtn(endBtn);
-
+        System.out.println("dto final= " + dto);
         return dto;
     }
 

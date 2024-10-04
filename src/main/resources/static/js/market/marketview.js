@@ -12,7 +12,7 @@ function load() {
         type: 'GET',
         data: { mkid: mkid }, // 게시글 ID 전송
         success: function(data) {
-            // console.log(data);
+            console.log(data);
             
             // 데이터를 각각 HTML에 추가
             $('#mktitle').text(data.mktitle);
@@ -108,13 +108,11 @@ function changeState(){
 }
 
 function writeReply(){
+    let replyContent = document.querySelector('#replyContent').value
     $.ajax({
         url: '/market/replywrite',
         type: 'POST',
-        data: {
-            mkid: mkid,
-            mkreplycontent: document.querySelector('#replyContent').value
-        },
+        data: {mkid: mkid, mkreplycontent: replyContent},
         success: (data) => {
             // console.log(data);
             if (data){

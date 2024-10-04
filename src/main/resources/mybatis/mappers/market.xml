@@ -23,7 +23,7 @@
     <select id="getTotalBoardSize" parameterType="web.model.dto.MarketPageDto" resultType="int">
         select count(*) from market inner join members on market.mkwriter = members.memberid
         <where>
-            <if test="mkstate > 0">
+            <if test="mkstate != 100">
                 and mkstate = #{mkstate}
             </if>
             <if test="searchkeyword != null and searchkeyword != ''">
