@@ -16,7 +16,7 @@ function load() {
             
             // 데이터를 각각 HTML에 추가
             $('#mktitle').text(data.mktitle);
-            $('#mkwriter').text(data.mkwriter);
+            $('#mkwriter').text(data.username);
             $('#mkview').text(data.mkview);
             $('#mkdate').html(data.mkdate);
             // document.querySelector('.mkcontent').innerHTML = `${ data.mkcontent }`; 와 같은 역할
@@ -63,23 +63,23 @@ function load() {
                         if ( currentUserId==data.mkwriter ) {  // 현재 접속한 아이디와 글작성자 아이디가 같으면
                             // 수정 삭제 버튼 넣기
                             buttonHtml +=
-                                `<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal">
+                                `<button type="button" class="btn btn-success mx-3" data-bs-toggle="modal" data-bs-target="#editModal">
                                     글 수정
                                 </button>
-                                <button type="button" class="btn btn-danger">
+                                <button type="button" class="btn btn-danger mx-3" onclick="mkDelete()">
                                     글 삭제
                                 </button>`
                             if (data.mkstate == 0){
-                                buttonHtml += `<button type="button" class="btn btn-warning" onclick="changeState()">거래완료</button>`
+                                buttonHtml += `<button type="button" class="btn btn-warning mx-3" onclick="changeState()">거래완료</button>`
                             }
-                            buttonHtml += `<button type="button" class="btn btn-primary" onclick="goBack()">돌아가기</button>`;
+                            buttonHtml += `<button type="button" class="btn btn-primary mx-3" onclick="goBack()">돌아가기</button>`;
                             document.querySelector('#btnBox').innerHTML = buttonHtml;
                         } else {  // 아이디가 일치하지 않을 경우
-                            document.querySelector('#btnBox').innerHTML = '<button type="button" class="btn btn-primary" onclick="goBack()">돌아가기</button>';
+                            document.querySelector('#btnBox').innerHTML = '<button type="button" class="btn btn-primary mx-3" onclick="goBack()">돌아가기</button>';
                         }
                     }
                     else {  // 아이디가 일치하지 않을 경우
-                        document.querySelector('#btnBox').innerHTML = '<button type="button" class="btn btn-primary" onclick="goBack()">돌아가기</button>';
+                        document.querySelector('#btnBox').innerHTML = '<button type="button" class="btn btn-primary mx-3" onclick="goBack()">돌아가기</button>';
                     }
                 } //success end
             })
