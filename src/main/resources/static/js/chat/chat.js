@@ -23,7 +23,7 @@ function doLoginCheck(){
 }
 doLoginCheck()
 // JS 클라이언트 웹소켓 # new WebSocket("ws://localhost:8080/ws매핑주소")
-let clientSocket = new WebSocket("ws://localhost:8080/chat/conn")
+let clientSocket = new WebSocket("ws://192.168.30.28:8080/chat/conn")
 console.log( clientSocket );
 
 // [1] clientSocket 의 onclose , onerror , onmessage , onopen 정의 해야한다.

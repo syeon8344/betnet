@@ -67,11 +67,16 @@ function getMyPoint(){
         url : "/point/mypoint" ,
         success : (r) => {
             console.log(r);
-            let=html='';
-        if(r!=''){console.log('로그인')
-            html+=`<a class="nav-link" href="/point">${r.sum}포인트</a>`
-        }
-        document.querySelector('.pointInfo').innerHTML=html;
+            let point = 0;
+            // r 값이 null이 아니면 점수 업데이트
+            if (r && r.sum !== undefined) {
+                point = r.sum;
+            }
+            let html='';
+            console.log('로그인')
+            html+=`<a class="nav-link" href="/point">${point}포인트</a>`
+            
+            document.querySelector('.pointInfo').innerHTML=html;
         } ,
         error : (e) => {
             console.log(e)

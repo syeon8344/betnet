@@ -26,8 +26,13 @@ function getMyPoint(){
         url : "/point/mypoint" , 
         success : (r) => {
             console.log(r);
+            let point = 0;
+            // r 값이 null이 아니면 점수 업데이트
+            if (r && r.sum !== undefined) {
+                point = r.sum;
+            }
             let myPointBox = document.querySelector(".myPointBox");
-            let html = r.sum;
+            let html = point;
             myPointBox.innerHTML = html;
         } , 
         error : (e) => {
@@ -119,6 +124,7 @@ function payment(){
                 // 결제 성공시 결제 금액과 discription(name) 필요
                 console.log(rsp);
                 if ( rsp.success ) {
+                    
               } else {
                     var msg = '결제가 완료되었습니다.';
                     // 포인트 로그에 저장
