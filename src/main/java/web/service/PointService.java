@@ -28,7 +28,9 @@ public class PointService {
         if (loginDto == null) return null;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();
-        return pointDao.getMyPoint(memberid);
+        PointLogDto result = pointDao.getMyPoint(memberid);
+        System.out.println("result = " + result);
+        return result;
     }   // getMyPoint() end
 
     // 포인트로그 포인트 충전 내역 저장

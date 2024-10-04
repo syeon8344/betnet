@@ -162,7 +162,7 @@ function bReplyRead(){
             // 수정 삭제 버튼까지 출력하기
                 // '${rp.content}' => 뮨문는 문자취급
             html += `<tr>
-                                <td> ${rp.memberid} </td>
+                                <td> ${rp.userName} </td>
                                 <td class="td${rp.commentid}" > <input value="${rp.content}" readonly style="border: none; outline: none;" /> </td>
                                 <td> ${rp.createdat} </td>
                                 <td class="updatetd${rp.commentid}"> <button type="button" class="btn btn-primary" onclick="ReUpdate( ${rp.commentid} , '${rp.content}' )">수정</button> </td>
@@ -174,7 +174,7 @@ function bReplyRead(){
         //일치하지 않는다면 나머지 부분만 출력하기
         else{
             html += `<tr>
-                        <td> ${rp.memberid} </td>
+                        <td> ${rp.userName} </td>
                         <td> ${rp.content} </td>
                         <td> ${rp.createdat} </td>
                     </tr>
