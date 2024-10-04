@@ -10,3 +10,11 @@
 .table tbody tr:hover {
     background-color: #f8f9fa; /* 호버 시 배경색 변경 */
 }
+.title {
+    color: black; /* 기본 텍스트 색상 */
+    text-decoration: none; /* 기본 밑줄 제거 */
+}
+
+.title:hover {
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}

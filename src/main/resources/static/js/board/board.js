@@ -2,7 +2,7 @@ console.log("board.js")
 
 let boards = []
 let
-boardPage = 6 // 한 페이지에 출력할 게시물 갯수
+boardPage = 10 // 한 페이지에 출력할 게시물 갯수
 
 
 
@@ -49,7 +49,7 @@ function pagination( p ,totalPages ){
     let page = p
     let startRow = (page-1) * boardPage  // 페이지의 게시물 시작번호       0   6  12
     console.log(startRow)
-    let endRow = startRow + 5            // 페이지 게시물 끝번호          5   11  17
+    let endRow = startRow + 9            // 페이지 게시물 끝번호          5   11  17
 
 
     console.log( page)
@@ -70,8 +70,8 @@ console.log(endRow)
                        <tr>
                            <td>${게시판.postid}</td>
                            <td>${게시판.teamname}</td>
-                           <td><a href="/board/view?bno=${게시판.postid}" class="text-decoration-none">${게시판.title}</a></td>
-                           <td>${게시판.memberid}</td>
+                           <td><a href="/board/view?bno=${게시판.postid}" class="title">${게시판.title}</a></td>
+                           <td>${게시판.userName}</td>
                            <td>${게시판.createdat}</td>
                            <td>${게시판.views}</td>
                        </tr>
