@@ -36,7 +36,6 @@ create table teamboard (
     title varchar(255) not null,
     createdat date not null default (current_date),
     views int default 0,
-    likes int default 0,
     foreign key (memberid) references members(memberid)
     on update cascade
     on delete cascade,
@@ -68,8 +67,38 @@ CREATE TABLE PointLogs (
     MemberID INT NOT NULL,                     -- 포인트가 증감된 회원의 번호 (외래 키)
     LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
     PointChange INT NOT NULL,                  -- 포인트 증감량 (증가일 경우 양수, 감소일 경우 음수)
-    Description int NOT NULL,         -- 포인트 증감 내역 (예: "구매", "적립", "사용")
+    Description int NOT NULL,         -- 포인트 증감 내역 1:  충전, 2: 배당금지급, 3: 게임구매, 4: 포인트출금, 5: 로그인, 6: 게시글작성, 7: 댓글 작성, 8: 광고 클릭
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE                          -- 회원 테이블의 외래 키
+);
+
+-- 게시판 추천로그 테이블
+drop table if exists boardlikelog;
+CREATE TABLE boardlikelog (
+    boardlikelogid INT AUTO_INCREMENT PRIMARY KEY,  -- 마일리지 로그 고유 번호 (기본 키, 자동 증가)
+    MemberID INT NOT NULL,                     -- 마일리지가 증감된 회원의 번호 (외래 키)
+    LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
+    postid int ,
+    FOREIGN KEY (postid) REFERENCES teamboard(postid)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE ,                        -- 회원 테이블의 외래 키
+    FOREIGN KEY (MemberID) REFERENCES members(MemberID)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE                          -- 회원 테이블의 외래 키
+);
+
+-- 댓글 추천로그 테이블
+drop table if exists commentlikelog;
+CREATE TABLE commentlikelog (
+    commentlikelogid INT AUTO_INCREMENT PRIMARY KEY,  -- 마일리지 로그 고유 번호 (기본 키, 자동 증가)
+    MemberID INT NOT NULL,                     -- 마일리지가 증감된 회원의 번호 (외래 키)
+    LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
+    commentid int ,
+    FOREIGN KEY (MemberID) REFERENCES members(MemberID)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE ,                         -- 회원 테이블의 외래 키
+    FOREIGN KEY (commentid) REFERENCES comments(commentid)
     ON UPDATE CASCADE
     ON DELETE CASCADE                          -- 회원 테이블의 외래 키
 );
@@ -97,7 +126,7 @@ CREATE TABLE GamePurchaseDetails (
 );
 
 -- 회원접속 로그 테이블
-drop table if exists access;	
+drop table if exists access;
 create table access (
 	accessid int auto_increment primary key,	-- 접속 로그 번호
     memberid int not null,						-- 멤버 아이디
@@ -105,7 +134,7 @@ create table access (
 	foreign key (memberid) references members(memberid)
     on update cascade
     on delete cascade
-    
+
 );
 
 -- 굿즈거래(중고거래) 테이블
@@ -135,19 +164,6 @@ create table marketreply (
     foreign key (mkid) references market(mkid) on delete cascade
 );
 
--- 굿즈거래 거래신청(쪽지 비슷한) 테이블
-drop table if exists marketmessage;
-create table marketmessage (
-    msgid int auto_increment not null,  -- 메시지 고유코드
-    msgmkid int not null,  -- 해당하는 게시글 번호
-    msgsender int,  -- 보낸 회원코드
-    msgreceiver int not null,  -- 받는 회원코드
-    msgstate boolean default false,  -- 거래상태(false: 진행중, true: 거래종료, 종료 게시글일시 알림 표시 X)
-    msgdate datetime default now(),  -- 작성된 날짜
-    primary key (msgid),
-    foreign key (msgsender) references members(memberid) on delete set null,
-    foreign key (msgreceiver) references members(memberid) on delete cascade
-);
 
 -- 굿즈거래 첨부파일 테이블
 drop table if exists marketfiles;
