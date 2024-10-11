@@ -79,7 +79,7 @@ CREATE TABLE boardlikelog (
     boardlikelogid INT AUTO_INCREMENT PRIMARY KEY,  -- 마일리지 로그 고유 번호 (기본 키, 자동 증가)
     MemberID INT NOT NULL,                     -- 마일리지가 증감된 회원의 번호 (외래 키)
     LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
-    postid int , 
+    postid int ,
     FOREIGN KEY (postid) REFERENCES teamboard(postid)
     ON UPDATE CASCADE
     ON DELETE CASCADE ,                        -- 회원 테이블의 외래 키
@@ -94,7 +94,7 @@ CREATE TABLE commentlikelog (
     commentlikelogid INT AUTO_INCREMENT PRIMARY KEY,  -- 마일리지 로그 고유 번호 (기본 키, 자동 증가)
     MemberID INT NOT NULL,                     -- 마일리지가 증감된 회원의 번호 (외래 키)
     LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
-    commentid int , 
+    commentid int ,
     FOREIGN KEY (MemberID) REFERENCES members(MemberID)
     ON UPDATE CASCADE
     ON DELETE CASCADE ,                         -- 회원 테이블의 외래 키
@@ -109,7 +109,7 @@ CREATE TABLE GamePurchaseList (
 	PointLogID int ,           -- 포인트로그 (외래키)
     FOREIGN KEY (PointLogID) references PointLogs(PointLogID)  -- 포인트그 테이블의 외래 키
     ON update cascade
-    on delete cascade 
+    on delete cascade
 );
 
 drop table if exists GamePurchaseDetails;
@@ -120,13 +120,14 @@ CREATE TABLE GamePurchaseDetails (
 	winandloss int NOT NULL ,            -- 회원이 선택한 승패 1 : 승 0 : 패
     matchstate int default 1, -- 경기상태  1 : 경기 정상  0 : 경기취소
     correct int default 0, -- 적중 결과 0: 진행중 1 : 적중 2: 적중실패
+    oods double ,
     foreign key(ListID) references GamePurchaseList(ListID)
     on update cascade
     on delete cascade
 );
 
 -- 회원접속 로그 테이블
-drop table if exists access;	
+drop table if exists access;
 create table access (
 	accessid int auto_increment primary key,	-- 접속 로그 번호
     memberid int not null,						-- 멤버 아이디
@@ -134,7 +135,7 @@ create table access (
 	foreign key (memberid) references members(memberid)
     on update cascade
     on delete cascade
-    
+
 );
 
 -- 굿즈거래(중고거래) 테이블
