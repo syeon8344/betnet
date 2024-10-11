@@ -32,7 +32,7 @@ public interface MarketDao {
     List<String> getFilenames(int mkId);
 
     // 4. 상세 페이지 들어갈 때 조회수 증가
-    boolean mkView(int mkId);
+    void mkView(int mkId);
 
     // 5. 글 수정/삭제 권한 확인
     int mkCheck(MarketDto dto);
