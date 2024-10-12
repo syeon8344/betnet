@@ -384,6 +384,8 @@ VALUES
 (49, -160, 4),
 (50, -130, 4);
 select sum(pointChange) as sum from pointlogs where memberid = 1 and Description = 3;
+INSERT INTO PointLogs (MemberID, PointChange, Description)
+VALUES (2, -5000, 3);
 
 -- 게시판 추천로그
 INSERT INTO boardlikelog ( MemberID , LogDate , postid ) VALUES
@@ -643,6 +645,7 @@ insert into gamepurchaselist (pointlogid) values
 (148),
 (149),
 (150);
+insert into gamepurchaselist (pointlogid) values (201);
 
 -- 게임구매상세
 insert into gamepurchasedetails (listid, matchid, winandloss) VALUES
@@ -723,6 +726,20 @@ insert into gamepurchasedetails (listid, matchid, winandloss , correct) VALUES
 (18, '20241001-두산-1400', 0 , 1),
 (18, '20241001-삼성-1400', 0 , 1),
 (18, '20241001-삼성-1700', 0 , 1);
+
+insert into gamepurchasedetails (listid, matchid, winandloss , correct) VALUES
+(51, '20241010-LG-1830', 0 , 1),
+(51, '20241010-KIA-1400', 1 , 1),
+(51, '20241010-KT-1830', 1 , 1);
+
+insert into gamepurchasedetails (listid, matchid, winandloss) VALUES
+(51, '20241011-LG-1830', 0 ),
+(51, '20241011-삼성-1400', 1),
+(51, '20241011-KT-1830', 1);
+
+update GamePurchaseDetails set odds = 1.75 where detailid = 77;
+update GamePurchaseDetails set odds = 1.59 where detailid = 78;
+update GamePurchaseDetails set odds = 1.4 where detailid = 79;
 
 -- 회원 접속 로그
 INSERT INTO access (memberid, memberdatetime) VALUES

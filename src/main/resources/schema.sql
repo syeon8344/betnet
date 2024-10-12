@@ -120,7 +120,7 @@ CREATE TABLE GamePurchaseDetails (
 	winandloss int NOT NULL ,            -- 회원이 선택한 승패 1 : 승 0 : 패
     matchstate int default 1, -- 경기상태  1 : 경기 정상  0 : 경기취소
     correct int default 0, -- 적중 결과 0: 진행중 1 : 적중 2: 적중실패
-    oods double ,
+    odds double ,
     foreign key(ListID) references GamePurchaseList(ListID)
     on update cascade
     on delete cascade

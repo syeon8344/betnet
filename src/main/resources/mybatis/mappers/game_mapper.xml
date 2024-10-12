@@ -99,6 +99,10 @@
         inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
         inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where GamePurchaseList.listid = #{listid}
     </select>
+    <!-- 배당률 DB 저장 -->
+    <update id="updateOods" parameterType="web.model.dto.GameDto">
+        update GamePurchaseDetails set odds = #{odds} where detailid = #{detailid};
+    </update>
 
     <!-- 배당금지급 -->
     <insert id="insertPointOods" parameterType="int">

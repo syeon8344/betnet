@@ -106,7 +106,6 @@ function onSearch(){
 
 const uniqueID = generateUUID();
 // 아임포트
-// $(".payment").click(function() {
 function payment(){
     let pointChange = document.querySelector(".pointChange").value; // 충전할 금액
     console.log(memberInfo);

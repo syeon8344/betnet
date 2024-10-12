@@ -131,7 +131,7 @@ public class GameService {
         System.out.println(compareList);
         // 회원 구매내역 변경
         List<GameDto> purchaseList = compareMemberCorrect(compareList);
-        System.out.println("purchaseList = " + purchaseList);
+        // System.out.println("purchaseList = " + purchaseList);
         // 변경 후
         List<Integer> listids = new ArrayList<>(); // 중복된 값을 제외한 리스트
         Set<Integer> seenIds = new HashSet<>(); // 중복 체크를 위한 Set
@@ -142,14 +142,14 @@ public class GameService {
                 listids.add(listid); // 중복되지 않은 경우에만 listids에 추가
             }
         }
-        System.out.println(listids);
+        // System.out.println(listids);
 
         List<GameDto> correctList = new ArrayList<>();
         // 중복 제거한 listid를 구매목록에서 한번에 가지고 와서 correct 비교 후 배당급 지급
         for(int i = 0; i < listids.size(); i++){
             int listid = listids.get(i);
             List<GameDto> gameDtos = gameDao.selectedCorrectList(listid);
-            // System.out.println(gameDtos);
+            System.out.println(gameDtos);
             correctList.addAll(gameDtos);
         }
         System.out.println(correctList);
@@ -191,7 +191,7 @@ public class GameService {
                 .filter(dto -> matchingListIdSet.contains(dto.getListid())) // matchingListIds에 있는 listid로 필터링
                 .collect(Collectors.groupingBy(GameDto::getListid)); // listid로 그룹화
 
-        // 결과 출력
+        // 결과 출력 // groupByListid <- 이게 결국 correct가 다 맞은 회원의 리스트
         groupByListid.forEach((listid, dtos) -> {
             System.out.println("listid: " + listid);
             dtos.forEach(dto -> {
@@ -202,34 +202,13 @@ public class GameService {
         for (Map.Entry<Integer, List<GameDto>> entry : groupByListid.entrySet()) {
             Integer listid = entry.getKey();
             List<GameDto> games = entry.getValue();
-
+            System.out.println("games = " + games);
             // 여기서 listid와 해당 게임 리스트에 대한 작업 수행
-            // System.out.println("List ID: " + listid);
+            System.out.println("List ID: " + listid);
             BigDecimal totalOdds = BigDecimal.valueOf(1.0); // 초기값 설정
             int pointChange = 0;
             int memberid = 0;
             for (GameDto game : games) {
-                // 각 GameDto 객체에 대한 작업 수행
-                System.out.println(game.getMatchid());
-                compareList.forEach(c -> {
-                    // 경기일정의 경기코드랑 리스트 게임에서 경기코드가 같으면
-                    if (c.get경기코드().equals(game.getMatchid())) {
-                        if (c.get결과() == 1) {
-                            // c.get결과()가 1이면 홈팀 승리
-                            // System.out.println(c.get홈배당률());
-                            double oods = c.get홈배당률();
-                            game.setOdds(oods);
-                            // System.out.println("Game Info: " + game);
-                        }
-                        if (c.get결과() == 0) {
-                            // System.out.println(c.get어웨이배당률());
-                            double oods = c.get어웨이배당률();
-                            game.setOdds(oods);
-                            // System.out.println("Game Info: " + game);
-                        }
-                    }
-                });
-                    // 각 경기마다 배당률 곱하기
                 totalOdds = totalOdds.multiply(BigDecimal.valueOf(game.getOdds())); // 배당률 누적
                 totalOdds = totalOdds.setScale(2, RoundingMode.HALF_UP); // 소수점 두 자리 반올림
                 pointChange = -game.getPointChange();
@@ -294,8 +273,22 @@ public class GameService {
                     int detailid = p.getDetailid();
                     if (c.get결과() == p.getWinandloss()) {
                         int result = gameDao.updateCorrect(matchid , 1 , detailid);
+                        if (c.get결과() == 1) {
+                            // c.get결과()가 1이면 홈팀 승리
+                            // System.out.println(c.get홈배당률());
+                            // 배당률 DB 저장
+                            double odds = c.get홈배당률();
+                            // System.out.println("odds = " + odds);
+                            int result2 = gameDao.updateOods(detailid , odds);
+                            // System.out.println("Game Info: " + game);
+                        }
+                        if (c.get결과() == 0) {
+                            // System.out.println(c.get어웨이배당률());
+                            double odds = c.get어웨이배당률();
+                            System.out.println("oods = " + odds);
+                            int result2 = gameDao.updateOods(detailid , odds);
+                        }
                         p.setCorrect(1);
-                        // System.out.println("result = " + result);
                     }
                     if(c.get결과() != p.getWinandloss()) {
                         int result = gameDao.updateCorrect(matchid , 2 , detailid);
