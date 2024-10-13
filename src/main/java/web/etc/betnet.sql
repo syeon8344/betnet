@@ -1141,3 +1141,10 @@ insert into marketfiles (mkid, filename) values
 (50, 'image_50_1.jpg'),
 (50, 'image_50_2.jpg'),
 (50, 'image_50_3.jpg');
+
+update GamePurchaseDetails set oods = 1.54 where detailid = 77;
+select * from GamePurchaseDetails where detailid = 80;
+
+select * from GamePurchaseDetails
+        inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where GamePurchaseList.listid = 51;
