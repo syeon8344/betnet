@@ -87,18 +87,22 @@
 
     <!--  결과 correct 필드 업데이트 -->
     <update id="updateCorrect" parameterType="web.model.dto.GameDto">
-        update GamePurchaseDetails set correct = #{value} where matchid = #{matchid}
+        update GamePurchaseDetails set correct = #{value} where matchid = #{matchid} and detailid = #{detailid}
     </update>
     <!-- 적중 결과 update -->
-    <update id="updateCorrectResult" parameterType="web.model.dto.GameDto">
+    <!-- <update id="updateCorrectResult" parameterType="web.model.dto.GameDto">
         update GamePurchaseList set gamestate = #{value} where listid = #{listid}
-    </update>
+    </update> -->
 
-    <select id="selectedGamestate4" parameterType="String" resultType="web.model.dto.GameDto">
+    <select id="selectedCorrectList" parameterType="web.model.dto.GameDto" resultType="web.model.dto.GameDto">
         select * from GamePurchaseDetails
         inner join GamePurchaseList on GamePurchaseDetails.listid = GamePurchaseList.listid
-        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where pointlogs.logdate like CONCAT(#{dateString}, '%') and GamePurchaseList.gamestate = 4
+        inner join pointlogs on GamePurchaseList.pointlogid = pointlogs.pointlogid where GamePurchaseList.listid = #{listid}
     </select>
+    <!-- 배당률 DB 저장 -->
+    <update id="updateOods" parameterType="web.model.dto.GameDto">
+        update GamePurchaseDetails set odds = #{odds} where detailid = #{detailid};
+    </update>
 
     <!-- 배당금지급 -->
     <insert id="insertPointOods" parameterType="int">

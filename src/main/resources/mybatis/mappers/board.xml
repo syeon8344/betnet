@@ -10,11 +10,11 @@
     </insert>
 
     <select id="bRead" resultType="web.model.dto.BoardDto">
-        select * from teamboard order by postid desc;
+        select * from teamboard inner join members on teamboard.memberid = members.memberid order by postid desc;
     </select>
 
     <select id="caRead" resultType="web.model.dto.BoardDto">
-        select * from teamboard where teamcode = #{teamcode} order by postid desc;
+        select * from teamboard inner join members on teamboard.memberid = members.memberid where teamboard.teamcode = #{teamcode} order by postid desc;
     </select>
 
     <select id="bFindBno" resultType="web.model.dto.BoardDto">
@@ -36,7 +36,7 @@
 
     <!-- ///////////////////////댓글 부븐////////////////////////////// -->
     <select id="rpRead" resultType="web.model.dto.ReplyDto">
-        select * from comments where postid = #{postid};
+        select * from comments inner join members on members.memberid = comments.memberid where postid = #{postid};
     </select>
 
     <insert id="reWrite" parameterType="web.model.dto.ReplyDto">

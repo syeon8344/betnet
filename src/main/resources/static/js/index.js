@@ -1,3 +1,15 @@
+let teamLogo = {
+    '롯데':'https://upload.wikimedia.org/wikipedia/ko/0/0c/%EB%A1%AF%EB%8D%B0_%EC%9E%90%EC%9D%B4%EC%96%B8%EC%B8%A0_%EB%A1%9C%EA%B3%A0%282023~%29.png?20240731151823',
+    'LG':'https://upload.wikimedia.org/wikipedia/ko/8/8a/LG_%ED%8A%B8%EC%9C%88%EC%8A%A4_%EB%A1%9C%EA%B3%A0.png' , 
+    '두산':'https://upload.wikimedia.org/wikipedia/ko/0/05/%EB%91%90%EC%82%B0_%EB%B2%A0%EC%96%B4%EC%8A%A4_%EB%A1%9C%EA%B3%A0.png' , 
+    '키움':'https://i.namu.wiki/i/8OIBhZIuoLOBU-jAkbyFWqsCZXga6FDLXSDcCxW65u17b-oJyobnxj11-jpcGyjw0d3LqmDx1xZhILUPigeAvO8oHl1iG6VES2FnyO_wyra0S7SNyfKONh03h-piv1Y-HCwLNnvbnVOYW4mlmB5NcQ.svg' , 
+    'SSG':'https://i.namu.wiki/i/vjpuTXpyrwVXP4keQVivHUl9mJX0zZXIxMkFgMhZINZHVtXE8EHo1kfpR8oa5hgo6CmRIAn4njCXKGtiNIR4vNonDOPgBEkdosWMabZBd3WLI3T3E3Pt_4gSNbRw-NZpLYJHb9OJMkal4PT3z1O0_g.svg' , 
+    'KIA':'https://tigers.co.kr/img/sub/emblem01_01.png' , 
+    'NC': 'https://www.ncdinos.com/assets/images/sub/emblem01.png' , 
+    '한화' : 'https://i.namu.wiki/i/mlh33164jnUot3lB-keosWy6bQ2vZSI2xXguIyvh_TO5bJnifYsAKeoLvC2VUPGVAeAbcygYP-ak3AQSryV2aFgb4H8nvxE0sMGhE71YVbkP9VffqsihMfpFliJsr2WihFWguRPbsFJkLW0pTDEynw.svg' , 
+    '삼성' : 'https://upload.wikimedia.org/wikipedia/ko/e/ee/%EC%82%BC%EC%84%B1_%EB%9D%BC%EC%9D%B4%EC%98%A8%EC%A6%88_%EB%A1%9C%EA%B3%A0.png' , 
+    'KT' : 'https://upload.wikimedia.org/wikipedia/ko/7/7b/Kt_%EC%9C%84%EC%A6%88_%EB%A1%9C%EA%B3%A0.png' , 
+}
 console.log('index.js')
 let memberInfo = {}   // 멤버정보 저장하는 변수 
 console.log(memberInfo);
@@ -29,36 +41,101 @@ function getSchedule(){
             // TODO: 09.22 추가 데이터
             // 어웨이예측순위, 홈예측순위, 어웨이배당률, 홈배당률, 어웨이승률, 홈승률
             // 7.116,             4.998,        1.59,                1.41,         0.41,       0.59
-            let tbody = document.querySelector('.gameScheduleBody');
+            let tbody = document.querySelector('.gamePrintBox');
             let html = '';
             for(let i = 0 ; i < result.length ; i++){
                 let compareDate = `${result[i].연도}-${result[i].월}-${result[i].일} ${result[i].시작시간}`;
                 console.log(compareDate);
                 console.log(fullFormattedDateTime);
+                
+                let homelogo = teamLogo[`${result[i].홈팀명}`];
+                let awaylogo = teamLogo[`${result[i].어웨이팀명}`];
+
                 if(fullFormattedDateTime > compareDate){
-                    html += `<tr>
-                    <td>${i+1}</td>
-                    <td class="dateValue">${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
-                    <td>KBO</td>
-                    <td>일반</td>
-                    <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
-                    <td> 발매마감 </td>
-                    <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
-                    </tr>`;
+
+                    html += `<div>
+                                <div> ${i+1} </div>
+                                <div>
+                                    KBO ( 일반 )
+                                </div>
+                                <div class="dateValue">
+                                    ${result[i].월}/${result[i].일} ${result[i].시작시간}
+                                </div>
+                                <div>
+                                    <div> ${result[i].월}/${result[i].일} ${result[i].시작시간}  </div>
+                                    <div class="matchBox">
+                                        <div class="teamLogoBox">
+                                            <img src="${homelogo}" width="35px"/>
+                                            <div> ${result[i].홈팀명} </div>
+                                        </div>
+                                        <span class="matchTxtBox"> vs </span>
+                                        <div class="teamLogoBox">
+                                            <img src="${awaylogo}" width="35px"/>
+                                            <div> ${result[i].어웨이팀명} </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    발매마감
+                                </div>
+                            </div>
+                            `;
                     console.log('발매마감');
                    
                 }else{
-                    html += `<tr>
-                    <td>${i+1}</td>
-                    <td class="dateValue">${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
-                    <td>KBO</td>
-                    <td>일반</td>
-                    <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
-                    <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button> </td>
-                    <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
-                    </tr>`;
+                    html += `<div>
+                                <div> ${i+1} </div>
+                                <div>
+                                    KBO ( 일반 )
+                                </div>
+                                <div class="dateValue">
+                                    ${result[i].월}/${result[i].일} ${result[i].시작시간}
+                                </div>
+                                <div>
+                                    <div> ${result[i].월}/${result[i].일} ${result[i].시작시간}  </div>
+                                    <div class="matchBox">
+                                        <div class="teamLogoBox">
+                                             <img src="${homelogo}" width="35px"/>
+                                            <div> ${result[i].홈팀명} </div>
+                                        </div>
+                                        <span class="matchTxtBox"> vs </span>
+                                        <div class="teamLogoBox">
+                                            <img src="${awaylogo}" width="35px"/>
+                                            <div> ${result[i].어웨이팀명} </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> 
+                                    <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button>
+                                </div>
+                            </div>`;
                     console.log('발매중')
                 }
+                // if(fullFormattedDateTime > compareDate){
+                //     html += `<tr>
+                //     <td>${i+1}</td>
+                //     <td class="dateValue">${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                //     <td>KBO</td>
+                //     <td>일반</td>
+                //     <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
+                //     <td> 발매마감 </td>
+                //     <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                //     </tr>`;
+                //     console.log('발매마감');
+                   
+                // }else{
+                //     html += `<tr>
+                //     <td>${i+1}</td>
+                //     <td class="dateValue">${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                //     <td>KBO</td>
+                //     <td>일반</td>
+                //     <td>${result[i].홈팀명} vs ${result[i].어웨이팀명}</td>
+                //     <td> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button> </td>
+                //     <td>${result[i].월}/${result[i].일} ${result[i].시작시간}</td>
+                //     </tr>`;
+                //     console.log('발매중')
+                // }
             }
             tbody.innerHTML = html;
         }
@@ -157,7 +234,7 @@ function updateTotalOdds() {
     let infohtml = `
         <tr> <th> 선택한 경기 수 </th> <td> ${matchids.length} </td> </tr>
         <tr> <th> 예상 적중 배당률 </th> <td>${totalOdds}</td> </tr>
-        <tr> <th> 예상 적중 금액 </th> <td>${ifPoint}</td> </tr>`;
+        <tr> <th> 예상 적중 금액 </th> <td>${ifPoint.toLocaleString() }</td> </tr>`;
     
     purchaseInfoBox.innerHTML = infohtml;
 }
@@ -266,7 +343,61 @@ function gamePurchase(){
     })
 }   // gamePurchase end
 
+// 메인페이지 kbo 기사 5개 
+getMainArticle();
+function getMainArticle(){
+    console.log('getMainArticle()')
+    $.ajax({
+        async : false , 
+        method:"GET",
+        url:"http://127.0.0.1:5000/article/main",
+        success: (r) => {
+            console.log(r);
+            let atricleBox = document.querySelector(".atricleBox")
+            let html = ``
+            
+            Object.entries(r).forEach(([key, value]) => {   // JavaScript 객체의 키와 값을 쌍으로 포함하는 배열을 반환합니다.
+                console.log(`${key}: ${value}`);
+                Object.entries(value).forEach(([key2, value2]) => {   // JavaScript 객체의 키와 값을 쌍으로 포함하는 배열을 반환합니다.
+                    console.log(`${key2}: ${value2}`);
+                    let pubDate = value2.pubDate;
+                    // Date 객체로 변환
+                    let date = new Date(pubDate);
+
+                    // 날짜와 시간 포맷
+                    let year = date.getFullYear();
+                    let month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작
+                    let day = String(date.getDate()).padStart(2, '0');
+                    let hours = String(date.getHours()).padStart(2, '0');
+                    let minutes = String(date.getMinutes()).padStart(2, '0');
+
+                    // 최종 포맷
+                    let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
+                    html += `<tr>
+                                <td><a href="${value2.org_link}">${value2.title}</a></td>
+                                <td>${formattedDate}</td>
+                            </tr>`
+                })
+            })
+            atricleBox.innerHTML = html;
+        }
+    })
+}
 
 
-
+function adPoint(){
+    console.log("adPoint()")
+   $.ajax({
+               method:'post',
+               url:"/point/advertis",
+               success:(result)=>{console.log(result);
+                   if(result){
+                        alert('광고 포인트 10 증정')
+                   }
+                   else{
+                       alert('포인트 지급 실패')
+                   } //else end
+               } // success end
+       }) // ajax end
+}
 

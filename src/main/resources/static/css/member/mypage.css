@@ -69,12 +69,12 @@
 }
 
 /* 개인정보 확인 박스 스타일 */
-.personalInfo.box {
+.personalInfo .box {
     border-top: 1px solid #ccc; /* 위쪽 구분선 */
     border-bottom: 1px solid #ccc; /* 아래쪽 구분선 */
-    padding: 10px; /* 안쪽 여백 */
-    margin-left: 20px; /* 왼쪽으로 붙임 */
-    margin-top: 20px; /* 상단 여백 추가 */
+    /* padding: 10px; 안쪽 여백 */
+    /* margin-left: 20px; 왼쪽으로 붙임 */
+    /* margin-top: 20px; 상단 여백 추가  */
     width: fit-content; /* 내용에 맞게 박스 크기 조절 */
 }
 
@@ -118,3 +118,22 @@
 .personalInfoEdit button:hover {
     background-color: #0056b3;
 }
+
+ /* 기본 스타일 */
+    .clickable-heading h4 {
+        color: #333; /* 기본 글자 색 */
+        text-decoration: none;
+        transition: color 0.3s, text-decoration 0.3s;
+    }
+
+    /* 마우스를 올렸을 때의 스타일 */
+    .clickable-heading h4:hover {
+        color: #007BFF; /* 색상 변경 */
+        text-decoration: underline; /* 밑줄 추가 */
+        cursor: pointer; /* 클릭 가능한 포인터 표시 */
+    }
+
+    /* 클릭할 때 시각적인 피드백 */
+    .clickable-heading h4:active {
+        color: #0056b3; /* 클릭 시 어두운 색으로 변경 */
+    }

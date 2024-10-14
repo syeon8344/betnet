@@ -29,6 +29,35 @@ function doLoginCheck(){
     })
 }
 
+
+hypothesis()
+// 파이썬 가설검증 연동
+function hypothesis() {
+    let hypoBar = document.querySelector(".hypoBar");
+
+    console.log('hypothesis()');
+
+    $.ajax({
+        async: false,
+        method: "get",
+        url: "http://127.0.0.1:5000/hypo",
+        success: (result) => {
+            console.log(result);
+            hypoBar.innerHTML = `<ul style="display: inline; margin: 0; padding: 0;">`;
+
+            // 가설 결과를 배열로 가져와서 반복
+            const hypothesisResults = Object.values(result).map(hypo => hypo.가설결과);
+            hypothesisResults.forEach(result => {
+                hypoBar.innerHTML += `<li style="font-size: 18px; display: inline; padding-right: 10px; margin-right: 200px; font-size: 20px; color: #ffffff;">${result}</li>`;
+            });
+            hypoBar.innerHTML += `</ul>`;
+        } // success end
+    }); // ajax end
+}
+
+
+
+
 getMyPoint();
 function getMyPoint(){
     console.log('getMyPoint');
@@ -38,11 +67,16 @@ function getMyPoint(){
         url : "/point/mypoint" ,
         success : (r) => {
             console.log(r);
-            let=html='';
-        if(r!=''){console.log('로그인')
-            html+=`<a class="nav-link" href="/point">${r.sum}포인트</a>`
-        }
-        document.querySelector('.pointInfo').innerHTML=html;
+            let point = 0;
+            // r 값이 null이 아니면 점수 업데이트
+            if (r && r.sum !== undefined) {
+                point = r.sum;
+            }
+            let html='';
+            console.log('로그인')
+            html+=`<a class="nav-link" href="/point">${point}포인트</a>`
+            
+            document.querySelector('.pointInfo').innerHTML=html;
         } ,
         error : (e) => {
             console.log(e)
@@ -60,3 +94,5 @@ function doLogout(){console.log('doLogout()')
         }
     })
 }
+
+

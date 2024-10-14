@@ -11,5 +11,6 @@ public class ReplyDto {
     private int commentindex;
     private String createdat;
     private String content;
-
+    // 회원 아이디 출력
+    private String userName; //아이디
 }

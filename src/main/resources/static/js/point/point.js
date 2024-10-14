@@ -26,8 +26,13 @@ function getMyPoint(){
         url : "/point/mypoint" , 
         success : (r) => {
             console.log(r);
+            let point = 0;
+            // r 값이 null이 아니면 점수 업데이트
+            if (r && r.sum !== undefined) {
+                point = r.sum;
+            }
             let myPointBox = document.querySelector(".myPointBox");
-            let html = r.sum;
+            let html = point;
             myPointBox.innerHTML = html;
         } , 
         error : (e) => {
@@ -99,8 +104,8 @@ function onSearch(){
     mypointlog();
 }
 
+const uniqueID = generateUUID();
 // 아임포트
-// $(".payment").click(function() {
 function payment(){
     let pointChange = document.querySelector(".pointChange").value; // 충전할 금액
     console.log(memberInfo);
@@ -109,7 +114,7 @@ function payment(){
     IMP.request_pay({
               pg : "html5_inicis", 
               pay_method : 'card',
-              merchant_uid : `payment-${crypto.randomUUID()}`,
+              merchant_uid : `payment-${uniqueID}`,
               name : '포인트충전'/*상품명*/,
               amount : pointChange /*상품 가격*/, 
               buyer_email : memberInfo.email /*구매자 이메일*/,
@@ -119,6 +124,7 @@ function payment(){
                 // 결제 성공시 결제 금액과 discription(name) 필요
                 console.log(rsp);
                 if ( rsp.success ) {
+                    
               } else {
                     var msg = '결제가 완료되었습니다.';
                     // 포인트 로그에 저장
@@ -143,6 +149,15 @@ function payment(){
               }
             );
 }   // payment() end
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const random = Math.random() * 16 | 0;
+        const value = c === 'x' ? random : (random & 0x3 | 0x8);
+        return value.toString(16);
+    });
+}
+
 
 mypointlog();
 // 포인트내역 출력

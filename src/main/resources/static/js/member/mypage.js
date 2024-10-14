@@ -8,8 +8,13 @@ function getMyPoint(){
         url : "/point/mypoint" ,
         success : (r) => {
             console.log(r);
+            let point = 0;
+            // r 값이 null이 아니면 점수 업데이트
+            if (r && r.sum !== undefined) {
+                point = r.sum;
+            }
             let myPointBox = document.querySelector(".myPointBox");
-            let html =`<a class="nav-link" href="/point">${r.sum}</a>`
+            let html =`<a class="nav-link" href="/point">${point}</a>`
             myPointBox.innerHTML = html;
         } ,
         error : (e) => {

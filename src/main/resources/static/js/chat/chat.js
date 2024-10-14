@@ -56,18 +56,16 @@ clientSocket.onmessage = ( messageEvent ) => { // e : 매개변수
         // 2-2 일반 메시지
     if( msg.from == nickName  ){ // - 내가 보낸 메시지
         msgBox.innerHTML += `<div class="fromMsgBox">
-                                <div> ${ msg.from } </div>
+                                <div> <i> ${ msg.date.split(' ')[4] } </i>  ${ msg.from } </div>
                                 <div>
-                                    <span> ${ msg.date.split(' ')[4] } </span>
                                     <span> ${ msg.message } </span>
                                 </div>
                             </div>`
     }else{  // - 남이 보낸 메시지
         msgBox.innerHTML += `<div class="toMsgBox">
-                                <div> ${ msg.from } </div>
+                                <div> ${ msg.from }  <i> ${ msg.date.split(' ')[4] } </i> </div>
                                 <div>
                                     <span> ${ msg.message } </span>
-                                    <span> ${ msg.date.split(' ')[4] } </span>
                                 </div>
                             </div>`
     }

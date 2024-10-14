@@ -77,12 +77,23 @@ function getSchedule(){
         }else{
             matchstateStr = "경기취소";
         }
+        let correctStr = "";
+        if(printMyGame[i].correct == 0){
+            correctStr = "진행중";
+        }
+        if(printMyGame[i].correct == 1){
+            correctStr = "적중";
+        }
+        if(printMyGame[i].correct == 2){
+            correctStr = "적중실패";
+        }
         html += `<tr>
                     <td> ${i+1} </td> 
                     <td> ${printMyGame[i].월}/${printMyGame[i].일} ${printMyGame[i].시작시간} </td> 
                     <td> KBO </td> <td> ${printMyGame[i].경기코드} </td> 
                     <td> ${printMyGame[i].홈팀명} vs ${printMyGame[i].어웨이팀명} </td> <td> ${winandlossStr}/${oods} </td> <td> ${printMyGame[i].월}/${printMyGame[i].일} ${printMyGame[i].시작시간} </td>
                     <td> ${matchstateStr} </td>
+                    <td> ${correctStr} </td>
                 </tr>`;
     }
     gameDetailListBox.innerHTML = html;
@@ -95,26 +106,9 @@ function getBet(printMyGame , totalOdds){
     console.log(totalOdds)
     let betBox = document.querySelector(".betBox");
     let html = ``;
-    let gamestateStr = "";
     
-    if(printMyGame[0].gamestate == 1){
-        gamestateStr = "발매중"
-    }
-    if(printMyGame[0].gamestate == 2){
-        gamestateStr = "발매마감"
-    }
-    if(printMyGame[0].gamestate == 3){
-        gamestateStr = "적중실패"
-    }
-    if(printMyGame[0].gamestate == 4){
-        gamestateStr = "적중"
-    }
-    if(printMyGame[0].gamestate == 5){
-        gamestateStr = "배당금지급완료"
-    }
-
     html = `<tr>
-                <td> ${printMyGame.length} </td> <td> ${totalOdds} </td> <td> ${Math.abs(printMyGame[0].pointChange)} </td> <td> ${Math.abs(printMyGame[0].pointChange)*totalOdds} </td> <td> ${gamestateStr} </td> 
+                <td> ${printMyGame.length} </td> <td> ${totalOdds} </td> <td> ${Math.abs(printMyGame[0].pointChange)} </td> <td> ${Math.abs(printMyGame[0].pointChange)*totalOdds} </td>
             </tr>
             <tr class="betPoint">
                 <td colspan="5"> 총 배팅포인트 ${Math.abs(printMyGame[0].pointChange)} </td> 

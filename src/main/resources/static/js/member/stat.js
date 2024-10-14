@@ -139,7 +139,13 @@ function myRefund(){
 } // mypointlog end
 returnRate();
 function returnRate(){
-    let returnRate=Math.round( (refund/purchase)*100)
+    let returnRate = 0;
+    if(refund != 0 && purchase != 0){
+        returnRate=Math.round( (refund/purchase)*100)
+    }
+    console.log(refund)
+    console.log(purchase)
+    console.log(returnRate)
     document.querySelector("#returnRate").innerHTML=`${returnRate}%`
 }
 
