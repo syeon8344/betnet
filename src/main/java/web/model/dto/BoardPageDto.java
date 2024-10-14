@@ -14,6 +14,7 @@ public class BoardPageDto {
     private int startBtn; // 5. 페이지별 시작버튼 번호
     private int endBtn; // 6. 페이지별 끝버튼 번호
     private int teamcode; // 7. 현재 카테고리 번호
+    private String searchkeyword; // 검색 조회시 사용되는 필드값
     // teamcode로 카테고리 나눔
 
 

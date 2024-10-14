@@ -21,7 +21,7 @@ public class MarketService {
     public MarketPageDto mkReadAll(MarketPageDto dto){
         System.out.println("MarketService.mkReadAll");
         // 페이지당 표시할 게시물 수
-        int pageSize = 15; // 하나의 페이지당 15개씩 표시
+        int pageSize = 10; // 하나의 페이지당 10개씩 표시
         dto.setPagesize(pageSize);
         System.out.println("pageSize = " + pageSize);
         // 페이지당 시작 레코드 번호
