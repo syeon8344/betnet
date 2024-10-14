@@ -385,4 +385,19 @@ function getMainArticle(){
 }
 
 
+function adPoint(){
+    console.log("adPoint()")
+   $.ajax({
+               method:'post',
+               url:"/point/advertis",
+               success:(result)=>{console.log(result);
+                   if(result){
+                        alert('광고 포인트 10 증정')
+                   }
+                   else{
+                       alert('포인트 지급 실패')
+                   } //else end
+               } // success end
+       }) // ajax end
+}
 

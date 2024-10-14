@@ -32,4 +32,13 @@
         select * from members where memberid = #{memberid} and password = #{password}
     </select>
 
+    <insert id="loginPoint" parameterType="web.model.dto.PointLogDto">
+        insert into PointLogs (memberid, pointChange, description) values (#{memberid}, 10, 5);
+    </insert>
+
+
+
+
+
 </mapper> <!-- mapper end -->
+

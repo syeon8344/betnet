@@ -85,4 +85,11 @@ public class PointService {
         return descriptionStr;
     }
 
+    // 로그인시 포인트 지급
+    public boolean loginPoint(PointLogDto pointLogDto){
+        System.out.println("PointService.loginPoint");
+        System.out.println("pointLogDto = " + pointLogDto);
+        return pointDao.loginPoint(pointLogDto);
+    }
+
 }
