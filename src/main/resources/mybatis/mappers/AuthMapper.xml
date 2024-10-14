@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- xml 주석 -->
+<mapper namespace="web.security.AuthDao" >  <!-- mapper start -->
+    <select id="findByUsername" resultType="web.security.AuthDto">
+        SELECT username, password, roles
+        FROM members
+        WHERE username = #{username}
+    </select>
+</mapper> <!-- mapper end -->
+
