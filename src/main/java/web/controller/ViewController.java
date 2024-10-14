@@ -62,6 +62,10 @@ public class ViewController {
     @GetMapping("/member/stat")
     public String stat(){return "/member/stat.html";}
 
+    // 예상연봉 페이지
+    @GetMapping("/member/salary")
+    public String salary(){return "/member/salary.html";}
+
     //===============멤버
     // 설문 페이지
     @GetMapping("/poll")
@@ -79,6 +83,12 @@ public class ViewController {
     @GetMapping("/game/view")
     public String gameDetailList(){
         return "/game/gameDetailList.html";
+    }
+
+    // 기사페이지
+    @GetMapping("/article")
+    public String article(){
+        return "/article/article.html";
     }
 
     // [1] 채팅 관련 템플릿 매핑
@@ -111,15 +121,35 @@ public class ViewController {
         return "/history/rank.html";
     }
 
+    // 연도별 KBReport 기록
+    @GetMapping("/history/kbreport")
+    public String historyKBReport(){
+        return "/history/kbreport.html";
+    }
     // ========== 로그 ===============
     // 멤버 접속 기록 로그
     @GetMapping("admin/mAccessLog")
     public String accessLog(){return "/admin/mAccessLog.html";}
 
-    // === 단체예매 ===
-    @GetMapping("/tickets")
-    public String tickets(){
-        return "/tickets.html";
+    // === 굿즈거래 ===
+    // 메인 게시판
+    @GetMapping("/market")
+    public String market(){
+        return "/market/market.html";
     }
+
+    // 상세글보기
+    @GetMapping("/marketview")
+    public String marketView(){
+        return "/market/marketview.html";
+    }
+
+    // 글작성
+    @GetMapping("/marketadd")
+    public String marketAdd(){ return "/market/marketadd.html";}
+
+    // ========== gemini 챗 봇 ===============
+    @GetMapping("/gemini/geminibot")
+    public String chatbotBox(){return "/gemini/gemini.html";}
 
 }
