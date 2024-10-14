@@ -148,4 +148,8 @@ public class ViewController {
     @GetMapping("/marketadd")
     public String marketAdd(){ return "/market/marketadd.html";}
 
+    // 응원채팅 페이지
+    @GetMapping("/cheerchat")
+    public String cheerchat(){ return "/cheerchat/cheerchat.html";}
+
 }
