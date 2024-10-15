@@ -1,0 +1,24 @@
+.cheerRoom {
+    display: none; /* 처음에는 숨김 */
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+}
+.cheerMsgBox{
+    width: 300px;
+}
+.fromMsgBox{
+    text-align: right;
+    background-color: yellow;
+}
+.toMsgBox{
+    text-align: left;
+    background-color: white;
+}
+.alarmMsgBox{
+    text-align: center;
+    background-color: gray;
+    color: #eeeeee;
+}
