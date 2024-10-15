@@ -8,5 +8,5 @@ import web.service.BusService;
 @RestController
 @RequestMapping("/bus")
 public class BusController {
-    @Autowired private BusService busService;
+
 }
