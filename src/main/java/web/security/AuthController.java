@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 // Spring Security 인증 관련 컨트롤러
-@RestController
+@RestController("/auth")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager; // Spring Security 인증 처리 관리자
 
     // 로그인 요청 처리
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequest) {
         try {
             // 사용자 이름과 비밀번호를 사용하여 인증 토큰 생성

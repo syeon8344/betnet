@@ -2,15 +2,15 @@ package web.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.List;
@@ -18,13 +18,14 @@ import java.util.List;
 // Spring 설정 클래스
 @Configuration
 @EnableWebSecurity  // Spring Security 활성화
-public class SecurityConfig {
+public class SecurityConfiguration{
 
     // HTTP 보안 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
         List<String> permittedPaths = List.of(
+                "/",
                 "/board",
                 "/board/view",
                 "/board/list", // 추가적으로 허용할 경로
@@ -46,9 +47,27 @@ public class SecurityConfig {
                                 .requestMatchers(permittedPaths.toArray(new String[0])).permitAll() // 허용할 경로 설정
                                 .requestMatchers(authenticatedPaths.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
                                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
+
                 )
-                .csrf(csrf -> csrf.disable());
+                .csrf(AbstractHttpConfigurer::disable)
+                .logout(logout -> logout
+                        .logoutUrl("/api/logout") // 로그아웃 URL
+                        .logoutSuccessUrl("/api/login") // 로그아웃 성공 후 리다이렉션 URL
+                        .invalidateHttpSession(true) // 세션 무효화
+                        .deleteCookies("JSESSIONID") // 쿠키 삭제
+                );
         return http.build(); // 설정된 SecurityFilterChain 반환
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        return new ProviderManager(authenticationProvider);
     }
 
     // 비밀번호 암호화 객체
