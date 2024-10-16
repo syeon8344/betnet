@@ -46,7 +46,7 @@ function sendMessage(info, team) {
 
     // jQuery의 $.ajax()를 사용한 AJAX 요청
     $.ajax({
-        url: 'http://localhost:5000/gemini',  // 서버의 엔드포인트
+        url: 'http://127.0.0.1:5000/gemini',  // 서버의 엔드포인트
         type: 'GET',
         contentType: 'application/json',
         data: JSON.stringify({
