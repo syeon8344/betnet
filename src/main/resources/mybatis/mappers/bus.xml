@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- xml 주석 -->
+<mapper namespace="web.model.dao.BusDao" >  <!-- mapper start -->
+    <insert id="busLog" parameterType="web.model.dto.BusDto">
+        insert into bus(gamecode, memberid, seat) values( #{gameCode}, #{memberId}, #{seat})
+    </insert>
+</mapper> <!-- mapper end -->

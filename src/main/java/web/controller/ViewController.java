@@ -152,4 +152,7 @@ public class ViewController {
     @GetMapping("/cheerchat")
     public String cheerchat(){ return "/cheerchat/cheerchat.html";}
 
+    // 버스
+    @GetMapping("/bus")
+    public String reservation(){return "/bus/bus.html";}
 }
