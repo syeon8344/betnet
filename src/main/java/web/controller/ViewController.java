@@ -67,6 +67,7 @@ public class ViewController {
     public String salary(){return "/member/salary.html";}
 
     //===============멤버
+
     // 설문 페이지
     @GetMapping("/poll")
     public String seve(){

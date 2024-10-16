@@ -1,5 +1,6 @@
 package web.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
 
@@ -19,6 +21,9 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity  // Spring Security 활성화
 public class SecurityConfiguration{
+
+    @Autowired
+    private AuthenticationManager authenticationManager; // Spring Security 인증 처리 관리자
 
     // HTTP 보안 설정
     @Bean
@@ -39,15 +44,15 @@ public class SecurityConfiguration{
                 "/board/delete/**" // 인증이 필요한 경로
         );
 
-        // TODO: JWT 토큰 메커니즘, CSRF 토큰 메커니즘
         http // Spring Security의 HttpSecurity 보안 객체
+                // Add the custom login filter before the existing authentication filter
+                .addFilterBefore(new RestLoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authReq -> // HTTP 요청에 대한 보안 규칙을 정의
                         authReq
                                 // toArray(new String[0]): 0칸의 String 배열을 생성하여 List<String> 제네릭 타입 배열을 String 배열로 변환
                                 .requestMatchers(permittedPaths.toArray(new String[0])).permitAll() // 허용할 경로 설정
                                 .requestMatchers(authenticatedPaths.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
                                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
-
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout

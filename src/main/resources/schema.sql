@@ -17,6 +17,7 @@ create table members (
     contact varchar(20),
     email varchar(255) unique not null,
     gender char(1),
+    roles varchar(50) not null,
     age int,
     joindate date not null default (current_date),
     teamcode int,
