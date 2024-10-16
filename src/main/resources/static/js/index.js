@@ -76,6 +76,9 @@ function getSchedule(){
                                     </div>
                                 </div>
                                 <div>
+                                    
+                                </div>
+                                <div>
                                     발매마감
                                 </div>
                             </div>
@@ -104,6 +107,9 @@ function getSchedule(){
                                             <div> ${result[i].어웨이팀명} </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div>
+                                    <button type="button" onclick="location.href='/bus?gameCode=${result[i].경기코드}'">예약</button>
                                 </div>
                                 <div>
                                     <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> 

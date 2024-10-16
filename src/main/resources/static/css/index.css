@@ -62,9 +62,12 @@
         width : 15%;
 }
 .gameListBox > div > div:nth-child(4){
-        width : 40%;
+        width : 30%;
 }
 .gameListBox > div > div:nth-child(5){
+    width : 10%;
+}
+.gameListBox > div > div:nth-child(6){
         width : 30%;
 }
 .gameListBox  .matchTxtBox{
@@ -77,14 +80,14 @@
     justify-content: center;
     margin-top: 10px;
 }
-.gameListBox > div > div:nth-child(5) > button{
+.gameListBox > div > div:nth-child(6) > button{
     background-color: white;
     border: 1px solid #e8e8e8;
     font-size: 15px;
     padding: 10px;
     width: 100px;
 }
-.gameListBox > div > div:nth-child(5) > button:hover{
+.gameListBox > div > div:nth-child(6) > button:hover{
     background-color: #112c62;
     color : white;
 }

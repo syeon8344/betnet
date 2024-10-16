@@ -148,4 +148,7 @@ public class ViewController {
     @GetMapping("/marketadd")
     public String marketAdd(){ return "/market/marketadd.html";}
 
+    // 버스
+    @GetMapping("/bus")
+    public String reservation(){return "/bus/bus.html";}
 }
