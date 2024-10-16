@@ -152,8 +152,5 @@ public class ViewController {
     @GetMapping("/cheerchat")
     public String cheerchat(){ return "/cheerchat/cheerchat.html";}
 
-    // ========== gemini 챗 봇 ===============
-    @GetMapping("/gemini/geminibot")
-    public String chatbotBox(){return "/gemini/gemini.html";}
 
 }
