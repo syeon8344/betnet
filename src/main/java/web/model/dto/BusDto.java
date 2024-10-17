@@ -11,8 +11,7 @@ import lombok.*;
 public class BusDto {
     private int resNo;
     private String gameCode;
-    private int memberId;
-    private String resTime;
+    private int pointlogid;
     private int reStatus;
     private int seat;
 }
