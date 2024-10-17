@@ -14,4 +14,5 @@ public class BusDto {
     private int pointlogid;
     private int reStatus;
     private int seat;
+    private int memberId;
 }

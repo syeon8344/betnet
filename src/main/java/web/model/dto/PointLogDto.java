@@ -17,6 +17,5 @@ public class PointLogDto {
     private String descriptionStr;  // description 문자처리
     private int sum;
     private String username;
-
     private String password; //비번
 }
