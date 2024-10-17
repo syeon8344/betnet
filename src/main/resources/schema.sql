@@ -185,5 +185,6 @@ create table bus(
     restatus int default 0, -- (0:예매완료, 1:예매취소)
     seat int not null,
     primary key(resno),
+
     foreign key (memberid) references members(memberid)
 );

@@ -67,7 +67,7 @@ CREATE TABLE PointLogs (
     MemberID INT NOT NULL,                     -- 포인트가 증감된 회원의 번호 (외래 키)
     LogDate DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP), -- 포인트 증감 발생 날짜
     PointChange INT NOT NULL,                  -- 포인트 증감량 (증가일 경우 양수, 감소일 경우 음수)
-    Description int NOT NULL,         -- 포인트 증감 내역 1:  충전, 2: 배당금지급, 3: 게임구매, 4: 포인트출금, 5: 로그인, 6: 게시글작성, 7: 댓글 작성, 8: 광고 클릭
+    Description int NOT NULL,         -- 포인트 증감 내역 1:  충전, 2: 배당금지급, 3: 게임구매, 4: 포인트출금, 5: 로그인, 6: 게시글작성, 7: 댓글 작성, 8: 광고 클릭 9: 버스예약 10: 버스환불
     FOREIGN KEY (MemberID) REFERENCES Members(MemberID)
     ON UPDATE CASCADE
     ON DELETE CASCADE                          -- 회원 테이블의 외래 키
