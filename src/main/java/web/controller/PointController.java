@@ -44,4 +44,11 @@ public class PointController {
         return pointService.loginPoint(pointLogDto);
     }   // loginPoint end
 
+    @PostMapping("/bus/purchase")
+    public boolean busPurchase(PointLogDto pointLogDto){
+        System.out.println("PointController.busPurchase");
+        System.out.println("pointService = " + pointService);
+        return pointService.busPurchase(pointLogDto);
+    }
+
 }

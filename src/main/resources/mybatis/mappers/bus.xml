@@ -7,4 +7,9 @@
     <insert id="busLog" parameterType="web.model.dto.BusDto">
         insert into bus(gamecode, memberid, seat) values( #{gameCode}, #{memberId}, #{seat})
     </insert>
+
+    <insert id="busReservation" parameterType="web.model.dto.BusDto">
+        insert into bus(gamecode, memberid, seat) values( #{gameCode}, #{memberId}, #{seat})
+    </insert>
+
 </mapper> <!-- mapper end -->

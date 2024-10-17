@@ -2,6 +2,7 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import web.model.dto.BusDto;
@@ -18,4 +19,12 @@ public class BusController {
         System.out.println("busDto = " + busDto);
         return busService.busLog(busDto);
     }
+
+    @PostMapping("/Reservation")
+    public boolean busReservation(@RequestBody  BusDto busDto){
+        System.out.println("BusController.busReservation");
+        System.out.println("busDto = " + busDto);
+        return busService.busReservation(busDto);
+    }
+
 }

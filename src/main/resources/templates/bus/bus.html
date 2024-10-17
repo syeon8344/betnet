@@ -27,7 +27,7 @@
             <h1>버스 좌석 예매</h1>
             <div id="seats">
                 <!-- 좌석 리스트를 div로 감싸서 표시 -->
-                
+
             </div>
             <button id="cancelBtn" onclick="resetSeats()">취소</button>
         </div>
@@ -47,7 +47,7 @@
                     <p>한좌석만 예약 가능합니다.</p>
                 </div>
                 <div>
-                    <button type="button" onclick="gamePurchase()">예약하기</button>
+                    <button type="button" onclick="busPurchase()">예약하기</button>
                 </div>
             </div>
         </div> <!-- 오른쪽 -->
@@ -128,6 +128,7 @@ function toggleSeat(seatNumber) {
     }
 </script>
 <script src="/js/index.js"></script>
+<script src="/js/bus/bus.js"></script>
 
 </body>
 </html>
