@@ -1,9 +1,9 @@
 console.log('cheerChat.js');
-let cheerclientSocket; 
-console.log(cheerclientSocket);
 
 // 로그인 체크
 let memberid = ``
+let userName = ``;
+
 function doLoginCheck(){
     $.ajax({
         async:false,
@@ -15,7 +15,8 @@ function doLoginCheck(){
                 location.href = "/member/login";
             }
             else{console.log(result);
-                memberid = `${result.userName}(${result.teamName})`
+                memberid = `${result.memberid}`
+                userName = `${result.userName}(${result.teamName})`
             }
         }
     })
@@ -54,8 +55,62 @@ kakao.maps.load(function () {
     // addMarker(new kakao.maps.LatLng(33.450701, 126.570667));
 });
 
+// 기존 방 불러오기
+function readRoom(){
+    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
+        let msg = {
+            'type': 'read',
+        };
+        console.log(msg);
+        try {
+            cheerclientSocket.send(JSON.stringify(msg));
+        } catch (error) {
+            console.error("메시지 전송 중 오류 발생:", error);
+        }
+    } else {
+        console.error("WebSocket이 열리지 않았습니다.");
+    }
+
+} // readRoom() end
+
+// 기존방 마커 찍기
+function existRoom(msg){
+    console.log('existRoom()');
+    console.log(msg);
+    Object.entries(msg).forEach(([key, value]) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+        console.log(value);
+        
+            let position = {}
+            position.latitude = value.latitude; // 위도
+            position.longitude = value.longitude; // 경도
+            console.log(position);
+            var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+        
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(position.latitude, position.longitude), // LatLng 객체 사용
+                image: markerImage  // 마커 이미지
+            });
+            marker.setMap(map);
+            console.log(marker);
+            markers.push(marker);
+            
+            // 마커에 클릭이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'click', function(event) {
+                // 마커 위에 인포윈도우를 표시합니다
+                // infowindow.open(map, marker);  
+                alert(`'${value.roomTitle}'방으로 입장합니다.`);
+                enterChat();
+                showCheerRoom(event);
+        });
+    });       
+} // existRoom() end
+
 // 마커 추가 함수
 function addMarker(position) {
+    console.log('addmarker')
+    console.log(position)
+   
     var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
     
     var marker = new kakao.maps.Marker({
@@ -91,15 +146,6 @@ function setMarkers(map) {
     }            
 }
 
-// // "마커 보이기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에 표시하는 함수입니다
-// function showMarkers() {
-//     setMarkers(map);    
-// }
-
-// // "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
-// function hideMarkers() {
-//     setMarkers(null);    
-// }
 // 방번호 만들기
 function generateUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -109,100 +155,132 @@ function generateUUID() {
     });
 }   // generateUUID() end
 
-// 방만들기
-function addRoom(position){
-    let roomTitle = prompt("채팅방 이름을 입력해주세요.")
+let cheerclientSocket; // WebSocket 인스턴스
+
+function initializeWebSocket() {
+    if (cheerclientSocket && cheerclientSocket.readyState !== WebSocket.CLOSED) {
+        console.log("WebSocket이 이미 초기화되어 있습니다.");
+        return; // 이미 연결된 경우 종료
+    }
+
+    cheerclientSocket = new WebSocket("ws://localhost:8080/cheer/conn");
+
+    cheerclientSocket.onopen = () => {
+        console.log("WebSocket 연결 성공");
+        readRoom();
+    };
+
+    cheerclientSocket.onmessage = (messageEvent) => {
+        handleMessage(messageEvent); // 메시지 처리 함수
+    };
+
+    cheerclientSocket.onclose = (e) => {
+        console.log("WebSocket 연결 종료. 재연결 시도 중...");
+        setTimeout(initializeWebSocket, 5000); // 5초 후에 재연결
+    };
+
+    cheerclientSocket.onerror = (e) => {
+        console.error("WebSocket 오류:", e);
+    };
+}
+initializeWebSocket();
+// 메시지 처리 함수
+function handleMessage(messageEvent) {
+    try {
+        let cheerMsgBox = document.querySelector('.cheerMsgBox');
+        let msg = JSON.parse(messageEvent.data);
+        console.log(msg);
+
+        if (msg.type === 'alarm') {
+            cheerMsgBox.innerHTML += `<div class="alarmMsgBox"><span>${msg.message}</span></div>`;
+            return;
+        }
+        // 일반 메시지 처리
+        if(msg.type === 'msg'){
+        cheerMsgBox.innerHTML += `<div class="${msg.from === userName ? 'fromMsgBox' : 'toMsgBox'}">
+                                    <div>${msg.from} <i>${msg.date.split(' ')[4]}</i></div>
+                                    <div><span>${msg.message}</span></div>
+                                </div>`;
+        }
+        // 마커 메세지 처리
+        if (msg[0].type === null) {
+            console.log(msg);
+            console.log("null");
+            existRoom(msg);
+        }
+    } catch (error) {
+        console.error("메시지 처리 중 오류 발생:", error);
+    }
+}
+
+// 방 만들기
+function addRoom(position) {
+    console.log(position)
+    let roomTitle = prompt("채팅방 이름을 입력해주세요.");
     alert("채팅방을 생성합니다.");
     let roomID = generateUUID();
-    cheerclientSocket = new WebSocket("ws://localhost:8080/cheer/conn");
-    cheerclientSocket.onopen = ( e ) => {
-        // 1. 클라이언트 서버와 접속을 성공했을때 (알림) 메시지 구성
+
+    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
-            'type' : 'marker' , // (알림)메시지
-            'message' : roomID , position
-        }
+            'type': 'marker',
+            'message': roomID,
+            'position' : position , 
+            'date': new Date().toLocaleString() , 
+            'memberid' : memberid , 
+            'roomTitle' : roomTitle
+        };
         console.log(msg);
-        // 2. 보내기
-        cheerclientSocket.send( JSON.stringify( msg ) );
+        try {
+            cheerclientSocket.send(JSON.stringify(msg));
+        } catch (error) {
+            console.error("메시지 전송 중 오류 발생:", error);
+        }
+    } else {
+        console.error("WebSocket이 열리지 않았습니다.");
     }
     return roomTitle;
 }
+
 // [1] clientSocket 의 onclose , onerror , onmessage , onopen 정의 해야한다.
     // (1) WebSocket객체내 onopen 속성은 서버소켓과 접속을 성공했을때 발동되는 함수 정의해서 대입
-    // 서버 소켓이 들어왔을때 
-function enterChat(){
-    cheerclientSocket = new WebSocket("ws://localhost:8080/cheer/conn");
-    cheerclientSocket.onopen = ( e ) => {
-        // 1. 클라이언트 서버와 접속을 성공했을때 (알림) 메시지 구성
+// 방 입장
+function enterChat() {
+    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
-            'type' : 'alarm' , // (알림)메시지
-            'message' : `${ nickName }님이 입장 했습니다.`
+            'type': 'alarm',
+            'message': `${userName}님이 입장했습니다.`
+        };
+        try {
+            cheerclientSocket.send(JSON.stringify(msg));
+        } catch (error) {
+            console.error("메시지 전송 중 오류 발생:", error);
         }
-        // 2. 보내기
-        cheerclientSocket.send( JSON.stringify( msg ) );
-    }
-     // (2) WebSocket객체내 onmessage 속성은 서버소켓이 메시지를 보내왔을때 발동되는 함수 정의해서 대입
-    cheerclientSocket.onmessage = ( messageEvent ) => { // e : 매개변수
-    console.log( messageEvent );
-    console.log( messageEvent.data ) // 받은 내용물이 들어있는 속성
-    // 1. 받은 메시지를 출력할 HTML 호출
-    let cheerMsgBox = document.querySelector('.cheerMsgBox')
-    // 2. 받은 메시지의 내용물( .data 속성) 를 HTML 에 대입
-    msg = JSON.parse( messageEvent.data  )  // - JSON.parse( 문자열  ) : 문자열타입(JSON형식) --> js객체타입(JSON형식)
-        // 2-1 알람 메시지
-        if( msg.type == 'alarm'){
-            cheerMsgBox.innerHTML += `<div class="alarmMsgBox">
-                                    <span>${ msg.message }</span>
-                                </div>`;
-            return // 알람 메시지 HTML 출력후 일반 메시지 HTML 코드가 실행되지 않도록 함수 종료
-        }
-            // 2-2 일반 메시지
-        if( msg.from == nickName  ){ // - 내가 보낸 메시지
-            cheerMsgBox.innerHTML += `<div class="fromMsgBox">
-                                    <div> <i> ${ msg.date.split(' ')[4] } </i>  ${ msg.from } </div>
-                                    <div>
-                                        <span> ${ msg.message } </span>
-                                    </div>
-                                </div>`
-        }else{  // - 남이 보낸 메시지
-            cheerMsgBox.innerHTML += `<div class="toMsgBox">
-                                    <div> ${ msg.from }  <i> ${ msg.date.split(' ')[4] } </i> </div>
-                                    <div>
-                                        <span> ${ msg.message } </span>
-                                    </div>
-                                </div>`
-        }
+    } else {
+        console.error("WebSocket이 열리지 않았습니다.");
     }
 }
 
-// [2] 메시지 전송 이벤트
-function sendM(){
-    //
-    let cheerMsgInput = document.querySelector('.cheerMsgInput')
-    // - (일반)메시지 내용 들을 객체 형식으로 구성
+// 메시지 전송 이벤트
+function sendM() {
+    let cheerMsgInput = document.querySelector('.cheerMsgInput');
     let msg = {
-        'type' : 'msg' ,  // (일반)메시지
-        'message' : cheerMsgInput.value ,
-        'from' : nickName ,
-        'date' : new Date().toLocaleString()
-    }
-    // - 현재 클라이언트소켓과 연결 유지된 서버소켓에게 메시지 전송 # .send( ) : 서버소켓에게 메시지 전송
-    cheerclientSocket.send( JSON.stringify( msg )  );
-        // msg ----> [object Object]
-        // JSON.stringify( msg ) ---> {"message":"DFGDFG","from":"익명209","date":"2024. 9. 12. 오후 12:18:21"}
+        'type': 'msg',
+        'message': cheerMsgInput.value,
+        'from': userName,
+        'date': new Date().toLocaleString() , 
+        'userName' : userName
+    };
 
-        // - JSON.stringify( js객체  ) : js객체타입(JSON형식) --> 문자열타입(JSON형식)
-        // -  "3"(문자열타입 숫자형식) VS 3(정수타입 숫자형식)
-        // -  { key : value } (객체타입 JSON형식 )  vs   "{ key : value }" ( 문자열타입 JSON형식 )
-    //
-    cheerMsgInput.value = "";
-}
-// 채팅방 생성
-function createChatRoom() {
-    let roomId = Object.keys(chatRooms).length + 1; // 새로운 방 ID
-    chatRooms[roomId] = []; // 새로운 방 초기화
-    console.log(`채팅방 ${roomId}가 생성되었습니다.`);
-    return roomId;
+    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
+        try {
+            cheerclientSocket.send(JSON.stringify(msg));
+            cheerMsgInput.value = "";
+        } catch (error) {
+            console.error("메시지 전송 중 오류 발생:", error);
+        }
+    } else {
+        console.error("WebSocket이 열리지 않았습니다.");
+    }
 }
 
 // 채팅방 목록을 표시하는 함수
