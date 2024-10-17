@@ -108,6 +108,7 @@ function getSchedule(){
                                         </div>
                                     </div>
                                 </div>
+
                                 <div>
                                     <button type="button" onclick="location.href='/bus?gameCode=${result[i].경기코드}'">예약</button>
                                 </div>
