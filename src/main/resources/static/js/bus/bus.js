@@ -288,74 +288,37 @@ function activateButtons(matchid) {
 }
 
 // 게임구매
-function gamePurchase(){
-    // 변수가 비어져있으면 실행되는 함수 // 로그인 후 게임 구매가 가능!
-    if(isEmptyObject(memberInfo)){
-        $.ajax({
-            async:false,
-            method:'get',
-            url:"/member/logcheck",
-            success:(result)=>{console.log(result);
-                if(result == ""){
-                    alert("로그인 후 이용가능합니다.")
-                    location.href = "/member/login"
-                }
-                memberInfo = result
-            }
-        })
-    }
-    console.log(matchids);
-    console.log(winandlosses);
-    console.log(oddses);
-    let memberid = memberInfo.memberid;
-    let pointChange = document.querySelector(".pointChange").value;
-    // 금액 제한
-    if(pointChange > 50000){
-        alert("구매가능 포인트는 50000포인트까지 가능합니다.")
-        return;
-    }
-    let info = {
-        memberid : memberid , pointChange : pointChange , matchids : matchids , winandlosses : winandlosses 
-    }
+function busPurchase(){
+    console.log("busPurchase()")
     $.ajax({
-        async:false,
-        method:'post',
-        url:"/game/purchase",
-        data : JSON.stringify(info) ,
-        contentType : "application/json" , 
-        success:(r)=>{
-            console.log(r);
-            // db 저장 성공
-            if(r == 1){
-                alert("구매가 완료되었습니다.");
-                location.href = "/game"
-            }
-            // 포인트 부족
-            if(r == 3){
-                alert("포인트 충전 후 구매 가능합니다.");
-                location.href = "/point"
-            }
-
-        } , 
-        error : (e) =>{
-            console.log(e);
-        }
-    })
+            async : false ,
+            method:"post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                gameCode: "20241018-롯데-1700",
+                seat: 43
+            }),
+            url:"/bus/Reservation",
+            success: (r) => {
+                console.log(r);
+            } //success end
+    }) // ajax end
 }   // gamePurchase end
+
 
 // 메인페이지 kbo 기사 5개 
 getMainArticle();
 function getMainArticle(){
     console.log('getMainArticle()')
     $.ajax({
-        async : false , 
+        async : false ,
         method:"GET",
         url:"http://127.0.0.1:5000/article/main",
         success: (r) => {
             console.log(r);
             let atricleBox = document.querySelector(".atricleBox")
             let html = ``
-            
+
             Object.entries(r).forEach(([key, value]) => {   // JavaScript 객체의 키와 값을 쌍으로 포함하는 배열을 반환합니다.
                 console.log(`${key}: ${value}`);
                 Object.entries(value).forEach(([key2, value2]) => {   // JavaScript 객체의 키와 값을 쌍으로 포함하는 배열을 반환합니다.

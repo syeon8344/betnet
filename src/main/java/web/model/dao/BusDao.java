@@ -6,4 +6,7 @@ import web.model.dto.BusDto;
 @Mapper
 public interface BusDao {
     boolean busLog(BusDto busDto);
+
+    boolean busReservation(BusDto busDto);
 }
+

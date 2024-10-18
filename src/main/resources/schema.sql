@@ -180,10 +180,9 @@ drop table if exists bus;
 create table bus(
 	resno int auto_increment not null,
     gamecode varchar(30) not null,
-    memberid int not null,
-    restime DATETIME NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     restatus int default 0, -- (0:예매완료, 1:예매취소)
     seat int not null,
+    PointLogID INT NOT NULL,
     primary key(resno),
-    foreign key (memberid) references members(memberid)
+    foreign key (PointLogID) references pointlogs(PointLogID)
 );
