@@ -9,7 +9,11 @@
     </insert>
 
     <insert id="busReservation" parameterType="web.model.dto.BusDto">
-        insert into bus(gamecode, memberid, seat) values( #{gameCode}, #{memberId}, #{seat})
+        insert into bus(gamecode,pointlogid, restatus, seat) values( #{gameCode},#{pointlogid}, #{reStatus}, #{seat})
+    </insert>
+
+    <insert id="busPurchase" parameterType="web.model.dto.BusDto">
+        insert into PointLogs (memberid, pointChange, description) values (#{memberId}, #{pointChange}, #{description});
     </insert>
 
 </mapper> <!-- mapper end -->

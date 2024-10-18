@@ -21,7 +21,7 @@ public class BusController {
     }
 
     @PostMapping("/Reservation")
-    public boolean busReservation(@RequestBody  BusDto busDto){
+    public boolean busReservation(BusDto busDto){
         System.out.println("BusController.busReservation");
         System.out.println("busDto = " + busDto);
         return busService.busReservation(busDto);

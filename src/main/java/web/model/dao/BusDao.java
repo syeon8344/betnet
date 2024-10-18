@@ -8,5 +8,7 @@ public interface BusDao {
     boolean busLog(BusDto busDto);
 
     boolean busReservation(BusDto busDto);
+
+    int busPurchase(BusDto busDto);
 }
 

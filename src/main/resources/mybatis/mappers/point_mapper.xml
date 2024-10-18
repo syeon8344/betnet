@@ -36,9 +36,7 @@
         insert into PointLogs (memberid, pointChange, description) values (#{memberid}, 10, 5);
     </insert>
 
-    <insert id="busPurchase" parameterType="web.model.dto.PointLogDto">
-        insert into PointLogs (memberid, pointChange, description) values (#{memberid}, -18000, 9);
-    </insert>
+
 
 
 
