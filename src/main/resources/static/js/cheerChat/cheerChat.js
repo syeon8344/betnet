@@ -3,6 +3,7 @@ console.log('cheerChat.js');
 // 로그인 체크
 let memberid = ``
 let userName = ``;
+let roomID = "";
 
 function doLoginCheck(){
     $.ajax({
@@ -80,7 +81,7 @@ function existRoom(msg){
     Object.entries(msg).forEach(([key, value]) => {
         console.log(`Key: ${key}, Value: ${value}`);
         console.log(value);
-        
+            let roomID = value.roomId;
             let position = {}
             position.latitude = value.latitude; // 위도
             position.longitude = value.longitude; // 경도
@@ -100,8 +101,8 @@ function existRoom(msg){
                 // 마커 위에 인포윈도우를 표시합니다
                 // infowindow.open(map, marker);  
                 alert(`'${value.roomTitle}'방으로 입장합니다.`);
-                enterChat();
-                showCheerRoom(event);
+                // enterChat();
+                showCheerRoom(event , roomID);
         });
     });       
 } // existRoom() end
@@ -121,22 +122,26 @@ function addMarker(position) {
     marker.setMap(map);
     markers.push(marker); 
 
-    let roomTitle = addRoom(position);  // 방만들기 함수
+    let { roomTitle, roomID } = addRoom(position);  // 방만들기 함수
+    console.log(roomTitle, roomID);
 
     // 마커에 클릭이벤트를 등록합니다
     kakao.maps.event.addListener(marker, 'click', function(event) {
         // 마커 위에 인포윈도우를 표시합니다
         // infowindow.open(map, marker);  
         alert(`'${roomTitle}'방으로 입장합니다.`);
-        enterChat();
-        showCheerRoom(event);
+        // enterChat();
+        showCheerRoom(event , roomID);
     });
+    showCheerRoom(roomID);
 }
 
 // cheerRoom 표시 함수
-function showCheerRoom(event) {
+function showCheerRoom(event , roomID) {
+    console.log(roomID)
     var cheerRoom = document.getElementById('cheerRoom');
     cheerRoom.style.display = 'block'; // cheerRoom 표시
+    enterChat(roomID);
 }
 
 // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
@@ -213,12 +218,13 @@ function handleMessage(messageEvent) {
     }
 }
 
+
 // 방 만들기
 function addRoom(position) {
     console.log(position)
     let roomTitle = prompt("채팅방 이름을 입력해주세요.");
     alert("채팅방을 생성합니다.");
-    let roomID = generateUUID();
+    roomID = generateUUID();
 
     if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
@@ -238,17 +244,25 @@ function addRoom(position) {
     } else {
         console.error("WebSocket이 열리지 않았습니다.");
     }
-    return roomTitle;
+    // showCheerRoom(roomID);
+    return {roomTitle , roomID};
 }
 
 // [1] clientSocket 의 onclose , onerror , onmessage , onopen 정의 해야한다.
     // (1) WebSocket객체내 onopen 속성은 서버소켓과 접속을 성공했을때 발동되는 함수 정의해서 대입
+let separateRoom = "";
 // 방 입장
-function enterChat() {
+function enterChat(roomID) {
+    console.log('enterChat()');
+    console.log(roomID)
+    separateRoom = roomID;
+    // 방 입장했을 때 룸아이디 별로 선별.
     if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
             'type': 'alarm',
-            'message': `${userName}님이 입장했습니다.`
+            'message': `${userName}님이 입장했습니다.` , 
+            'userName'  : userName , 
+            'roomId' : separateRoom
         };
         try {
             cheerclientSocket.send(JSON.stringify(msg));
@@ -268,7 +282,7 @@ function sendM() {
         'message': cheerMsgInput.value,
         'from': userName,
         'date': new Date().toLocaleString() , 
-        'userName' : userName
+        'roomId' : separateRoom
     };
 
     if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
