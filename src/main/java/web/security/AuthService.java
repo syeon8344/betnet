@@ -18,7 +18,7 @@ public class AuthService implements UserDetailsService {
     private AuthDao authDao;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder; // 비밀번호 암호화 객체
 
     // UserDetailsService 인터페이스의 메서드 구현
     @Override
@@ -28,7 +28,7 @@ public class AuthService implements UserDetailsService {
             throw new UsernameNotFoundException("User with username " + username + "not found");
         }
 
-        List<GrantedAuthority> authorities = new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList<>(); // Roles 목록
         for (Role role : user.getRoles()) {
             authorities.add(new SimpleGrantedAuthority(role.name())); // 역할을 문자열로 변환하여 추가
         }
@@ -37,7 +37,7 @@ public class AuthService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                authorities // 여기서 변환된 권한을 사용합니다.
+                authorities // 불러온 Roles 사용
         );
     }
 
@@ -50,7 +50,7 @@ public class AuthService implements UserDetailsService {
     }
 
     // 회원가입
-    public void registerUser(String username, String password, List<Role> roles) {
+    public void signUp(String username, String password, List<Role> roles) {
         // 중복 사용자 체크
         if (authDao.findByUsername(username) != null) {
             throw new IllegalArgumentException("Username already exists"); // 예외 처리
@@ -70,7 +70,7 @@ public class AuthService implements UserDetailsService {
     }
 
     // 회원이 레벨제인 경우
-    public boolean hasAccess(AuthDto authDto, int requiredLevel) {
+    public boolean checkLevel(AuthDto authDto, int requiredLevel) {
         return authDto.getLevel() >= requiredLevel; // 레벨 비교
     }
 }

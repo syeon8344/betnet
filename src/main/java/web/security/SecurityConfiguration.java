@@ -28,25 +28,31 @@ public class SecurityConfiguration{
     // HTTP 보안 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // "/**" 처럼 **은 해당 경로 및 하위 경로 전체에 적용된다.
+        // "/" 처럼 **이 없더라도 해당 경로에 쿼리스트링이 추가된 경우는 해당된다.
+        // 예시) /board?param=value 같은 경우 "/board" 및 "/board/**" 모두 해당된다.
+        // ViewController의 엔드포인트와 RestController들의 엔드포인트들을 모두 포함한다.
+        // 정확한 경로 → 높은 우선순위 (** 미포함)
+        // 하위 경로 포함 경로 → 낮은 우선순위 (** 포함)
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
         List<String> permittedPaths = List.of(
-                "/",
-                "/board",
-                "/board/view",
-                "/board/list", // 추가적으로 허용할 경로
-                "/board/edit"
+                "/", // 메인 페이지
+                "/member/login",  // 로그인 페이지
+                "/member/salary", // 연봉 예측 페이지
+                "/board",  // 게시판
+                "/board/view"  // 게시판 상세글 보기
         );
 
         // 인증이 필요한 경로 리스트
         List<String> authenticatedPaths = List.of(
-                "/board/write",
-                "/board/edit/**",
-                "/board/delete/**" // 인증이 필요한 경로
+                "/member/**",  // 회원 마이페이지 등 나머지 /member 엔드포인트
+                "/board/write",  // 글 작성 페이지
+                "/board/edit",  // 글 수정 페이지
+                "/board/delete" // 글 삭제 API
         );
 
         http // Spring Security의 HttpSecurity 보안 객체
                 // Add the custom login filter before the existing authentication filter
-                .addFilterBefore(new RestLoginFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authReq -> // HTTP 요청에 대한 보안 규칙을 정의
                         authReq
                                 // toArray(new String[0]): 0칸의 String 배열을 생성하여 List<String> 제네릭 타입 배열을 String 배열로 변환
@@ -54,10 +60,9 @@ public class SecurityConfiguration{
                                 .requestMatchers(authenticatedPaths.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
                                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
                 )
-                .csrf(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutUrl("/api/logout") // 로그아웃 URL
-                        .logoutSuccessUrl("/api/login") // 로그아웃 성공 후 리다이렉션 URL
+                        .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 리다이렉션 URL
                         .invalidateHttpSession(true) // 세션 무효화
                         .deleteCookies("JSESSIONID") // 쿠키 삭제
                 );

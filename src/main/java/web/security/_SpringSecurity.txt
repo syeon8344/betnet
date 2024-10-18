@@ -28,6 +28,18 @@ Spring Security 6의 기본 인증 흐름은 다음과 같은 단계로 구성�
     9. 응답
         최종 응답: 모든 과정이 성공적으로 완료되면, 서버는 클라이언트에게 요청에 대한 응답을 반환합니다. 이 응답은 보호된 리소스일 수 있습니다.
         상태 코드: 성공적인 요청에 대해 200 OK 응답 코드가 반환되며, 실패한 경우에는 적절한 상태 코드가 반환됩니다.
+<Spring Security 플로우차트>
+    1. 사용자가 로그인 요청(Request)를 보낸다.
+    2. AuthenticationFilter가 이를 캐치한다. 이후 UsernamePasswordAuthenticationToken 객체를 생성한다. 이 토큰은 JWT같은 토큰이 아니다!
+    3. AuthenticatinManager는 인터페이스기에, 이를 구현한 ProviderManager에게 방금 생성한 객체를 넘긴다.
+    4. ProviderManager는 AuthenticationProvider (여러 개 일 수 있음)을 통해 인증을 요청한다
+    5. Provider(s)는 우리 DB에서 사용자 정보를 가져올 Service인 UserDetailsService에 정보를 넘긴다.
+    6. Service를 통해, UserDetails 객체 (return받은 사용자 정보)를 얻는다.
+    7. AuthenticationProvider(s)는 객체의 정보를 가지고 올바른지 인증한다.
+    8. 성공시, Authentication 객체를 만들어 반환한다.
+    9. 필터로 해당 객체를 넘긴다.
+    10. 이 Authentication 객체를, SecurityContext에 넣는다. 이는 곧 세션이다.
+
 
 Spring Security에서 Authentication의 기본값은 다음과 같은 요소로 구성됩니다:
     1. Principal: 인증된 사용자 정보 (예: 사용자 이름 또는 UserDetails 객체).

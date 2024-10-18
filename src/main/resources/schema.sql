@@ -15,13 +15,13 @@ create table members (
     password varchar(255) not null,
     name varchar(100) not null,
     contact varchar(20),
-    email varchar(255) unique not null,
-    gender char(1),
-    roles varchar(50) not null,
-    age int,
-    joindate date not null default (current_date),
-    teamcode int,
-    account varchar(255),
+    email varchar(255) unique not null,  -- 이메일 주소
+    gender char(1),  -- 성별
+    age int,  -- 나이
+    joindate date not null default (current_date),  -- 가입날짜
+    teamcode int,  -- 선호하는 팀
+    account varchar(255),  -- 계좌번호
+    roles varchar(50) not null,  -- ROLES_USER 등 권한
     foreign key(teamcode) references teams(teamcode)
     on update cascade
     on delete cascade
