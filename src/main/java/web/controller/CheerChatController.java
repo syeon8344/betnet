@@ -19,16 +19,18 @@ import web.service.CheerChatService;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-@RequestMapping("/cheer")
-@RestController
 @Component
 public class CheerChatController extends TextWebSocketHandler {
     @Autowired
     private CheerChatService cheerChatService;
 
-    // - 클라이언트 소켓들의 접속 명단을 저장하는 컬렉션 프레임워크
+    // - 기존 마커들을 뿌려줄 소켓 멤버
     private List<WebSocketSession> connectedList = new Vector<>();
+    // - 각 방에 입장한 멤버
+    private Map<String, List<WebSocketSession>> roomUsers = new ConcurrentHashMap<>();
 
     // 1. 클라이언트가 서버 웹소켓에 접속 성공했을 때
     @Override
@@ -80,13 +82,26 @@ public class CheerChatController extends TextWebSocketHandler {
                     s.sendMessage(new TextMessage(jsonResponse)); // JSON 문자열을 전송
                 } // for end
             }
-            else{
+            if("alarm".equals(type)){
+                addUserToRoom(session , message);
                 for( int i = 0 ; i<connectedList.size() ; i++ ){
                     // 2. 목록에 저장된 하나의 세션 호출
                     WebSocketSession s = connectedList.get(i);
                     // 3. 꺼낸 클라이언소켓 정보에 메시지를 보내기
                     s.sendMessage( message );
                 } // for end
+            }
+            if("msg".equals(type)){
+                System.out.println(jsonNode);
+                String roomId = jsonNode.get("roomId").asText();
+                for (String roomIdKey : roomUsers.keySet()) {
+                    if (roomId.equals(roomIdKey)) {
+                        List<WebSocketSession> userSessions = roomUsers.get(roomIdKey);
+                        for (WebSocketSession session2 : userSessions) {
+                            session2.sendMessage(message); // 메시지 전송
+                        }
+                    }
+                }   // for end
             }
         } catch (IOException e) {
             System.err.println("메시지 처리 중 오류 발생: " + e.getMessage());
@@ -97,4 +112,18 @@ public class CheerChatController extends TextWebSocketHandler {
         }
     }
 
+    // 방아이디 별로 멤버 저장하는 함수
+    public void addUserToRoom(WebSocketSession session , TextMessage message) {
+        System.out.println("session = " + session);
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(message.getPayload());
+            String roomId = jsonNode.get("roomId").asText();
+            String userName = jsonNode.get("userName").asText();
+            roomUsers.computeIfAbsent(roomId, k -> new Vector<>()).add(session);
+            System.out.println(roomUsers);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
 }   // CheerChatController end

@@ -12,6 +12,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,13 +25,16 @@ import org.apache.commons.csv.CSVPrinter;
 public class CheerChatService {
     @Autowired
     MemberService memberService;
+    // 오늘 날짜 포매팅
+    LocalDate today = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd"); // 원하는 형식으로 포맷
+    String formattedDate = today.format(formatter);
 
     // 여기에서 csv 파일 처리 예정
     @Async
     public void saveChatRoom(JsonNode jsonNode){
         System.out.println("CheerChatService.saveChatRoom");
         System.out.println("jsonNode = " + jsonNode);
-        // 여기서 memberid 불러오려고하면 소켓이 끊김.. 왜? http 세션이라서..?
 
         CheerChatDto cheerChatDto = new CheerChatDto();
         // 위치 데이터 체크
@@ -52,7 +57,9 @@ public class CheerChatService {
         } else{
             System.out.println("위치정보가 누락되었습니다.");
         }
-        String csvFilePath = "/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms.csv";
+
+        String csvFilePath = "/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv";
+
         Path path = Path.of(csvFilePath);
 
         // CSV 파일 헤더와 기록할 내용
@@ -83,7 +90,7 @@ public class CheerChatService {
     public List<CheerChatDto> readCSV(){
         List<CheerChatDto> list = new ArrayList<>();
         try {
-            File file = new File("/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms.csv");
+            File file = new File("/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
 
             // 첫 번째 행을 읽고 버리기 (헤더)
