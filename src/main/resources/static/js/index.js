@@ -76,6 +76,9 @@ function getSchedule(){
                                     </div>
                                 </div>
                                 <div>
+                                    
+                                </div>
+                                <div>
                                     발매마감
                                 </div>
                             </div>
@@ -104,6 +107,10 @@ function getSchedule(){
                                             <div> ${result[i].어웨이팀명} </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div>
+                                    <button type="button" onclick="location.href='/bus?gameCode=${result[i].경기코드}'">예약</button>
                                 </div>
                                 <div>
                                     <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> 
@@ -385,4 +392,19 @@ function getMainArticle(){
 }
 
 
+function adPoint(){
+    console.log("adPoint()")
+   $.ajax({
+               method:'post',
+               url:"/point/advertis",
+               success:(result)=>{console.log(result);
+                   if(result){
+                        alert('광고 포인트 10 증정')
+                   }
+                   else{
+                       alert('포인트 지급 실패')
+                   } //else end
+               } // success end
+       }) // ajax end
+}
 

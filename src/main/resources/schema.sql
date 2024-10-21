@@ -176,3 +176,14 @@ create table marketfiles (
     primary key (fileid),
     foreign key (mkid) references market(mkid) on delete cascade
 );
+
+drop table if exists bus;
+create table bus(
+	resno int auto_increment not null,
+    gamecode varchar(30) not null,
+    restatus int default 0, -- (0:예매완료, 1:예매취소)
+    seat int not null,
+    PointLogID INT NOT NULL,
+    primary key(resno),
+    foreign key (PointLogID) references pointlogs(PointLogID)
+);

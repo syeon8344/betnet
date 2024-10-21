@@ -35,4 +35,20 @@ public class PointController {
         return pointService.mypointlog(searchDto);
     }   // mypointlog() end
 
+
+    // 로그인시 포인트 지급
+    @PostMapping("/login")
+    public boolean loginPoint(PointLogDto pointLogDto){
+        System.out.println("PointController.loginPoint");
+        System.out.println("pointLogDto = " + pointLogDto);
+        return pointService.loginPoint(pointLogDto);
+    }   // loginPoint end
+
+    @PostMapping("/bus/purchase")
+    public boolean busPurchase(PointLogDto pointLogDto){
+        System.out.println("PointController.busPurchase");
+        System.out.println("pointService = " + pointService);
+        return pointService.busPurchase(pointLogDto);
+    }
+
 }

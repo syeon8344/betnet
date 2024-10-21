@@ -85,4 +85,23 @@ public class PointService {
         return descriptionStr;
     }
 
+    // 로그인시 포인트 지급
+    public boolean loginPoint(PointLogDto pointLogDto){
+        System.out.println("PointService.loginPoint");
+        System.out.println("pointLogDto = " + pointLogDto);
+        return pointDao.loginPoint(pointLogDto);
+    }
+
+    // 버스예매
+    public boolean busPurchase(PointLogDto pointLogDto){
+        System.out.println("PointService.busPurchase");
+        MemberDto loginDto = memberService.loginCheck();
+        if (loginDto == null) return false;
+        // 2. 속성 호출
+        int memberid = loginDto.getMemberid();
+        pointLogDto.setMemberid(memberid);
+        System.out.println("memberid = " + memberid);
+        return pointDao.busPurchase(pointLogDto);
+    }
+
 }

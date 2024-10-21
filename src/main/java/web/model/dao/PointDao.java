@@ -21,4 +21,10 @@ public interface PointDao {
     // 비밀번호 체크
     PointLogDto myPassword(PointLogDto pointLogDto);
 
+    // 로그인시 포인트 지급
+    boolean loginPoint(PointLogDto pointLogDto);
+
+    // 버스예매
+    boolean busPurchase(PointLogDto pointLogDto);
+
 }
