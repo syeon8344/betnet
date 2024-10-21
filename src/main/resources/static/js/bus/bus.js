@@ -5,10 +5,25 @@ let gameCode = new URL( location.href ).searchParams.get('gameCode'); // 현재 
     createSeats()
     // 좌석 상태 변경 함수 (한 좌석만 선택 가능)
     function createSeats() {
-    let seatsContainer = document.getElementById('seats');
-    let seatsHTML = `<div>`; // 좌석 HTML 문자열 초기화
+        let seatsContainer = document.getElementById('seats');
+        let seatsHTML = `<div>`; // 좌석 HTML 문자열 초기화
+        $.ajax({
+            async:false,
+            method:'get',
+            url:"/bus/check",
+            data:{gameCode:gameCode},
+            success: result => {
+                console.log(result);
+                result.forEach(log=>{
+                    if(log.sumStatus==-1){
+                        bookedSeats.push(log.seat)
+                    }
+                })
+            }
 
-    for (let i = 1; i <= 8; i++) {
+        })
+
+    for (let i = 1; i <= 24; i++) {
         // 예매 완료된 좌석 체크
         let isBooked = bookedSeats.includes(i);
         let buttonClass = isBooked ? 'seat unavailable' : 'seat available';
@@ -73,16 +88,34 @@ function toggleSeat(seatNumber) {
 // 게임구매
 function busPurchase(){
     console.log("busPurchase()")
+    let close=true;
+    $.ajax({
+        async:false,
+        method:'get',
+        url:"/bus/check",
+        data:{gameCode:gameCode},
+        success: (result)=>{
+            result.forEach(log =>{
+                if(log.sumStatus==-1 && log.seat==selectedSeat){
+                    alert('이미 예약된 좌석입니다.')
+                    selectedSeat = null;
+                    createSeats()
+                    close=false;
+                }
+            })
+        }
+    })
+    if(close==false){return}
     $.ajax({
             async : false ,
             method:"post",
             url:"/bus/Reservation",
-            data:{gameCode:gameCode,pointChange:-18000,description:9,seat:selectedSeat,reStatus:0},
+            data:{gameCode:gameCode,pointChange:-18000,description:9,seat:selectedSeat,reStatus:-1},
             success: (r) => {
                 console.log(r);
                 if(r){alert('예약이 완료되었습니다.')
                     location.href="/"
-                }else{alert('예약에 실패했습니다.')}
+                }else{alert('포인트가 부족합니다.')}
             } //success end
     }) // ajax end
 }   // gamePurchase end

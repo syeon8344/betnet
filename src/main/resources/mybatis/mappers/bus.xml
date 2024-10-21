@@ -4,9 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- xml 주석 -->
 <mapper namespace="web.model.dao.BusDao" >  <!-- mapper start -->
-    <insert id="busLog" parameterType="web.model.dto.BusDto">
-        insert into bus(gamecode, memberid, seat) values( #{gameCode}, #{memberId}, #{seat})
-    </insert>
 
     <insert id="busReservation" parameterType="web.model.dto.BusDto">
         insert into bus(gamecode,pointlogid, restatus, seat) values( #{gameCode},#{pointlogid}, #{reStatus}, #{seat})
@@ -15,5 +12,9 @@
     <insert id="busPurchase" parameterType="web.model.dto.BusDto">
         insert into PointLogs (memberid, pointChange, description) values (#{memberId}, #{pointChange}, #{description});
     </insert>
+
+    <select id="busCheck" parameterType="String">
+        select seat , sum( restatus ) AS sumStatus from bus where gamecode = #{gameCode}  group by seat;
+    </select>
 
 </mapper> <!-- mapper end -->
