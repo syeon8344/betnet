@@ -82,6 +82,12 @@ public class PointService {
         if(description == 4){
             descriptionStr = "포인트출금";
         }
+        if(description == 9){
+            descriptionStr = "버스예약완료";
+        }
+        if(description == 10){
+            descriptionStr = "버스예약취소";
+        }
         return descriptionStr;
     }
 
