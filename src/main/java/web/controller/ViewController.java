@@ -155,4 +155,7 @@ public class ViewController {
     // 버스
     @GetMapping("/bus")
     public String reservation(){return "/bus/bus.html";}
+
+    @GetMapping("/bus/list")
+    public String busList(){return "/bus/check.html";}
 }

@@ -7,6 +7,9 @@ import web.model.dao.GameDao;
 import web.model.dao.PointDao;
 import web.model.dto.BusDto;
 import web.model.dto.MemberDto;
+import web.model.dto.PointLogDto;
+
+import java.util.List;
 
 @Service
 public class BusService {
@@ -18,13 +21,6 @@ public class BusService {
     GameDao gameDao;
     @Autowired MemberService memberService;
 
-
-    // 예약
-    public boolean busLog(BusDto busDto){
-        System.out.println("busDto = " + busDto);
-        return busDao.busLog(busDto);
-    }
-
     public boolean busReservation(BusDto busDto){
         System.out.println("BusService.busReservation");
         System.out.println("busDto = " + busDto);
@@ -35,10 +31,20 @@ public class BusService {
         System.out.println("memberid = " + memberid);
         busDto.setMemberId(memberid);
         System.out.println("memberid = " + memberid);
+        // 포인트 내역 확인하기
+        PointLogDto pointLogDto = pointDao.getMyPoint(busDto.getMemberId());
+        if(18000 > pointLogDto.getSum()) {
+            return false;
+        }
         busDao.busPurchase(busDto);
         int pointlogid=gameDao.getPointId();
         busDto.setPointlogid(pointlogid);
         return busDao.busReservation(busDto);
+    }
+
+    public List<BusDto> busCheck(String gameCode){
+        System.out.println("gameCode = " + gameCode);
+        return busDao.busCheck(gameCode);
     }
 
 }
