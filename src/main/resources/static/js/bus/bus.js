@@ -1,3 +1,5 @@
+loginCheck()
+
 let gameCode = new URL( location.href ).searchParams.get('gameCode'); // 현재 URL 경로상의 bno 값 호출
     console.log( gameCode );
     let selectedSeat = null;  // 선택된 좌석 하나만 저장
@@ -121,7 +123,22 @@ function busPurchase(){
 }   // gamePurchase end
 
 
+//로그인 체크
+    //로그인한 회원만 예약 가능
+function loginCheck() {
+    $.ajax ({
+        async : false,
+        method : "get",
+        url : "/member/logincheck",
+        success : r => {    console.log(r);
+            if ('' == r) {
+                alert('버스 예매는 로그인 후 가능합니다');
+                location.href = '/member/login';
+            }
+        }
 
+    })
+}
 
 
 
