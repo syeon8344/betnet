@@ -35,26 +35,64 @@ var markerImageUrl = 'http://localhost:8080/img/cheerchat.png' ,
 
 // 지도에 표시된 마커 객체를 가지고 있을 배열입니다
 var markers = [];
-
-kakao.maps.load(function () {
-    // 지도를 생성합니다
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-    mapOption = { 
-        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
-
-    map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-    // 지도를 클릭했을때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
-    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-        // 클릭한 위치에 마커를 표시합니다 
-        addMarker(mouseEvent.latLng);             
+// 내 위치 정보 가져오기
+// 위치 정보를 가져오는 함수 (Promise 반환)
+function getGeoLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        } else {
+            reject(new Error("Geolocation is not supported by this browser."));
+        }
     });
+}
 
-    // // 배열에 추가된 마커들을 지도에 표시
-    // addMarker(new kakao.maps.LatLng(33.450701, 126.570667));
-});
+// 전역 변수 선언
+let lat, long;
+
+// 위치 정보 처리 함수
+async function accessToGeo() {
+    try {
+        const position = await getGeoLocation();
+        const positionObj = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        };
+        return positionObj; // 객체로 반환
+    } catch (error) {
+        console.error("Error retrieving location: ", error);
+    }
+}
+
+// 위치 접근 함수 호출
+async function main() {
+    const { latitude, longitude } = await accessToGeo(); // 비동기 처리
+    lat = latitude;   // 전역 변수에 저장
+    long = longitude; // 전역 변수에 저장
+    console.log(lat, long); // 위도와 경도 출력
+
+    // 카카오 지도 로드 후 지도를 생성합니다
+    kakao.maps.load(function () {
+        // 지도를 생성합니다
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+        mapOption = { 
+            center: new kakao.maps.LatLng(lat, long), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        // 지도를 클릭했을 때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+            // 클릭한 위치에 마커를 표시합니다 
+            addMarker(mouseEvent.latLng);             
+        });
+    });
+}
+
+// 위치 접근 함수 호출
+main();
+
 
 // 기존 방 불러오기
 function readRoom(){
@@ -133,15 +171,21 @@ function addMarker(position) {
         // enterChat();
         showCheerRoom(event , roomID);
     });
-    showCheerRoom(roomID);
 }
 
 // cheerRoom 표시 함수
-function showCheerRoom(event , roomID) {
+function showCheerRoom(event = null, roomID) {
     console.log(roomID)
     var cheerRoom = document.getElementById('cheerRoom');
     cheerRoom.style.display = 'block'; // cheerRoom 표시
     enterChat(roomID);
+}
+// 채팅방을 나가는 함수
+function leaveChat() {
+    console.log(leaveChat);
+    var cheerRoom = document.getElementById('cheerRoom');
+    cheerRoom.style.display = 'none'; // cheerRoom 숨기기
+    cheerMsgBox.innerHTML = "";
 }
 
 // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
@@ -160,6 +204,7 @@ function generateUUID() {
     });
 }   // generateUUID() end
 
+// 소켓 초기화 함수
 let cheerclientSocket; // WebSocket 인스턴스
 
 function initializeWebSocket() {
@@ -189,14 +234,27 @@ function initializeWebSocket() {
     };
 }
 initializeWebSocket();
+
 // 메시지 처리 함수
 function handleMessage(messageEvent) {
     try {
         let cheerMsgBox = document.querySelector('.cheerMsgBox');
         let msg = JSON.parse(messageEvent.data);
         console.log(msg);
-
+        // 회원이 방을 만들었을때
+        if (msg.type === 'marker') {
+            console.log(msg.message);
+            let event = null;
+            showCheerRoom(event , msg.message);
+        }
+        // 회원이 방에 들어갔을 때
         if (msg.type === 'alarm') {
+            cheerMsgBox.innerHTML += `<div class="alarmMsgBox"><span>${msg.message}</span></div>`;
+            return;
+        }
+        // 회원이 방을 나갔을때
+        if (msg.type === 'out') {
+            console.log(msg.message);
             cheerMsgBox.innerHTML += `<div class="alarmMsgBox"><span>${msg.message}</span></div>`;
             return;
         }
@@ -217,7 +275,6 @@ function handleMessage(messageEvent) {
         console.error("메시지 처리 중 오류 발생:", error);
     }
 }
-
 
 // 방 만들기
 function addRoom(position) {
@@ -295,6 +352,27 @@ function sendM() {
     } else {
         console.error("WebSocket이 열리지 않았습니다.");
     }
+}
+
+// 채팅방 나가기
+function outChat(){
+    console.log('outChat()');
+    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
+        let msg = {
+            'type': 'out',
+            'message': `${userName}님이 퇴장하셨습니다.` , 
+            'userName'  : userName , 
+            'roomId' : separateRoom
+        };
+        try {
+            cheerclientSocket.send(JSON.stringify(msg));
+        } catch (error) {
+            console.error("메시지 전송 중 오류 발생:", error);
+        }
+    } else {
+        console.error("WebSocket이 열리지 않았습니다.");
+    }
+    leaveChat();
 }
 
 // 채팅방 목록을 표시하는 함수

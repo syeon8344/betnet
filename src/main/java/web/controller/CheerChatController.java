@@ -67,8 +67,13 @@ public class CheerChatController extends TextWebSocketHandler {
             String type = jsonNode.get("type").asText();
             if("marker".equals(type)){
                 // 서비스 호출
-                cheerChatService.saveChatRoom(jsonNode);
-            }if ("read".equals(type)) {
+                boolean result = cheerChatService.saveChatRoom(jsonNode);
+                if (result){
+                    session.sendMessage(message);
+                }
+            }
+            // 회원이 페이지에 들어갔을 때
+            if ("read".equals(type)) {
                 List<CheerChatDto> list = cheerChatService.readCSV();
                 System.out.println(list);
 
@@ -82,15 +87,20 @@ public class CheerChatController extends TextWebSocketHandler {
                     s.sendMessage(new TextMessage(jsonResponse)); // JSON 문자열을 전송
                 } // for end
             }
+            // 회원이 방에 들어갔을때
             if("alarm".equals(type)){
                 addUserToRoom(session , message);
-                for( int i = 0 ; i<connectedList.size() ; i++ ){
-                    // 2. 목록에 저장된 하나의 세션 호출
-                    WebSocketSession s = connectedList.get(i);
-                    // 3. 꺼낸 클라이언소켓 정보에 메시지를 보내기
-                    s.sendMessage( message );
-                } // for end
+                String roomId = jsonNode.get("roomId").asText();
+                for (String roomIdKey : roomUsers.keySet()) {
+                    if (roomId.equals(roomIdKey)) {
+                        List<WebSocketSession> userSessions = roomUsers.get(roomIdKey);
+                        for (WebSocketSession session2 : userSessions) {
+                            session2.sendMessage(message); // 메시지 전송
+                        }
+                    }
+                }   // for end
             }
+            // 채팅방에서 메세지를 보냈을 때
             if("msg".equals(type)){
                 System.out.println(jsonNode);
                 String roomId = jsonNode.get("roomId").asText();
@@ -102,6 +112,21 @@ public class CheerChatController extends TextWebSocketHandler {
                         }
                     }
                 }   // for end
+            }
+            if("out".equals(type)){
+                System.out.println(jsonNode);
+                String roomId = jsonNode.get("roomId").asText();
+                boolean result = leaveRoom(roomId , session);
+                if (result){
+                    for (String roomIdKey : roomUsers.keySet()) {
+                        if (roomId.equals(roomIdKey)) {
+                            List<WebSocketSession> userSessions = roomUsers.get(roomIdKey);
+                            for (WebSocketSession session2 : userSessions) {
+                                session2.sendMessage(message); // 메시지 전송
+                            }
+                        }
+                    }   // for end
+                }   // if end
             }
         } catch (IOException e) {
             System.err.println("메시지 처리 중 오류 발생: " + e.getMessage());
@@ -125,5 +150,21 @@ public class CheerChatController extends TextWebSocketHandler {
         }catch (Exception e){
             System.out.println(e);
         }
+    }
+    // 회원이 방에서 나갈때
+    public boolean leaveRoom(String roomId, WebSocketSession session) {
+        List<WebSocketSession> userSessions = roomUsers.get(roomId);
+        if (userSessions != null) {
+            // 세션을 리스트에서 제거
+            userSessions.remove(session);
+            System.out.println(roomUsers);
+
+            // 만약 방에 더 이상 사용자가 없다면 방 자체를 삭제할 수 있습니다
+            if (userSessions.isEmpty()) {
+                roomUsers.remove(roomId);
+            }
+            return true;
+        }
+        return false;
     }
 }   // CheerChatController end

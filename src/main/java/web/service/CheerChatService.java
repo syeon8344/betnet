@@ -32,7 +32,7 @@ public class CheerChatService {
 
     // 여기에서 csv 파일 처리 예정
     @Async
-    public void saveChatRoom(JsonNode jsonNode){
+    public boolean saveChatRoom(JsonNode jsonNode){
         System.out.println("CheerChatService.saveChatRoom");
         System.out.println("jsonNode = " + jsonNode);
 
@@ -82,9 +82,11 @@ public class CheerChatService {
                 }
             }
             System.out.println("채팅방 정보가 CSV 파일에 저장되었습니다.");
+            return true;
         } catch (IOException e) {
             System.out.println("CSV 파일 저장 중 오류 발생: " + e.getMessage());
         }
+        return false;
     }   // saveChatRoom() end
 
     public List<CheerChatDto> readCSV(){
