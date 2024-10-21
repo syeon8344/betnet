@@ -19,6 +19,9 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager; // Spring Security 인증 처리 관리자
 
+    @Autowired
+    private AuthService authService;
+
     // 로그인 요청 처리
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDto loginRequest) {
@@ -37,5 +40,18 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패.");
         }
     }
-    
+
+    // 회원 가입
+    @PostMapping("/signup")
+    public ResponseEntity<?> signUp(@RequestBody AuthDto authDto) {
+        try {
+            authService.signUp(authDto);
+            return ResponseEntity.ok("회원가입 성공");
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }   catch (Exception e) {
+            // 다른 예외 처리 (예: 서버 오류)
+            return new ResponseEntity<>("회원가입 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

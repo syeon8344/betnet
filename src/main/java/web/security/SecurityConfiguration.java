@@ -37,7 +37,6 @@ public class SecurityConfiguration{
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
         List<String> permittedPaths = List.of(
                 "/", // 메인 페이지
-                "/member/login",  // 로그인 페이지
                 "/member/salary", // 연봉 예측 페이지
                 "/history/**", // 크롤링 데이터 조회 페이지
                 "/board",  // 게시판
@@ -61,6 +60,10 @@ public class SecurityConfiguration{
                                 .requestMatchers(permittedPaths.toArray(new String[0])).permitAll() // 허용할 경로 설정
                                 .requestMatchers(authenticatedPaths.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
                                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
+                )
+                .formLogin(form -> form
+                        .loginPage("/member/login")
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/logout") // 로그아웃 URL
