@@ -39,12 +39,14 @@ public class SecurityConfiguration{
                 "/", // 메인 페이지
                 "/member/login",  // 로그인 페이지
                 "/member/salary", // 연봉 예측 페이지
+                "/history/**", // 크롤링 데이터 조회 페이지
                 "/board",  // 게시판
                 "/board/view"  // 게시판 상세글 보기
         );
 
         // 인증이 필요한 경로 리스트
         List<String> authenticatedPaths = List.of(
+                "/admin/**", // 관리자
                 "/member/**",  // 회원 마이페이지 등 나머지 /member 엔드포인트
                 "/board/write",  // 글 작성 페이지
                 "/board/edit",  // 글 수정 페이지

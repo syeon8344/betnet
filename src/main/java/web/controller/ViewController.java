@@ -129,7 +129,7 @@ public class ViewController {
     }
     // ========== 로그 ===============
     // 멤버 접속 기록 로그
-    @GetMapping("admin/mAccessLog")
+    @GetMapping("/admin/mAccessLog")
     public String accessLog(){return "/admin/mAccessLog.html";}
 
     // === 굿즈거래 ===

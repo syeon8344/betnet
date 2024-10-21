@@ -1,13 +1,11 @@
 package web.security;
 
 import lombok.*;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Getter
 @Setter
@@ -28,7 +26,7 @@ public class AuthDto implements UserDetails {
     private int teamCode;   // 선호팀코드
     private String account; //계좌
     private String teamName; //선호팀이름
-    private Role role; // Enum 타입
+    private Role role; // Enum 타입, 회원 권한
     private int level; // 계정 레벨
 
     // UserDetails Implementation
