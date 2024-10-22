@@ -25,6 +25,10 @@ public class BusController {
         return busService.busCheck(gameCode);
     }
 
+    @GetMapping("/log")
+    public List<BusDto> busLog(){
+        return busService.busLog();
+    }
 
 
 }

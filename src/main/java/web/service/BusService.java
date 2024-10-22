@@ -36,6 +36,7 @@ public class BusService {
         if(18000 > pointLogDto.getSum()) {
             return false;
         }
+
         busDao.busPurchase(busDto);
         int pointlogid=gameDao.getPointId();
         busDto.setPointlogid(pointlogid);
@@ -45,6 +46,15 @@ public class BusService {
     public List<BusDto> busCheck(String gameCode){
         System.out.println("gameCode = " + gameCode);
         return busDao.busCheck(gameCode);
+    }
+
+    public List<BusDto> busLog(){
+        MemberDto loginDto = memberService.loginCheck();
+        if (loginDto == null) return null;
+        // 2. 속성 호출
+        int memberid = loginDto.getMemberid();
+        System.out.println("memberid = " + memberid);
+        return busDao.busLog(memberid);
     }
 
 }

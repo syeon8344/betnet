@@ -18,4 +18,5 @@ public class BusDto {
     private int memberId;
     private int description;
     private int pointChange;
+    private String logDate;
 }
