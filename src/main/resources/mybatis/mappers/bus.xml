@@ -17,4 +17,12 @@
         select seat , sum( restatus ) AS sumStatus from bus where gamecode = #{gameCode}  group by seat;
     </select>
 
+    <select id="busLog" parameterType="int">
+        SELECT b.resno, b.gamecode, b.restatus, b.seat, p.MemberID, p.LogDate, p.PointChange, p.Description
+        FROM bus b
+        JOIN PointLogs p
+        ON b.PointLogID = p.PointLogID
+        WHERE p.MemberID = #{memberId};
+    </select>
+
 </mapper> <!-- mapper end -->

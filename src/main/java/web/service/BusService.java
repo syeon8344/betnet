@@ -47,4 +47,13 @@ public class BusService {
         return busDao.busCheck(gameCode);
     }
 
+    public List<BusDto> busLog(){
+        MemberDto loginDto = memberService.loginCheck();
+        if (loginDto == null) return null;
+        // 2. 속성 호출
+        int memberid = loginDto.getMemberid();
+        System.out.println("memberid = " + memberid);
+        return busDao.busLog(memberid);
+    }
+
 }
