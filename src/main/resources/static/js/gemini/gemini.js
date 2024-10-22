@@ -193,27 +193,76 @@ function sendMessages( message ) {
         });
     }
 
-
-
     subButtons.innerHTML = html;
+    // 키워드 메시지 버튼 클릭 시 로딩 스피너 표시
+    document.querySelector('#loadingSpinner').style.display = 'block';
 }
-// 입력된 키워드메시지를 서버로 보내는 함수
-function sendMessage( message ) {
-    //let message = document.getElementById("#teamButtons");
-    console.log( message );
+function sendMessage(message) {
+    console.log(message);
+    // 로딩 스피너를 표시
+    document.querySelector('#loadingSpinner').style.display = 'block';
+
     // 서버로 GET 요청을 보내기
     $.ajax({
         url: 'http://127.0.0.1:5000/gemini',
         type: 'GET',
         data: { keyword: message },
         success: function(result) {
-        console.log(result);  // 서버에서 받은 응답을 콘솔에 출력
+            console.log(result);  // 서버에서 받은 응답을 콘솔에 출력
 
-        // 응답을 messageBox에 표시
-        document.querySelector("#messageBox").innerHTML = `<p>${result.response}</p>`;
-        // 스크롤을 맨 아래로 이동
-        document.getElementById("messageBox").scrollTop = document.getElementById("messageBox").scrollHeight;
+            // 응답 텍스트 가져오기
+            let responseText = result.response;
+
+            // **로 구분된 텍스트를 처리 (1개면 그대로 출력, 2개면 줄바꿈 처리)
+            let formattedResponse = responseText.split("**").map((part, index) => {
+                if (index > 0) {
+                    return `\n${part}`;  // 2개 이상의 **가 있을 때 줄바꿈
+                }
+                return part;
+            }).join('');
+
+            // * 문자를 제거한 상태로 응답을 표시
+            let finalResponse = formattedResponse.replace(/\*/g, '');  // * 문자 제거
+
+            // 키워드 메시지 박스에 출력
+            document.querySelector("#messageBox").innerHTML += `<p>검색한 키워드 : ${message}</p>`;
+
+            // 한 글자씩 출력하는 함수
+            function printResponseCharacterByCharacter(response, interval) {
+                let charIndex = 0;  // 현재 글자의 인덱스
+                const messageBox = document.querySelector("#messageBox");
+                const totalLength = response.length;
+
+                // 일정 간격으로 한 글자씩 출력
+                const intervalId = setInterval(() => {
+                    if (charIndex < totalLength) {
+                        messageBox.innerHTML += response.charAt(charIndex);  // 한 글자씩 추가
+
+                        // 전체 페이지 스크롤을 부드럽게 하단으로 이동
+                        window.scroll({
+                            top: document.body.scrollHeight,
+                            left: 0,
+                            behavior: 'smooth'  // 부드럽게 스크롤 이동
+                        });
+                        charIndex++;
+                    } else {
+                        clearInterval(intervalId);  // 모든 글자가 출력되면 인터벌 정지
+                        // 로딩 스피너 숨기기
+                        document.querySelector('#loadingSpinner').style.display = 'none';
+                    }
+                }, interval);  // 100ms 간격으로 한 글자씩 출력
+
+            }
+
+            // 응답을 한 글자씩 출력, 100ms 간격으로 출력
+            // 응답을 한 글자씩 출력하고 스크롤을 천천히 하단으로 이동
+            printResponseCharacterByCharacter(finalResponse, 60, 600);  // 텍스트는 100ms 간격, 스크롤은 300ms 간격
+            document.querySelector('#loadingSpinner').style.display = 'none';
         },
+        error: function() {
+            console.error("서버에 문제가 발생했습니다.");
+            document.querySelector('#loadingSpinner').style.display = 'none';
+        }
     });
 }
 
