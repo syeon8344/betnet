@@ -35,7 +35,7 @@ function busLog(){
 
             let currentTime = new Date();  // 현재 시간
             // 12시간을 밀리초로 변환
-            let HoursInMillis = 48 * 60 * 60 * 1000;
+            let HoursInMillis = 12 * 60 * 60 * 1000;
 
 
             r.forEach(log => {
@@ -53,7 +53,7 @@ function busLog(){
 
                 if(HoursBefore>currentTime){
                     html += `<tr>
-                        <td> ${log.resNo} </td> <td> ${log.gameCode} </td><td> ${log.logDate} </td><td> ${log.seat} </td><td> ${log.reStatus==-1?'예약완료':'예약취소'} </td><td><button type="button" onclick="cancel()">취소</button></td>
+                        <td> ${log.resNo} </td> <td> ${log.gameCode} </td><td> ${log.logDate} </td><td> ${log.seat} </td><td> ${log.reStatus==-1?'예약완료':'예약취소'} </td><td><button type="button" onclick="cancel('${log.gameCode}',${log.seat})">취소</button></td>
                     </tr>`;
                 } // if end
                 else{
