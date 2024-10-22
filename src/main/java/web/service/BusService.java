@@ -36,6 +36,7 @@ public class BusService {
         if(18000 > pointLogDto.getSum()) {
             return false;
         }
+
         busDao.busPurchase(busDto);
         int pointlogid=gameDao.getPointId();
         busDto.setPointlogid(pointlogid);

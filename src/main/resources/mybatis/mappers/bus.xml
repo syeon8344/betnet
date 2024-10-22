@@ -22,7 +22,15 @@
         FROM bus b
         JOIN PointLogs p
         ON b.PointLogID = p.PointLogID
-        WHERE p.MemberID = #{memberId};
+        WHERE p.MemberID = #{memberId}
+        ORDER BY p.LogDate DESC;
     </select>
 
+    <select id="busDuplication" parameterType="web.model.dto.BusDto">
+        SELECT SUM(b.restatus) AS statusSum
+        FROM bus b
+        JOIN PointLogs p ON b.PointLogID = p.PointLogID
+        WHERE p.MemberID = #{memberId} AND b.gamecode = #{gameCode};
+
+    </select>
 </mapper> <!-- mapper end -->

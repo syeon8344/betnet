@@ -15,5 +15,7 @@ public interface BusDao {
     List<BusDto> busCheck(String gameCode);
 
     List<BusDto> busLog(int memberId);
+
+    boolean busDuplication(BusDto busDto);
 }
 
