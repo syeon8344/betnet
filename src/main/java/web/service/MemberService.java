@@ -4,8 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dao.MemberDao;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
@@ -35,7 +33,7 @@ public class MemberService {
         if(result!=null){
             MemberDto loginDto=MemberDto.builder()
                     .memberid(result.getMemberid())
-                    .userName(result.getUserName())
+                    .username(result.getUsername())
                     .build();
             HttpSession session = request.getSession();
             session.setAttribute("loginDto",loginDto);

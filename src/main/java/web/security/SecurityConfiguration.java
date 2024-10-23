@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -39,7 +40,8 @@ public class SecurityConfiguration{
         // 정확한 경로 → 높은 우선순위 (** 미포함)
         // 하위 경로 포함 경로 → 낮은 우선순위 (** 포함)
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
-        List<String> permittedPaths = List.of(
+        // TODO: 우선 전체 엔드포인트를 허용하고 특정 인증 필요 엔드포인트들만 명시하기 (블랙리스트)
+        List<String> permittedPaths = List.of( // 현재 사용하지 않음
                 "/", // 메인 페이지
                 // 정적 리소스들
                 "/css/**",
@@ -49,7 +51,8 @@ public class SecurityConfiguration{
                 "/upload/**",
                 "/favicon.ico",
                 "/member/login", // 로그인 페이지
-                "/member/signup", // 회원가입 페이지
+                "/member/signup", // 회원가입 
+                "/error/unauthorized", // 401 에러 페이지
                 // API
                 "/auth/**", // 인증 관련 (로그인, 회원가입)
                 "/member/**", // 일부 멤버 API 제외 나머지
@@ -61,7 +64,7 @@ public class SecurityConfiguration{
         );
 
         // 인증이 필요한 경로 리스트
-        List<String> authenticatedPaths = List.of(
+        List<String> authenticationNeeded = List.of(
                 "/admin/**", // 관리자
                 "/member/logcheck", // 로그인 상태에서 정보 확인
                 "/member/edit", // 정보 수정 요청
@@ -79,9 +82,8 @@ public class SecurityConfiguration{
                 .authorizeHttpRequests(authReq -> // HTTP 요청에 대한 보안 규칙을 정의
                         authReq
                                 // toArray(new String[0]): 0칸의 String 배열을 생성하여 List<String> 제네릭 타입 배열을 String 배열로 변환
-                                .requestMatchers(permittedPaths.toArray(new String[0])).permitAll() // 허용할 경로 설정
-                                .requestMatchers(authenticatedPaths.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
-                                .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
+                                .requestMatchers(authenticationNeeded.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
+                                .anyRequest().permitAll() // 그 외의 모든 요청은 인증 필요
                 )
                 .exceptionHandling((exception) -> exception
                         .authenticationEntryPoint(customAuthenticationEntryPoint())
@@ -89,13 +91,16 @@ public class SecurityConfiguration{
                 )
                 .formLogin(form -> form
                         .loginPage("/member/login")
+                        .defaultSuccessUrl("/")
                         .permitAll()
                 )
+                .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> logout
-                        .logoutUrl("/api/logout") // 로그아웃 URL
+                        .logoutUrl("/auth/logout") // 로그아웃 URL
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 리다이렉션 URL
                         .invalidateHttpSession(true) // 세션 무효화
                         .deleteCookies("JSESSIONID") // 쿠키 삭제
+                        .permitAll()
                 );
         return http.build(); // 설정된 SecurityFilterChain 반환
     }
@@ -116,9 +121,7 @@ public class SecurityConfiguration{
         return (request, response,authException) -> {
             response.setContentType("application/json;charset=UTF-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
-            // JSON 형태의 응답 생성
-            String jsonResponse = "{\"message\":\"로그인이 필요한 요청입니다.\"}";
-            response.getWriter().write(jsonResponse);
+            response.sendRedirect("/error/unauthorized");
         };
     }
 

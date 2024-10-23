@@ -9,18 +9,18 @@
     <!-- 2. DML INSERT # id  #parameterType=매개변수타입경로 -->
     <insert id="signUp" parameterType="web.model.dto.MemberDto">
         insert into members( userName , password , name , contact , email , gender , age , teamCode , account  )
-        values( #{ userName } , #{ password }  , #{ name } , #{ contact } , #{ email } , #{ gender } , #{ age } , #{ teamCode } , #{ account } )
+        values( #{ username } , #{ password }  , #{ name } , #{ contact } , #{ email } , #{ gender } , #{ age } , #{ teamCode } , #{ account } )
     </insert>
 
     <select id="login" parameterType="web.model.dto.MemberDto" resultType="web.model.dto.MemberDto">
         SELECT *
         FROM members
-        WHERE username = #{userName}
+        WHERE username = #{username}
         AND password = #{password}
     </select>
 
     <select id="idChecking" parameterType="web.model.dto.MemberDto">
-        select COUNT(*) > 0 from members where userName=#{userName}
+        select COUNT(*) > 0 from members where username=#{username}
     </select>
 
     <select id="phoneCheck" parameterType="web.model.dto.MemberDto">

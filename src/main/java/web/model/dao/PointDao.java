@@ -1,7 +1,6 @@
 package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
 import web.model.dto.SearchDto;
 

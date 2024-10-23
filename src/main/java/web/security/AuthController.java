@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import web.model.dto.MemberDto;
 
 
 // Spring Security 인증 관련 컨트롤러
@@ -43,10 +44,10 @@ public class AuthController {
 
     // 회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(AuthDto authDto) {
+    public ResponseEntity<?> signUp(MemberDto memberDto) {
         System.out.println("signUp");
         try {
-            authService.signUp(authDto);
+            authService.signUp(memberDto);
             return ResponseEntity.ok("회원가입 성공");
         } catch (IllegalArgumentException e) {
             // 서비스의 signUp 실행중 유효성 검사 오류는 모두 IllegalArgumentException
@@ -56,4 +57,17 @@ public class AuthController {
             return new ResponseEntity<>("회원가입 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // 로그아웃은 Spring Security에서 GET /logout, POST /logout 제공
+    /*
+    If you request POST /logout, then it will perform the following default operations using a series of LogoutHandlers:
+        - Invalidate the HTTP session (SecurityContextLogoutHandler)
+        - Clear the SecurityContextHolderStrategy (SecurityContextLogoutHandler)
+        - Clear the SecurityContextRepository (SecurityContextLogoutHandler)
+        - Clean up any RememberMe authentication (TokenRememberMeServices / PersistentTokenRememberMeServices)
+        - Clear out any saved CSRF token (CsrfLogoutHandler)
+        - Fire a LogoutSuccessEvent (LogoutSuccessEventPublishingLogoutHandler)
+    Once completed, then it will exercise its default LogoutSuccessHandler which redirects to /login?logout.
+    * */
+
 }

@@ -4,13 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.BoardDao;
 import web.model.dto.BoardDto;
-import web.model.dto.BoardPageDto;
 import web.model.dto.MemberDto;
 import web.model.dto.ReplyDto;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BoardService {

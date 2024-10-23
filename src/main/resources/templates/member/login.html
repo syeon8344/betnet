@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="_csrf" content="${_csrf.token}" />
-    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
     <link href="/css/member/login.css" rel="stylesheet">
@@ -12,7 +12,7 @@
 <div th:replace="~{/header.html:: header}"></div>
     <div class="wrap">
         <div class="loginArea">
-            <form class="loginForm"> 
+            <form class="loginForm">
                 <h3> 로그인 </h3>
                 <input id="id" type="text" placeholder="아이디"><br>
                 <input id="pw" type="password" placeholder="비밀번호"><br>

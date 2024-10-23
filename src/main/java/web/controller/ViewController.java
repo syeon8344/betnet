@@ -160,5 +160,11 @@ public class ViewController {
     // 제미니
     @GetMapping("/gemini")
     public String gemini(){return "/gemini/gemini.html";}
+
+    // 401 인증 필요 오류 페이지
+    @GetMapping("/error/unauthorized")
+    public String unauthorized() {
+        return "/unauthorized.html";
+    }
 }
 

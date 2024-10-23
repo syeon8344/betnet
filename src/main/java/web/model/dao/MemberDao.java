@@ -1,8 +1,6 @@
 package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
 import web.model.dto.SearchDto;
