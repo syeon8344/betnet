@@ -46,6 +46,7 @@ public class CheerChatService {
             int memberid = jsonNode.get("memberid").asInt();
             String date = jsonNode.get("date").asText();
             String roomTitle = jsonNode.get("roomTitle").asText();
+            String matchId = jsonNode.get("matchId").asText();
 
             cheerChatDto.setRoomId(roomId);
             cheerChatDto.setLatitude(latitude);
@@ -53,18 +54,19 @@ public class CheerChatService {
             cheerChatDto.setMemberid(memberid);
             cheerChatDto.setDate(date);
             cheerChatDto.setRoomTitle(roomTitle);
+            cheerChatDto.setMatchId(matchId);
 
         } else{
             System.out.println("위치정보가 누락되었습니다.");
         }
 
-        String csvFilePath = "/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv";
+        String csvFilePath = "C:/Users/tj-bu-703-008/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv";
 
         Path path = Path.of(csvFilePath);
 
         // CSV 파일 헤더와 기록할 내용
-        List<String> headers = List.of("memberid" ,"roomId", "roomTitle" , "latitude", "longitude" , "date");
-        List<Object> record = List.of(cheerChatDto.getMemberid(),cheerChatDto.getRoomId(), cheerChatDto.getRoomTitle() , cheerChatDto.getLatitude(), cheerChatDto.getLongitude(),cheerChatDto.getDate());
+        List<String> headers = List.of("matchId" , "memberid" ,"roomId", "roomTitle" , "latitude", "longitude" , "date");
+        List<Object> record = List.of(cheerChatDto.getMatchId(),cheerChatDto.getMemberid(),cheerChatDto.getRoomId(), cheerChatDto.getRoomTitle() , cheerChatDto.getLatitude(), cheerChatDto.getLongitude(),cheerChatDto.getDate());
 
         try {
             // 파일 존재 여부 체크 및 헤더 추가
@@ -89,10 +91,13 @@ public class CheerChatService {
         return false;
     }   // saveChatRoom() end
 
-    public List<CheerChatDto> readCSV(){
+    public List<CheerChatDto> readCSV(JsonNode jsonNode){
         List<CheerChatDto> list = new ArrayList<>();
+        String matchId = jsonNode.get("matchId").asText();
+        System.out.println("matchId = " + matchId);
+
         try {
-            File file = new File("/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv");
+            File file = new File("C:/Users/tj-bu-703-008/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
 
             // 첫 번째 행을 읽고 버리기 (헤더)
@@ -103,23 +108,27 @@ public class CheerChatService {
                 String[] lineArr = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 
                 // 각 열에 맞는 데이터 타입으로 변환
-                if (lineArr.length >= 6) {
-                    int memberid = Integer.parseInt(lineArr[0].trim());
-                    String roomid = lineArr[1].trim();
-                    String roomTitle = lineArr[2].trim();
-                    Double latitude = Double.parseDouble(lineArr[3].trim());
-                    Double longitude = Double.parseDouble(lineArr[4].trim());
-                    String date = lineArr[5].trim();
+                if (lineArr.length >= 7) {
+                    String currentMatchId = lineArr[0].trim();
+                    int memberid = Integer.parseInt(lineArr[1].trim());
+                    String roomid = lineArr[2].trim();
+                    String roomTitle = lineArr[3].trim();
+                    Double latitude = Double.parseDouble(lineArr[4].trim());
+                    Double longitude = Double.parseDouble(lineArr[5].trim());
+                    String date = lineArr[6].trim();
 
-                    CheerChatDto cheerChatDto = new CheerChatDto();
-                    cheerChatDto.setMemberid(memberid);
-                    cheerChatDto.setRoomId(roomid);
-                    cheerChatDto.setRoomTitle(roomTitle);
-                    cheerChatDto.setLatitude(latitude);
-                    cheerChatDto.setLongitude(longitude);
-                    cheerChatDto.setDate(date);
+                    // matchId와 비교
+                    if (currentMatchId.equals(matchId)) {
+                        CheerChatDto cheerChatDto = new CheerChatDto();
+                        cheerChatDto.setMemberid(memberid);
+                        cheerChatDto.setRoomId(roomid);
+                        cheerChatDto.setRoomTitle(roomTitle);
+                        cheerChatDto.setLatitude(latitude);
+                        cheerChatDto.setLongitude(longitude);
+                        cheerChatDto.setDate(date);
 
-                    list.add(cheerChatDto); // DTO 리스트에 추가
+                        list.add(cheerChatDto); // DTO 리스트에 추가
+                    }
                 }
             }
             br.close();

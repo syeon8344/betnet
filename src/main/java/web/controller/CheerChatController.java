@@ -28,17 +28,19 @@ public class CheerChatController extends TextWebSocketHandler {
     private CheerChatService cheerChatService;
 
     // - 기존 마커들을 뿌려줄 소켓 멤버
-    private List<WebSocketSession> connectedList = new Vector<>();
+    private Map<String ,List<WebSocketSession>> connectedList = new ConcurrentHashMap<>();
     // - 각 방에 입장한 멤버
     private Map<String, List<WebSocketSession>> roomUsers = new ConcurrentHashMap<>();
 
     // 1. 클라이언트가 서버 웹소켓에 접속 성공했을 때
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        // System.out.println("CheerChatController.afterConnectionEstablished");
+        // System.out.println("session = " + session);
         // - 접속된 클라이언트 소켓을 컬렉션에 저장
-        connectedList.add(session);
+        // connectedList.add(session);
         // - 현재 접속된 인원수
-        System.out.println("채팅 접속인원 : "+connectedList.size());
+        // System.out.println("채팅 접속인원 : "+connectedList.size());
         // - 소켓에 접속했을때 채팅방 csv불러와서 뿌려주기...
     }   // afterConnectionEstablished end
 
@@ -74,18 +76,21 @@ public class CheerChatController extends TextWebSocketHandler {
             }
             // 회원이 페이지에 들어갔을 때
             if ("read".equals(type)) {
-                List<CheerChatDto> list = cheerChatService.readCSV();
+                addUserMatch(session , message);
+                List<CheerChatDto> list = cheerChatService.readCSV(jsonNode);
                 System.out.println(list);
-
+                String matchId = jsonNode.get("matchId").asText();
                 // ObjectMapper를 사용하여 리스트를 JSON으로 변환
                 String jsonResponse = objectMapper.writeValueAsString(list); // 리스트를 JSON 문자열로 변환
 
-                for (int i = 0; i < connectedList.size(); i++) {
-                    // 2. 목록에 저장된 하나의 세션 호출
-                    WebSocketSession s = connectedList.get(i);
-                    // 3. 꺼낸 클라이언트 소켓 정보에 메시지를 보내기
-                    s.sendMessage(new TextMessage(jsonResponse)); // JSON 문자열을 전송
-                } // for end
+                for (String matchIdKey : connectedList.keySet()) {
+                    if (matchId.equals(matchIdKey)) {
+                        List<WebSocketSession> userSessions = roomUsers.get(matchIdKey);
+                        for (WebSocketSession session2 : userSessions) {
+                            session2.sendMessage(message); // 메시지 전송
+                        }
+                    }
+                }   // for end
             }
             // 회원이 방에 들어갔을때
             if("alarm".equals(type)){
@@ -113,6 +118,7 @@ public class CheerChatController extends TextWebSocketHandler {
                     }
                 }   // for end
             }
+            // 회원이 채팅을 나갔을 때
             if("out".equals(type)){
                 System.out.println(jsonNode);
                 String roomId = jsonNode.get("roomId").asText();
@@ -147,6 +153,19 @@ public class CheerChatController extends TextWebSocketHandler {
             String userName = jsonNode.get("userName").asText();
             roomUsers.computeIfAbsent(roomId, k -> new Vector<>()).add(session);
             System.out.println(roomUsers);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    // 경기별로 별로 멤버 저장하는 함수
+    public void addUserMatch(WebSocketSession session , TextMessage message) {
+        System.out.println("session = " + session);
+        try{
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(message.getPayload());
+            String matchId = jsonNode.get("matchId").asText();
+            connectedList.computeIfAbsent(matchId, k -> new Vector<>()).add(session);
+            System.out.println(connectedList);
         }catch (Exception e){
             System.out.println(e);
         }

@@ -123,10 +123,12 @@ function getSchedule(){
                                       <div>
                                           <button type="button" onclick="location.href='/bus?gameCode=${result[i].경기코드}'">예약</button>
                                       </div>
+                                      
                                       <div>
                                           <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button>
                                           <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button>
                                       </div>
+                                      <div> </div>
                                   </div>`;
                           console.log('발매중')
                       } //버스 예매 if end
@@ -161,6 +163,8 @@ function getSchedule(){
                                         <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button>
                                         <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button>
                                     </div>
+                                    <div> <a href='/cheerchat?gameCode=${result[i].경기코드}'> 응원하러가기 </a> </div>
+
                                 </div>`;
                         console.log('발매중')
                      }//버스 예매 else end

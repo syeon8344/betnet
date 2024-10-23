@@ -1,4 +1,5 @@
 console.log('cheerChat.js');
+let matchId = new URL( location.href ).searchParams.get('gameCode'); // 현재 URL 경로상의 bno 값 호출
 
 // 로그인 체크
 let memberid = ``
@@ -73,17 +74,18 @@ async function main() {
 
     // 카카오 지도 로드 후 지도를 생성합니다
     kakao.maps.load(function () {
-        // 지도를 생성합니다
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
-        mapOption = { 
-            center: new kakao.maps.LatLng(lat, long), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
+        // 지도 초기화
+        const mapContainer = document.getElementById('map');
+        const mapOption = {
+            center: new kakao.maps.LatLng(lat, long),
+            level: 3
         };
 
-        var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+        map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
         // 지도를 클릭했을 때 클릭한 위치에 마커를 추가하도록 지도에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+        kakao.maps.event.addListener(map, 'click', function(mouseEvent) {   
+            console.log(mouseEvent.latLng);     
             // 클릭한 위치에 마커를 표시합니다 
             addMarker(mouseEvent.latLng);             
         });
@@ -93,12 +95,12 @@ async function main() {
 // 위치 접근 함수 호출
 main();
 
-
 // 기존 방 불러오기
 function readRoom(){
     if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
             'type': 'read',
+            'matchId' : matchId
         };
         console.log(msg);
         try {
@@ -146,13 +148,12 @@ function existRoom(msg){
 } // existRoom() end
 
 // 마커 추가 함수
-function addMarker(position) {
-    console.log('addmarker')
-    console.log(position)
+async function addMarker(position) {
+    console.log('addMarker 호출됨', position);
    
-    var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+    const markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
     
-    var marker = new kakao.maps.Marker({
+    const marker = new kakao.maps.Marker({
         position: position, // 마커 위치 위도 경도
         image: markerImage  // 마커 이미지
     });
@@ -160,17 +161,49 @@ function addMarker(position) {
     marker.setMap(map);
     markers.push(marker); 
 
-    let { roomTitle, roomID } = addRoom(position);  // 방만들기 함수
+    // 방 만들기 함수 호출
+    const { roomTitle, roomID } = await addRoom(position); // 방 만들기 함수를 비동기 처리
     console.log(roomTitle, roomID);
 
     // 마커에 클릭이벤트를 등록합니다
     kakao.maps.event.addListener(marker, 'click', function(event) {
-        // 마커 위에 인포윈도우를 표시합니다
-        // infowindow.open(map, marker);  
-        alert(`'${roomTitle}'방으로 입장합니다.`);
-        // enterChat();
-        showCheerRoom(event , roomID);
+        alert(`'${roomTitle}' 방으로 입장합니다.`);
+        showCheerRoom(event, roomID);
     });
+}
+
+// 방 만들기
+async function addRoom(position) {
+    console.log(position);
+    console.log(matchId);
+    let roomTitle = prompt("채팅방 이름을 입력해주세요.");
+    alert("채팅방을 생성합니다.");
+    roomID = generateUUID();
+
+    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
+        let msg = {
+            'type': 'marker',
+            'message': roomID,
+            'position': position, 
+            'date': new Date().toLocaleString(), 
+            'memberid': memberid, 
+            'roomTitle': roomTitle , 
+            'matchId' : matchId
+        };
+        console.log(msg);
+        try {
+            cheerclientSocket.send(JSON.stringify(msg));
+        } catch (error) {
+            console.error("메시지 전송 중 오류 발생:", error);
+        }
+    } else {
+        console.error("WebSocket이 열리지 않았습니다.");
+    }
+
+    // 지도 새로고침
+    readRoom();
+
+    return { roomTitle, roomID };
 }
 
 // cheerRoom 표시 함수
@@ -207,6 +240,13 @@ function generateUUID() {
 // 소켓 초기화 함수
 let cheerclientSocket; // WebSocket 인스턴스
 
+// 페이지 종료 시 WebSocket 닫기
+window.addEventListener('beforeunload', () => {
+    if (cheerclientSocket) {
+        cheerclientSocket.close(); // 소켓 닫기
+    }
+});
+
 function initializeWebSocket() {
     if (cheerclientSocket && cheerclientSocket.readyState !== WebSocket.CLOSED) {
         console.log("WebSocket이 이미 초기화되어 있습니다.");
@@ -216,7 +256,7 @@ function initializeWebSocket() {
     cheerclientSocket = new WebSocket("ws://localhost:8080/cheer/conn");
 
     cheerclientSocket.onopen = () => {
-        console.log("WebSocket 연결 성공");
+        console.log("WebSocket 연결 성공");// matchId를 서버에 전송
         readRoom();
     };
 
@@ -241,6 +281,12 @@ function handleMessage(messageEvent) {
         let cheerMsgBox = document.querySelector('.cheerMsgBox');
         let msg = JSON.parse(messageEvent.data);
         console.log(msg);
+        // 방 목록을 새로 고치기
+        if (msg.type === 'refreshRooms') {
+            console.log(msg);
+            existRoom(msg); // 방 목록 갱신
+        }
+
         // 회원이 방을 만들었을때
         if (msg.type === 'marker') {
             console.log(msg.message);
@@ -274,35 +320,6 @@ function handleMessage(messageEvent) {
     } catch (error) {
         console.error("메시지 처리 중 오류 발생:", error);
     }
-}
-
-// 방 만들기
-function addRoom(position) {
-    console.log(position)
-    let roomTitle = prompt("채팅방 이름을 입력해주세요.");
-    alert("채팅방을 생성합니다.");
-    roomID = generateUUID();
-
-    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
-        let msg = {
-            'type': 'marker',
-            'message': roomID,
-            'position' : position , 
-            'date': new Date().toLocaleString() , 
-            'memberid' : memberid , 
-            'roomTitle' : roomTitle
-        };
-        console.log(msg);
-        try {
-            cheerclientSocket.send(JSON.stringify(msg));
-        } catch (error) {
-            console.error("메시지 전송 중 오류 발생:", error);
-        }
-    } else {
-        console.error("WebSocket이 열리지 않았습니다.");
-    }
-    // showCheerRoom(roomID);
-    return {roomTitle , roomID};
 }
 
 // [1] clientSocket 의 onclose , onerror , onmessage , onopen 정의 해야한다.
@@ -375,21 +392,5 @@ function outChat(){
     leaveChat();
 }
 
-// 채팅방 목록을 표시하는 함수
-function showChatRooms() {
-    let roomList = document.querySelector('.roomList');
-    roomList.innerHTML = ''; // 기존 목록 초기화
 
-    for (let roomId in chatRooms) {
-        roomList.innerHTML += `<button onclick="openChat(${roomId})">채팅방 ${roomId}</button>`;
-    }
-}
-
-// 메시지 로드 (기본 기능, 필요에 따라 구현)
-function loadMessages(roomId) {
-    let msgBox = document.querySelector('.msgBox');
-    msgBox.innerHTML = chatRooms[roomId].map(msg => `
-        <div>${msg.from}: ${msg.message}</div>
-    `).join('');
-}
 
