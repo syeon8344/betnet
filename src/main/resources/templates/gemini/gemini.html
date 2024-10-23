@@ -6,30 +6,16 @@
     <link href="/css/gemini/gemini.css" rel="stylesheet">
 </head>
 <style>
-#loadingSpinner {
-           display: none;
-           border: 4px solid #f3f3f3;
-           border-top: 4px solid #3498db;
-           border-radius: 50%;
-           width: 40px;
-           height: 40px;
-           animation: spin 2s linear infinite;
-           margin-top: 10px;
-}
-@keyframes spin {
-           0% { transform: rotate(0deg); }
-           100% { transform: rotate(360deg); }
-}
-
 
 </style>
 
 <body>
 <div th:replace="~{/header.html:: header}"></div>
 
-<h3>궁금하신 KBO 팀을 선택 해주세요.</h3>
 
 <div id="gemini">
+    <h3>궁금하신 KBO 팀을 선택 해주세요.</h3>
+
     <div id="messageBox" style="white-space: pre-line;"></div>
     <!-- 로딩 스피너 -->
     <div id="loadingSpinner"></div>
@@ -39,13 +25,13 @@
         <button class="team-button" onclick="sendMessages('두산 베어스')">두산 베어스</button>
         <button class="team-button" onclick="sendMessages('키움 히어로즈')">키움 히어로즈</button>
         <button class="team-button" onclick="sendMessages('삼성 라이온즈')">삼성 라이온즈</button>
-        <button class="team-button" onclick="sendMessages('LG 트윈스')">LG 트윈스</button>
-        <button class="team-button" onclick="sendMessages('NC 다이노스')">NC 다이노스</button>
-        <button class="team-button" onclick="sendMessages('KIA 타이거즈')">KIA 타이거즈</button>
+        <button class="team-button" onclick="sendMessages('엘지 트윈스')">LG 트윈스</button>
+        <button class="team-button" onclick="sendMessages('엔씨 다이노스')">NC 다이노스</button>
+        <button class="team-button" onclick="sendMessages('기아 타이거즈')">KIA 타이거즈</button>
         <button class="team-button" onclick="sendMessages('롯데 자이언츠')">롯데 자이언츠</button>
         <button class="team-button" onclick="sendMessages('SSG 랜더스')">SSG 랜더스</button>
         <button class="team-button" onclick="sendMessages('한화 이글스')">한화 이글스</button>
-        <button class="team-button" onclick="sendMessages('KT 위즈')">KT 위즈</button>
+        <button class="team-button" onclick="sendMessages('케이티 위즈')">KT 위즈</button>
     </div>
     <div id="subButtons">
 
