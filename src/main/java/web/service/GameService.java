@@ -26,8 +26,8 @@ public class GameService {
     MemberService memberService;
 
     // 게임 구매
-    public int gamePeurchase(GameDto gameDto){
-        System.out.println("GameService.gamePeurchase");
+    public int gamePurchase(GameDto gameDto){
+        System.out.println("GameService.gamePurchase");
         System.out.println("gameDto = " + gameDto);
         // 포인트 내역 확인하기
         PointLogDto pointLogDto = pointDao.getMyPoint(gameDto.getMemberid());

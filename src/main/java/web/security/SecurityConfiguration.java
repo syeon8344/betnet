@@ -1,5 +1,8 @@
 package web.security;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,21 +12,22 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
 import java.util.List;
 
 // Spring 설정 클래스
 @Configuration
 @EnableWebSecurity  // Spring Security 활성화
 public class SecurityConfiguration{
-
-    @Autowired
-    private AuthenticationManager authenticationManager; // Spring Security 인증 처리 관리자
 
     // HTTP 보안 설정
     @Bean
@@ -37,19 +41,37 @@ public class SecurityConfiguration{
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
         List<String> permittedPaths = List.of(
                 "/", // 메인 페이지
-                "/member/salary", // 연봉 예측 페이지
+                // 정적 리소스들
+                "/css/**",
+                "/csv/**",
+                "/img/**",
+                "/js/**",
+                "/upload/**",
+                "/favicon.ico",
+                "/member/login", // 로그인 페이지
+                "/member/signup", // 회원가입 페이지
+                // API
+                "/auth/**", // 인증 관련 (로그인, 회원가입)
+                "/member/**", // 일부 멤버 API 제외 나머지
                 "/history/**", // 크롤링 데이터 조회 페이지
                 "/board",  // 게시판
-                "/board/view"  // 게시판 상세글 보기
+                "/board/view",  // 게시판 상세글 보기
+                "/chat/**"
+
         );
 
         // 인증이 필요한 경로 리스트
         List<String> authenticatedPaths = List.of(
                 "/admin/**", // 관리자
-                "/member/**",  // 회원 마이페이지 등 나머지 /member 엔드포인트
+                "/member/logcheck", // 로그인 상태에서 정보 확인
+                "/member/edit", // 정보 수정 요청
+                "/member/purchase", // 개인 구매금액 포인트 통계
+                "/member/refund", // 개인 배당금 통계
                 "/board/write",  // 글 작성 페이지
                 "/board/edit",  // 글 수정 페이지
-                "/board/delete" // 글 삭제 API
+                "/board/delete", // 글 삭제 API
+                "/game/ispurchased",
+                "/point/**" // 포인트 관련
         );
 
         http // Spring Security의 HttpSecurity 보안 객체
@@ -60,6 +82,10 @@ public class SecurityConfiguration{
                                 .requestMatchers(permittedPaths.toArray(new String[0])).permitAll() // 허용할 경로 설정
                                 .requestMatchers(authenticatedPaths.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
                                 .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
+                )
+                .exceptionHandling((exception) -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint())
+                        .accessDeniedHandler(customAccessDeniedHandler())
                 )
                 .formLogin(form -> form
                         .loginPage("/member/login")
@@ -85,9 +111,31 @@ public class SecurityConfiguration{
         return new ProviderManager(authenticationProvider);
     }
 
+    @Bean
+    AuthenticationEntryPoint customAuthenticationEntryPoint() {
+        return (request, response,authException) -> {
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+            // JSON 형태의 응답 생성
+            String jsonResponse = "{\"message\":\"로그인이 필요한 요청입니다.\"}";
+            response.getWriter().write(jsonResponse);
+        };
+    }
+
+    @Bean
+    AccessDeniedHandler customAccessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.setContentType("application/json;charset=UTF-8");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+            // JSON 형태의 응답 생성
+            String jsonResponse = "{\"message\":\"접근 권한이 없습니다.\"}";
+            response.getWriter().write(jsonResponse);
+        };
+    }
+
     // 비밀번호 암호화 객체
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         // SCrypt 알고리즘 강도 설정: 인증 과정이 1초 정도 걸리도록 부하 조정
         // 순서대로 CPU 부하, 메모리 부하, 병렬화 수준, 출력 길이, 해시 길이 설정
         // - CPU 부하: 16384 (CPU 리소스 사용량을 결정, 값이 클수록 더 많은 시간 소요)

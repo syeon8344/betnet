@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthService implements UserDetailsService {
     @Autowired
@@ -21,7 +23,7 @@ public class AuthService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AuthDto user = authDao.findByUsername(username); // 사용자 정보 조회
         if (user == null) {
-            throw new UsernameNotFoundException("User with username " + username + " not found");
+            throw new UsernameNotFoundException(username + "으로 조회된 사용자가 없습니다.");
         }
 
         // 단일 역할 처리
@@ -32,6 +34,7 @@ public class AuthService implements UserDetailsService {
                 .username(user.getUsername())
                 .password(user.getPassword()) // 비밀번호는 해시화된 형태여야 함
                 .role(user.getRole()) // 역할 정보 포함
+                .level(user.getLevel()) // 유저 레벨
                 .build();
     }
 
@@ -50,48 +53,58 @@ public class AuthService implements UserDetailsService {
         }
         // 유효성 검사
         validateUserInput(authDto);
-
-        String encodedPassword = passwordEncoder.encode(authDto.getPassword()); // 비밀번호 암호화
-        List<GrantedAuthority> roles = List.of(new SimpleGrantedAuthority("USER")); // Adjust roles as needed
-        int level = 0; // 사용자 레벨 초기화
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(authDto.getPassword());
+        // 사용자 레벨 기본값
+        int level = 0;
 
         // AuthDto 객체 생성
-        AuthDto user = new AuthDto(authDto.getUsername(), encodedPassword, roles, level);
+        AuthDto user = AuthDto.builder()
+                .username(authDto.getUsername())
+                .password(encodedPassword)
+                .role(Role.USER)
+                .level(level)
+                .name(authDto.getName())
+                .email(authDto.getEmail())
+                .contact(authDto.getContact())
+                .gender(authDto.getGender())
+                .age(authDto.getAge())
+                .teamcode(authDto.getTeamcode())
+                .account(authDto.getAccount())
+                .build();
         authDao.register(user); // 사용자 등록
     }
 
+    // 유효성 검사 모음
     private void validateUserInput(AuthDto authDto) {
-        if (authDto.getUsername() == null || authDto.getUsername().isEmpty() || !authDto.getUsername().matches("^[a-zA-Z0-9]{3,30}$")) {
-            throw new IllegalArgumentException("Invalid username format");
+        if (authDto.getUsername() == null || authDto.getUsername().isEmpty() || !authDto.getUsername().matches("^[a-z0-9]{5,12}$")) {
+            throw new IllegalArgumentException("아이디는 5~12자 길이의 영문 소문자 및 숫자 조합이어야 합니다.");
         }
-        if (authDto.getPassword() == null || authDto.getPassword().isEmpty() || !authDto.getPassword().matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")) {
-            throw new IllegalArgumentException("Password must be at least 6 characters long and include both letters and numbers");
+        if (authDto.getPassword() == null || authDto.getPassword().isEmpty() || !authDto.getPassword().matches("^(?=.*[A-Za-z])(?=.*[!@#$%^&*])(?=.*[0-9])[A-Za-z0-9!@#$%^&*]{5,15}$")) {
+            throw new IllegalArgumentException("비밀번호는 영문자, 특수문자, 숫자가 최소 1개씩 포함된 5~15자 길이의 문자열이어야 합니다.");
         }
         if (authDto.getName() == null || authDto.getName().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new IllegalArgumentException("이름을 다시 확인해 주세요.");
         }
-        if (authDto.getEmail() == null || authDto.getEmail().isEmpty() || !authDto.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
-            throw new IllegalArgumentException("Invalid email format");
+        if (authDto.getEmail() == null || authDto.getEmail().isEmpty() || !authDto.getEmail().matches("^[a-z0-9_-]+@[a-z0-9_-]+\\.[a-z]+$")) {
+            throw new IllegalArgumentException("이메일을 다시 확인해 주세요.");
         }
-        if (authDto.getContact() == null || authDto.getContact().isEmpty()) {
-            throw new IllegalArgumentException("Contact cannot be null or empty");
+        // 000-000-0000 또는 000-0000-0000 형식
+        if (authDto.getContact() == null || authDto.getContact().isEmpty() || authDto.getContact().matches("^([0-9]{3})+[-]+([0-9]{3,4})+[-]([0-9]{4})$")) {
+            throw new IllegalArgumentException("전화번호를 다시 확인해 주세요.");
         }
         if (authDto.getGender() == null || !authDto.getGender().matches("^[MF]$")) {
-            throw new IllegalArgumentException("Gender must be 'M' or 'F'");
+            throw new IllegalArgumentException("성별을 선택해 주세요.");
         }
-        if (authDto.getAge() == null || authDto.getAge() < 0) {
-            throw new IllegalArgumentException("Age must be a positive integer");
+        if (authDto.getAge() == 0 || authDto.getAge() < 0) {
+            throw new IllegalArgumentException("나이를 다시 확인해 주세요.");
         }
-        if (authDto.getTeamcode() == null) {
-            throw new IllegalArgumentException("Team code cannot be null");
+        if (authDto.getTeamcode() == 0) {
+            throw new IllegalArgumentException("선호하는 야구팀 선택 여부를 확인해 주세요.");
         }
         if (authDto.getAccount() == null || authDto.getAccount().isEmpty()) {
-            throw new IllegalArgumentException("Account cannot be null or empty");
+            throw new IllegalArgumentException("계좌번호를 입력해 주세요.");
         }
     }
 
-    // 회원 레벨 비교
-    public boolean checkLevel(AuthDto authDto, int requiredLevel) {
-        return authDto.getLevel() >= requiredLevel;
-    }
 }

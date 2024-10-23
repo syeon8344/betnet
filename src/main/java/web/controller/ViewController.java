@@ -13,7 +13,7 @@ public class ViewController {
 
     // 관리자 페이지
     @GetMapping("/admin")
-    public String admin(){ return "/admin.html"; }
+    public String admin(){ return "/admin.html  "; }
 
     // 포인트내역 페이지
     @GetMapping("/point")    // http://localhost:8080/ // 페이지 요청은 HTTP의 GET방식을 주로 사용한다.

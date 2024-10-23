@@ -12,12 +12,18 @@
 <div th:replace="~{/header.html:: header}"></div>
     <div class="wrap">
         <div class="loginArea">
-            <form class="form"> 
+            <form class="loginForm"> 
                 <h3> 로그인 </h3>
-                <input id="id" placeholder="아이디"><br>
+                <input id="id" type="text" placeholder="아이디"><br>
                 <input id="pw" type="password" placeholder="비밀번호"><br>
                 <button type="button" onclick="doLogIn()">로그인</button>
             </form>
+            <button type="button" onclick="naverLogin()">
+                <img src="path/to/your/login-button-image.png" alt="로그인" style="cursor: pointer;">
+            </button>
+            <button type="button" onclick="kakaoLogin()">
+                <img src="path/to/your/login-button-image.png" alt="로그인" style="cursor: pointer;">
+            </button>
         </div>
     </div>
 

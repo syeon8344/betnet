@@ -33,7 +33,7 @@ public class AuthController {
             Authentication authentication = authenticationManager.authenticate(authToken);
 
             // 인증 성공 시 추가 처리 (예: JWT 생성)
-            return ResponseEntity.ok("Login successful");
+            return ResponseEntity.ok("로그인 성공.");
 
         } catch (AuthenticationException e) {
             // 인증 실패 시 401 상태 코드와 메시지 반환
@@ -43,11 +43,13 @@ public class AuthController {
 
     // 회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody AuthDto authDto) {
+    public ResponseEntity<?> signUp(AuthDto authDto) {
+        System.out.println("signUp");
         try {
             authService.signUp(authDto);
             return ResponseEntity.ok("회원가입 성공");
         } catch (IllegalArgumentException e) {
+            // 서비스의 signUp 실행중 유효성 검사 오류는 모두 IllegalArgumentException
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }   catch (Exception e) {
             // 다른 예외 처리 (예: 서버 오류)

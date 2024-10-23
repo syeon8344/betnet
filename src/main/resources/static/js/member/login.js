@@ -10,14 +10,18 @@ document.getElementById('pw').addEventListener('keypress', function(event) {
 function doLogIn(){console.log('doLogIn()');
     let id=document.querySelector('#id').value;
     let pw=document.querySelector('#pw').value;
+    // FormData 객체 생성
+    const formData = new FormData(document.querySelector('.loginForm'));
     $.ajax({
-        
         method:'post',
-        url:"/member/login",
-        data:{'userName':id,'password':pw},
-        success:(result)=>{console.log(result);
+        url:"/auth/login",
+        data:formData,
+        processData: false, // FormData를 사용하므로 false로 설정
+        contentType: false, // FormData를 사용하므로 false로 설정
+        success:(result)=>{
+            console.log(result);
             if(result){
-                loginPoint(result.memberid)
+                // loginPoint(result.memberid)
                 location.href="/"
             }
             else{
@@ -29,20 +33,36 @@ function doLogIn(){console.log('doLogIn()');
     })
 }
 
+function naverLogin() {
+    console.log('네이버 로그인 시도');
 
-function loginPoint(memberid){
-    console.log('loginPoint()');
-    $.ajax({
-            method:'post',
-            url:"/point/login",
-            data:{'memberid':memberid},
-            success:(result)=>{console.log(result);
-                if(result){
-                     alert('로그인 포인트 10 증정')
-                }
-                else{
-                    alert('포인트 지급 실패')
-                } //else end
-            } // success end
-    }) // ajax end
-}// function end
+    // 네이버 로그인 API 호출 또는 관련 로직 작성
+    // 예를 들어, OAuth 인증을 위한 리다이렉트 등을 수행할 수 있습니다.
+
+    window.location.href = 'https://nid.naver.com/oauth2.0/authorize?...'; // 실제 로그인 URL로 대체
+}
+
+function kakaoLogin() {
+    console.log('카카오 로그인 시도');
+
+    // 네이버 로그인 API 호출 또는 관련 로직 작성
+    // 예를 들어, OAuth 인증을 위한 리다이렉트 등을 수행할 수 있습니다.
+
+    window.location.href = 'https://nid.naver.com/oauth2.0/authorize?...'; // 실제 로그인 URL로 대체
+}
+// function loginPoint(memberid){
+//     console.log('loginPoint()');
+//     $.ajax({
+//             method:'post',
+//             url:"/point/login",
+//             data:{'memberid':memberid},
+//             success:(result)=>{console.log(result);
+//                 if(result){
+//                      alert('로그인 포인트 10 증정')
+//                 }
+//                 else{
+//                     alert('포인트 지급 실패')
+//                 } //else end
+//             } // success end
+//     }) // ajax end
+// }// function end

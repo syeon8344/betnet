@@ -34,10 +34,10 @@ public class GameController {
 
     // 게임 구매
     @PostMapping("/purchase")
-    public int gamePeurchase(@RequestBody GameDto gameDto){
-        System.out.println("GameController.gamePeurchase");
+    public int gamePurchase(@RequestBody GameDto gameDto){
+        System.out.println("GameController.gamePurchase");
         System.out.println("gameDto = " + gameDto);
-        return gameService.gamePeurchase(gameDto);
+        return gameService.gamePurchase(gameDto);
     }   // end method gamePurchase
 
     // 게임 리스트 출력

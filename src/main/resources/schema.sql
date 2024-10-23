@@ -21,7 +21,7 @@ create table members (
     joindate date not null default (current_date),  -- 가입날짜
     teamcode int,  -- 선호하는 팀
     account varchar(255),  -- 계좌번호
-    roles varchar(50) not null,  -- ROLES_USER 등 권한
+    role varchar(50),  -- ROLE_USER 등 권한 문자열
     foreign key(teamcode) references teams(teamcode)
     on update cascade
     on delete cascade

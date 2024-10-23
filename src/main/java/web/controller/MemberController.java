@@ -23,7 +23,7 @@ public class MemberController {
         return memberService.signUp(memberDto);}
 
     //09.10 로그인
-    @PostMapping("/login")
+    @PostMapping("/login1")
     public MemberDto login(MemberDto memberDto){
         System.out.println("MemberController.login");
         System.out.println("memberDto = " + memberDto);

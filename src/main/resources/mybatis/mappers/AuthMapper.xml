@@ -4,10 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- xml 주석 -->
 <mapper namespace="web.security.AuthDao" >  <!-- mapper start -->
+
+    <!-- 로그인시 계정 정보 찾기 -->
     <select id="findByUsername" resultType="web.security.AuthDto">
-        SELECT username, password, roles
+        SELECT username, password, role, level
         FROM members
         WHERE username = #{username}
     </select>
+
+    <!-- 회원가입 -->
+    <insert id="register" parameterType="web.security.AuthDto">
+        INSERT INTO users (username, password, roles, level, name, email, contact, gender, age, teamcode, account)
+        VALUES (#{username}, #{password}, #{role.roleName}, #{level}, #{name}, #{email}, #{contact}, #{gender}, #{age}, #{teamcode}, #{account})
+    </insert>
+
 </mapper> <!-- mapper end -->
 

@@ -190,15 +190,27 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
     // 버튼 비활성화는 해제해야함... 어떻게..?
     let result = true;
     $.ajax({
-        async : false , 
-        method : "get" , 
-        url : "/game/ispurchased" , 
-        data : {matchid : matchid} , 
-        success : (r) =>{
-            console.log(r);
-            if(r){
+        async: false,
+        method: "get",
+        url: "/game/ispurchased",
+        data: { matchid: matchid },
+        success: (resp) => {
+            // 정상적인 응답 처리, 응답이 있으면 중복 구매 상태
+            if (resp) {
                 alert("이미 구매한 경기입니다.");
                 result = false;
+            }
+        },
+        error: (jqXHR) => {
+            // 오류 처리
+            if (jqXHR.status === 401) {
+                console.log("Unauthorized");
+                const data = JSON.parse(jqXHR.responseText); // JSON 메시지 파싱
+                alert(data.message); // JSON 메시지 처리
+                window.location.href = '/member/login'; // 로그인 페이지로 리디렉션
+            } else {
+                // 다른 오류에 대한 처리
+                alert("오류가 발생했습니다: " + jqXHR.statusText);
             }
         }
     })
@@ -248,7 +260,7 @@ function updateTotalOdds() {
 
 function activateButton(button) {
     // 같은 tr 내의 모든 버튼 비활성화
-    const buttons = button.closest('tr').querySelectorAll('button');
+    const buttons = button.closest('div').querySelectorAll('button');
     buttons.forEach(btn => {
         btn.disabled = true; // 또는 btn.style.display = 'none';
     });

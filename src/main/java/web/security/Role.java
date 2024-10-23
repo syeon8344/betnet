@@ -1,21 +1,25 @@
 package web.security;
 
-/**
- * 이 enum 클래스는 시스템에서 정의된 사용자 역할을 나타냅니다.
- * 각 역할은 특정 권한을 가지며, 이를 통해 접근 제어를 수행합니다.
- */
+import lombok.Getter;
+
+@Getter
 public enum Role {
+    USER("ROLE_USER"),
+    ADMIN("ROLE_ADMIN");
 
-    /**
-     * 일반 사용자 역할.
-     * 이 역할을 가진 사용자는 제한된 리소스에 접근할 수 있습니다.
-     */
-    ROLE_USER,
+    private final String roleName;
 
-    /**
-     * 관리자 역할.
-     * 이 역할을 가진 사용자는 모든 리소스에 접근할 수 있으며,
-     * 일반 사용자의 관리 및 권한 부여와 같은 추가 권한을 가집니다.
-     */
-    ROLE_ADMIN;
+    Role(String roleName) {
+        this.roleName = roleName;
+    }
+
+    // roleName -> role
+    public static Role fromRoleName(String roleName) {
+        for (Role role : Role.values()) {
+            if (role.getRoleName().equals(roleName)) {
+                return role;
+            }
+        }
+        throw new IllegalArgumentException("Invalid role name: " + roleName);
+    }
 }
