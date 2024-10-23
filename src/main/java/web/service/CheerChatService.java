@@ -58,7 +58,7 @@ public class CheerChatService {
             System.out.println("위치정보가 누락되었습니다.");
         }
 
-        String csvFilePath = "/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv";
+        String csvFilePath = "C:\\Users\\tj-bu-703-009\\Desktop\\betnet\\src\\main\\resources\\static\\csv\\chat_rooms_" + formattedDate + ".csv";
 
         Path path = Path.of(csvFilePath);
 
@@ -92,7 +92,7 @@ public class CheerChatService {
     public List<CheerChatDto> readCSV(){
         List<CheerChatDto> list = new ArrayList<>();
         try {
-            File file = new File("/Users/yangjaeyeon/Desktop/betnet/src/main/resources/static/csv/chat_rooms_" + formattedDate + ".csv");
+            File file = new File("C:\\Users\\tj-bu-703-009\\Desktop\\betnet\\src\\main\\resources\\static\\csv\\chat_rooms_" + formattedDate + ".csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
 
             // 첫 번째 행을 읽고 버리기 (헤더)

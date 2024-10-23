@@ -35,7 +35,7 @@ function busLog(){
 
             let currentTime = new Date();  // 현재 시간
             // 12시간을 밀리초로 변환
-            let HoursInMillis = 12 * 60 * 60 * 1000;
+            let HoursInMillis = 3 * 60 * 60 * 1000;
 
 
             r.forEach(log => {

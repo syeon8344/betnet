@@ -256,7 +256,7 @@ function sendMessage(message) {
 
             // 응답을 한 글자씩 출력, 100ms 간격으로 출력
             // 응답을 한 글자씩 출력하고 스크롤을 천천히 하단으로 이동
-            printResponseCharacterByCharacter(finalResponse, 60, 600);  // 텍스트는 100ms 간격, 스크롤은 300ms 간격
+            printResponseCharacterByCharacter(finalResponse, 20, 200);  // 텍스트는 100ms 간격, 스크롤은 300ms 간격
             document.querySelector('#loadingSpinner').style.display = 'none';
         },
         error: function() {

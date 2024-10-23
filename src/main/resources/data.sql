@@ -985,3 +985,12 @@ select * from bus;
 select seat , sum( restatus ) AS sumStatus from bus where gamecode = '20241021-삼성-1700'  group by seat;
 select * from bus;
 select * from pointlogs ;
+SELECT b.resno, b.gamecode, b.restatus, b.seat, p.MemberID, p.LogDate, p.PointChange, p.Description
+FROM bus b
+JOIN PointLogs p
+ON b.PointLogID = p.PointLogID
+WHERE p.MemberID = 2;
+SELECT SUM(b.restatus) AS statusSum
+FROM bus b
+JOIN PointLogs p ON b.PointLogID = p.PointLogID
+WHERE p.MemberID = 2 AND b.gamecode = '20241023-두산-1830';

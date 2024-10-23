@@ -16,6 +16,5 @@ public interface BusDao {
 
     List<BusDto> busLog(int memberId);
 
-    boolean busDuplication(BusDto busDto);
 }
 
