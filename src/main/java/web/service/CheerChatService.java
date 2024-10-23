@@ -66,8 +66,8 @@ public class CheerChatService {
         Path path = Path.of(csvFilePath);
 
         // CSV 파일 헤더와 기록할 내용
-        List<String> headers = List.of("memberid" ,"roomId", "roomTitle" , "latitude", "longitude" , "date");
-        List<Object> record = List.of(cheerChatDto.getMemberid(),cheerChatDto.getRoomId(), cheerChatDto.getRoomTitle() , cheerChatDto.getLatitude(), cheerChatDto.getLongitude(),cheerChatDto.getDate());
+        List<String> headers = List.of("matchId","memberid" ,"roomId", "roomTitle" , "latitude", "longitude" , "date");
+        List<Object> record = List.of(cheerChatDto.getMatchId(),cheerChatDto.getMemberid(),cheerChatDto.getRoomId(), cheerChatDto.getRoomTitle() , cheerChatDto.getLatitude(), cheerChatDto.getLongitude(),cheerChatDto.getDate());
 
         try {
             // 파일 존재 여부 체크 및 헤더 추가
@@ -123,6 +123,7 @@ public class CheerChatService {
                     // matchId와 비교
                     if (currentMatchId.equals(matchId)) {
                         CheerChatDto cheerChatDto = new CheerChatDto();
+                        cheerChatDto.setMatchId(currentMatchId);
                         cheerChatDto.setMemberid(memberid);
                         cheerChatDto.setRoomId(roomid);
                         cheerChatDto.setRoomTitle(roomTitle);

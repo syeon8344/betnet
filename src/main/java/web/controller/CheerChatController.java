@@ -17,10 +17,12 @@ import web.model.dto.CheerChatDto;
 import web.service.CheerChatService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Component
 public class CheerChatController extends TextWebSocketHandler {
@@ -47,11 +49,7 @@ public class CheerChatController extends TextWebSocketHandler {
     // 2. 클라이언트가 서버 웹소켓에 접속 끊었을 때
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        connectedList.remove(session);
-        // - 현재 접속된 인원수
-        // System.out.println("채팅 접속인원 : "+connectedList.size());
-        // - 퇴장/제거한 세션을 제외한 다른 클라이언트소켓들에게 메시지 전송
-        // - 서버에서 클라이언트에게 메세지 전송하기
+        // removeSession(session);
         TextMessage textMessage = new TextMessage("Hello , ClientSocket");    // 메시지 내용 구성
         handleTextMessage(null, textMessage);   // 메시지 전송함수
     }   // afterConnectionClosed end
@@ -76,21 +74,38 @@ public class CheerChatController extends TextWebSocketHandler {
             }
             // 회원이 페이지에 들어갔을 때
             if ("read".equals(type)) {
-                addUserMatch(session , message);
+                addUserMatch(session, message);
                 List<CheerChatDto> list = cheerChatService.readCSV(jsonNode);
                 System.out.println(list);
-                String matchId = jsonNode.get("matchId").asText();
-                // ObjectMapper를 사용하여 리스트를 JSON으로 변환
-                String jsonResponse = objectMapper.writeValueAsString(list); // 리스트를 JSON 문자열로 변환
 
-                for (String matchIdKey : connectedList.keySet()) {
-                    if (matchId.equals(matchIdKey)) {
-                        List<WebSocketSession> userSessions = roomUsers.get(matchIdKey);
-                        for (WebSocketSession session2 : userSessions) {
-                            session2.sendMessage(message); // 메시지 전송
+                String matchId = jsonNode.get("matchId").asText();
+
+                // matchId와 일치하는 CheerChatDto 객체 필터링
+                List<CheerChatDto> filteredList = list.stream()
+                        .filter(chatDto -> matchId.equals(chatDto.getMatchId()))
+                        .collect(Collectors.toList());
+                System.out.println("filteredList = " + filteredList);
+                System.out.println("connectedList = " + connectedList);
+
+                // 필터링된 리스트가 있을 경우에만 메시지 전송
+                if (!filteredList.isEmpty()) {
+                    for (String matchIdKey : connectedList.keySet()) {
+                        if (matchId.equals(matchIdKey)) {
+                            List<WebSocketSession> userSessions = connectedList.get(matchIdKey);
+                            for (WebSocketSession session2 : userSessions) {
+                                // 메시지와 jsonResponse를 포함한 JSON 객체 생성
+                                Map<String, Object> responseMap = new HashMap<>();
+                                responseMap.put("type", "read"); // 메시지 타입 지정
+                                responseMap.put("message", message);
+                                responseMap.put("data", filteredList); // filteredList 직접 사용
+
+                                // JSON 문자열로 변환
+                                String combinedResponse = objectMapper.writeValueAsString(responseMap);
+                                session2.sendMessage(new TextMessage(combinedResponse)); // 메시지 전송
+                            }
                         }
                     }
-                }   // for end
+                }
             }
             // 회원이 방에 들어갔을때
             if("alarm".equals(type)){
@@ -133,6 +148,20 @@ public class CheerChatController extends TextWebSocketHandler {
                         }
                     }   // for end
                 }   // if end
+            }
+            // 페이지를 나갔을 때
+            if ("disconnect".equals(type)) {
+                String matchId = jsonNode.get("matchId").asText();
+                boolean result = removeSession(matchId ,session); // 클라이언트에서 보낸 disconnect 메시지 처리
+                if (result){
+                    for (String matchIdKey : connectedList.keySet()) {
+                        if (matchId.equals(matchIdKey)) {
+                            List<WebSocketSession> userSessions = connectedList.get(matchIdKey);
+                            for (WebSocketSession session2 : userSessions) {
+                                session2.sendMessage(message); // 메시지 전송
+                            }
+                        }
+                    }}
             }
         } catch (IOException e) {
             System.err.println("메시지 처리 중 오류 발생: " + e.getMessage());
@@ -181,6 +210,21 @@ public class CheerChatController extends TextWebSocketHandler {
             // 만약 방에 더 이상 사용자가 없다면 방 자체를 삭제할 수 있습니다
             if (userSessions.isEmpty()) {
                 roomUsers.remove(roomId);
+            }
+            return true;
+        }
+        return false;
+    }
+    public boolean removeSession(String matchId , WebSocketSession session) {
+        List<WebSocketSession> userSessions = connectedList.get(matchId);
+        if (userSessions != null) {
+            // 세션을 리스트에서 제거
+            userSessions.remove(session);
+            // System.out.println(connectedList);
+
+            // 만약 방에 더 이상 사용자가 없다면 방 자체를 삭제할 수 있습니다
+            if (userSessions.isEmpty()) {
+                connectedList.remove(matchId);
             }
             return true;
         }

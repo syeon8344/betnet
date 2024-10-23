@@ -121,10 +121,12 @@ function existRoom(msg){
     Object.entries(msg).forEach(([key, value]) => {
         console.log(`Key: ${key}, Value: ${value}`);
         console.log(value);
-            let roomID = value.roomId;
+        value.forEach( value2 => {
+            console.log(value2);
+            let roomID = value2.roomId;
             let position = {}
-            position.latitude = value.latitude; // 위도
-            position.longitude = value.longitude; // 경도
+            position.latitude = value2.latitude; // 위도
+            position.longitude = value2.longitude; // 경도
             console.log(position);
             var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
         
@@ -140,11 +142,12 @@ function existRoom(msg){
             kakao.maps.event.addListener(marker, 'click', function(event) {
                 // 마커 위에 인포윈도우를 표시합니다
                 // infowindow.open(map, marker);  
-                alert(`'${value.roomTitle}'방으로 입장합니다.`);
+                alert(`'${value2.roomTitle}'방으로 입장합니다.`);
                 // enterChat();
                 showCheerRoom(event , roomID);
+            });
         });
-    });       
+    }); 
 } // existRoom() end
 
 // 마커 추가 함수
@@ -240,12 +243,10 @@ function generateUUID() {
 // 소켓 초기화 함수
 let cheerclientSocket; // WebSocket 인스턴스
 
-// 페이지 종료 시 WebSocket 닫기
-window.addEventListener('beforeunload', () => {
-    if (cheerclientSocket) {
-        cheerclientSocket.close(); // 소켓 닫기
-    }
-});
+window.onbeforeunload = function() {
+    // 페이지를 떠날 때 세션 종료 알림
+    sendDisconnectMessage();
+};
 
 function initializeWebSocket() {
     if (cheerclientSocket && cheerclientSocket.readyState !== WebSocket.CLOSED) {
@@ -265,8 +266,10 @@ function initializeWebSocket() {
     };
 
     cheerclientSocket.onclose = (e) => {
-        console.log("WebSocket 연결 종료. 재연결 시도 중...");
-        setTimeout(initializeWebSocket, 5000); // 5초 후에 재연결
+        setTimeout(function() {
+            // 재연결 시도
+            socket = new WebSocket("ws://yourserver.com/socket");
+        }, 1000); // 1초 후 재연결 시도
     };
 
     cheerclientSocket.onerror = (e) => {
@@ -282,7 +285,7 @@ function handleMessage(messageEvent) {
         let msg = JSON.parse(messageEvent.data);
         console.log(msg);
         // 방 목록을 새로 고치기
-        if (msg.type === 'refreshRooms') {
+        if (msg.type === 'read') {
             console.log(msg);
             existRoom(msg); // 방 목록 갱신
         }
@@ -299,7 +302,7 @@ function handleMessage(messageEvent) {
             return;
         }
         // 회원이 방을 나갔을때
-        if (msg.type === 'out') {
+        if (msg.type === 'out' || msg.type === 'disconnect') {
             console.log(msg.message);
             cheerMsgBox.innerHTML += `<div class="alarmMsgBox"><span>${msg.message}</span></div>`;
             return;
@@ -311,12 +314,12 @@ function handleMessage(messageEvent) {
                                     <div><span>${msg.message}</span></div>
                                 </div>`;
         }
-        // 마커 메세지 처리
-        if (msg[0].type === null) {
-            console.log(msg);
-            console.log("null");
-            existRoom(msg);
-        }
+        // // 마커 메세지 처리
+        // if (msg[0].type === null) {
+        //     console.log(msg);
+        //     console.log("null");
+        //     existRoom(msg);
+        // }
     } catch (error) {
         console.error("메시지 처리 중 오류 발생:", error);
     }
@@ -392,5 +395,15 @@ function outChat(){
     leaveChat();
 }
 
+function sendDisconnectMessage() {
+    const disconnectMessage = JSON.stringify({
+        type: "disconnect" ,
+        'message': `${userName}님이 퇴장하셨습니다.` , 
+        'userName'  : userName , 
+        'matchId' : matchId
+    });
+    cheerclientSocket.send(disconnectMessage);
+    cheerclientSocket.close(); // 세션을 닫음
+}
 
 
