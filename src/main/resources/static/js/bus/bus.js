@@ -2,31 +2,32 @@ loginCheck()
 
 let gameCode = new URL( location.href ).searchParams.get('gameCode'); // 현재 URL 경로상의 bno 값 호출
     console.log( gameCode );
-    let selectedSeat = null;  // 선택된 좌석 하나만 저장
-    let bookedSeats = []
-    createSeats()
-    // 좌석 상태 변경 함수 (한 좌석만 선택 가능)
-    function createSeats() {
-        let seatsContainer = document.getElementById('seats');
-        let seatsHTML = `<div>`; // 좌석 HTML 문자열 초기화
-        $.ajax({
-            async:false,
-            method:'get',
-            url:"/bus/check",
-            data:{gameCode:gameCode},
-            success: result => {
-                console.log(result);
-                result.forEach(log=>{
-                    if(log.sumStatus==-1){
-                        bookedSeats.push(log.seat)
-                    }
-                })
-            }
+    let selectedSeats = []; // 선택된 좌석 배열
+let totalPrice = 0; // 총 가격 변수
+const seatPrice = 18000; // 좌석당 가격
+const maxSeats = 4; // 최대 선택 가능한 좌석 수
+createSeats()
+function createSeats() {
+    let seatsContainer = document.getElementById('seats');
+    let seatsHTML = `<div>`; // 좌석 HTML 문자열 초기화
+    let bookedSeats = []; // 예매 완료된 좌석 배열 초기화
 
-        })
+    $.ajax({
+        async: false,
+        method: 'get',
+        url: "/bus/check",
+        data: { gameCode: gameCode },
+        success: result => {
+            console.log(result);
+            result.forEach(log => {
+                if (log.sumStatus == -1) {
+                    bookedSeats.push(log.seat);
+                }
+            });
+        }
+    });
 
     for (let i = 1; i <= 24; i++) {
-        // 예매 완료된 좌석 체크
         let isBooked = bookedSeats.includes(i);
         let buttonClass = isBooked ? 'seat unavailable' : 'seat available';
         let buttonDisabled = isBooked ? 'disabled' : '';
@@ -40,28 +41,58 @@ let gameCode = new URL( location.href ).searchParams.get('gameCode'); // 현재 
     seatsContainer.innerHTML = seatsHTML; // 생성된 HTML 삽입
 }
 
-// 좌석 상태 변경 함수
+// 좌석 상태 변경 함수 (4개 좌석까지 선택 가능)
 function toggleSeat(seatNumber) {
     let seat = document.getElementById('seat' + seatNumber); // 좌석 ID는 번호로 생성됨
     let cartBox = document.querySelector(".purchaseCartBox"); // 선택된 좌석을 표시할 위치
 
-    if (selectedSeat === null) {
-        // 좌석이 선택되지 않은 상태에서만 좌석 선택 가능
+    if (selectedSeats.includes(seatNumber)) {
+        // 좌석이 이미 선택된 경우 (취소 로직)
+        seat.classList.remove('unavailable');
+        seat.classList.add('available');
+        selectedSeats = selectedSeats.filter(num => num !== seatNumber); // 선택 해제된 좌석 배열에서 제거
+        totalPrice -= seatPrice; // 총 가격에서 해당 좌석 가격 제거
+        document.getElementById(`cart-seat-${seatNumber}`).remove(); // 선택된 좌석 Cart에서 제거
+    } else {
+        if (selectedSeats.length >= maxSeats) {
+            alert(`최대 ${maxSeats} 좌석까지만 선택할 수 있습니다.`);
+            return; // 선택을 중단
+        }
+
+        // 좌석 선택
         seat.classList.remove('available');
         seat.classList.add('unavailable');
-        seat.disabled = true;
-        selectedSeat = seatNumber; // 선택된 좌석 저장
-        console.log(`좌석 ${seatNumber} 선택됨`);
+        selectedSeats.push(seatNumber); // 선택된 좌석 배열에 추가
+        totalPrice += seatPrice; // 총 가격에 좌석 가격 추가
 
         // 선택된 좌석을 Cart에 추가
         let seatInfo = document.createElement('tr');
-        seatInfo.innerHTML = `<td>좌석 번호: ${seatNumber} 18000포인트</td>`;
-        seatInfo.id = "cart-seat";
+        seatInfo.innerHTML = `<td>좌석 번호: ${seatNumber} ${seatPrice}포인트</td>`;
+        seatInfo.id = `cart-seat-${seatNumber}`; // 각 좌석에 고유 ID 할당
         cartBox.appendChild(seatInfo); // 좌석 정보 추가
-    } else {
-        alert("이미 다른 좌석이 선택되어 있습니다. 취소 후에 다른 좌석을 선택하세요.");
     }
+
+    // 총 가격 표시 업데이트
+    updateTotalPrice();
 }
+
+// 총 가격 업데이트 함수
+function updateTotalPrice() {
+    let priceDisplay = document.getElementById('totalPrice');
+    
+    // 총 가격을 표시할 div가 없으면 새로 추가
+    if (!priceDisplay) {
+        priceDisplay = document.createElement('div');
+        priceDisplay.id = 'totalPrice';
+        priceDisplay.style.marginTop = '20px'; // 총 가격 표시를 맨 밑에 여백을 주어 표시
+        document.querySelector('.purchaseCartBox').appendChild(priceDisplay);
+    }
+
+    // 총 가격 내용 갱신
+    priceDisplay.innerHTML = `<strong>총 가격: ${totalPrice} 포인트</strong>`;
+}
+
+
 
     // 취소 버튼 클릭 시 선택된 좌석을 다시 가능 좌석으로 변경
     function resetSeats() {
