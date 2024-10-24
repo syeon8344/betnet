@@ -314,12 +314,6 @@ function handleMessage(messageEvent) {
                                     <div><span>${msg.message}</span></div>
                                 </div>`;
         }
-        // // 마커 메세지 처리
-        // if (msg[0].type === null) {
-        //     console.log(msg);
-        //     console.log("null");
-        //     existRoom(msg);
-        // }
     } catch (error) {
         console.error("메시지 처리 중 오류 발생:", error);
     }
@@ -394,15 +388,17 @@ function outChat(){
     }
     leaveChat();
 }
-
+// 페이지 나갔을 때
 function sendDisconnectMessage() {
     const disconnectMessage = JSON.stringify({
         type: "disconnect" ,
         'message': `${userName}님이 퇴장하셨습니다.` , 
         'userName'  : userName , 
-        'matchId' : matchId
+        'matchId' : matchId , 
+        'roomId' : separateRoom
     });
     cheerclientSocket.send(disconnectMessage);
+    leaveChat();
     cheerclientSocket.close(); // 세션을 닫음
 }
 
