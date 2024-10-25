@@ -41,27 +41,27 @@ public class SecurityConfiguration{
         // 하위 경로 포함 경로 → 낮은 우선순위 (** 포함)
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
         // TODO: 우선 전체 엔드포인트를 허용하고 특정 인증 필요 엔드포인트들만 명시하기 (블랙리스트)
-        List<String> permittedPaths = List.of( // 현재 사용하지 않음
-                "/", // 메인 페이지
-                // 정적 리소스들
-                "/css/**",
-                "/csv/**",
-                "/img/**",
-                "/js/**",
-                "/upload/**",
-                "/favicon.ico",
-                "/member/login", // 로그인 페이지
-                "/member/signup", // 회원가입 
-                "/error/unauthorized", // 401 에러 페이지
-                // API
-                "/auth/**", // 인증 관련 (로그인, 회원가입)
-                "/member/**", // 일부 멤버 API 제외 나머지
-                "/history/**", // 크롤링 데이터 조회 페이지
-                "/board",  // 게시판
-                "/board/view",  // 게시판 상세글 보기
-                "/chat/**"
-
-        );
+//        List<String> permittedPaths = List.of( // 현재 사용하지 않음
+//                "/", // 메인 페이지
+//                // 정적 리소스들
+//                "/css/**",
+//                "/csv/**",
+//                "/img/**",
+//                "/js/**",
+//                "/upload/**",
+//                "/favicon.ico",
+//                "/member/login", // 로그인 페이지
+//                "/member/signup", // 회원가입
+//                "/error/unauthorized", // 401 에러 페이지
+//                // API
+//                "/auth/**", // 인증 관련 (로그인, 회원가입)
+//                "/member/**", // 일부 멤버 API 제외 나머지
+//                "/history/**", // 크롤링 데이터 조회 페이지
+//                "/board",  // 게시판
+//                "/board/view",  // 게시판 상세글 보기
+//                "/chat/**"
+//
+//        );
 
         // 인증이 필요한 경로 리스트
         List<String> authenticationNeeded = List.of(
@@ -73,7 +73,8 @@ public class SecurityConfiguration{
                 "/board/write",  // 글 작성 페이지
                 "/board/edit",  // 글 수정 페이지
                 "/board/delete", // 글 삭제 API
-                "/game/ispurchased",
+                "/game/ispurchased", // 이미 구매된 경기인지 확인
+                "/point/mypoint",  // 현재 보유 포인트 확인 (헤더)
                 "/point/**" // 포인트 관련
         );
 
@@ -119,9 +120,17 @@ public class SecurityConfiguration{
     @Bean
     AuthenticationEntryPoint customAuthenticationEntryPoint() {
         return (request, response,authException) -> {
-            response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
-            response.sendRedirect("/error/unauthorized");
+            String ajaxHeader = request.getHeader("X-Requested-With");
+
+            if ("XMLHttpRequest".equals(ajaxHeader)) {
+                // Handle AJAX requests
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401 Unauthorized
+                response.getWriter().write("{\"error\": \"로그인이 필요한 기능입니다.\"}");
+            } else {
+                // Handle regular requests (Thymeleaf)
+                response.sendRedirect("/error/unauthorized"); // Redirect to an error page
+            }
         };
     }
 

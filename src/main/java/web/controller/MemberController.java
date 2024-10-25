@@ -16,7 +16,7 @@ public class MemberController {
     @Autowired private MemberService memberService;
 
     //09.09 회원가입
-    @PostMapping("/signup")
+    @PostMapping("/signuprequest")
     public boolean signUp(MemberDto memberDto){
         System.out.println("MemberController.signUp");
         System.out.println("memberDto = " + memberDto);

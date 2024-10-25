@@ -204,9 +204,9 @@ function choiceWinandLoss(number , matchid , winandloss , oods){
         error: (jqXHR) => {
             // 오류 처리
             if (jqXHR.status === 401) {
-                console.log("Unauthorized");
-                const data = JSON.parse(jqXHR.responseText); // JSON 메시지 파싱
-                alert(data.message); // JSON 메시지 처리
+                console.log(jqXHR);
+                const data = jqXHR.responseJSON;
+                alert(data.error); // JSON 오류 메시지 처리
                 window.location.href = '/member/login'; // 로그인 페이지로 리디렉션
             } else {
                 // 다른 오류에 대한 처리

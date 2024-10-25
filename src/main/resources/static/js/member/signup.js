@@ -2,6 +2,21 @@ console.log('signup.js');
 // 현재 유효성검사 체크 현황
 let checkArray = [false, false, false, false]; // id, 비밀번호, 전화번호, 이메일
 
+// Function to get CSRF token and header name from meta tags
+function getCsrfToken() {
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+    return { csrfToken, csrfHeader };
+}
+
+// Set up a global AJAX setup to include the CSRF token
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        const { csrfToken, csrfHeader } = getCsrfToken(); // Get CSRF token and header
+        xhr.setRequestHeader(csrfHeader, csrfToken); // Set the header
+    }
+});
+
 // 사용자 이름 확인
 function checkUsername() {
     console.log('checkUsername()');
@@ -195,13 +210,12 @@ function doSignup() {
             // 오류 처리
             if (jqXHR.status === 403) {
                 console.log("Unauthorized");
-                const data = JSON.parse(jqXHR.responseText); // JSON 메시지 파싱
-                alert(data.message); // JSON 메시지 처리
+                const data = jqXHR.responseJSON; // JSON
+                alert(data.error); // JSON 메시지 처리
             } else {
                 // 다른 오류에 대한 처리
-                console.log("오류가 발생했습니다: " + jqXHR.statusText);
-                const data = JSON.parse(jqXHR.responseText); // JSON 메시지 파싱
-                alert(data.message); // JSON 메시지 처리
+                const data = jqXHR.responseJSON; // JSON 메시지 파싱
+                alert(data.error); // JSON 메시지 처리
             }
         }
     });
@@ -209,6 +223,25 @@ function doSignup() {
 
 // 팀 목록 초기화
 teams();
+
+// 팀목록 가져오기
+function teams(){
+    console.log("team loading");
+    
+    let teams=document.querySelector('#favoriteTeam');
+    let html=`<option value="">선택하세요</option>`
+    $.ajax({
+        async:false, method:'get',
+        url:"/member/teams",
+        success:result =>{
+            result.forEach(r =>{
+                html+=`<option value=${r.teamCode}>${r.teamName}</option>`
+            })
+            teams.innerHTML=html;
+        }
+
+    })
+};
 
 // 모달 창 닫기
 function hideModal(){console.log('hideModal()');
@@ -382,23 +415,7 @@ function hideModal(){console.log('hideModal()');
 //      $('#emailModal').modal('show');
 // }
 
-// teams()
-// // 팀목록 가져오기
-// function teams(){
-//     let teams=document.querySelector('#favoriteTeam');
-//     let html=`<option value="">선택하세요</option>`
-//     $.ajax({
-//         async:false, method:'get',
-//         url:"/member/teams",
-//         success:result =>{
-//             result.forEach(r =>{
-//                 html+=`<option value=${r.teamCode}>${r.teamName}</option>`
-//             })
-//             teams.innerHTML=html;
-//         }
 
-//     })
-// };
 
 // // 1. 회원가입
 // function doSignup(){ console.log( 'doSignup()' )

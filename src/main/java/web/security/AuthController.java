@@ -7,14 +7,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
 
 
 // Spring Security 인증 관련 컨트롤러
-@RestController("/auth")
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -69,5 +68,10 @@ public class AuthController {
         - Fire a LogoutSuccessEvent (LogoutSuccessEventPublishingLogoutHandler)
     Once completed, then it will exercise its default LogoutSuccessHandler which redirects to /login?logout.
     * */
+
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
 
 }

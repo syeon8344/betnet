@@ -20,11 +20,14 @@ function doLoginCheck(){
                     <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
                     <li class="nav-item"><a class="nav-link" href="/game">게임구매내역</a></li>`
         }
-        else{console.log('비로그인')
-            html+=`<li class="nav-item"><a class="nav-link" href="/member/signup">회원가입</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>`
-        }
+        // else{console.log('비로그인')
+        //     html+=`<li class="nav-item"><a class="nav-link" href="/member/signup">회원가입</a></li>
+        //             <li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>`
+        // }
         document.querySelector('#topMenu').innerHTML=html;
+        },
+        error: (xhr) => {  // 비로그인 상태 등 400대 오류: 변화 없음으로
+            return
         }
     })
 }
