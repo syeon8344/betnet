@@ -13,10 +13,16 @@ public class BusController {
     @Autowired BusService busService;
 
     @PostMapping("/Reservation")
-    public boolean busReservation(BusDto busDto){
+    public boolean busReservation(@RequestBody List<BusDto> busDtos){
         System.out.println("BusController.busReservation");
+
+        return busService.busReservation(busDtos);
+    }
+    @PostMapping("/cancel")
+    public boolean busCancel(BusDto busDto){
+        System.out.println("BusController.busCancel");
         System.out.println("busDto = " + busDto);
-        return busService.busReservation(busDto);
+        return busService.busCancel(busDto);
     }
 
     @GetMapping("/check")
