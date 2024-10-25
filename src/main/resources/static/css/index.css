@@ -62,13 +62,16 @@
         width : 15%;
 }
 .gameListBox > div > div:nth-child(4){
-        width : 30%;
+        width : 20%;
 }
 .gameListBox > div > div:nth-child(5){
     width : 10%;
 }
 .gameListBox > div > div:nth-child(6){
         width : 30%;
+}
+.gameListBox > div > div:nth-child(7){
+    width : 10%;
 }
 .gameListBox  .matchTxtBox{
     font-size: 25px;

@@ -8,7 +8,7 @@ function mAccessLog(){
        method : "GET" ,
        url : "/cadmin/accessLog" ,
        success : r => {
-            console.log(r);
+           console.log(r);
            let html = '';
            html += `<table class="table table-hover table-bordered">
                         <thead class="thead-dark">

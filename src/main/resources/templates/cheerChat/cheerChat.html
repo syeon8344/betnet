@@ -10,11 +10,7 @@
     <div class="wrap">
         <div class="wrap2">
             <div id="map" style="width:1080px;height:350px;"></div>
-                <!-- <p>
-                    <button onclick="hideMarkers()">마커 감추기</button>
-                    <button onclick="showMarkers()">마커 보이기</button>
-                </p>  -->
-                <em>클릭한 위치에 마커가 표시됩니다!</em>
+
             </div>
         </div>
         <!-- 채팅방 -->
@@ -22,6 +18,7 @@
             <div class="cheerMsgBox" id="cheerMsgBox"></div>
             <input type="text" class="cheerMsgInput" id="cheerMsgInput">
             <button type="button" onclick="sendM()">전송</button>
+            <button type="button" onclick="outChat()">채팅방나가기</button>
         </div>
     </div>
     <div th:replace="~{/footer.html:: footer}"></div>

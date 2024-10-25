@@ -13,7 +13,7 @@ public class ViewController {
 
     // 관리자 페이지
     @GetMapping("/admin")
-    public String admin(){ return "/admin.html  "; }
+    public String admin(){ return "/admin.html"; }
 
     // 포인트내역 페이지
     @GetMapping("/point")    // http://localhost:8080/ // 페이지 요청은 HTTP의 GET방식을 주로 사용한다.
@@ -157,9 +157,16 @@ public class ViewController {
     @GetMapping("/bus")
     public String reservation(){return "/bus/bus.html";}
 
+    @GetMapping("/bus/list")
+    public String busList(){return "/bus/check.html";}
+
     // 제미니
     @GetMapping("/gemini")
     public String gemini(){return "/gemini/gemini.html";}
+
+    // 챗봇볼피티
+    @GetMapping("/chatballpt")
+    public String chatballpt(){ return "/chatballpt/chatballpt.html";}
 
     // 401 인증 필요 오류 페이지
     @GetMapping("/error/unauthorized")

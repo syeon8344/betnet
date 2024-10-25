@@ -16,4 +16,5 @@ public class CheerChatDto {
     private int memberid;
     private String date;
     private String roomTitle;
+    private String matchId;
 }

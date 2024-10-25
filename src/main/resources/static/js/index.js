@@ -47,12 +47,22 @@ function getSchedule(){
                 let compareDate = `${result[i].연도}-${result[i].월}-${result[i].일} ${result[i].시작시간}`;
                 console.log(compareDate);
                 console.log(fullFormattedDateTime);
-                
+
+
                 let homelogo = teamLogo[`${result[i].홈팀명}`];
                 let awaylogo = teamLogo[`${result[i].어웨이팀명}`];
 
-                if(fullFormattedDateTime > compareDate){
+               // 시간이 문장뎔이라 변환한 코드
+               // 문자열을 ISO 8601 형식으로 변환
+               let dateISO = compareDate.replace(' ', 'T'); // 'T'로 변경
+               let date = new Date(dateISO); // Date 객체로 변환
+               // 3시간을 밀리초로 변환
+               let threeHoursInMillis = 3 * 60 * 60 * 1000;
+               // 3시간 전의 시간 계산
+               let threeHoursBefore = new Date(date.getTime() - threeHoursInMillis);
+               let currentDateTime = new Date(fullFormattedDateTime.replace(' ', 'T')); // ISO 형식으로 변환
 
+                if(fullFormattedDateTime > compareDate){
                     html += `<div>
                                 <div> ${i+1} </div>
                                 <div>
@@ -84,41 +94,81 @@ function getSchedule(){
                             </div>
                             `;
                     console.log('발매마감');
-                   
                 }else{
-                    html += `<div>
-                                <div> ${i+1} </div>
-                                <div>
-                                    KBO ( 일반 )
-                                </div>
-                                <div class="dateValue">
-                                    ${result[i].월}/${result[i].일} ${result[i].시작시간}
-                                </div>
-                                <div>
-                                    <div> ${result[i].월}/${result[i].일} ${result[i].시작시간}  </div>
-                                    <div class="matchBox">
-                                        <div class="teamLogoBox">
-                                             <img src="${homelogo}" width="35px"/>
-                                            <div> ${result[i].홈팀명} </div>
-                                        </div>
-                                        <span class="matchTxtBox"> vs </span>
-                                        <div class="teamLogoBox">
-                                            <img src="${awaylogo}" width="35px"/>
-                                            <div> ${result[i].어웨이팀명} </div>
+                    if (currentDateTime <= threeHoursBefore) {
+                          console.log("현재 시간이 경기 시작 3시간 전입니다.");
+                          html += `<div>
+                                      <div> ${i+1} </div>
+                                      <div>
+                                          KBO ( 일반 )
+                                      </div>
+                                      <div class="dateValue">
+                                          ${result[i].월}/${result[i].일} ${result[i].시작시간}
+                                      </div>
+                                      <div>
+                                          <div> ${result[i].월}/${result[i].일} ${result[i].시작시간}  </div>
+                                          <div class="matchBox">
+                                              <div class="teamLogoBox">
+                                                   <img src="${homelogo}" width="35px"/>
+                                                  <div> ${result[i].홈팀명} </div>
+                                              </div>
+                                              <span class="matchTxtBox"> vs </span>
+                                              <div class="teamLogoBox">
+                                                  <img src="${awaylogo}" width="35px"/>
+                                                  <div> ${result[i].어웨이팀명} </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div>
+                                          <button type="button" onclick="location.href='/bus?gameCode=${result[i].경기코드}'">예약</button>
+                                      </div>
+                                      
+                                      <div>
+                                          <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button>
+                                          <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button>
+                                      </div>
+                                      <div> <a href='/cheerchat?gameCode=${result[i].경기코드}'> 응원하러가기 </a> </div>
+                                  </div>`;
+                          console.log('발매중')
+                      } //버스 예매 if end
+                      else {
+                          console.log("현재 시간이 경기 시작 3시간 전이 아닙니다.");
+                          html += `<div>
+                                    <div> ${i+1} </div>
+                                    <div>
+                                        KBO ( 일반 )
+                                    </div>
+                                    <div class="dateValue">
+                                        ${result[i].월}/${result[i].일} ${result[i].시작시간}
+                                    </div>
+                                    <div>
+                                        <div> ${result[i].월}/${result[i].일} ${result[i].시작시간}  </div>
+                                        <div class="matchBox">
+                                            <div class="teamLogoBox">
+                                                 <img src="${homelogo}" width="35px"/>
+                                                <div> ${result[i].홈팀명} </div>
+                                            </div>
+                                            <span class="matchTxtBox"> vs </span>
+                                            <div class="teamLogoBox">
+                                                <img src="${awaylogo}" width="35px"/>
+                                                <div> ${result[i].어웨이팀명} </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div>
+                                        <button type="button">예약불가</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button>
+                                        <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button>
+                                    </div>
+                                    <div> <a href='/cheerchat?gameCode=${result[i].경기코드}'> 응원하러가기 </a> </div>
 
-                                <div>
-                                    <button type="button" onclick="location.href='/bus?gameCode=${result[i].경기코드}'">예약</button>
-                                </div>
-                                <div>
-                                    <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 1 , ${result[i].홈배당률}); activateButton(this);"> 승 / ${result[i].홈배당률} </button> 
-                                    <button type="button" onclick="choiceWinandLoss(${i+1}, '${result[i].경기코드}' , 0 , ${result[i].어웨이배당률}); activateButton(this);"> 패 / ${result[i].어웨이배당률} </button>
-                                </div>
-                            </div>`;
-                    console.log('발매중')
-                }
+                                </div>`;
+                        console.log('발매중')
+                     }//버스 예매 else end
+                } // else end
                 // if(fullFormattedDateTime > compareDate){
                 //     html += `<tr>
                 //     <td>${i+1}</td>
