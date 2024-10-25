@@ -118,34 +118,53 @@ function readRoom(){
 function existRoom(msg){
     console.log('existRoom()');
     console.log(msg);
-    Object.entries(msg).forEach(([key, value]) => {
+    Object.entries(msg.data).forEach(([key, value]) => {
         console.log(`Key: ${key}, Value: ${value}`);
         console.log(value);
-        value.forEach( value2 => {
-            console.log(value2);
-            let roomID = value2.roomId;
-            let position = {}
-            position.latitude = value2.latitude; // 위도
-            position.longitude = value2.longitude; // 경도
-            console.log(position);
-            var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
+        let roomID = value.roomId;
+        let position = {}
+        position.latitude = value.latitude; // 위도
+        position.longitude = value.longitude; // 경도
+        var markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
         
-            var marker = new kakao.maps.Marker({
-                position: new kakao.maps.LatLng(position.latitude, position.longitude), // LatLng 객체 사용
-                image: markerImage  // 마커 이미지
-            });
-            marker.setMap(map);
-            console.log(marker);
-            markers.push(marker);
+        var marker = new kakao.maps.Marker({
+            position: new kakao.maps.LatLng(position.latitude, position.longitude), // LatLng 객체 사용
+            image: markerImage  // 마커 이미지
+        });
+        marker.setMap(map);
+        // console.log(marker);
+        markers.push(marker);
+
+        // 커스텀 오버레이에 표시할 컨텐츠 입니다
+        var content = `<div class="info-window">
+                            <div class="info-title">${value.roomTitle}</div>
+                        </div>`;
+
+        // 마커 위에 커스텀오버레이를 표시합니다
+        var overlay = new kakao.maps.CustomOverlay({
+            content: content,
+            position: marker.getPosition() , 
+            yAnchor: 0.5 , // 오버레이 위치 조정
+            zIndex: 3 // 다른 요소보다 위에 표시
+        });
+
+        // 마커에 마우스오버 이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'mouseover', function() {
+            overlay.setMap(map);
+        });
             
-            // 마커에 클릭이벤트를 등록합니다
-            kakao.maps.event.addListener(marker, 'click', function(event) {
-                // 마커 위에 인포윈도우를 표시합니다
-                // infowindow.open(map, marker);  
-                alert(`'${value2.roomTitle}'방으로 입장합니다.`);
-                // enterChat();
-                showCheerRoom(event , roomID);
-            });
+        // 마커에 마우스아웃 이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'mouseout', function() {
+            overlay.setMap(null); 
+        });
+
+        // 마커에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'click', function(event) {
+            // 마커 위에 인포윈도우를 표시합니다
+            // infowindow.open(map, marker);  
+            alert(`'${value.roomTitle}'방으로 입장합니다.`);
+            // enterChat();
+            showCheerRoom(event , roomID);
         });
     }); 
 } // existRoom() end
@@ -153,9 +172,16 @@ function existRoom(msg){
 // 마커 추가 함수
 async function addMarker(position) {
     console.log('addMarker 호출됨', position);
+
+    // 방 만들기 함수 호출
+    const { roomTitle, roomID } = await addRoom(position); // 방 만들기 함수를 비동기 처리
+    console.log(roomTitle, roomID);
+    // 방 제목이 없으면 마커를 추가하지 않음
+    if (!roomTitle) {
+        return; // 방이 생성되지 않았으므로 함수 종료
+    }
    
     const markerImage = new kakao.maps.MarkerImage(markerImageUrl, markerImageSize, markerImageOptions);
-    
     const marker = new kakao.maps.Marker({
         position: position, // 마커 위치 위도 경도
         image: markerImage  // 마커 이미지
@@ -164,9 +190,28 @@ async function addMarker(position) {
     marker.setMap(map);
     markers.push(marker); 
 
-    // 방 만들기 함수 호출
-    const { roomTitle, roomID } = await addRoom(position); // 방 만들기 함수를 비동기 처리
-    console.log(roomTitle, roomID);
+    // 커스텀 오버레이에 표시할 컨텐츠 입니다
+    var content = `<div class="info-window">
+                        <div class="info-title">${value.roomTitle}</div>
+                    </div>`;
+
+    // 마커 위에 커스텀오버레이를 표시합니다
+    var overlay = new kakao.maps.CustomOverlay({
+    content: content,
+    position: marker.getPosition() , 
+    yAnchor: 0.5 , // 오버레이 위치 조정
+    zIndex: 3 // 다른 요소보다 위에 표시
+    });
+
+    // 마커에 마우스오버 이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'mouseover', function() {
+    overlay.setMap(map);
+    });
+
+    // 마커에 마우스아웃 이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'mouseout', function() {
+    overlay.setMap(null); 
+    });
 
     // 마커에 클릭이벤트를 등록합니다
     kakao.maps.event.addListener(marker, 'click', function(event) {
@@ -180,6 +225,11 @@ async function addRoom(position) {
     console.log(position);
     console.log(matchId);
     let roomTitle = prompt("채팅방 이름을 입력해주세요.");
+    // 사용자가 취소를 눌렀을 경우
+    if (roomTitle === null || roomTitle.trim() === "") {
+        alert("채팅방 이름이 입력되지 않았습니다. 방 생성이 취소되었습니다.");
+        return; // 함수 종료
+    }
     alert("채팅방을 생성합니다.");
     roomID = generateUUID();
 
@@ -243,11 +293,6 @@ function generateUUID() {
 // 소켓 초기화 함수
 let cheerclientSocket; // WebSocket 인스턴스
 
-window.onbeforeunload = function() {
-    // 페이지를 떠날 때 세션 종료 알림
-    sendDisconnectMessage();
-};
-
 function initializeWebSocket() {
     if (cheerclientSocket && cheerclientSocket.readyState !== WebSocket.CLOSED) {
         console.log("WebSocket이 이미 초기화되어 있습니다.");
@@ -266,10 +311,7 @@ function initializeWebSocket() {
     };
 
     cheerclientSocket.onclose = (e) => {
-        // setTimeout(function() {
-        //     // 재연결 시도
-        //     socket = new WebSocket("ws://yourserver.com/socket");
-        // }, 1000); // 1초 후 재연결 시도
+        console.log("WebSocket 종료");
     };
 
     cheerclientSocket.onerror = (e) => {
@@ -302,17 +344,19 @@ function handleMessage(messageEvent) {
             return;
         }
         // 회원이 방을 나갔을때
-        if (msg.type === 'out' || msg.type === 'disconnect') {
+        if (msg.type === 'out') {
             console.log(msg.message);
             cheerMsgBox.innerHTML += `<div class="alarmMsgBox"><span>${msg.message}</span></div>`;
             return;
         }
         // 일반 메시지 처리
-        if(msg.type === 'msg'){
-        cheerMsgBox.innerHTML += `<div class="${msg.from === userName ? 'fromMsgBox' : 'toMsgBox'}">
-                                    <div>${msg.from} <i>${msg.date.split(' ')[4]}</i></div>
-                                    <div><span>${msg.message}</span></div>
-                                </div>`;
+        if (msg.type === 'msg') {
+            // UI에 메시지 추가
+            cheerMsgBox.innerHTML += `<div class="${msg.from === userName ? 'fromMsgBox' : 'toMsgBox'}">
+                                        <div>${msg.from} <i>${msg.date.split(' ')[4]}</i></div>
+                                        <div><span>${msg.message}</span></div>
+                                    </div>`;
+            cheerMsgBox.scrollTop = cheerMsgBox.scrollHeight; // 자동 스크롤
         }
     } catch (error) {
         console.error("메시지 처리 중 오류 발생:", error);
@@ -348,23 +392,29 @@ function enterChat(roomID) {
 // 메시지 전송 이벤트
 function sendM() {
     let cheerMsgInput = document.querySelector('.cheerMsgInput');
-    let msg = {
-        'type': 'msg',
-        'message': cheerMsgInput.value,
-        'from': userName,
-        'date': new Date().toLocaleString() , 
-        'roomId' : separateRoom
-    };
+    let messageContent = cheerMsgInput.value.trim(); // 입력된 메시지
 
-    if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
-        try {
-            cheerclientSocket.send(JSON.stringify(msg));
-            cheerMsgInput.value = "";
-        } catch (error) {
-            console.error("메시지 전송 중 오류 발생:", error);
+    // 입력된 메시지가 비어있지 않을 때만 처리
+    if (messageContent) {
+        // 메시지 객체 생성
+        let msg = {
+            'type': 'msg',
+            'message': messageContent,
+            'from': userName,
+            'date': new Date().toLocaleString(),
+            'roomId': separateRoom
+        };
+
+        if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
+            try {
+                cheerclientSocket.send(JSON.stringify(msg)); // WebSocket으로 메시지 전송
+                cheerMsgInput.value = ""; // 입력란 비우기
+            } catch (error) {
+                console.error("메시지 전송 중 오류 발생:", error);
+            }
+        } else {
+            console.error("WebSocket이 열리지 않았습니다.");
         }
-    } else {
-        console.error("WebSocket이 열리지 않았습니다.");
     }
 }
 
@@ -388,18 +438,7 @@ function outChat(){
     }
     leaveChat();
 }
-// 페이지 나갔을 때
-function sendDisconnectMessage() {
-    const disconnectMessage = JSON.stringify({
-        type: "disconnect" ,
-        'message': `${userName}님이 퇴장하셨습니다.` , 
-        'userName'  : userName , 
-        'matchId' : matchId , 
-        'roomId' : separateRoom
-    });
-    cheerclientSocket.send(disconnectMessage);
-    leaveChat();
-    cheerclientSocket.close(); // 세션을 닫음
-}
+
+
 
 
