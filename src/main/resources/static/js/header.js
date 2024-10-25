@@ -1,5 +1,20 @@
 console.log('header.js')
 
+// 헤드 메타태그 CSRF 토큰을 AJAX 요청마다 포함하도록 헤더 JS에 등록
+// Function to get CSRF token and header name from meta tags
+function getCsrfToken() {
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+    return { csrfToken, csrfHeader };
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr) {
+        const { csrfToken, csrfHeader } = getCsrfToken(); // Get CSRF token and header
+        xhr.setRequestHeader(csrfHeader, csrfToken); // Set the header
+    }
+});
+
 doLoginCheck();
 function doLoginCheck(){
     $.ajax({

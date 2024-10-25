@@ -2,22 +2,7 @@ console.log('signup.js');
 // 현재 유효성검사 체크 현황
 let checkArray = [false, false, false, false]; // id, 비밀번호, 전화번호, 이메일
 
-// Function to get CSRF token and header name from meta tags
-function getCsrfToken() {
-    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
-    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
-    return { csrfToken, csrfHeader };
-}
-
-// Set up a global AJAX setup to include the CSRF token
-$.ajaxSetup({
-    beforeSend: function(xhr) {
-        const { csrfToken, csrfHeader } = getCsrfToken(); // Get CSRF token and header
-        xhr.setRequestHeader(csrfHeader, csrfToken); // Set the header
-    }
-});
-
-// 사용자 이름 확인
+// // 사용자 이름 확인
 function checkUsername() {
     console.log('checkUsername()');
     const userName = document.querySelector('#username').value;
@@ -48,10 +33,6 @@ function checkUsername() {
                 }
             } // success method end
         });
-        modalBody.textContent = '사용 가능한 아이디입니다.';
-        modalBody.classList.remove('text-danger');
-        modalBody.classList.add('text-success');
-        checkArray[0] = true;
     } else { // 아이디 regex 실패
         modalBody.textContent = '영소문자와 숫자 조합의 5~12글자 까지 가능합니다.';
         modalBody.classList.remove('text-success');
@@ -83,56 +64,91 @@ function validatePassword() {
     passwordHelp.textContent = result.message;
     checkArray[1] = result.isValid;
 }
-// 연락처
-function validatePhone(contact) {
-    const phoneReg = /^([0-9]{3})+[-]+([0-9]{3,4})+[-]([0-9]{4})$/;
-    return phoneReg.test(contact);
-}
 
-// 전화번호 유효성 검사
-function checkPhone() {
-    console.log('checkPhone');
-    const contact = document.querySelector('#phone').value;
-    const modalBody = document.getElementById('contactModalBody');
-
-    if (validatePhone(contact)) {
-        modalBody.textContent = '사용 가능한 연락처입니다.';
-        modalBody.classList.remove('text-danger');
-        modalBody.classList.add('text-success');
-        checkArray[2] = true;
-    } else {
+// 전화번호 유효성검사
+function checkPhone(){console.log('checkPhone');
+    // 1. 입력된 값 가져오기
+    let contact = document.querySelector('#phone').value;   console.log( contact );
+    let modalBody = document.getElementById('contactModalBody');
+    // 2. 정규표현식 : 000-000-0000 또는 000-0000-0000 형식
+    let phoneReg = /^([0-9]{3})+[-]+([0-9]{3,4})+[-]([0-9]{4})$/
+    // 3. 정규표현식 검사.
+    console.log( phoneReg.test( contact ) )
+    if( phoneReg.test(contact) ){
+        // 연락처 중복검사 REST API 통신
+        $.ajax({
+            async : false,              // 비동기true vs 동기false
+            method : "get",             // HTTP method
+            url : "/member/phonecheck",    // HTTP url
+            data : { contact : contact } ,        // HTTP 전송할 DATA
+            success : (result)=>{   console.log(result);
+                // HTTP 응답받을 DATA
+                if( result ){
+                    modalBody.textContent = '이미 등록된 연락처입니다.';
+                    modalBody.classList.remove('text-success');
+                    modalBody.classList.add('text-danger');
+                    checkArray[2]=false;
+                    console.log(checkArray);
+                }else{
+                    modalBody.textContent = '사용 가능한 연락처입니다.';
+                    modalBody.classList.remove('text-danger');
+                    modalBody.classList.add('text-success');
+                    checkArray[2]=true;
+                    console.log(checkArray);
+                }
+            } // success method end
+        }) // ajax end
+    }else{
         modalBody.textContent = '000-000-0000 또는 000-0000-0000 형식만 가능합니다.';
         modalBody.classList.remove('text-success');
         modalBody.classList.add('text-danger');
-        checkArray[2] = false;
+        checkArray[2]=false;
     }
-    $('#contactModal').modal('show');
+     // 모달 창 표시
+     $('#contactModal').modal('show');
 }
 
-// 이메일
-function validateEmail(email) {
-    const emailReg = /^[a-z0-9_-]+@[a-z0-9_-]+\.[a-z]+$/;
-    return emailReg.test(email);
-}
-
-// 이메일 유효성 검사
-function checkEmail() {
-    console.log('checkEmail()');
-    const email = document.querySelector('#email').value;
-    const modalBody = document.getElementById('emailModalBody');
-
-    if (validateEmail(email)) {
-        modalBody.textContent = '사용 가능한 이메일입니다.';
-        modalBody.classList.remove('text-danger');
-        modalBody.classList.add('text-success');
-        checkArray[3] = true;
-    } else {
+// 이메일 유효성검사
+function checkEmail(){console.log('checkEmail()');
+    // 1. 입력된 값 가져오기
+    let email = document.querySelector('#email').value;   console.log( email );
+    let modalBody = document.getElementById('emailModalBody');
+    // 2. 정규표현식 : id@도메인주소 형식으로 입력해주세요.
+    let emailReg = /^[a-z0-9_-]+@[a-z0-9_-]+\.[a-z]+$/
+    // 3. 정규표현식 검사.
+    console.log( emailReg.test( email ) )
+    if( emailReg.test(email) ){
+        // 이메일 중복검사 REST API 통신
+        $.ajax({
+            async : false,              // 비동기true vs 동기false
+            method : "get",             // HTTP method
+            url : "/member/emailcheck",    // HTTP url
+            data : { email : email } ,        // HTTP 전송할 DATA
+            success : (result)=>{   console.log(result);
+                // HTTP 응답받을 DATA
+                if( result ){
+                    modalBody.textContent = '이미 등록된 이메일입니다..';
+                    modalBody.classList.remove('text-success');
+                    modalBody.classList.add('text-danger');
+                    checkArray[3]=false;
+                    console.log(checkArray);
+                }else{
+                    modalBody.textContent = '사용 가능한 이메일입니다.';
+                    modalBody.classList.remove('text-danger');
+                    modalBody.classList.add('text-success');
+                    checkArray[3]=true;
+                    console.log(checkArray);
+                }
+            } // success method end
+        }) // ajax end
+    }else{
         modalBody.textContent = 'id@도메인주소 형식만 가능합니다.';
         modalBody.classList.remove('text-success');
         modalBody.classList.add('text-danger');
-        checkArray[3] = false;
+        checkArray[3]=false;
     }
-    $('#emailModal').modal('show');
+     // 모달 창 표시
+     $('#emailModal').modal('show');
 }
 
 // 팀 목록 가져오기
@@ -156,37 +172,29 @@ function teams() {
 function doSignup() {
     console.log('doSignup()');
 
-    // 유효성 검사 체크
-    console.log(checkArray);
-    for (let i = 0; i < checkArray.length; i++) {
-        if (!checkArray[i]) {
-            alert('유효하지 않은 정보가 있습니다.');
-            return;
-        }
-    }
+    // // 유효성 검사 체크
+    // console.log(checkArray);
+    // for (let i = 0; i < checkArray.length; i++) {
+    //     if (!checkArray[i]) {
+    //         alert('유효하지 않은 정보가 있습니다.');
+    //         return;
+    //     }
+    // }
 
     // 1. 입력값 가져오기
-    let username = document.querySelector("#username").value;
-    let password = document.querySelector("#password").value;
-    let name = document.querySelector("#name").value;
-    let email = document.querySelector("#email").value;
-    let contact = document.querySelector("#phone").value;
-    let gender = document.querySelector('input[name="gender"]:checked').value;
-    let age = document.querySelector('#age').value;
-    let teamcode = document.querySelector('#favoriteTeam').value;
-    let account = document.querySelector('#account').value;
-
-    // 2. FormData 객체 생성
-    let formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('contact', contact);
-    formData.append('gender', gender);
-    formData.append('age', age);
-    formData.append('teamcode', teamcode);
-    formData.append('account', account);
+    // serialize: 파일이 없는 폼은 직렬화해서 전송 가능
+    let formData = $('#registrationForm').serialize();
+    // // 2. FormData 객체 생성
+    // let formData = new FormData();
+    // formData.append('username', username);
+    // formData.append('password', password);
+    // formData.append('name', name);
+    // formData.append('email', email);
+    // formData.append('contact', contact);
+    // formData.append('gender', gender);
+    // formData.append('age', age);
+    // formData.append('teamcode', teamcode);
+    // formData.append('account', account);
 
     // 3. ajax (jQuery 라이브러리 필요), 비동기 통신
     $.ajax({
@@ -194,8 +202,6 @@ function doSignup() {
         method: 'post',
         url: "/auth/signup",
         data: formData,
-        contentType: false,
-        processData: false,
         success: (result) => { // 코드 200 등
             console.log(result);
             // 4. 결과에 따른 처리
@@ -329,91 +335,6 @@ function hideModal(){console.log('hideModal()');
 //     }
 // }
 
-// // 전화번호 유효성검사
-// function checkPhone(){console.log('checkPhone');
-//     // 1. 입력된 값 가져오기
-//     let contact = document.querySelector('#phone').value;   console.log( contact );
-//     let modalBody = document.getElementById('contactModalBody');
-//     // 2. 정규표현식 : 000-000-0000 또는 000-0000-0000 형식
-//     let phoneReg = /^([0-9]{3})+[-]+([0-9]{3,4})+[-]([0-9]{4})$/
-//     // 3. 정규표현식 검사.
-//     console.log( phoneReg.test( contact ) )
-//     if( phoneReg.test(contact) ){
-//         // 연락처 중복검사 REST API 통신
-//         $.ajax({
-//             async : false,              // 비동기true vs 동기false
-//             method : "get",             // HTTP method
-//             url : "/member/phonecheck",    // HTTP url
-//             data : { contact : contact } ,        // HTTP 전송할 DATA
-//             success : (result)=>{   console.log(result);
-//                 // HTTP 응답받을 DATA
-//                 if( result ){
-//                     modalBody.textContent = '이미 등록된 연락처입니다.';
-//                     modalBody.classList.remove('text-success');
-//                     modalBody.classList.add('text-danger');
-//                     checkArray[2]=false;
-//                     console.log(checkArray);
-//                 }else{
-//                     modalBody.textContent = '사용 가능한 연락처입니다.';
-//                     modalBody.classList.remove('text-danger');
-//                     modalBody.classList.add('text-success');
-//                     checkArray[2]=true;
-//                     console.log(checkArray);
-//                 }
-//             } // success method end
-//         }) // ajax end
-//     }else{
-//         modalBody.textContent = '000-000-0000 또는 000-0000-0000 형식만 가능합니다.';
-//         modalBody.classList.remove('text-success');
-//         modalBody.classList.add('text-danger');
-//         checkArray[2]=false;
-//     }
-//      // 모달 창 표시
-//      $('#contactModal').modal('show');
-// }
-
-// // 이메일 유효성검사
-// function checkEmail(){console.log('checkEmail()');
-//     // 1. 입력된 값 가져오기
-//     let email = document.querySelector('#email').value;   console.log( email );
-//     let modalBody = document.getElementById('emailModalBody');
-//     // 2. 정규표현식 : id@도메인주소 형식으로 입력해주세요.
-//     let emailReg = /^[a-z0-9_-]+@[a-z0-9_-]+\.[a-z]+$/
-//     // 3. 정규표현식 검사.
-//     console.log( emailReg.test( email ) )
-//     if( emailReg.test(email) ){
-//         // 이메일 중복검사 REST API 통신
-//         $.ajax({
-//             async : false,              // 비동기true vs 동기false
-//             method : "get",             // HTTP method
-//             url : "/member/emailcheck",    // HTTP url
-//             data : { email : email } ,        // HTTP 전송할 DATA
-//             success : (result)=>{   console.log(result);
-//                 // HTTP 응답받을 DATA
-//                 if( result ){
-//                     modalBody.textContent = '이미 등록된 이메일입니다..';
-//                     modalBody.classList.remove('text-success');
-//                     modalBody.classList.add('text-danger');
-//                     checkArray[3]=false;
-//                     console.log(checkArray);
-//                 }else{
-//                     modalBody.textContent = '사용 가능한 이메일입니다.';
-//                     modalBody.classList.remove('text-danger');
-//                     modalBody.classList.add('text-success');
-//                     checkArray[3]=true;
-//                     console.log(checkArray);
-//                 }
-//             } // success method end
-//         }) // ajax end
-//     }else{
-//         modalBody.textContent = 'id@도메인주소 형식만 가능합니다.';
-//         modalBody.classList.remove('text-success');
-//         modalBody.classList.add('text-danger');
-//         checkArray[3]=false;
-//     }
-//      // 모달 창 표시
-//      $('#emailModal').modal('show');
-// }
 
 
 

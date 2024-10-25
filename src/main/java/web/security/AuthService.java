@@ -46,32 +46,36 @@ public class AuthService implements UserDetailsService {
     }
 
     public void signUp(MemberDto memberDto) {
-        // 중복 사용자 체크
-        if (authDao.findByUsername(memberDto.getUsername()) != null) {
-            throw new IllegalArgumentException("Username already exists");
-        }
-        // 유효성 검사
-        validateUserInput(memberDto);
-        // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
-        // 사용자 레벨 기본값
-        int level = 0;
+        try {
+            // 중복 사용자 체크
+            if (authDao.findByUsername(memberDto.getUsername()) != null) {
+                throw new IllegalArgumentException("Username already exists");
+            }
+            // 유효성 검사
+            validateUserInput(memberDto);
+            // 비밀번호 암호화
+            String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
+            // 사용자 레벨 기본값
+            int level = 0;
 
-        // MemberDto 객체 생성
-        MemberDto user = MemberDto.builder()
-                .username(memberDto.getUsername())
-                .password(encodedPassword)
-                .role(Role.USER)
-                .level(level)
-                .name(memberDto.getName())
-                .email(memberDto.getEmail())
-                .contact(memberDto.getContact())
-                .gender(memberDto.getGender())
-                .age(memberDto.getAge())
-                .teamcode(memberDto.getTeamcode())
-                .account(memberDto.getAccount())
-                .build();
-        authDao.register(user); // 사용자 등록
+            // MemberDto 객체 생성
+            MemberDto user = MemberDto.builder()
+                    .username(memberDto.getUsername())
+                    .password(encodedPassword)
+                    .role(Role.USER)
+                    .level(level)
+                    .name(memberDto.getName())
+                    .email(memberDto.getEmail())
+                    .contact(memberDto.getContact())
+                    .gender(memberDto.getGender())
+                    .age(memberDto.getAge())
+                    .teamcode(memberDto.getTeamcode())
+                    .account(memberDto.getAccount())
+                    .build();
+            authDao.register(user); // 사용자 등록
+        } catch (Exception e){
+            System.out.println("AuthService signUp: " + e);
+        }
     }
 
     // 유효성 검사 모음

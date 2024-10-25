@@ -19,7 +19,7 @@
         AND password = #{password}
     </select>
 
-    <select id="idChecking" parameterType="web.model.dto.MemberDto">
+    <select id="idChecking" parameterType="web.model.dto.MemberDto" resultType="boolean">
         select COUNT(*) > 0 from members where username=#{username}
     </select>
 

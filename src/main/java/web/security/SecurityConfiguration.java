@@ -137,11 +137,17 @@ public class SecurityConfiguration{
     @Bean
     AccessDeniedHandler customAccessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
-            response.setContentType("application/json;charset=UTF-8");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
-            // JSON 형태의 응답 생성
-            String jsonResponse = "{\"message\":\"접근 권한이 없습니다.\"}";
-            response.getWriter().write(jsonResponse);
+            String ajaxHeader = request.getHeader("X-Requested-With");
+
+            if ("XMLHttpRequest".equals(ajaxHeader)) {
+                // Handle AJAX requests
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403 Forbidden
+                response.getWriter().write("{\"message\": \"접근 권한이 없습니다.\"}");
+            } else {
+                // Handle regular requests (Thymeleaf)
+                response.sendRedirect("/error/unauthorized"); // Redirect to an error page
+            }
         };
     }
 

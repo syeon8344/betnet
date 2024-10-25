@@ -51,7 +51,7 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             // 서비스의 signUp 실행중 유효성 검사 오류는 모두 IllegalArgumentException
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }   catch (Exception e) {
+        } catch (Exception e) {
             // 다른 예외 처리 (예: 서버 오류)
             return new ResponseEntity<>("회원가입 중 오류 발생", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -68,10 +68,5 @@ public class AuthController {
         - Fire a LogoutSuccessEvent (LogoutSuccessEventPublishingLogoutHandler)
     Once completed, then it will exercise its default LogoutSuccessHandler which redirects to /login?logout.
     * */
-
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
 
 }
