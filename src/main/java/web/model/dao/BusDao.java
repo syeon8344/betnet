@@ -10,6 +10,7 @@ public interface BusDao {
 
     boolean busReservation(BusDto busDto);
 
+
     int busPurchase(BusDto busDto);
 
     List<BusDto> busCheck(String gameCode);

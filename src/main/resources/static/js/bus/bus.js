@@ -119,39 +119,73 @@ function updateTotalPrice() {
 
 
 // 게임구매
-function busPurchase(){
-    console.log("busPurchase()")
-    let close=true;
+function busPurchase() {
+    console.log("busPurchase()");
+
+    let selectedSeatsArray = selectedSeats; // 선택된 좌석 배열
+    if (selectedSeatsArray.length == 0) {
+        alert('선택된 좌석이 없습니다.');
+        return;
+    }
+
+    // 선택된 좌석들에 대한 중복 예약 확인
     $.ajax({
-        async:false,
-        method:'get',
-        url:"/bus/check",
-        data:{gameCode:gameCode},
-        success: (result)=>{
-            result.forEach(log =>{
-                if(log.sumStatus==-1 && log.seat==selectedSeat){
-                    alert('이미 예약된 좌석입니다.')
-                    selectedSeat = null;
-                    createSeats()
-                    close=false;
+        method: 'get',
+        url: "/bus/check",
+        data: { gameCode: gameCode },
+        success: (result) => {
+            let unavailableSeats = [];
+
+            result.forEach(log => {
+                if (log.sumStatus == -1 && selectedSeatsArray.includes(log.seat)) {
+                    alert(`좌석 ${log.seat}은(는) 이미 예약되었습니다.`);
+                    unavailableSeats.push(log.seat);
                 }
-            })
+            });
+
+            // 중복 예약된 좌석 제거
+            selectedSeatsArray = selectedSeatsArray.filter(seat => !unavailableSeats.includes(seat));
+
+            if (selectedSeatsArray.length == 0) {
+                return; // 예약 불가한 좌석이 모두 선택됨
+            }
+
+            // 각 좌석에 대해 BusDto 객체를 만들어서 리스트에 추가
+            let busDtoList = selectedSeatsArray.map(seat => ({
+                gameCode: gameCode,
+                pointChange: -18000,
+                description: 9,
+                seat: seat,   // 각 좌석 번호
+                reStatus: -1
+            }));
+
+            // 예약 요청
+            $.ajax({
+                method: "post",
+                url: "/bus/Reservation",
+                contentType: "application/json",
+                data: JSON.stringify(busDtoList), // BusDto 리스트 전송
+                success: (response) => {
+                    if(response){
+                        alert('예약이 완료되었습니다.')
+                        location.href="/"
+                    }
+                    
+                    
+                },
+                error: (error) => {
+                    console.error('예약 중 오류 발생:', error);
+                    alert('예약 중 오류가 발생했습니다. 다시 시도해 주세요.');
+                }
+            });
+        },
+        error: (error) => {
+            console.error('중복 예약 확인 중 오류 발생:', error);
+            alert('중복 예약 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
         }
-    })
-    if(close==false){return}
-    $.ajax({
-            async : false ,
-            method:"post",
-            url:"/bus/Reservation",
-            data:{gameCode:gameCode,pointChange:-18000,description:9,seat:selectedSeat,reStatus:-1},
-            success: (r) => {
-                console.log(r);
-                if(r){alert('예약이 완료되었습니다.')
-                    location.href="/"
-                }else{alert('포인트가 부족합니다.')}
-            } //success end
-    }) // ajax end
-}   // gamePurchase end
+    });
+}
+
 
 
 //로그인 체크

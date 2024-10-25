@@ -101,7 +101,7 @@ function cancel(gameCode,seat){
     $.ajax({
         async : false ,
         method:"post",
-        url:"/bus/Reservation",
+        url:"/bus/cancel",
         data:{gameCode:gameCode,pointChange:18000,description:10,seat:seat,reStatus:1},
         success: (r) => {
             console.log(r);
@@ -112,9 +112,3 @@ function cancel(gameCode,seat){
 }) // ajax end
 
 }
-
-
-function notcancel(){
-    alert("경기시작 3시간 전까지만 취소 가능합니다.")
-}
-
