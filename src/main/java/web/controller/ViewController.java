@@ -162,5 +162,9 @@ public class ViewController {
     // 제미니
     @GetMapping("/gemini")
     public String gemini(){return "/gemini/gemini.html";}
+
+    // 챗봇볼피티
+    @GetMapping("/chatballpt")
+    public String chatballpt(){ return "/chatballpt/chatballpt.html";}
 }
 
