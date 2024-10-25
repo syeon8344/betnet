@@ -266,10 +266,10 @@ function initializeWebSocket() {
     };
 
     cheerclientSocket.onclose = (e) => {
-        setTimeout(function() {
-            // 재연결 시도
-            socket = new WebSocket("ws://yourserver.com/socket");
-        }, 1000); // 1초 후 재연결 시도
+        // setTimeout(function() {
+        //     // 재연결 시도
+        //     socket = new WebSocket("ws://yourserver.com/socket");
+        // }, 1000); // 1초 후 재연결 시도
     };
 
     cheerclientSocket.onerror = (e) => {

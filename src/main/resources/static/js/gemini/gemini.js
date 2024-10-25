@@ -3,7 +3,7 @@ console.log("gemin.js");
 function sendMessages(message) {
     const subButtons = document.querySelector('#subButtons');
 
-    // 각 팀에 대한 버튼 정보를 모은 객체
+    // 각 팀에 대한 버튼 정보를 모은 객체 
     const teamButtons = {
         '두산 베어스': [
             { text: '역사', keyword: '두산 베어스의 역사' },

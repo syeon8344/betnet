@@ -49,7 +49,9 @@ public class CheerChatController extends TextWebSocketHandler {
     // 2. 클라이언트가 서버 웹소켓에 접속 끊었을 때
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        // 삭제하기 전에 matchid 찾고 삭제하고 경기아이디 별로 메시지 보내기
         // removeSession(session);
+
         TextMessage textMessage = new TextMessage("Hello , ClientSocket");    // 메시지 내용 구성
         handleTextMessage(null, textMessage);   // 메시지 전송함수
     }   // afterConnectionClosed end
@@ -228,6 +230,7 @@ public class CheerChatController extends TextWebSocketHandler {
         }
         return false;
     }
+
     public boolean removeSession(String matchId , WebSocketSession session) {
         List<WebSocketSession> userSessions = connectedList.get(matchId);
         if (userSessions != null) {
