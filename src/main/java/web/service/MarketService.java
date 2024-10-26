@@ -65,7 +65,7 @@ public class MarketService {
     public boolean mkWrite(MarketDto marketDto){
         System.out.println("marketDto = " + marketDto);
         //로그인 체크
-        MemberDto loginDto=memberService.loginCheck();
+        LoginCheckDto loginDto=memberService.loginCheck();
         int memberId;
         if (loginDto == null) {
             return false;
@@ -134,7 +134,7 @@ public class MarketService {
     public boolean mkCheck(int mkId){
         // 현재 로그인된 회원의 회원번호와 게시글 번호를 보내 true/false
         int memberId = 0;
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         if (loginDto == null) {
             return false;
         } else {
@@ -156,7 +156,7 @@ public class MarketService {
             return marketDao.updateMkState(marketDto) > 0;
         }
         //로그인 체크
-        MemberDto loginDto=memberService.loginCheck();
+        LoginCheckDto loginDto=memberService.loginCheck();
         int memberId;
         if (loginDto == null) {
             return false;
@@ -170,7 +170,7 @@ public class MarketService {
     // 7. 글 삭제하기 (JS에서 권한 확인 후, 거래완료 제외)
     public boolean mkDelete(int mkId){
         //로그인 체크
-        MemberDto loginDto=memberService.loginCheck();
+        LoginCheckDto loginDto=memberService.loginCheck();
         int memberId;
         if (loginDto == null) {
             return false;
@@ -188,7 +188,7 @@ public class MarketService {
     // 8. 게시물 댓글 작성
     public boolean mkWriteReply(MarketReplyDto replyDto){
         //로그인 체크
-        MemberDto loginDto=memberService.loginCheck();
+        LoginCheckDto loginDto=memberService.loginCheck();
         int memberId;
         if (loginDto == null) {
             return false;

@@ -1,12 +1,15 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import web.model.dao.PointDao;
+import web.model.dto.LoginCheckDto;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
 import web.model.dto.SearchDto;
-
+import web.security.AuthDao;
+import web.security.AuthService;
 import java.util.List;
 
 @Service
@@ -15,16 +18,25 @@ public class PointService {
     PointDao pointDao;
     @Autowired
     MemberService memberService;
+    @Autowired
+    AuthService authService;
+    @Autowired
+    AuthDao authDao;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     // 잔액 포인트 출력
     public PointLogDto getMyPoint(){
         // 테스트 이후 멤버 아이디는 서비스에서 세션에서 가지고 오기
         System.out.println("PointService.getMyPoint");
         // 1. 로그인 세션에서 값 호출
-        MemberDto loginDto = memberService.loginCheck();
+        //MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = authService.getCurrentLoginDto();
+        System.out.println("getMyPoint loginDto = " + loginDto);
         if (loginDto == null) return null;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();
+        System.out.println("getMyPoint memberid = " + memberid);
         PointLogDto result = pointDao.getMyPoint(memberid);
         System.out.println("result = " + result);
         return result;
@@ -36,17 +48,23 @@ public class PointService {
         System.out.println("pointLogDto = " + pointLogDto);
         int result2 = 0;
         if (pointLogDto.getPassword() != null){
-            PointLogDto result = pointDao.myPassword(pointLogDto);
-            System.out.println("result = " + result);
-            if(result == null){
-                result2 = 0;
-            }else{
-                result2 = pointDao.insertPointLog(pointLogDto);
+            // Retrieve the user from the database
+            MemberDto user = authDao.findByUsername(pointLogDto.getUsername());
+            if (passwordEncoder.matches(pointLogDto.getPassword(), user.getPassword())){
+                pointLogDto.setPassword(user.getPassword());
+                System.out.println(pointLogDto.getPassword());
+                PointLogDto result = pointDao.myPassword(pointLogDto);
+                System.out.println("result = " + result);
+                if(result == null){
+                    result2 = 0;
+                }else{
+                    result2 = pointDao.insertPointLog(pointLogDto);
+                }
+                return result2;
             }
-            return result2;
+            result2 = pointDao.insertPointLog(pointLogDto);
+            System.out.println("result2 = " + result2);
         }
-        result2 = pointDao.insertPointLog(pointLogDto);
-        System.out.println("result2 = " + result2);
         return result2;
     }   // insertPointLog() end
 
@@ -98,7 +116,7 @@ public class PointService {
     // 버스예매
     public boolean busPurchase(PointLogDto pointLogDto){
         System.out.println("PointService.busPurchase");
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         if (loginDto == null) return false;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();

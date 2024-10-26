@@ -17,18 +17,23 @@ $.ajaxSetup({
 
 doLoginCheck();
 function doLoginCheck(){
+    console.log("doLoginCheck");
+    
     $.ajax({
         async:false,
         method:'get',
         url:"/member/logcheck",
         success:(result)=>{
+            console.log(result);
+            
             let=html='';
-        if (result.userName == 'admin'){
+        if (result.username == 'admin'){
             html += `<li class="nav-item"><a class="nav-link" href="/admin">관리자 페이지</a></li>
-            <li class="nav-item">${result.name} 님</li>
+            <li class="nav-item"> 관리자 님</li>
             <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>`
         }
-        else if(result!=''){console.log('로그인')
+        else if(result!=''){
+            console.log('로그인')
             html+=`<li class="nav-item">${result.name} 님</li>
                     <li class="nav-item pointInfo"></li>
                     <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>

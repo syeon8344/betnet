@@ -3,12 +3,14 @@ package web.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import web.model.dao.MemberDao;
-import web.model.dto.MemberDto;
-import web.model.dto.PointLogDto;
-import web.model.dto.SearchDto;
-import web.model.dto.TeamsDto;
+import web.model.dto.*;
+import web.security.AuthDao;
+import web.security.AuthService;
+import web.security.SecurityConfiguration;
 
 import java.util.List;
 
@@ -17,6 +19,12 @@ public class MemberService {
     @Autowired private MemberDao memberDao;
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    AuthService authService;
+    @Autowired
+    AuthDao authDao;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     //09.09 회원가입
     public boolean signUp(MemberDto memberDto){
@@ -44,24 +52,25 @@ public class MemberService {
     }
 
     //09.10 로그인체크(세션객체에서 memberid,userName 추출가능)
-    public MemberDto loginCheck( ){
-        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
-        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
-        Object object = session.getAttribute( "loginDto" );
-        if( object !=null ){   return (MemberDto)object;  }
-        return null;
+    public LoginCheckDto loginCheck( ){
+        return authService.getCurrentLoginDto();
+//        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
+//        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
+//        Object object = session.getAttribute( "loginDto" );
+//        if( object !=null ){   return (MemberDto)object;  }
+//        return null;
     }
 
-    public MemberDto logCheck( ){
-        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
-        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
-        Object object = session.getAttribute( "loginDto" );
-        if(object==null){return null;}
-        MemberDto memberDto=(MemberDto)object;
-        int memberid=memberDto.getMemberid();
-        System.out.println(memberDao.logCheck(memberid));
-        return memberDao.logCheck(memberid);
-
+    public LoginCheckDto logCheck( ){
+//        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
+//        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
+//        Object object = session.getAttribute( "loginDto" );
+//        if(object==null){return null;}
+//        MemberDto memberDto=(MemberDto)object;
+//        int memberid=memberDto.getMemberid();
+//        System.out.println(memberDao.logCheck(memberid));
+//        return memberDao.logCheck(memberid);
+        return authService.getCurrentLoginDto();
     }
 
     //09.11 id 중복검사
@@ -96,8 +105,14 @@ public class MemberService {
 
     // 09.19 개인정보 수정
     public boolean edit(MemberDto memberDto){
-
-        return memberDao.edit(memberDto);
+        // Retrieve the user from the database
+        MemberDto user = authDao.findByUsername(memberDto.getUsername());
+        if(passwordEncoder.matches(memberDto.getPassword(), user.getPassword())){
+            memberDto.setPassword(user.getPassword());
+            return memberDao.edit(memberDto);
+        } else {
+            return false;
+        }
     }
 
     // 09.23 개인 구매금액 포인트 통계

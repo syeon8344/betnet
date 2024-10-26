@@ -1,5 +1,19 @@
 console.log('login.js');
 
+$(document).ready(function() {
+    $('#logoutButton').click(function() {
+        $.ajax({
+            url: '/logout',
+            method: 'POST',
+            success: function(response) {
+                $('#logoutMessage').text(response.message);
+            },
+            error: function() {
+                $('#logoutMessage').text('Error logging out.');
+            }
+        });
+    });
+});
 // 엔터키 이벤트 리스너 추가
 document.getElementById('pw').addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
@@ -29,6 +43,10 @@ function doLogIn(){console.log('doLogIn()');
                 document.querySelector('#id').value='';
                 document.querySelector('#pw').value=''
             }
+        },
+        error: (jqXHR) => { // 코드 4xx, 5xx 등 오류
+            const data = jqXHR.responseJSON; // JSON
+            alert(data.error); // JSON 메시지 처리
         }
     })
 }

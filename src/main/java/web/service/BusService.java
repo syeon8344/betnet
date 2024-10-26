@@ -6,6 +6,7 @@ import web.model.dao.BusDao;
 import web.model.dao.GameDao;
 import web.model.dao.PointDao;
 import web.model.dto.BusDto;
+import web.model.dto.LoginCheckDto;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
 
@@ -23,7 +24,7 @@ public class BusService {
 
     public boolean busReservation(List<BusDto> busDtos){
         System.out.println("BusService.busReservation");
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         if (loginDto == null) return false;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();
@@ -54,7 +55,7 @@ public class BusService {
     public boolean busCancel(BusDto busDto){
         System.out.println("BusService.busCancel");
         System.out.println("busDto = " + busDto);
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         if (loginDto == null) return false;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();
@@ -74,7 +75,7 @@ public class BusService {
     }
 
     public List<BusDto> busLog(){
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         if (loginDto == null) return null;
         // 2. 속성 호출
         int memberid = loginDto.getMemberid();

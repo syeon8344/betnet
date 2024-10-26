@@ -20,26 +20,20 @@ function teams(){
     })
 };
 
-doLoginCheck();
-function doLoginCheck(){
+getCurrentUserInfo();
+function getCurrentUserInfo(){
     teams();
     $.ajax({
         async:false,
         method:'get',
-        url:"/member/logcheck",
+        url:"/auth/getcurrentuserinfo",
         success:(result)=>{
-            if(result == ""){
-                alert("로그인 후 이용가능합니다.")
-                location.href = "/member/login"
-            }
-            else{console.log(result);
-                memberInfo=result
-                document.querySelector("#password").value=result.password
-                document.querySelector("#confirmPassword").value=result.password
+                // document.querySelector("#password").value=result.password
+                // document.querySelector("#confirmPassword").value=result.password
                 document.querySelector("#phone").value=result.contact
                 document.querySelector("#email").value=result.email
                 document.querySelector("#account").value=result.account
-                document.querySelector("#favoriteTeam").value=result.teamCode
+                document.querySelector("#favoriteTeam").value=result.teamcode
                 memberid=result.memberid
             }
         }
@@ -173,8 +167,8 @@ function checkEmail(){console.log('checkEmail()');
 
 
 // 1. 수정
-function doEdit(){ console.log( 'doEdit()' )
-
+function doEdit(){ 
+    console.log( 'doEdit()' )
     // 유효성 검사 체크
     console.log(checkArray);
     for(let i=0;i<checkArray.length;i++){
@@ -184,27 +178,33 @@ function doEdit(){ console.log( 'doEdit()' )
         }
     }
 
-    // 1. 입력값 가져오기
-    let password = document.querySelector("#password").value;
-    let email = document.querySelector("#email").value;
-    let contact = document.querySelector("#phone").value;
-    let teamCode=document.querySelector('#favoriteTeam').value;
-    let account=document.querySelector('#account').value;
+    // serialize: 파일이 없는 폼은 직렬화해서 전송 가능
+    let formData = $('#registrationForm').serialize();
+
+    // // 1. 입력값 가져오기
+    // let password = document.querySelector("#password").value;
+    // let email = document.querySelector("#email").value;
+    // let contact = document.querySelector("#phone").value;
+    // let teamCode=document.querySelector('#favoriteTeam').value;
+    // let account=document.querySelector('#account').value;
     // 2. 객체
-    let info = { memberid:memberid ,password : password , email : email , contact : contact ,  teamCode : teamCode , account : account
-    }; console.log( info );
+    // let info = { memberid:memberid ,password : password , email : email , contact : contact ,  teamCode : teamCode , account : account
+    // }; console.log( info );
     // 3. ajax ( jquery 라이브러리 필요 ) , 비동기 통신
     $.ajax( {
         async : false ,         //  async : true 비동기(기본값) , false 동기식
         method : 'put' ,       // HTTP POST
         url : "/member/edit", // HTTP URL
-        data : info ,           // HTTP 보낼 데이터
+        data : formData,           // HTTP 보낼 데이터
         success : ( result )=>{ console.log( result ); // HTTP 받을 데이터
             // 4. 결과에 따른 처리
             if( result ){alert('수정성공');
                 location.href="/member/mypage";
             }else{  alert('수정실패');  }
-        } // success end
+        }, // success end
+        error: ( result )=>{
+            alert(result.responseJSON.error)
+        }
     } ); // ajax end
 
     //alert('ajax 처리 이후');

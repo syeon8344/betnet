@@ -14,8 +14,8 @@
         <div class="loginArea">
             <form class="loginForm">
                 <h3> 로그인 </h3>
-                <input id="id" type="text" placeholder="아이디"><br>
-                <input id="pw" type="password" placeholder="비밀번호"><br>
+                <input id="id" type="text" name="username" placeholder="아이디"><br>
+                <input id="pw" type="password" name="password" placeholder="비밀번호"><br>
                 <button type="button" class="btn btn-primary" onclick="doLogIn()">로그인</button>
             </form>
             <button type="button" onclick="naverLogin()">
@@ -24,6 +24,8 @@
             <button type="button" onclick="kakaoLogin()">
                 <img src="/img/kakao_login.png" alt="로그인" style="cursor: pointer;">
             </button>
+    <button id="logoutButton">Logout</button>
+<div id="logoutMessage"></div>
         </div>
     </div>
 

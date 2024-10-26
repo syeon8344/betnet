@@ -2,8 +2,8 @@ let teamLogo = {
     '롯데':'https://upload.wikimedia.org/wikipedia/ko/0/0c/%EB%A1%AF%EB%8D%B0_%EC%9E%90%EC%9D%B4%EC%96%B8%EC%B8%A0_%EB%A1%9C%EA%B3%A0%282023~%29.png?20240731151823',
     'LG':'https://upload.wikimedia.org/wikipedia/ko/8/8a/LG_%ED%8A%B8%EC%9C%88%EC%8A%A4_%EB%A1%9C%EA%B3%A0.png' , 
     '두산':'https://upload.wikimedia.org/wikipedia/ko/0/05/%EB%91%90%EC%82%B0_%EB%B2%A0%EC%96%B4%EC%8A%A4_%EB%A1%9C%EA%B3%A0.png' , 
-    '키움':'https://i.namu.wiki/i/8OIBhZIuoLOBU-jAkbyFWqsCZXga6FDLXSDcCxW65u17b-oJyobnxj11-jpcGyjw0d3LqmDx1xZhILUPigeAvO8oHl1iG6VES2FnyO_wyra0S7SNyfKONh03h-piv1Y-HCwLNnvbnVOYW4mlmB5NcQ.svg' , 
-    'SSG':'https://i.namu.wiki/i/vjpuTXpyrwVXP4keQVivHUl9mJX0zZXIxMkFgMhZINZHVtXE8EHo1kfpR8oa5hgo6CmRIAn4njCXKGtiNIR4vNonDOPgBEkdosWMabZBd3WLI3T3E3Pt_4gSNbRw-NZpLYJHb9OJMkal4PT3z1O0_g.svg' , 
+    '키움':'https://i.namu.wiki/i/218YL4yFw_6LVsiy5TwlGii33iEXH4zbsmR2niU0TMiqSQKsffnh_Dcl93-l1GjualNS3Xp_In5s3taFnclQJG7OwJldf1rOOm50PpHXe4x-frY7l0IMnU_QC-pqm5-_C_E01QMOFfIFOJWdDRDzyA.svg' , 
+    'SSG':'https://i.namu.wiki/i/tD7eW9C-pS2KXuz8m2btYg7ZK3Ie29Y0_3r-UCl4upAE0BJ6AaPZXevQz2NHUSCUj5FD3pG2M3nd2UUdgsHbAzlRLMxQ0OpHmTok2xM_zjuOz6GWb8yRLwFsWLDAao8e4_kj_UiMj90aS6kNvOX8mw.svg' , 
     'KIA':'https://tigers.co.kr/img/sub/emblem01_01.png' , 
     'NC': 'https://www.ncdinos.com/assets/images/sub/emblem01.png' , 
     '한화' : 'https://i.namu.wiki/i/mlh33164jnUot3lB-keosWy6bQ2vZSI2xXguIyvh_TO5bJnifYsAKeoLvC2VUPGVAeAbcygYP-ak3AQSryV2aFgb4H8nvxE0sMGhE71YVbkP9VffqsihMfpFliJsr2WihFWguRPbsFJkLW0pTDEynw.svg' , 
@@ -198,7 +198,17 @@ function getSchedule(){
         }
     })  // ajax end
 }
-
+// 로그인 테스트
+$.ajax({
+    url: '/auth/status',
+    method: 'GET',
+    success: function(response) {
+        console.log('Status: ' + response.status)
+    },
+    error: function() {
+        console.log('Error checking login status.');
+    }
+});
 
 // 객체가 비어 있는지 확인하는 함수
 function isEmptyObject(obj) {

@@ -2,10 +2,7 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import web.model.dto.MemberDto;
-import web.model.dto.PointLogDto;
-import web.model.dto.SearchDto;
-import web.model.dto.TeamsDto;
+import web.model.dto.*;
 import web.service.MemberService;
 
 import java.util.List;
@@ -23,7 +20,7 @@ public class MemberController {
         return memberService.signUp(memberDto);}
 
     //09.10 로그인
-    @PostMapping("/login1")
+    @PostMapping("/loginrequest")
     public MemberDto login(MemberDto memberDto){
         System.out.println("MemberController.login");
         System.out.println("memberDto = " + memberDto);
@@ -31,7 +28,7 @@ public class MemberController {
     }
     //09.10 로그인체크
     @GetMapping("/logincheck")
-    public MemberDto loginCheck(){
+    public LoginCheckDto loginCheck(){
         return memberService.loginCheck();
     }
 
@@ -70,7 +67,7 @@ public class MemberController {
 
     //09.13 로그인상태에서 모든정보 가져오기
     @GetMapping("/logcheck")
-    public MemberDto logCheck(){
+    public LoginCheckDto logCheck(){
        return memberService.logCheck();
     }
 

@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -40,29 +41,6 @@ public class SecurityConfiguration{
         // 정확한 경로 → 높은 우선순위 (** 미포함)
         // 하위 경로 포함 경로 → 낮은 우선순위 (** 포함)
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
-        // TODO: 우선 전체 엔드포인트를 허용하고 특정 인증 필요 엔드포인트들만 명시하기 (블랙리스트)
-//        List<String> permittedPaths = List.of( // 현재 사용하지 않음
-//                "/", // 메인 페이지
-//                // 정적 리소스들
-//                "/css/**",
-//                "/csv/**",
-//                "/img/**",
-//                "/js/**",
-//                "/upload/**",
-//                "/favicon.ico",
-//                "/member/login", // 로그인 페이지
-//                "/member/signup", // 회원가입
-//                "/error/unauthorized", // 401 에러 페이지
-//                // API
-//                "/auth/**", // 인증 관련 (로그인, 회원가입)
-//                "/member/**", // 일부 멤버 API 제외 나머지
-//                "/history/**", // 크롤링 데이터 조회 페이지
-//                "/board",  // 게시판
-//                "/board/view",  // 게시판 상세글 보기
-//                "/chat/**"
-//
-//        );
-
         // 인증이 필요한 경로 리스트
         List<String> authenticationNeeded = List.of(
                 "/admin/**", // 관리자
@@ -92,16 +70,16 @@ public class SecurityConfiguration{
                 )
                 .formLogin(form -> form
                         .loginPage("/member/login")
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/")
                         .permitAll()
                 )
                 .oauth2Login(Customizer.withDefaults())
                 .logout(logout -> logout
-                        .logoutUrl("/auth/logout") // 로그아웃 URL
+                        .logoutUrl("/logout") // 로그아웃 URL
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 리다이렉션 URL
-                        .invalidateHttpSession(true) // 세션 무효화
-                        .deleteCookies("JSESSIONID") // 쿠키 삭제
-                        .permitAll()
                 );
         return http.build(); // 설정된 SecurityFilterChain 반환
     }
@@ -154,14 +132,8 @@ public class SecurityConfiguration{
     // 비밀번호 암호화 객체
     @Bean
     public static PasswordEncoder passwordEncoder() {
-        // SCrypt 알고리즘 강도 설정: 인증 과정이 1초 정도 걸리도록 부하 조정
-        // 순서대로 CPU 부하, 메모리 부하, 병렬화 수준, 출력 길이, 해시 길이 설정
-        // - CPU 부하: 16384 (CPU 리소스 사용량을 결정, 값이 클수록 더 많은 시간 소요)
-        // - 메모리 부하: 4 (메모리 사용량을 결정, 값이 클수록 더 많은 메모리 사용)
-        // - 병렬화 수준: 1 (동시에 사용할 스레드 수, 일반적으로 1로 설정)
-        // - 출력 길이: 32 (최종 해시 결과의 바이트 길이)
-        // - 해시 길이: 16 (내부 해시 결과의 바이트 길이)
-        return new SCryptPasswordEncoder(16384, 4, 1, 32, 16);
+        // BCrypt 2^(매개변수)번의 해시 연산 수행, 4 ~ 31 사이, 클수록 부하 증가 및 보안성 향상
+        return new BCryptPasswordEncoder(10);
     }
 
 }

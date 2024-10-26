@@ -40,5 +40,6 @@ public interface MemberDao {
     // 09.23 개인 배당금 통계
     List<PointLogDto> refund(SearchDto searchDto);
 
+    // =============== Spring Security ============
 
 }

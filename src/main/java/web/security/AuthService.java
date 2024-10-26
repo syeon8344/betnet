@@ -1,13 +1,16 @@
 package web.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import web.model.dto.LoginCheckDto;
 import web.model.dto.MemberDto;
 
 @Service
@@ -18,33 +21,20 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder; // 비밀번호 암호화 객체
 
+    // 로그인 과정
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("loadUserByUsername username = " + username);
         MemberDto user = authDao.findByUsername(username); // 사용자 정보 조회
         if (user == null) {
             throw new UsernameNotFoundException(username + "으로 조회된 사용자가 없습니다.");
         }
-
-        // 단일 역할 처리
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().name());
-
         // UserDetails 객체 생성 및 반환
-        return MemberDto.builder()
-                .username(user.getUsername())
-                .password(user.getPassword()) // 비밀번호는 해시화된 형태여야 함
-                .role(user.getRole()) // 역할 정보 포함
-                .level(user.getLevel()) // 유저 레벨
-                .build();
+        System.out.println( user );
+        return user;
     }
 
-    public MemberDto authenticate(String username, String password) {
-        MemberDto user = authDao.findByUsername(username);
-        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
-            return user; // 인증 성공
-        }
-        return null; // 인증 실패
-    }
-
+    // 회원가입
     public void signUp(MemberDto memberDto) {
         try {
             // 중복 사용자 체크
@@ -52,18 +42,14 @@ public class AuthService implements UserDetailsService {
                 throw new IllegalArgumentException("Username already exists");
             }
             // 유효성 검사
-            validateUserInput(memberDto);
+            // validateUserInput(memberDto);
             // 비밀번호 암호화
             String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
-            // 사용자 레벨 기본값
-            int level = 0;
-
             // MemberDto 객체 생성
             MemberDto user = MemberDto.builder()
                     .username(memberDto.getUsername())
                     .password(encodedPassword)
-                    .role(Role.USER)
-                    .level(level)
+                    .role(Role.ROLE_USER)
                     .name(memberDto.getName())
                     .email(memberDto.getEmail())
                     .contact(memberDto.getContact())
@@ -110,4 +96,42 @@ public class AuthService implements UserDetailsService {
         }
     }
 
+    // memberid, username, name, role 있는 MemberDto
+    public LoginCheckDto getCurrentLoginDto() {
+        try {
+            System.out.println("AuthService.getCurrentUserDto");
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.isAuthenticated()) {
+                MemberDto memberDto = (MemberDto) authentication.getPrincipal();
+                return LoginCheckDto.builder()
+                        .memberid(memberDto.getMemberid())
+                        .username(memberDto.getUsername())
+                        .name(memberDto.getName())
+                        .role(memberDto.getRole())
+                        .account(memberDto.getAccount())
+                        .build();
+            }
+            return null;
+        }
+        catch (Exception e){
+            System.out.println("AuthService getCurrentUserDto: " + e);
+            return null;
+        }
+    }
+
+    // 회원 정보 수정용 정보 불러오기
+    public MemberDto getCurrentUserInfo(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            MemberDto memberDto = (MemberDto) authentication.getPrincipal();
+            return MemberDto.builder()
+                    .contact(memberDto.getContact())
+                    .email(memberDto.getEmail())
+                    .account(memberDto.getAccount())
+                    .teamcode(memberDto.getTeamcode())
+                    .build();
+        } else {
+            return null;
+        }
+    }
 }

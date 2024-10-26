@@ -71,7 +71,7 @@ public class GameService {
 
     // 게임 리스트 출력
     public List<GameDto> getlist(SearchDto searchDto){
-        MemberDto memberDto = memberService.loginCheck();
+        LoginCheckDto memberDto = memberService.loginCheck();
         int memberid = memberDto.getMemberid();
         searchDto.setMemberid(memberid);
         return gameDao.getlist(searchDto);
@@ -79,7 +79,7 @@ public class GameService {
 
     // 게임 상세 출력
     public List<GameDto> getDetail(GameDto gameDto){
-        MemberDto memberDto = memberService.loginCheck();
+        LoginCheckDto memberDto = memberService.loginCheck();
         int memberid = memberDto.getMemberid();
         gameDto.setMemberid(memberid);
         return gameDao.getDetail(gameDto);
@@ -90,7 +90,7 @@ public class GameService {
         System.out.println("GameService.isPurchased");
         System.out.println("gameDto = " + gameDto);
         String matchid = gameDto.getMatchid();
-        MemberDto memberDto = memberService.loginCheck();
+        LoginCheckDto memberDto = memberService.loginCheck();
         int memberid = memberDto.getMemberid();
         gameDto.setMemberid(memberid);
         List<GameDto> gameDtos = gameDao.isPurchased(gameDto);

@@ -127,7 +127,7 @@ function checkEmail(){console.log('checkEmail()');
             success : (result)=>{   console.log(result);
                 // HTTP 응답받을 DATA
                 if( result ){
-                    modalBody.textContent = '이미 등록된 이메일입니다..';
+                    modalBody.textContent = '이미 등록된 이메일입니다.';
                     modalBody.classList.remove('text-success');
                     modalBody.classList.add('text-danger');
                     checkArray[3]=false;
@@ -150,53 +150,44 @@ function checkEmail(){console.log('checkEmail()');
      // 모달 창 표시
      $('#emailModal').modal('show');
 }
+// 팀 목록 초기화
+teams();
 
-// 팀 목록 가져오기
-function teams() {
-    let teams = document.querySelector('#favoriteTeam');
-    let html = `<option value="">선택하세요</option>`;
+// 팀목록 가져오기
+function teams(){
+    console.log("team loading");
+    let teams=document.querySelector('#favoriteTeam');
+    let html=`<option value="11">선택하세요</option>`
     $.ajax({
-        async: false,
-        method: 'get',
-        url: "/member/teams",
-        success: result => {
-            result.forEach(r => {
-                html += `<option value=${r.teamCode}>${r.teamName}</option>`;
-            });
-            teams.innerHTML = html;
+        async:false, method:'get',
+        url:"/member/teams",
+        success:result =>{
+            result.forEach(r =>{
+                html+=`<option value=${r.teamCode}>${r.teamName}</option>`
+            })
+            teams.innerHTML=html;
         }
-    });
-}
+    })
+};
 
 // 1. 회원가입
 function doSignup() {
     console.log('doSignup()');
 
-    // // 유효성 검사 체크
-    // console.log(checkArray);
-    // for (let i = 0; i < checkArray.length; i++) {
-    //     if (!checkArray[i]) {
-    //         alert('유효하지 않은 정보가 있습니다.');
-    //         return;
-    //     }
-    // }
+    // 유효성 검사 체크
+    console.log(checkArray);
+    for (let i = 0; i < checkArray.length; i++) {
+        if (!checkArray[i]) {
+            alert('유효하지 않은 정보가 있습니다.');
+            return;
+        }
+    }
 
     // 1. 입력값 가져오기
     // serialize: 파일이 없는 폼은 직렬화해서 전송 가능
     let formData = $('#registrationForm').serialize();
-    // // 2. FormData 객체 생성
-    // let formData = new FormData();
-    // formData.append('username', username);
-    // formData.append('password', password);
-    // formData.append('name', name);
-    // formData.append('email', email);
-    // formData.append('contact', contact);
-    // formData.append('gender', gender);
-    // formData.append('age', age);
-    // formData.append('teamcode', teamcode);
-    // formData.append('account', account);
 
-    // 3. ajax (jQuery 라이브러리 필요), 비동기 통신
+    // 2. ajax (jQuery 라이브러리 필요), 비동기 통신
     $.ajax({
         async: false,
         method: 'post',
@@ -213,41 +204,11 @@ function doSignup() {
             }
         },
         error: (jqXHR) => { // 코드 4xx, 5xx 등 오류
-            // 오류 처리
-            if (jqXHR.status === 403) {
-                console.log("Unauthorized");
-                const data = jqXHR.responseJSON; // JSON
-                alert(data.error); // JSON 메시지 처리
-            } else {
-                // 다른 오류에 대한 처리
-                const data = jqXHR.responseJSON; // JSON 메시지 파싱
-                alert(data.error); // JSON 메시지 처리
-            }
+            const data = jqXHR.responseJSON;
+            alert(data.error); // JSON 메시지 처리
         }
     });
 } // method end
-
-// 팀 목록 초기화
-teams();
-
-// 팀목록 가져오기
-function teams(){
-    console.log("team loading");
-    
-    let teams=document.querySelector('#favoriteTeam');
-    let html=`<option value="">선택하세요</option>`
-    $.ajax({
-        async:false, method:'get',
-        url:"/member/teams",
-        success:result =>{
-            result.forEach(r =>{
-                html+=`<option value=${r.teamCode}>${r.teamName}</option>`
-            })
-            teams.innerHTML=html;
-        }
-
-    })
-};
 
 // 모달 창 닫기
 function hideModal(){console.log('hideModal()');

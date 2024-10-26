@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.model.dao.BoardDao;
 import web.model.dto.BoardDto;
-import web.model.dto.MemberDto;
+import web.model.dto.LoginCheckDto;
 import web.model.dto.ReplyDto;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class BoardService {
     public boolean bWrite(BoardDto boardDto) {
 
         System.out.println("BoardService.bWrite");
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         System.out.println("loginDto = " + loginDto);
         if (loginDto == null) return false;
         int no = loginDto.getMemberid();
@@ -130,7 +130,7 @@ public class BoardService {
 
     public boolean bUpdate(BoardDto boardDto ){
         System.out.println("BoardService.bUpdate");
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         if (loginDto == null) return false;
         int no = loginDto.getMemberid();
         boardDto.setMemberid(no);
@@ -142,7 +142,7 @@ public class BoardService {
 
     // 게시물 삭제 메서드
     public boolean bDelete(BoardDto boardDto ){
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         System.out.println("loginDto = " + loginDto);
         if (loginDto == null) return false;
         int no = loginDto.getMemberid();
@@ -160,7 +160,7 @@ public class BoardService {
 
     public boolean reWrite(ReplyDto replyDto){
         System.out.println("BoardService.reWrite");
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         System.out.println("loginDto = " + loginDto);
         if (loginDto == null) return false;
         int no = loginDto.getMemberid();
@@ -171,7 +171,7 @@ public class BoardService {
 
     public boolean rpUpdate(ReplyDto replyDto){
         System.out.println("BoardService.reUpdate");
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         System.out.println("loginDto = " + loginDto);
         if (loginDto == null) return false;
         int no = loginDto.getMemberid();
@@ -185,7 +185,7 @@ public class BoardService {
 
     //댓글 삭제하기
     public boolean rpDelete(ReplyDto replyDto){
-        MemberDto loginDto = memberService.loginCheck();
+        LoginCheckDto loginDto = memberService.loginCheck();
         System.out.println("loginDto = " + loginDto);
         if (loginDto == null) return false;
         int no = loginDto.getMemberid();
