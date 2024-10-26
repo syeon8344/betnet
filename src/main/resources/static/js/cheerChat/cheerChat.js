@@ -6,6 +6,8 @@ let memberid = ``
 let userName = ``;
 let roomID = "";
 
+let inChatRoom = false; // 사용자가 채팅방에 있는지 확인하는 플래그
+
 function doLoginCheck(){
     $.ajax({
         async:false,
@@ -172,6 +174,11 @@ function existRoom(msg){
 // 마커 추가 함수
 async function addMarker(position) {
     console.log('addMarker 호출됨', position);
+     // 사용자가 현재 채팅방에 참여 중인지 확인
+     if (inChatRoom) {
+        alert("현재 채팅방에 참여 중입니다.");
+        return; // 마커 추가를 막음
+    }
 
     // 방 만들기 함수 호출
     const { roomTitle, roomID } = await addRoom(position); // 방 만들기 함수를 비동기 처리
@@ -222,6 +229,7 @@ async function addMarker(position) {
 
 // 방 만들기
 async function addRoom(position) {
+     
     console.log(position);
     console.log(matchId);
     let roomTitle = prompt("채팅방 이름을 입력해주세요.");
@@ -371,6 +379,7 @@ function enterChat(roomID) {
     console.log('enterChat()');
     console.log(roomID)
     separateRoom = roomID;
+    inChatRoom = true; // 방에 입장했으므로 플래그 설정
     // 방 입장했을 때 룸아이디 별로 선별.
     if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
@@ -421,6 +430,7 @@ function sendM() {
 // 채팅방 나가기
 function outChat(){
     console.log('outChat()');
+    inChatRoom = false; // 방에서 나갔으므로 플래그 초기화
     if (cheerclientSocket && cheerclientSocket.readyState === WebSocket.OPEN) {
         let msg = {
             'type': 'out',

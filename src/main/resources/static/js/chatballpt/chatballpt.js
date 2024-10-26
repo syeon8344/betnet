@@ -8,12 +8,17 @@ function sendMessage() {
     document.querySelectorAll('.team-button').forEach(button => button.disabled = true);
 
     $.ajax({
-        url: 'http://127.0.0.1:5000/chat',
-        type: 'GET',
-        data: { text: text },
+        url: 'http://127.0.0.1:5000/ballchat',
+        method: 'POST',
+        contentType: 'application/json', // JSON 형식으로 보내기
+        data: JSON.stringify({ question: text }), // 사용자 입력을 JSON으로 변환
         success: function(result) {
             console.log(result);
-
+            // 만약에 result에 hhtp가 포함되어있으면 로케이션
+            if(result.indexOf('http')>=0){
+                location.href = result
+                return
+            }
             let html = result;
             // document.querySelector("#messageBox").innerHTML = html;
 
