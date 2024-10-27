@@ -19,6 +19,26 @@ getSchedule()
 // 오늘 날짜 경기가 없으면 내일과 모레(없으면 사흘)
 // X날과 X+1날 경기일정
 
+// 로그인 체크는 페이지 진입시마다 해도 충분하지 않을까요??
+doLoginCheck();
+function doLoginCheck(){
+    $.ajax({
+        async:false,
+        method:'get',
+        url:"/member/logincheck",
+        success:(result)=>{
+            console.log(result);
+            if(result == ""){
+                alert("로그인 후 이용가능합니다.")
+                location.href = "/member/login"
+            }
+            memberInfo = result
+            console.log(memberInfo)
+        },
+        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
+    })
+}
+
 function getSchedule(){
     let today = new Date();
     let formattedTime = today.toTimeString().split(' ')[0]; // HH:mm:ss 형식
@@ -198,17 +218,6 @@ function getSchedule(){
         }
     })  // ajax end
 }
-// 로그인 테스트
-$.ajax({
-    url: '/auth/status',
-    method: 'GET',
-    success: function(response) {
-        console.log('Status: ' + response.status)
-    },
-    error: function() {
-        console.log('Error checking login status.');
-    }
-});
 
 // 객체가 비어 있는지 확인하는 함수
 function isEmptyObject(obj) {
@@ -370,18 +379,6 @@ function activateButtons(matchid) {
 function gamePurchase(){
     // 변수가 비어져있으면 실행되는 함수 // 로그인 후 게임 구매가 가능!
     if(isEmptyObject(memberInfo)){
-        $.ajax({
-            async:false,
-            method:'get',
-            url:"/member/logincheck",
-            success:(result)=>{console.log(result);
-                if(result == ""){
-                    alert("로그인 후 이용가능합니다.")
-                    location.href = "/member/login"
-                }
-                memberInfo = result
-            }
-        })
     }
     console.log(matchids);
     console.log(winandlosses);
@@ -417,7 +414,16 @@ function gamePurchase(){
 
         } , 
         error : (e) =>{
-            console.log(e);
+            // 오류 처리
+            if (jqXHR.status === 401) {
+                console.log(jqXHR);
+                const data = jqXHR.responseJSON;
+                alert(data.error); // JSON 오류 메시지 처리
+                window.location.href = '/member/login'; // 로그인 페이지로 리디렉션
+            } else {
+                // 다른 오류에 대한 처리
+                alert("오류가 발생했습니다: " + jqXHR.statusText);
+            }
         }
     })
 }   // gamePurchase end

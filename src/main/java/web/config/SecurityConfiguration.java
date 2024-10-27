@@ -56,7 +56,7 @@ public class SecurityConfiguration{
                 "/game/view", // 게임 구매 상세 페이지
                 "/game/purchase", // 베팅 버튼
                 "/game/ispurchased", // 이미 구매된 경기인지 확인
-                "/market/marketadd", // 중고굿즈거래 글쓰기 페이지
+                "/marketadd", // 중고굿즈거래 글쓰기 페이지
                 "/market/write", // 중고굿즈거래 글쓰기 API
                 "/market/check", // 중고굿즈거래 글 권한 확인 API
                 "/market/edit", // 중고굿즈거래 글 수정 API

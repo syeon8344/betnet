@@ -1,19 +1,5 @@
 console.log('login.js');
 
-$(document).ready(function() {
-    $('#logoutButton').click(function() {
-        $.ajax({
-            url: '/logout',
-            method: 'POST',
-            success: function(response) {
-                $('#logoutMessage').text(response.message);
-            },
-            error: function() {
-                $('#logoutMessage').text('Error logging out.');
-            }
-        });
-    });
-});
 // 엔터키 이벤트 리스너 추가
 document.getElementById('pw').addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {

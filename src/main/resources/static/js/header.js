@@ -99,9 +99,7 @@ function getMyPoint(){
             
             document.querySelector('.pointInfo').innerHTML=html;
         } ,
-        error : (e) => {
-            console.log(e)
-        }
+        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })  // ajax end
 }   // getMyPoint() end
 
