@@ -12,20 +12,22 @@ import java.util.List;
 public class MemberController {
     @Autowired private MemberService memberService;
 
-    //09.09 회원가입
-    @PostMapping("/signuprequest")
-    public boolean signUp(MemberDto memberDto){
-        System.out.println("MemberController.signUp");
-        System.out.println("memberDto = " + memberDto);
-        return memberService.signUp(memberDto);}
+    // AuthController Spring Security 회원가입으로 전환
+//    //09.09 회원가입
+//    @PostMapping("/signuprequest")
+//    public boolean signUp(MemberDto memberDto){
+//        System.out.println("MemberController.signUp");
+//        System.out.println("memberDto = " + memberDto);
+//        return memberService.signUp(memberDto);}
 
-    //09.10 로그인
-    @PostMapping("/loginrequest")
-    public MemberDto login(MemberDto memberDto){
-        System.out.println("MemberController.login");
-        System.out.println("memberDto = " + memberDto);
-        return memberService.login(memberDto);
-    }
+    // Spring Security /auth/login 로그인으로 전환
+//    //09.10 로그인
+//    @PostMapping("/loginrequest")
+//    public MemberDto login(MemberDto memberDto){
+//        System.out.println("MemberController.login");
+//        System.out.println("memberDto = " + memberDto);
+//        return memberService.login(memberDto);
+//    }
     //09.10 로그인체크
     @GetMapping("/logincheck")
     public LoginCheckDto loginCheck(){

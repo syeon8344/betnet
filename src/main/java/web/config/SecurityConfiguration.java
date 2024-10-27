@@ -1,7 +1,5 @@
-package web.security;
+package web.config;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,22 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import web.security.CustomOAuth2UserService;
 
-import java.io.IOException;
 import java.util.List;
 
 // Spring 설정 클래스
@@ -32,10 +25,14 @@ import java.util.List;
 @EnableWebSecurity  // Spring Security 활성화
 @EnableMethodSecurity // @PreAuthorize 등 어노테이션 기반 인증 ON 스위치
 public class SecurityConfiguration{
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     // HTTP 보안 설정
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
         // "/**" 처럼 **은 해당 경로 및 하위 경로 전체에 적용된다.
         // "/" 처럼 **이 없더라도 해당 경로에 쿼리스트링이 추가된 경우는 해당된다.
         // 예시) /board?param=value 같은 경우 "/board" 및 "/board/**" 모두 해당된다.
@@ -45,7 +42,6 @@ public class SecurityConfiguration{
         // 허용할 경로 리스트, List.of() 사용시 불변 리스트
         // 인증이 필요한 경로 리스트
         List<String> authenticationNeeded = List.of(
-                "/admin/**", // 관리자
                 "/member/logcheck", // 로그인 상태에서 정보 확인
                 "/member/edit", // 정보 수정 요청
                 "/member/purchase", // 개인 구매금액 포인트 통계
@@ -60,27 +56,32 @@ public class SecurityConfiguration{
 
         http // Spring Security의 HttpSecurity 보안 객체
                 // Add the custom login filter before the existing authentication filter
-                .authorizeHttpRequests(authReq -> // HTTP 요청에 대한 보안 규칙을 정의
-                        authReq
+                .authorizeHttpRequests(authz -> // HTTP 요청에 대한 보안 규칙을 정의
+                        authz
+                                .requestMatchers("/admin/**").hasRole("ADMIN") // .hasRole("ADMIN") == @PreAuthorize("hasRole('ROLE_ADMIN')") ROLE_ 주의
                                 // toArray(new String[0]): 0칸의 String 배열을 생성하여 List<String> 제네릭 타입 배열을 String 배열로 변환
                                 .requestMatchers(authenticationNeeded.toArray(new String[0])).authenticated() // 인증이 필요한 경로 설정
                                 .anyRequest().permitAll() // 그 외의 모든 요청은 인증 필요
                 )
-                .exceptionHandling((exception) -> exception
+                .exceptionHandling((exception) -> exception // HTTP 예외 발생시 처리 방법
                         .authenticationEntryPoint(customAuthenticationEntryPoint())
                         .accessDeniedHandler(customAccessDeniedHandler())
                 )
-                .formLogin(form -> form
-                        .loginPage("/member/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .loginProcessingUrl("/auth/login")
-                        .defaultSuccessUrl("/")
-                        .permitAll()
+                .formLogin(form -> form // formData 형태로 들어오는 로그인 요청
+                        .loginPage("/member/login") // 로그인 페이지
+                        .usernameParameter("username") // 기본값도 username이라 생략 가능
+                        .passwordParameter("password") // 기본값도 password라 생략 가능
+                        .loginProcessingUrl("/login") // 로그인 로직 수행 엔드포인트, 현재 기본값 /login POST이므로 생략 가능
+                        .defaultSuccessUrl("/") // 로그인 성공시 이동할 위치
+                        .permitAll() // 로그인은 누구나 사용가능
                 )
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .defaultSuccessUrl("/")// OAuth 로그인 성공 후 페이지 (기본값도 "/")
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(customOAuth2UserService) // OAuth 2 로그인 성공 이후 사용자 정보를 가져올 때의 설정
+                        ))
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // 로그아웃 URL
+                        .logoutUrl("/logout") // 로그아웃 엔드포인트
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 리다이렉션 URL
                 );
         return http.build(); // 설정된 SecurityFilterChain 반환

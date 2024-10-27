@@ -1,27 +1,26 @@
 console.log('chat.js')
 
-let randomNo = Math.floor( Math.random() * 1001) + 1
+let randomNo = Math.floor(Math.random() * 1001) + 1
 let nickName = ``
 console.log(nickName)
 
+doLoginCheck()
 function doLoginCheck(){
     $.ajax({
         async:false,
         method:'get',
         url:"/member/logcheck",
         success:(result)=>{
-            if(result == ""){
-
-                nickName = `익명${randomNo}`
-                console.log(nickName)
-            }
-            else{console.log(result);
-                nickName = `${result.userName}(${result.teamName})`
-            }
+            console.log(result)
+            nickName = `${result.username}(${result.teamname})`
+        },
+        error: (xhr) => {  // 비로그인 상태 등 400대 오류 발생시 익명
+            nickName = `익명${randomNo}`
+            console.log(nickName)
         }
     })
 }
-doLoginCheck()
+
 // JS 클라이언트 웹소켓 # new WebSocket("ws://localhost:8080/ws매핑주소")
 let clientSocket = new WebSocket("ws://localhost:8080/chat/conn")
 console.log( clientSocket );

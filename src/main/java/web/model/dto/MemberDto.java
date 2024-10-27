@@ -31,6 +31,10 @@ public class MemberDto implements UserDetails {
     private String account; //계좌
     private String teamname; //선호팀이름
     private Role role; // Enum 타입, 회원 권한
+    // OAuth 2.0
+    private String provider;
+    private String providerId;
+    private String picture;
 
     /**
      * 해당 유저의 (단일) 권한 목록
@@ -41,4 +45,9 @@ public class MemberDto implements UserDetails {
         return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
     }
 
+    public MemberDto update(String name, String picture) {
+        this.name = name;
+        this.picture = picture;
+        return this;
+    }
 }

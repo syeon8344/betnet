@@ -28,7 +28,7 @@ function doLogIn(){console.log('doLogIn()');
     const formData = new FormData(document.querySelector('.loginForm'));
     $.ajax({
         method:'post',
-        url:"/auth/login",
+        url:"/login",
         data:formData,
         processData: false, // FormData를 사용하므로 false로 설정
         contentType: false, // FormData를 사용하므로 false로 설정

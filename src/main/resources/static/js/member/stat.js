@@ -15,7 +15,8 @@ function doLoginCheck(){
             }
             memberInfo = result
             console.log(memberInfo)
-        }
+        },
+        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })
 }
 

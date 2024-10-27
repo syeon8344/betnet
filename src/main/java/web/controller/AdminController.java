@@ -10,8 +10,6 @@ import web.service.AdminService;
 
 import java.util.List;
 
-// 클래스 PreAuthorize보다 메서드별 PreAuthorize가 우선한다
-@PreAuthorize("hasRole('ROLE_ADMIN')") // ROLE_ADMIN 권한이 없으면 요청을 차단한다
 @RestController
 @RequestMapping("/cadmin")
 public class AdminController {

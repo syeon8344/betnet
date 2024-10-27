@@ -20,9 +20,10 @@ function doLoginCheck(){
             }
             else{console.log(result);
                 memberid = `${result.memberid}`
-                userName = `${result.userName}(${result.teamName})`
+                userName = `${result.username}(${result.teamname})`
             }
-        }
+        },
+        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })
 }
 doLoginCheck();

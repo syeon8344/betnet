@@ -37,17 +37,18 @@ function doLoginCheck(){
             else{console.log(result);
                 memberInfo=result
                 document.querySelector("#name").value=result.name
-                document.querySelector("#userName").value=result.userName
+                document.querySelector("#userName").value=result.username
                 document.querySelector("#contact").value=result.contact
                 document.querySelector("#email").value=result.email
                 document.querySelector("#account").value=result.account
-                document.querySelector("#teamCode").value=result.teamName
+                document.querySelector("#teamCode").value=result.teamname
                 document.querySelector("#age").value=result.age
-                document.querySelector("#joinDate").value=result.joinDate
+                document.querySelector("#joinDate").value=result.joindate
                 if(result.gender=='M'){document.querySelector("#gender").value='남성'}
                 else{document.querySelector("#gender").value='여성'}
             }
-        }
+        },
+        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })
 }
 

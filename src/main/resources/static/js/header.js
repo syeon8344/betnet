@@ -25,30 +25,28 @@ function doLoginCheck(){
         url:"/member/logcheck",
         success:(result)=>{
             console.log(result);
-            
-            let=html='';
-        if (result.username == 'admin'){
-            html += `<li class="nav-item"><a class="nav-link" href="/admin">관리자 페이지</a></li>
-            <li class="nav-item"> 관리자 님</li>
-            <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>`
-        }
-        else if(result!=''){
-            console.log('로그인')
-            html+=`<li class="nav-item">${result.name} 님</li>
-                    <li class="nav-item pointInfo"></li>
-                    <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/game">게임구매내역</a></li>`
-        }
-        // else{console.log('비로그인')
-        //     html+=`<li class="nav-item"><a class="nav-link" href="/member/signup">회원가입</a></li>
-        //             <li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>`
-        // }
-        document.querySelector('#topMenu').innerHTML=html;
+            let html = ''
+            if (result.username == 'admin'){
+                html += `<li class="nav-item"><a class="nav-link" href="/admin">관리자 페이지</a></li>
+                <li class="nav-item"> 관리자 님</li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>`
+            }
+            else if(result != ''){
+                console.log('로그인')
+                html += `<li class="nav-item">${result.name} 님</li>
+                        <li class="nav-item pointInfo"></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="doLogout()">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/member/mypage">마이페이지</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/game">게임구매내역</a></li>`
+            }
+            // else{
+            //     console.log('비로그인')
+            //     html+=`<li class="nav-item"><a class="nav-link" href="/member/signup">회원가입</a></li>
+            //            <li class="nav-item"><a class="nav-link" href="/member/login">로그인</a></li>`
+            // }
+            document.querySelector('#topMenu').innerHTML=html;
         },
-        error: (xhr) => {  // 비로그인 상태 등 400대 오류: 변화 없음으로
-            return
-        }
+        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })
 }
 

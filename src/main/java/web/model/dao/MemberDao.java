@@ -10,11 +10,13 @@ import java.util.List;
 
 @Mapper
 public interface MemberDao {
-    //09.09 회원가입
-    boolean signUp(MemberDto memberDto);
+    // AuthController Spring Security 회원가입으로 전환
+//    //09.09 회원가입
+//    boolean signUp(MemberDto memberDto);
 
-    //09.10 로그인
-    MemberDto login(MemberDto memberDto);
+    // Spring Security /auth/login 로그인으로 전환
+//    //09.10 로그인
+//    MemberDto login(MemberDto memberDto);
 
     //09.11 id중복검사
     boolean idChecking(String userName);

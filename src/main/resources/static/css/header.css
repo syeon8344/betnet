@@ -38,10 +38,19 @@ ul,ol,li{
 #topMenu{
     display: flex;
     padding: 10px 20px;
-    width: 1080px;
+    width: 100%; /* 전체 너비 사용 */
+    max-width: 1080px; /* 최대 너비를 1080px로 제한 */
     margin: 0 auto;
     justify-content: flex-end;
 }
+
+/* 화면 너비가 1080px 미만일 때 */
+@media (max-width: 1080px) {
+    #topMenu {
+        justify-content: flex-end; /* 수평 가운데 정렬 */
+    }
+}
+
 #topMenu a{
     padding-left: 20px;
 }

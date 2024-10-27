@@ -71,4 +71,7 @@ public class AuthController {
     public MemberDto getCurrentUserInfo(){
         return authService.getCurrentUserInfo();
     }
+
+    // ========== OAuth SNS 로그인 =============
+
 }

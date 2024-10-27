@@ -41,6 +41,7 @@ public class GameController {
     }   // end method gamePurchase
 
     // 게임 리스트 출력
+    // GamePurchaseList 또는 PointLogs 테이블에서 gamestate라는 열이 존재하는지 확인?
     @GetMapping("/getlist")
     public List<GameDto> getlist(SearchDto searchDto){
         return gameService.getlist(searchDto);

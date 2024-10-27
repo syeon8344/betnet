@@ -23,30 +23,32 @@ public class MemberService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    //09.09 회원가입
-    public boolean signUp(MemberDto memberDto){
-        System.out.println("MemberService.signUp");
-        System.out.println("memberDto = " + memberDto);
-        return memberDao.signUp(memberDto);}
+    // AuthController Spring Security 회원가입으로 전환
+//    //09.09 회원가입
+//    public boolean signUp(MemberDto memberDto){
+//        System.out.println("MemberService.signUp");
+//        System.out.println("memberDto = " + memberDto);
+//        return memberDao.signUp(memberDto);}
 
-    //09.10 로그인
-    public MemberDto login(MemberDto memberDto){
-        System.out.println("MemberService.login");
-        System.out.println("memberDto = " + memberDto);
-        MemberDto result =memberDao.login(memberDto);
-        System.out.println("result = " + result);
-        if(result!=null){
-            MemberDto loginDto=MemberDto.builder()
-                    .memberid(result.getMemberid())
-                    .username(result.getUsername())
-                    .build();
-            HttpSession session = request.getSession();
-            session.setAttribute("loginDto",loginDto);
-            System.out.println("loginDto = " + loginDto);
-            return result;
-        }
-        return result;
-    }
+    // Spring Security /auth/login 로그인으로 전환
+//    //09.10 로그인
+//    public MemberDto login(MemberDto memberDto){
+//        System.out.println("MemberService.login");
+//        System.out.println("memberDto = " + memberDto);
+//        MemberDto result =memberDao.login(memberDto);
+//        System.out.println("result = " + result);
+//        if(result!=null){
+//            MemberDto loginDto=MemberDto.builder()
+//                    .memberid(result.getMemberid())
+//                    .username(result.getUsername())
+//                    .build();
+//            HttpSession session = request.getSession();
+//            session.setAttribute("loginDto",loginDto);
+//            System.out.println("loginDto = " + loginDto);
+//            return result;
+//        }
+//        return result;
+//    }
 
     //09.10 로그인체크(세션객체에서 memberid,userName 추출가능)
     public LoginCheckDto loginCheck( ){
@@ -58,7 +60,9 @@ public class MemberService {
 //        return null;
     }
 
+
     public LoginCheckDto logCheck( ){
+        return authService.getCurrentLoginDto();
 //        HttpSession session = request.getSession(); // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
 //        // 2. 세션객체내 속성 값 호출 , 타입변환 필요하다.
 //        Object object = session.getAttribute( "loginDto" );
@@ -67,7 +71,7 @@ public class MemberService {
 //        int memberid=memberDto.getMemberid();
 //        System.out.println(memberDao.logCheck(memberid));
 //        return memberDao.logCheck(memberid);
-        return authService.getCurrentLoginDto();
+
     }
 
     //09.11 id 중복검사
