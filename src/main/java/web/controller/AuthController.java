@@ -1,19 +1,16 @@
-package web.security;
+package web.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import web.model.dto.MemberDto;
+import web.service.AuthService;
 
 import java.util.Collections;
 
@@ -35,16 +32,14 @@ public class AuthController {
     // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(MemberDto memberDto) {
-        System.out.println("signUp");
-        System.out.println("memberDto = " + memberDto.toString());
         try {
             authService.signUp(memberDto);
             return ResponseEntity.ok("회원가입 성공");
         } catch (IllegalArgumentException e) {
-            // 서비스의 signUp 실행중 유효성 검사 오류는 모두 IllegalArgumentException
+            // 서비스의 signUp 실행중 유효성 검사 오류는 모두 IllegalArgumentException 에외 발생
             return new ResponseEntity<>(Collections.singletonMap("error", e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            // 다른 예외 처리 (예: 서버 오류)
+            // 다른 예외 처리
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Collections.singletonMap("error", "회원가입 중 오류 발생."));
         }
@@ -71,7 +66,7 @@ public class AuthController {
         }
     }
 
-    // 회원 정보 수정용 정보 불러오기
+    // "member/edit" 정보수정용 정보 불러오기
     @GetMapping("/getcurrentuserinfo")
     public MemberDto getCurrentUserInfo(){
         return authService.getCurrentUserInfo();

@@ -8,8 +8,8 @@ import web.model.dto.LoginCheckDto;
 import web.model.dto.MemberDto;
 import web.model.dto.PointLogDto;
 import web.model.dto.SearchDto;
-import web.security.AuthDao;
-import web.security.AuthService;
+import web.model.dao.AuthDao;
+
 import java.util.List;
 
 @Service

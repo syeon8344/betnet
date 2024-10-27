@@ -42,14 +42,11 @@ public class BoardController {
         return boardService.bRead(teamcode);
     }
 
-
-
     //게시판 개별조회
     @GetMapping("/find/bno")
     public BoardDto bFindBno( int bno ){
         return boardService.bFindBno(bno);
     }
-
 
     // 게시판 수정
     @PutMapping("/update")

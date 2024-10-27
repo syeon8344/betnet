@@ -3,14 +3,11 @@ package web.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import web.model.dao.MemberDao;
 import web.model.dto.*;
-import web.security.AuthDao;
-import web.security.AuthService;
-import web.security.SecurityConfiguration;
+import web.model.dao.AuthDao;
 
 import java.util.List;
 

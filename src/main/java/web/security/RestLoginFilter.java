@@ -14,9 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * RESTful API 로그인 필터.
- * 특정 URI로 들어오는 로그인 요청을 처리하고,
- * 인증에 성공하면 SecurityContext에 인증 정보를 설정합니다.
+ * OncePerRequestFilter: HTTP 요청에서 한번만 통과되는 필터
+ * 페이지 리다이렉트 등이 일어나더라도 한번만 처리되는 필터이므로 인증처럼 1회만 필요한 경우 적합
  */
 public class RestLoginFilter extends OncePerRequestFilter {
 

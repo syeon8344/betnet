@@ -1,4 +1,4 @@
-package web.security;
+package web.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import web.model.dto.MemberDto;

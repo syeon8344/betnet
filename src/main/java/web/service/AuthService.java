@@ -1,17 +1,17 @@
-package web.security;
+package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import web.model.dao.AuthDao;
 import web.model.dto.LoginCheckDto;
 import web.model.dto.MemberDto;
+import web.security.Role;
 
 @Service
 public class AuthService implements UserDetailsService {

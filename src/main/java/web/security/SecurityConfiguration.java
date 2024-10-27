@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,6 +30,7 @@ import java.util.List;
 // Spring 설정 클래스
 @Configuration
 @EnableWebSecurity  // Spring Security 활성화
+@EnableMethodSecurity // @PreAuthorize 등 어노테이션 기반 인증 ON 스위치
 public class SecurityConfiguration{
 
     // HTTP 보안 설정
@@ -95,6 +97,7 @@ public class SecurityConfiguration{
         return new ProviderManager(authenticationProvider);
     }
 
+    // 401 Unauthorized 핸들러
     @Bean
     AuthenticationEntryPoint customAuthenticationEntryPoint() {
         return (request, response,authException) -> {
@@ -112,6 +115,7 @@ public class SecurityConfiguration{
         };
     }
 
+    // 403 Forbidden 핸들러
     @Bean
     AccessDeniedHandler customAccessDeniedHandler() {
         return (request, response, accessDeniedException) -> {

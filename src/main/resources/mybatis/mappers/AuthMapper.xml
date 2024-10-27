@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- xml 주석 -->
-<mapper namespace="web.security.AuthDao" >  <!-- mapper start -->
+<mapper namespace="web.model.dao.AuthDao" >  <!-- mapper start -->
 
     <!-- 로그인시 계정 정보 찾기 -->
     <select id="findByUsername" parameterType="String" resultType="web.model.dto.MemberDto">
