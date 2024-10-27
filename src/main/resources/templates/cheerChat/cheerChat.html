@@ -16,9 +16,11 @@
         <!-- 채팅방 -->
         <div class="cheerRoom" id="cheerRoom">
             <div class="cheerMsgBox" id="cheerMsgBox"></div>
-            <input type="text" class="cheerMsgInput" id="cheerMsgInput">
-            <button type="button" onclick="sendM()">전송</button>
-            <button type="button" onclick="outChat()">채팅방나가기</button>
+            <div class="cheerInputBox">
+                <input type="text" class="cheerMsgInput" id="cheerMsgInput" placeholder="메시지를 입력하세요...">
+                <button type="button" class="sendButton" onclick="sendM()">전송</button>
+                <button type="button" class="leaveButton" onclick="outChat()">채팅방 나가기</button>
+            </div>
         </div>
     </div>
     <div th:replace="~{/footer.html:: footer}"></div>
