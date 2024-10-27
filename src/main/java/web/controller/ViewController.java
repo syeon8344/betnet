@@ -148,6 +148,7 @@ public class ViewController {
     // 글작성
     @GetMapping("/marketadd")
     public String marketAdd(){ return "/market/marketadd.html";}
+    // === 굿즈거래 ===
 
     // 응원채팅 페이지
     @GetMapping("/cheerchat")

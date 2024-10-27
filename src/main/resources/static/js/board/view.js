@@ -41,7 +41,7 @@ function boardView(){
     $.ajax({
             async:false,
             method:'get',
-            url:"/member/logcheck", //멤버함수의 로그인 체크 함수
+            url:"/member/logincheck", //멤버함수의 로그인 체크 함수
             success:(result)=>{console.log(result);
                 currentUserId = result.memberid // success로 가져온 현재 로그인된 아이디를 currentUserId에 대입
                 if(currentUserId==board.memberid){ //현재 접속한 아이디와 글작성자 아이디가 같으면
@@ -146,7 +146,7 @@ function bReplyRead(){
     $.ajax({
             async:false,
             method:'get',
-            url:"/member/logcheck", //멤버함수의 로그인 체크 함수
+            url:"/member/logincheck", //멤버함수의 로그인 체크 함수
             success:(result)=>{console.log(result);
                 currentUserId = result.memberid // success로 가져온 현재 로그인된 아이디를 currentUserId에 대입
             } //success end

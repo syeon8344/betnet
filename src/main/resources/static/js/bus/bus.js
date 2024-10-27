@@ -227,13 +227,11 @@ function loginCheck() {
         async : false,
         method : "get",
         url : "/member/logincheck",
-        success : r => {    console.log(r);
-            if ('' == r) {
-                alert('버스 예매는 로그인 후 가능합니다');
-                location.href = '/member/login';
-            }
+        success : r => {},
+        error : (xhr) => {
+            alert('버스 예매는 로그인 후 가능합니다');
+            location.href = '/member/login';
         }
-
     })
 }
 

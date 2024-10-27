@@ -9,7 +9,7 @@ function doLoginCheck(){
     $.ajax({
         async:false,
         method:'get',
-        url:"/member/logcheck",
+        url:"/member/logincheck",
         success:(result)=>{
             console.log(result)
             nickName = `${result.username}(${result.teamname})`

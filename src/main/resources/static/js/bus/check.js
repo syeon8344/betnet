@@ -7,7 +7,7 @@ function doLoginCheck(){
     $.ajax({
         async:false,
         method:'get',
-        url:"/member/logcheck",
+        url:"/member/logincheck",
         success:(result)=>{console.log(result);
             if(result == ""){
                 alert("로그인 후 이용가능합니다.")

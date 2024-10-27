@@ -32,25 +32,43 @@ public class SecurityConfiguration{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-
-        // "/**" 처럼 **은 해당 경로 및 하위 경로 전체에 적용된다.
-        // "/" 처럼 **이 없더라도 해당 경로에 쿼리스트링이 추가된 경우는 해당된다.
-        // 예시) /board?param=value 같은 경우 "/board" 및 "/board/**" 모두 해당된다.
-        // ViewController의 엔드포인트와 RestController들의 엔드포인트들을 모두 포함한다.
-        // 정확한 경로 → 높은 우선순위 (** 미포함)
-        // 하위 경로 포함 경로 → 낮은 우선순위 (** 포함)
-        // 허용할 경로 리스트, List.of() 사용시 불변 리스트
-        // 인증이 필요한 경로 리스트
+        /*
+            "/**" 처럼 **은 해당 경로 및 하위 경로 전체에 적용된다.
+            "/" 처럼 **이 없더라도 해당 경로에 쿼리스트링이 추가된 경우는 해당된다.
+            예시) /board?param=value 같은 경우 "/board" 및 "/board/**" 모두 해당된다.
+            ViewController의 엔드포인트와 RestController들의 엔드포인트들을 모두 포함한다.
+            정확한 경로 → 높은 우선순위 (** 미포함)
+            하위 경로 포함 경로 → 낮은 우선순위 (** 포함)
+            List.of() 사용시 불변 리스트
+            인증이 필요한 경로 리스트
+        */
         List<String> authenticationNeeded = List.of(
-                "/member/logcheck", // 로그인 상태에서 정보 확인
-                "/member/edit", // 정보 수정 요청
-                "/member/purchase", // 개인 구매금액 포인트 통계
-                "/member/refund", // 개인 배당금 통계
+                "/auth/getcurrentuserinfo", // 회원정보 수정시 데이터 불러오기
                 "/board/write",  // 글 작성 페이지
-                "/board/edit",  // 글 수정 페이지
+                "/board/update", // 글 수정 페이지
                 "/board/delete", // 글 삭제 API
+                "/board/api/update", // 글 수정 API
+                "/board/reply/write", // 댓글 작성 API
+                "/board/reply/update", // 댓글 수정 API
+                "/board/reply/delete", // 댓글 삭제 API
+                "/bus/**", // 버스 예약 전체
+                "/game", // 게임 구매 내역 페이지
+                "/game/view", // 게임 구매 상세 페이지
+                "/game/purchase", // 베팅 버튼
                 "/game/ispurchased", // 이미 구매된 경기인지 확인
-                "/point/mypoint",  // 현재 보유 포인트 확인 (헤더)
+                "/market/marketadd", // 중고굿즈거래 글쓰기 페이지
+                "/market/write", // 중고굿즈거래 글쓰기 API
+                "/market/check", // 중고굿즈거래 글 권한 확인 API
+                "/market/edit", // 중고굿즈거래 글 수정 API
+                "/market/delete", // 중고굿즈거래 글 삭제 API
+                "/market/replywrite", // 중고굿즈거래 댓글 작성 API
+                "/member/mypage", // 마이페이지
+                "/member/edit", // 회원 정보 수정 페이지
+                "/member/stat", // 회원 구매 현황 분석 페이지
+                "/member/logincheck", // 로그인 상태에서 정보 확인
+                "/member/api/edit", // 회원 정보 수정 페이지
+                "/member/purchase", // 개인 구매금액 포인트 통계 API
+                "/member/refund", // 개인 배당금 통계 API
                 "/point/**" // 포인트 관련
         );
 

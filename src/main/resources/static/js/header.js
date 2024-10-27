@@ -22,7 +22,7 @@ function doLoginCheck(){
     $.ajax({
         async:false,
         method:'get',
-        url:"/member/logcheck",
+        url:"/member/logincheck",
         success:(result)=>{
             console.log(result);
             let html = ''
@@ -109,7 +109,7 @@ function getMyPoint(){
 function doLogout(){console.log('doLogout()')
     $.ajax({
         method:'get',
-        url:"/member/logout",
+        url:"/logout",
         success:(result)=>{console.log(result);
         location.href="/";
         }

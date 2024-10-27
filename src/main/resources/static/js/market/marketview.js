@@ -51,7 +51,7 @@ function load() {
             $.ajax({
                 async: false,
                 method: 'GET',
-                url: "/member/logcheck", // member 로그인 체크 함수
+                url: "/member/logincheck", // member 로그인 체크 함수
                 success:(result)=>{
                     // console.log("loginresult");
                     // console.log(result); 

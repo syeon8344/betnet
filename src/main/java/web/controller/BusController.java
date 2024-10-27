@@ -12,7 +12,7 @@ import java.util.List;
 public class BusController {
     @Autowired BusService busService;
 
-    @PostMapping("/Reservation")
+    @PostMapping("/reservation")
     public boolean busReservation(@RequestBody List<BusDto> busDtos){
         System.out.println("BusController.busReservation");
 

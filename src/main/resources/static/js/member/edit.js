@@ -194,7 +194,7 @@ function doEdit(){
     $.ajax( {
         async : false ,         //  async : true 비동기(기본값) , false 동기식
         method : 'put' ,       // HTTP POST
-        url : "/member/edit", // HTTP URL
+        url : "/member/api/edit", // HTTP URL
         data : formData,           // HTTP 보낼 데이터
         success : ( result )=>{ console.log( result ); // HTTP 받을 데이터
             // 4. 결과에 따른 처리

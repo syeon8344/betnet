@@ -42,7 +42,7 @@ console.log("bUpdate()")
 
     $.ajax({
         method : "put",
-        url : "/board/update",
+        url : "/board/api/update",
         data : boardWriteFormData,
         contentType : false,    // ((true : 일반 폼(생략 가능), false : 대용량 폼)
         processData : false,

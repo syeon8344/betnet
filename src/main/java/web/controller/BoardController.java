@@ -21,7 +21,7 @@ public class BoardController {
 
     @Autowired private BoardService boardService;
 
-    @PostMapping("/write")
+    @PostMapping("/api/write")
     public boolean bWrite(BoardDto boardDto) {
         System.out.println("BoardController.bWrite");
         return boardService.bWrite(boardDto);
@@ -49,7 +49,7 @@ public class BoardController {
     }
 
     // 게시판 수정
-    @PutMapping("/update")
+    @PutMapping("/api/update")
     public boolean bUpdate(BoardDto boardDto){
         return boardService.bUpdate(boardDto);
     }
