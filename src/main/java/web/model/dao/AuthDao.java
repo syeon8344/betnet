@@ -16,8 +16,6 @@ public interface AuthDao {
 
     // OAuth2 이메일로 유저 찾기
     MemberDto findByEmail(String email);
-
-    void updateMember(MemberDto member);
-
-    void insertMember(MemberDto member);
+    // TODO: mapper xml
+    boolean checkFirstOAuth2User(int age);
 }

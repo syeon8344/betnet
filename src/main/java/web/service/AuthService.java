@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import web.model.dao.AuthDao;
 import web.model.dto.LoginCheckDto;
 import web.model.dto.MemberDto;
+import web.security.OAuthDto;
 import web.security.Role;
 
 @Service
@@ -24,7 +25,7 @@ public class AuthService implements UserDetailsService {
     // 로그인 과정
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("loadUserByUsername username = " + username);
+        // System.out.println("loadUserByUsername username = " + username);
         MemberDto user = authDao.findByUsername(username); // 사용자 정보 조회
         if (user == null) {
             throw new UsernameNotFoundException(username + "으로 조회된 사용자가 없습니다.");
@@ -99,10 +100,18 @@ public class AuthService implements UserDetailsService {
     // memberid, username, name, role 있는 MemberDto
     public LoginCheckDto getCurrentLoginDto() {
         try {
-            System.out.println("AuthService.getCurrentUserDto");
+            System.out.println("AuthService.getCurrentLoginDto");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.isAuthenticated()) {
-                MemberDto memberDto = (MemberDto) authentication.getPrincipal();
+                MemberDto memberDto = null;
+                try {
+                    memberDto = (MemberDto) authentication.getPrincipal();
+
+                } catch (ClassCastException e) {
+                    System.out.println("getCurrentLoginDto(): OAuth User");
+                    OAuthDto oauthDto = (OAuthDto) authentication.getPrincipal();
+                    memberDto = oauthDto.getMemberDto();
+                }
                 return LoginCheckDto.builder()
                         .memberid(memberDto.getMemberid())
                         .username(memberDto.getUsername())
@@ -123,7 +132,15 @@ public class AuthService implements UserDetailsService {
     public MemberDto getCurrentUserInfo(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            MemberDto memberDto = (MemberDto) authentication.getPrincipal();
+            MemberDto memberDto = null;
+            try {
+                memberDto = (MemberDto) authentication.getPrincipal();
+
+            } catch (ClassCastException e) {
+                System.out.println("getCurrentUserInfo(): OAuth User");
+                OAuthDto oauthDto = (OAuthDto) authentication.getPrincipal();
+                memberDto = oauthDto.getMemberDto();
+            }
             return MemberDto.builder()
                     .contact(memberDto.getContact())
                     .email(memberDto.getEmail())

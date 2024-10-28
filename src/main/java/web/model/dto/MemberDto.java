@@ -4,10 +4,12 @@ import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import web.security.Role;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -15,7 +17,7 @@ import java.util.Collections;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberDto implements UserDetails {
+public class MemberDto implements UserDetails{
 
     private int memberid; //회원번호
     private String username; //아이디
@@ -32,22 +34,17 @@ public class MemberDto implements UserDetails {
     private String teamname; //선호팀이름
     private Role role; // Enum 타입, 회원 권한
     // OAuth 2.0
+    private Long id;
     private String provider;
     private String providerId;
     private String picture;
+    private Map<String, Object> attributes;
 
-    /**
-     * 해당 유저의 (단일) 권한 목록
-     */
+    // UserDetails Implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // 단일 권한을 리스트로 반환, singletonList(): 메모리에 효율적인 불변의 1칸 리스트
         return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
     }
 
-    public MemberDto update(String name, String picture) {
-        this.name = name;
-        this.picture = picture;
-        return this;
-    }
 }
