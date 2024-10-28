@@ -136,6 +136,7 @@ function existRoom(msg){
         // console.log(marker);
         markers.push(marker);
 
+        // TODO: roomTitle에서 오류 발생중
         // 커스텀 오버레이에 표시할 컨텐츠 입니다
         var content = `<div class="info-window">
                             <div class="info-title">${value.roomTitle}</div>
