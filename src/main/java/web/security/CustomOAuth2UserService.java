@@ -23,7 +23,7 @@ import java.util.Collections;
 // 메서드가 호출되면 새로운 트랜잭션이 시작되고, 메서드 실행이 완료되면 트랜잭션이 커밋됩니다.
 // 만약 메서드 실행 중에 예외가 발생하면, 트랜잭션이 롤백되어 데이터베이스의 상태가 이전 상태로 복구됩니다.
 public class CustomOAuth2UserService implements OAuth2UserService <OAuth2UserRequest, OAuth2User> {
-    // https://velog.io/@alswp006/Spring-OAuth-2.0으로-구글-로그인-구현하기 에서 참고하였습니다.
+    // https://lotuus.tistory.com/79, https://lotuus.tistory.com/80 참고해보기
     // OAuth2UserService: OAuth2 로그인 요청을 처리하여 사용자 정보를 가져오는 데 사용
     @Autowired
     private AuthDao authDao;

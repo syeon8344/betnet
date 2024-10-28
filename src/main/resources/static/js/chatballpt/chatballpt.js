@@ -14,7 +14,7 @@ function sendMessage() {
         data: JSON.stringify({ question: text }), // 사용자 입력을 JSON으로 변환
         success: function(result) {
             console.log(result);
-            // 만약에 result에 hhtp가 포함되어있으면 로케이션
+            // 만약에 result에 http가 포함되어있으면 로케이션
             if(result.indexOf('http')>=0){
                 location.href = result
                 return
