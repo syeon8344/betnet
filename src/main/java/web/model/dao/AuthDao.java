@@ -18,4 +18,7 @@ public interface AuthDao {
     MemberDto findByEmail(String email);
     // TODO: mapper xml
     boolean checkFirstOAuth2User(int age);
+
+    // member logincheck의 팀 이름 담기
+    String getTeamName(int memberid);
 }

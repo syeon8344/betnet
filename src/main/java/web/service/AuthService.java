@@ -112,6 +112,7 @@ public class AuthService implements UserDetailsService {
                     OAuthDto oauthDto = (OAuthDto) authentication.getPrincipal();
                     memberDto = oauthDto.getMemberDto();
                 }
+                String teamName = authDao.getTeamName(memberDto.getMemberid());
                 return LoginCheckDto.builder()
                         .memberid(memberDto.getMemberid())
                         .username(memberDto.getUsername())

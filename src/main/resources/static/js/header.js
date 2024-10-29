@@ -106,7 +106,7 @@ function getMyPoint(){
 
 function doLogout(){console.log('doLogout()')
     $.ajax({
-        method:'get',
+        method:'post',
         url:"/logout",
         success:(result)=>{console.log(result);
         location.href="/";

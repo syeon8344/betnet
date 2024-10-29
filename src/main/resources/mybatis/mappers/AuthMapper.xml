@@ -25,5 +25,11 @@
         VALUES (#{username}, #{password}, #{role}, #{name}, #{email}, #{contact}, #{gender}, #{age}, #{teamcode}, #{account})
     </insert>
 
+    <!-- 로그인시 팀명 가져오기 (응원채팅) -->
+    <select id="getTeamName" resultType="String">
+        SELECT teamname
+        FROM members INNER JOIN teams ON members.teamcode = teams.teamcode
+        WHERE memberid = #{memberid}
+    </select>
 </mapper> <!-- mapper end -->
 
