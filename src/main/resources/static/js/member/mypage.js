@@ -30,11 +30,7 @@ function doLoginCheck(){
         method:'get',
         url:"/member/logincheck",
         success:(result)=>{
-            if(result == ""){
-                alert("로그인 후 이용가능합니다.")
-                location.href = "/member/login"
-            }
-            else{console.log(result);
+                console.log(result);
                 memberInfo=result
                 document.querySelector("#name").value=result.name
                 document.querySelector("#userName").value=result.username
@@ -44,11 +40,16 @@ function doLoginCheck(){
                 document.querySelector("#teamCode").value=result.teamname
                 document.querySelector("#age").value=result.age
                 document.querySelector("#joinDate").value=result.joindate
-                if(result.gender=='M'){document.querySelector("#gender").value='남성'}
-                else{document.querySelector("#gender").value='여성'}
-            }
+                if (result.gender === 'M') {
+                    document.querySelector("#gender").value = '남성';
+                } else {
+                    document.querySelector("#gender").value = '여성';
+                }
         },
-        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
+        error: (xhr) => {
+                alert("로그인 후 이용가능합니다.")
+                location.href = "/member/login"
+        }  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })
 }
 
