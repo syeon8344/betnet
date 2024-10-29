@@ -12,4 +12,5 @@ public class LoginCheckDto {
     private String name;
     private Role role;
     private String account;
+    private String teamname;
 }

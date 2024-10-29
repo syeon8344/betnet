@@ -96,13 +96,14 @@ public class MemberService {
         return memberDao.emailCheck(email);
     }
 
-    //09.12 로그아웃
-    public void logout(){
-        // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
-        HttpSession session = request.getSession();
-        // 2. 세션객체내 모든 속성 값 초기화
-        session.invalidate();
-    }
+    // Spring Security POST /logout으로 대체
+//    //09.12 로그아웃
+//    public void logout(){
+//        // 1. 현재 요청을 보내온 클라이언트의 세션객체호출
+//        HttpSession session = request.getSession();
+//        // 2. 세션객체내 모든 속성 값 초기화
+//        session.invalidate();
+//    }
 
     // 09.19 개인정보 수정
     public boolean edit(MemberDto memberDto){
@@ -126,6 +127,5 @@ public class MemberService {
         System.out.println(memberDao.refund(searchDto));
         return memberDao.refund(searchDto);
     }
-
 
 }

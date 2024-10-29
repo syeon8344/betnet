@@ -57,8 +57,10 @@ public class FileService {
             }
             // 1. 파일명 생성: image_{mkid}_{1~3번째 첨부파일}
             String fileName = String.format("image_%d_%d", mkId, fileNum) + extension;
+            System.out.println("fileName = " + fileName);
             // 2. 저장할 경로와 파일명 합치기
             String filePath = uploadPath + fileName;
+            System.out.println("filePath = " + filePath);
             // 3. 해당 경로로 설정한 file 객체, transferTo(file객체)
             File file = new File(filePath);
             // 4. transferTo(file객체) : file객체내 설정한 해당 경로로 파일 복사/저장/이동

@@ -112,11 +112,12 @@ public class AuthService implements UserDetailsService {
                     OAuthDto oauthDto = (OAuthDto) authentication.getPrincipal();
                     memberDto = oauthDto.getMemberDto();
                 }
-                String teamName = authDao.getTeamName(memberDto.getMemberid());
+
                 return LoginCheckDto.builder()
                         .memberid(memberDto.getMemberid())
                         .username(memberDto.getUsername())
                         .name(memberDto.getName())
+                        .teamname(memberDto.getTeamname())
                         .role(memberDto.getRole())
                         .account(memberDto.getAccount())
                         .build();
@@ -152,4 +153,24 @@ public class AuthService implements UserDetailsService {
             return null;
         }
     }
+
+    // 회원정보 수정 비밀번호 확인
+    public boolean passwordCheck(String password){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            MemberDto memberDto = null;
+            try {
+                memberDto = (MemberDto) authentication.getPrincipal();
+
+            } catch (ClassCastException e) {
+                System.out.println("checkPassword(): OAuth User");
+                OAuthDto oauthDto = (OAuthDto) authentication.getPrincipal();
+                memberDto = oauthDto.getMemberDto();
+            }
+            return passwordEncoder.matches(password, memberDto.getPassword());
+        } else {
+            return false;
+        }
+    }
+
 }

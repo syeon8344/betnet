@@ -7,8 +7,8 @@
 
     <!-- 로그인시 계정 정보 찾기 -->
     <select id="findByUsername" parameterType="String" resultType="web.model.dto.MemberDto">
-        SELECT username, password, role, name, memberid, account
-        FROM members
+        SELECT username, password, role, name, memberid, account, teamname
+        FROM members INNER JOIN teams ON members.teamcode = teams.teamcode
         WHERE username = #{username}
     </select>
 

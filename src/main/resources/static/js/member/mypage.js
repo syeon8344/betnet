@@ -60,11 +60,18 @@ function pwCheckModal(){
 }
 
 function pwCheck(){
-    let = password=document.querySelector('#pwCheck').value;
-    if(password==memberInfo.password){
-        location.href="/member/edit"
-    }
-    else{
-        alert('비밀번호가 일치하지 않습니다.')
-    }
+    let password = document.querySelector('#pwCheck').value;
+    $.ajax({
+        async: false,  // 비동기 요청
+        method: "POST", // 암호 확인 등 민감한 요청은 POST로
+        data: {"password":password},
+        url: "/auth/pwcheck",
+        success: (result) => {
+            location.href="/member/edit"
+        },
+        error: (xhr) => {
+            alert("비밀번호가 일치하지 않습니다.")
+        }
+    })
+
 }

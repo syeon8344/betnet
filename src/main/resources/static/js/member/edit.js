@@ -28,14 +28,17 @@ function getCurrentUserInfo(){
         method:'get',
         url:"/auth/getcurrentuserinfo",
         success:(result)=>{
-                // document.querySelector("#password").value=result.password
-                // document.querySelector("#confirmPassword").value=result.password
-                document.querySelector("#phone").value=result.contact
-                document.querySelector("#email").value=result.email
-                document.querySelector("#account").value=result.account
-                document.querySelector("#favoriteTeam").value=result.teamcode
-                memberid=result.memberid
-            }
+            // document.querySelector("#password").value=result.password
+            // document.querySelector("#confirmPassword").value=result.password
+            document.querySelector("#phone").value=result.contact
+            document.querySelector("#email").value=result.email
+            document.querySelector("#account").value=result.account
+            document.querySelector("#favoriteTeam").value=result.teamcode
+            memberid=result.memberid
+        },
+        error: (xhr) => {
+            alert("로그인 후 이용가능합니다.")
+            location.href = "/member/login"
         }
     })
 }

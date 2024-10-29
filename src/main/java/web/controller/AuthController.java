@@ -72,6 +72,11 @@ public class AuthController {
         return authService.getCurrentUserInfo();
     }
 
+    // 회원정보 수정 비밀번호 확인
+    @PostMapping("/pwcheck")
+    public boolean passwordCheck(String password){
+        return authService.passwordCheck(password);
+    }
     // ========== OAuth SNS 로그인 =============
 
 }
