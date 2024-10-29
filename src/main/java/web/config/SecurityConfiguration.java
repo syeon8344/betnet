@@ -102,8 +102,8 @@ public class SecurityConfiguration{
                 .logout(logout -> logout
                         .logoutUrl("/logout") // 로그아웃 엔드포인트
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 리다이렉션 URL
-                )
-                .addFilterAfter(new OAuth2AdditionalInfoFilter(), OAuth2AdditionalInfoFilter.class); // 추가 정보 입력 필터
+                );
+                //.addFilterAfter(new OAuth2AdditionalInfoFilter(), OAuth2AdditionalInfoFilter.class); // 추가 정보 입력 필터
         return http.build(); // 설정된 SecurityFilterChain 반환
     }
 
