@@ -13,17 +13,15 @@ function doLoginCheck(){
         async:false,
         method:'get',
         url:"/member/logincheck",
-        success:(result)=>{
-            if(result == ""){
-                alert("로그인 후 이용 가능합니다.");
-                location.href = "/member/login";
-            }
-            else{console.log(result);
-                memberid = `${result.memberid}`
-                userName = `${result.username}(${result.teamname})`
-            }
+        success:(result) => {
+            console.log(result);
+            memberid = `${result.memberid}`
+            userName = `${result.username}(${result.teamname})`
         },
-        error: (xhr) => {}  // 비로그인 상태 등 400대 오류: 변화 없음으로
+        error: (xhr) => {
+            alert('로그인 후 응원 채팅 참여가 가능합니다.');
+            location.href = '/member/login';
+        }  // 비로그인 상태 등 400대 오류: 변화 없음으로
     })
 }
 doLoginCheck();
@@ -138,6 +136,7 @@ function existRoom(msg){
         // console.log(marker);
         markers.push(marker);
 
+        // TODO: roomTitle에서 오류 발생중
         // 커스텀 오버레이에 표시할 컨텐츠 입니다
         var content = `<div class="info-window">
                             <div class="info-title">${value.roomTitle}</div>

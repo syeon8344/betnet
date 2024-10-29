@@ -1,8 +1,13 @@
 package web.security;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import web.model.dto.MemberDto;
 
+import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Map;
 
 @Builder
@@ -11,38 +16,111 @@ import java.util.Map;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class OAuthDto {
-    private Map<String, Object> attributes;
-    private String nameAttributeKey;
-    private String name;
-    private String email;
-    private String picture;
-    private String provider;
-    private String providerId;
+public class OAuthDto implements UserDetails, OAuth2User {
 
-    public static OAuthDto of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        return ofGoogle(registrationId, userNameAttributeName, attributes);
+    private MemberDto memberDto;
+    private OAuth2UserInfo oAuth2UserInfo;
+
+    /**
+     * UserDetails 구현
+     * 해당 유저의 권한목록 리턴
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        Collection<GrantedAuthority> collect = new ArrayList<>();
+        collect.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return memberDto.getRole().toString();
+            }
+        });
+        return collect;
     }
 
-    private static OAuthDto ofGoogle(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        return OAuthDto.builder()
-                .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
-                .picture((String) attributes.get("picture"))
-                .attributes(attributes)
-                .provider(registrationId)
-                .providerId((String) attributes.get("sub"))
-                .nameAttributeKey(userNameAttributeName)
-                .build();
+
+    /**
+     * UserDetails 구현
+     * 비밀번호를 리턴
+     */
+    @Override
+    public String getPassword() {
+        return memberDto.getPassword();
     }
 
-    public MemberDto toMemberDto() {
-        return MemberDto.builder()
-                .name(name)
-                .email(email)
-                .role(Role.ROLE_OAUTH2)
-                .provider(provider)
-                .providerId(providerId)
-                .build();
+
+    /**
+     * UserDetails 구현
+     * 아이디를 반환해준다
+     */
+    @Override
+    public String getUsername() {
+        return memberDto.getUsername();
+    }
+
+
+    /**
+     * UserDetails 구현
+     * 계정 만료 여부
+     *  true : 만료안됨
+     *  false : 만료됨
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+
+    /**
+     * UserDetails 구현
+     * 계정 잠김 여부
+     *  true : 잠기지 않음
+     *  false : 잠김
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+
+    /**
+     * UserDetails 구현
+     * 계정 비밀번호 만료 여부
+     *  true : 만료 안됨
+     *  false : 만료됨
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+
+    /**
+     * UserDetails 구현
+     * 계정 활성화 여부
+     *  true : 활성화됨
+     *  false : 활성화 안됨
+     */
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    /**
+     * OAuth2User 구현
+     * @return
+     */
+    @Override
+    public Map<String, Object> getAttributes() {
+        return oAuth2UserInfo.getAttributes();
+    }
+
+    /**
+     * OAuth2User 구현
+     * @return
+     */
+    @Override
+    public String getName() {
+        return oAuth2UserInfo.getProviderId();
     }
 }

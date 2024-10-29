@@ -10,7 +10,7 @@ insert into Teams(TeamName) values('SSG');
 insert into Teams(TeamName) values('롯데');
 insert into Teams(TeamName) values('NC');
 insert into Teams(TeamName) values('키움');
-insert into Teams(TeamName ) values('자유');
+insert into Teams(TeamName) values('자유');
 insert into Teams(TeamName) values('없음');
 -- 멤버
 INSERT INTO Members (Username, Password, Name, Contact, Email, Gender, Age, TeamCode, Account, Role) VALUES

@@ -19,23 +19,10 @@
         WHERE email = #{email}
     </select>
 
-    <!-- OAuth2 계정 정보 업데이트 -->
-    <update id="updateMember" parameterType="web.model.dto.MemberDto">
-        UPDATE members
-        SET name = #{name}, picture = #{picture}
-        WHERE email = #{email}
-    </update>
-
-    <!-- OAuth2 계정 정보 등록 -->
-    <insert id="insertMember" parameterType="web.model.dto.MemberDto">
-        INSERT INTO members (email, name, picture)
-        VALUES (#{email}, #{name}, #{picture})
-    </insert>
-
     <!-- 회원가입 -->
     <insert id="register" parameterType="web.model.dto.MemberDto">
         INSERT INTO members (username, password, role, name, email, contact, gender, age, teamcode, account)
-        VALUES (#{username}, #{password}, #{role.roleName}, #{name}, #{email}, #{contact}, #{gender}, #{age}, #{teamcode}, #{account})
+        VALUES (#{username}, #{password}, #{role}, #{name}, #{email}, #{contact}, #{gender}, #{age}, #{teamcode}, #{account})
     </insert>
 
 </mapper> <!-- mapper end -->

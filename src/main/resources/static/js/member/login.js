@@ -43,7 +43,7 @@ function naverLogin() {
     // 네이버 로그인 API 호출 또는 관련 로직 작성
     // 예를 들어, OAuth 인증을 위한 리다이렉트 등을 수행할 수 있습니다.
 
-    window.location.href = 'https://nid.naver.com/oauth2.0/authorize?...'; // 실제 로그인 URL로 대체
+    window.location.href = '/oauth2/authorization/naver';
 }
 
 function kakaoLogin() {
@@ -52,7 +52,7 @@ function kakaoLogin() {
     // 네이버 로그인 API 호출 또는 관련 로직 작성
     // 예를 들어, OAuth 인증을 위한 리다이렉트 등을 수행할 수 있습니다.
 
-    window.location.href = 'https://nid.naver.com/oauth2.0/authorize?...'; // 실제 로그인 URL로 대체
+    window.location.href = '/oauth2/authorization/kakao';
 }
 // function loginPoint(memberid){
 //     console.log('loginPoint()');

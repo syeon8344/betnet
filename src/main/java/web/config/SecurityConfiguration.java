@@ -17,6 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import web.security.CustomOAuth2UserService;
+import web.security.OAuth2AdditionalInfoFilter;
 
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class SecurityConfiguration{
                         .permitAll() // 로그인은 누구나 사용가능
                 )
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .defaultSuccessUrl("/")// OAuth 로그인 성공 후 페이지 (기본값도 "/")
+                        .defaultSuccessUrl("/oauth2/redirect")// OAuth 로그인 성공 후 페이지 (기본값도 "/")
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
                                 .userService(customOAuth2UserService) // OAuth 2 로그인 성공 이후 사용자 정보를 가져올 때의 설정
                         ))
@@ -102,6 +103,7 @@ public class SecurityConfiguration{
                         .logoutUrl("/logout") // 로그아웃 엔드포인트
                         .logoutSuccessUrl("/member/login") // 로그아웃 성공 후 리다이렉션 URL
                 );
+                //.addFilterAfter(new OAuth2AdditionalInfoFilter(), OAuth2AdditionalInfoFilter.class); // 추가 정보 입력 필터
         return http.build(); // 설정된 SecurityFilterChain 반환
     }
 

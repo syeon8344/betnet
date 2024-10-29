@@ -1,84 +1,75 @@
 package web.security;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import web.model.dao.AuthDao;
 import web.model.dto.MemberDto;
 
-import java.util.Collections;
+import java.util.Map;
+import java.util.UUID;
 
-@RequiredArgsConstructor
+
 @Service
-@Transactional // 해당 메서드나 클래스의 모든 데이터베이스 작업이 하나의 트랜잭션으로 묶여 처리
-// 메서드가 호출되면 새로운 트랜잭션이 시작되고, 메서드 실행이 완료되면 트랜잭션이 커밋됩니다.
-// 만약 메서드 실행 중에 예외가 발생하면, 트랜잭션이 롤백되어 데이터베이스의 상태가 이전 상태로 복구됩니다.
-public class CustomOAuth2UserService implements OAuth2UserService <OAuth2UserRequest, OAuth2User> {
-    // https://velog.io/@alswp006/Spring-OAuth-2.0으로-구글-로그인-구현하기 에서 참고하였습니다.
+public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+    // https://lotuus.tistory.com/79, https://lotuus.tistory.com/80 참고해보기
     // OAuth2UserService: OAuth2 로그인 요청을 처리하여 사용자 정보를 가져오는 데 사용
     @Autowired
     private AuthDao authDao;
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     private HttpSession httpSession;
 
     // OAuth2UserRequest 객체를 인자로 받아 해당 요청에 대한 사용자 정보를 로드
     // OAuth2UserRequest는 OAuth2 인증 요청의 세부 정보를 담고 있으며, 인증 제공자와 관련된 정보를 포함
+    // User == OAuthDto, PrincipalDetails == MemberDto
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        // DefaultOAuth2UserService: 기본 제공되는 사용자 정보 로딩 기능을 사용
-        OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
-        OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
+        OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        // 현재 로그인 진행 중인 서비스를 구분하는 코드 (네이버 로그인인지 구글 로그인인지 구분)
-        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        OAuth2UserInfo oAuth2UserInfo = null;
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+        String name = "";
 
-        // OAuth2 로그인 진행 시 키가 되는 필드 값 (Primary Key와 같은 의미)을 의미
-        // 구글의 기본 코드는 "sub", 후에 네이버 로그인과 구글 로그인을 동시 지원할 때 사용
-        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
-                .getUserInfoEndpoint().getUserNameAttributeName();
-
-        // OAuth2UserService를 통해 가져온 OAuthUser의 attribute를 담을 클래스 ( 네이버 등 다른 소셜 로그인도 이 클래스 사용)
-        OAuthDto attributes = OAuthDto.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-
-        MemberDto userEntity = saveOrUpdate(attributes);
-
-        // UserEntity 클래스를 사용하지 않고 SessionUser클래스를 사용하는 이유는 오류 방지.
-        httpSession.setAttribute("user", userEntity);
-
-        return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole().name())),
-                attributes.getAttributes(),
-                attributes.getNameAttributeKey());
-    }
-
-    // 구글 사용자 정보 업데이트 시 UserEntity 엔티티에 반영
-    private MemberDto saveOrUpdate(OAuthDto attributes) {
-
-        // 이메일을 기준으로 사용자를 찾아 업데이트하거나, 사용자를 새로 생성합니다.
-        MemberDto memberDto = authDao.findByEmail(attributes.getEmail());
-
-        if (memberDto != null) {
-            // 사용자가 존재하면 업데이트
-            memberDto.setName(attributes.getName());
-            memberDto.setPicture(attributes.getPicture());
-            authDao.updateMember(memberDto);
-        } else {
-            // 사용자가 존재하지 않으면 새로 생성
-            memberDto = attributes.toMemberDto();
-            authDao.insertMember(memberDto);
+        if(provider.equals("naver")){
+            oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+            System.out.println(oAuth2UserInfo);
+            name = (String) oAuth2UserInfo.getAttributes().get("name");
+        }
+        else if(provider.equals("kakao")){	//추가
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
+            Map<String, Object> properties = (Map<String, Object>) oAuth2UserInfo.getAttributes().get("properties");
+            name = (String) properties.get("nickname"); // nickname 추출
+            // System.out.println(oAuth2UserInfo);
         }
 
-        return memberDto;
+        String providerId = oAuth2UserInfo.getProviderId();
+        String username = provider+"_"+providerId;  			// 사용자가 입력한 적은 없지만 만들어준다
+
+        String uuid = UUID.randomUUID().toString().substring(0, 6);
+        String password = passwordEncoder.encode("패스워드"+uuid);  // 사용자가 입력한 적은 없지만 만들어준다
+
+        String email = oAuth2UserInfo.getEmail();
+        Role role = Role.ROLE_USER;
+
+        MemberDto memberDto = authDao.findByUsername(username);
+
+        //DB에 없는 사용자라면 회원가입처리
+        if(memberDto == null){
+            memberDto = MemberDto.builder()
+                    .username(username).password(password).name(name).email(email).role(role)
+                    .build();
+            authDao.register(memberDto);
+        }
+
+        memberDto.setAttributes(oAuth2User.getAttributes());
+        return new OAuthDto(memberDto, oAuth2UserInfo);
     }
 
 }
