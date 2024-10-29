@@ -49,7 +49,7 @@ public class PointService {
         int result2 = 0;
         if (pointLogDto.getPassword() != null){
             // Retrieve the user from the database
-            MemberDto user = authDao.findByUsername(pointLogDto.getUsername());
+            MemberDto user = authDao.findByMemberId(pointLogDto.getMemberid());
             if (passwordEncoder.matches(pointLogDto.getPassword(), user.getPassword())){
                 pointLogDto.setPassword(user.getPassword());
                 System.out.println(pointLogDto.getPassword());

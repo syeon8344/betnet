@@ -92,6 +92,7 @@ public class SecurityConfiguration{
                         .passwordParameter("password") // 기본값도 password라 생략 가능
                         .loginProcessingUrl("/login") // 로그인 로직 수행 엔드포인트, 현재 기본값 /login POST이므로 생략 가능
                         .defaultSuccessUrl("/") // 로그인 성공시 이동할 위치
+                        .Url
                         .permitAll() // 로그인은 누구나 사용가능
                 )
                 .oauth2Login(oauth2Login -> oauth2Login

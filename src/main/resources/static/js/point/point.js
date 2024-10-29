@@ -120,7 +120,7 @@ function payment(){
               amount : pointChange /*상품 가격*/, 
               buyer_email : memberInfo.email /*구매자 이메일*/,
               buyer_name : memberInfo.name ,
-              buyer_tel : memberInfo.cotact /*구매자 연락처*/,
+              buyer_tel : memberInfo.contact /*구매자 연락처*/,
           }, function(rsp) {
                 // 결제 성공시 결제 금액과 discription(name) 필요
                 console.log(rsp);

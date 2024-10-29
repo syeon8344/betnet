@@ -12,6 +12,13 @@
         WHERE username = #{username}
     </select>
 
+    <!-- 로그인시 계정 정보 찾기 2 -->
+    <select id="findByMemberId" resultType="web.model.dto.MemberDto">
+        SELECT username, password, role, name, memberid, account, teamname
+        FROM members INNER JOIN teams ON members.teamcode = teams.teamcode
+        WHERE memberid = #{memberid}
+    </select>
+
     <!-- OAuth2 계정 정보 찾기 -->
     <select id="findByEmail" parameterType="String" resultType="web.model.dto.MemberDto">
         SELECT username, password, role, name, memberid, account

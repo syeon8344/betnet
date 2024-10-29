@@ -21,4 +21,6 @@ public interface AuthDao {
 
     // member logincheck의 팀 이름 담기
     String getTeamName(int memberid);
+
+    MemberDto findByMemberId(int memberid);
 }

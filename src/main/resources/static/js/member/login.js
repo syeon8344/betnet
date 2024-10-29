@@ -20,19 +20,22 @@ function doLogIn(){console.log('doLogIn()');
         contentType: false, // FormData를 사용하므로 false로 설정
         success:(result)=>{
             console.log(result);
+            const error = getQueryStringParameter('error');
+            if (error) {
+                console.error('오류 발생:', error);
+                // 여기에서 오류 메시지를 사용자에게 보여줄 수 있습니다.
+                alert(`오류 발생: ${error}`);
+            }
             if(result){
                 // loginPoint(result.memberid)
                 location.href="/"
             }
-            else{
-                alert('로그인 실패')
-                document.querySelector('#id').value='';
-                document.querySelector('#pw').value=''
-            }
+
         },
         error: (jqXHR) => { // 코드 4xx, 5xx 등 오류
-            const data = jqXHR.responseJSON; // JSON
-            alert(data.error); // JSON 메시지 처리
+            alert('로그인 실패')
+            document.querySelector('#id').value='';
+            document.querySelector('#pw').value=''
         }
     })
 }
